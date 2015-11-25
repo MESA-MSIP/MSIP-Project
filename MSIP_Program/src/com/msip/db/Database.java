@@ -1,14 +1,18 @@
 package com.msip.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class Database {
+	/**
+	 * Connects to the MySQL Database
+	 * 
+	 * @return Connection
+	 */
 	public static Connection getConnection() {
 		try {
-			// Connects to your mySQL database using the url, username, and
-			// password.
 			Connection myConnection = (Connection) DriverManager.getConnection(
 					Global.URL, Global.USERNAME, Global.PASSWORD);
 			return myConnection;
@@ -19,10 +23,20 @@ public class Database {
 		return null;
 	}
 
+	/**
+	 * Creates the login table.
+	 */
 	public static void createTable() {
 
 	}
 
+	/**
+	 * Inserts student into login table. probably will change the parameter to
+	 * K#.
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 */
 	public static void insertToTable(String firstName, String lastName) {
 		try {
 			Connection myConnection = getConnection();
@@ -40,40 +54,75 @@ public class Database {
 
 	}
 
+	/**
+	 * Saves login table before shutting the computer down.
+	 */
 	public static void saveTable() {
 
 	}
 
+	/**
+	 * Deletes the login table to have a fresh new start in the morning.
+	 */
 	public static void deleteTable() {
 
 	}
 
+	/**
+	 * Adds MESA Student to the student Table.
+	 */
 	public static void addStudent() {
 
 	}
 
+	/**
+	 * Deletes a MESA Student from the student table.
+	 */
 	public static void deleteStudent() {
 
 	}
 
+	/**
+	 * Adds a MESA Admin to the admin Table.
+	 */
 	public static void addAdmin() {
 
 	}
 
+	/**
+	 * Deletes a MESA Admin from the admin table.
+	 */
 	public static void deleteAdmin() {
 
 	}
 
-	public static void getLoginTableEntry() {
+	/**
+	 * Gets info from a specific slot and returns that info
+	 * 
+	 * @return info at a given spot.
+	 */
+	public String getLoginTableEntry() {
+		return null;
 
 	}
 
-	public static void getDailyReport() {
+	/**
+	 * Writes login table to a file.
+	 * 
+	 * @return file of todays login.
+	 */
+	public File getDailyReport() {
+		return null;
 
 	}
 
-	public static void getReport() {
-		
+	/**
+	 * Creates a report based on users preference.
+	 * 
+	 * @return file report of MESA usage.
+	 */
+	public File getReport() {
+		return null;
 
 	}
 
