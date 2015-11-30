@@ -16,30 +16,41 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class StudentWelcomeScreen extends JPanel {
+public class StudentLogin extends JPanel {
 	private JTextField txtEnterKHere;
-	public StudentWelcomeScreen() {
-		setBackground(Color.RED);
+	public StudentLogin() {
+		setBackground(Color.RED);	//to see textfields and other things to work in
 		setLayout(null);
 		
 		JLabel lblWelcome = DefaultComponentFactory.getInstance().createTitle("Welcome!");
 		lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 24));
-		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);		//"Welcome!"
 		lblWelcome.setBounds(136, 72, 164, 92);
 		add(lblWelcome);
 		
 		txtEnterKHere = new JTextField();
+		txtEnterKHere.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//actionperformed on Correct Key
+				//check on correctkey
+				//If correct, link to StudentLWelcomeScreen
+			}
+		});
 		txtEnterKHere.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEnterKHere.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
-		txtEnterKHere.setText("Enter K# Here:");
+		txtEnterKHere.setText("Enter K# Here:");		// k# textfield, aligned and centered:
 		txtEnterKHere.setBounds(120, 163, 196, 39);
-		add(txtEnterKHere);
 		txtEnterKHere.setColumns(10);
+		add(txtEnterKHere);
 		
-		JLabel MESA = new JLabel("");
-		MESA.setBounds(329, 0, 121, 48);
-		add(MESA);
+		JLabel labelMESA = new JLabel("");
+		labelMESA.setIcon(new ImageIcon(StudentLogin.class.getResource("/com/msip/ui/MESA.png")));
+		labelMESA.setBounds(352, 0, 98, 39);
+		add(labelMESA);
 	}
 
 	public Color getThisBackground() {
