@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Database {
-	private static Connection myConnection;
+	 static Connection myConnection;
 
 	/**
 	 * Connects to the SQL database and creates the login table as soon as the
@@ -17,11 +17,11 @@ public class Database {
 		try {
 			myConnection = (Connection) DriverManager.getConnection(Global.URL,
 					Global.USERNAME, Global.PASSWORD);
-			PreparedStatement insert = (PreparedStatement) myConnection
-					.prepareStatement("CREAT loginTable IF NOT EXISTS(ID INT Not Null Auto_increment, "
-							+ "K number INT Not Null, "
-							+ "Date/Time DATETIME Not Null Default Now(), Primary Key(ID))");
-			insert.execute();
+			PreparedStatement createTable = (PreparedStatement) myConnection
+					.prepareStatement("CREATE TABLE IF NOT EXISTS LoginTable(ID INT Not Null Auto_increment, "
+							+ "Knumber INT Not Null, "
+							+ "DateTime DATETIME Not Null Default Now(), Primary Key(ID))");
+			createTable.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -32,6 +32,7 @@ public class Database {
 	 * Saves login table to PDF.
 	 */
 	public File saveTable() {
+		
 		return null;
 
 	}
@@ -40,6 +41,12 @@ public class Database {
 	 * Deletes the login table.
 	 */
 	public static void deleteTable() {
+		try {
+			PreparedStatement delete = myConnection.prepareStatement("DROP TABLE loginTable;");
+			delete.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
