@@ -1,10 +1,28 @@
 package com.msip.db;
 
-//import java.sql.Connection;
+import com.msip.model.*;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Admin {
+public class Admin  {
+
+
+	public Admin() {
+	
+		try {
+			PreparedStatement createTable = DBConnector.myConnection
+					.prepareStatement("CREATE TABLE IF NOT EXISTS Admin(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
+							+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(50) NOT NULL, PRIMARY KEY(Knumber))");
+			createTable.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Adds new admin to the admin table.
 	 * 
@@ -12,15 +30,16 @@ public class Admin {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public static void add(int Knumber, String firstName, String lastName) {
-		//dB = new Database();
-	
+	public void add(int Knumber, String firstName, String lastName,
+			String password) {
+
 		try {
-			PreparedStatement insert = (PreparedStatement) Database.myConnection.prepareStatement("INSERT INTO Admin VALUE('" + Knumber 
-					+"',  '"+ firstName+"','"+lastName+"');");
+			PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("INSERT INTO Admin VALUE('" + Knumber
+							+ "',  '" + firstName + "','" + lastName + "', '"
+							+ password + "');");
 			insert.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -32,32 +51,43 @@ public class Admin {
 	 */
 	public static void remove(int Knumber) {
 		try {
-			PreparedStatement delete = Database.myConnection.prepareStatement("DELETE FROM Admin WHERE Knumber='" 
-		+ Knumber +"';");
+			PreparedStatement delete = DBConnector.myConnection
+					.prepareStatement("DELETE FROM Admin WHERE Knumber='"
+							+ Knumber + "';");
 			delete.executeUpdate();
-		} catch(Exception e){
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
+
 		}
 
 	}
 
 	/**
 	 * Modifies the admin.
-	 * 
-	 * @param name
+	 * @param Knumber, pHash
 	 * @return admin
 	 */
-	public Admin modify(int Knumber, String Major) {
+	public Admin modify(int Knumber, String pHash) {
+		Admin admin = null;
 		try {
-			PreparedStatement updateTable = (PreparedStatement) Database.myConnection.prepareStatement("UPDATE student SET major='" +
-		Major + "' WHERE Knumber='" + Knumber + "';");
+			PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("UPDATE student SET pHash='"
+							+ pHash + "' WHERE Knumber='" + firstName + "';");
 			updateTable.executeUpdate();
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
+
+			PreparedStatement studentInfo = DBConnector.myConnection
+					.prepareStatement("SELECT * FROM student WHERE Knumber='"
+							+ Knumber + "';");
+			
+			ResultSet rs = studentInfo.executeQuery();
+			
+			while (rs.next()) {
+				admin = new Admin(rs.getNString("FirstName"), rs.getNString("LastName"), rs.getNString("Knumber"), rs.getNString("pHash"));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return admin;
 
 	}
 }

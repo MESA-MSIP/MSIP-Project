@@ -1,6 +1,7 @@
 package com.msip.db;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Login {
 	/**
@@ -9,11 +10,11 @@ public class Login {
 	 */
 	public static void add(int Knumber){
 		try {
-			PreparedStatement delete = Database.myConnection.prepareStatement("INSERT INTO Login('" 
+			PreparedStatement delete = DBConnector.myConnection.prepareStatement("INSERT INTO Login('" 
 		+ Knumber +"', NOW());");
 			delete.executeUpdate();
-		} catch(Exception e){
-			
+		} catch(SQLException e){
+			e.printStackTrace();
 		}
 	}
 	
@@ -22,11 +23,11 @@ public class Login {
 	 */
 	public static void remove(int Knumber){
 		try {
-			PreparedStatement delete = Database.myConnection.prepareStatement("DELETE FROM Admin WHERE Knumber='" 
+			PreparedStatement delete = DBConnector.myConnection.prepareStatement("DELETE FROM Admin WHERE Knumber='" 
 		+ Knumber +"';");
 			delete.executeUpdate();
-		} catch(Exception e){
-			
+		} catch(SQLException e){
+			e.printStackTrace();
 		}
 	}
 }
