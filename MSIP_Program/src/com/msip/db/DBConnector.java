@@ -42,6 +42,14 @@ public class DBConnector {
 
 	public static void main(String[] args) {
 		new DBConnector();
+		AdminTable a = new AdminTable();
+		a.add(512840, "Fernando", "Estevez", "123456789");
+		a.modify(512840, "SoccerGod");
+	    a.getInfo(512840);
+		StudentTable student = new StudentTable();
+		student.add(512840, "Fernando", "Estevez", "Computer Engineer");
+		student.modify(512840, "Art");
+		student.getInfo(512840);
 	
 	}
 

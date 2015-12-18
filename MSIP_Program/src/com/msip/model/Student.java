@@ -2,7 +2,7 @@ package com.msip.model;
 
 public class Student extends Person {
 
-	enum ParcipitationState {
+	 enum ParcipitationState {
 		INACTIVE, ACTIVE
 	}
 
