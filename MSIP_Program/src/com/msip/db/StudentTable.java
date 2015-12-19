@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentTable {
+	
+	/**
+	 * Creates the StudentTable if it doesn't exist.
+	 */
 	public StudentTable() {
-		
 		try {
 			PreparedStatement createTable = DBConnector.myConnection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Student(ID INT NOT NULL AUTO_INCREMENT, Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
@@ -62,34 +65,39 @@ public class StudentTable {
 	 * @return student
 	 */
 	public Student modify(int Knumber, String Major) {
-		Student student = null;
 		try {
 			PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("UPDATE Student SET Major='" + Major
 							+ "' WHERE Knumber='" + Knumber + "';");
 			updateTable.executeUpdate();
 
-			PreparedStatement studentInfo = DBConnector.myConnection
-					.prepareStatement("SELECT * FROM Student WHERE Knumber='"
-							+ Knumber + "';");
-			ResultSet rs = studentInfo.executeQuery();
-			
-			while (rs.next()) {
-						student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"), null);
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return student;
+		return getInfo(Knumber);
 	}
 	/**
-	 * Gets the current info of the Student.
+	 * Gets the current info of a Student.
 	 * @param Knumber
 	 * @return Student
 	 */
 	public Student getInfo(int Knumber){
-		return modify(Knumber, null);
+		Student student = null;
+		PreparedStatement studentInfo;
+		try {
+			studentInfo = DBConnector.myConnection
+					.prepareStatement("SELECT * FROM Student WHERE Knumber='"
+							+ Knumber + "';");
+			
+			ResultSet rs = studentInfo.executeQuery();
+			while (rs.next()) {
+				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"), null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return student;
 	}
 
 }

@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class AdminTable {
-	
+	/**
+	 * Creates the AdminTable if it doesn't exist.
+	 */
 		public AdminTable() {
 		
 			try {
@@ -65,17 +67,30 @@ public class AdminTable {
 		 * @return admin
 		 */
 		public Admin modify(int Knumber, String pHash) {
-			Admin admin = null;
 			try {
 				PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
 						.prepareStatement("UPDATE Admin SET pHash='"
 								+ pHash + "' WHERE Knumber='" + Knumber + "';");
 				updateTable.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return getInfo(Knumber);
 
-				PreparedStatement studentInfo = DBConnector.myConnection
+		}
+		/**
+		 * Gets the current info of an admin.
+		 * @param Knumber
+		 * @return admin
+		 */
+		public Admin getInfo(int Knumber){
+			Admin admin = null;
+
+			PreparedStatement studentInfo;
+			try {
+				studentInfo = DBConnector.myConnection
 						.prepareStatement("SELECT * FROM Admin WHERE Knumber='"
 								+ Knumber + "';");
-				
 				ResultSet rs = studentInfo.executeQuery();
 				//TODO handle when student is null.
 				while (rs.next()) {
@@ -85,17 +100,6 @@ public class AdminTable {
 				e.printStackTrace();
 			}
 			return admin;
-
-		}
-		/**
-		 * Gets the current info of the admin.
-		 * @param Knumber
-		 * @return admin
-		 */
-		public Admin getInfo(int Knumber){
-			return modify(Knumber, null);
-
-			
 		}
 	}
 

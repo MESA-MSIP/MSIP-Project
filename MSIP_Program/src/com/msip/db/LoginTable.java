@@ -7,6 +7,22 @@ import java.sql.SQLException;
 import com.msip.model.Person;
 
 public class LoginTable {
+	
+	/**
+	 * Creates the LoginTable if it doesn't exist.
+	 */
+	public LoginTable(){
+		PreparedStatement createLoginTable;
+		try {
+			createLoginTable = DBConnector.myConnection
+					.prepareStatement("CREATE TABLE IF NOT EXISTS Login(ID INT Not Null Auto_increment, "
+							+ "Knumber INT Not Null, "
+							+ "DateTime DATETIME Not Null Default Now(), Primary Key(ID))");
+			createLoginTable.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Adds student/admin to login table.
 	 * @param Knumber
@@ -33,7 +49,11 @@ public class LoginTable {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Gets the current info of a Student/Admin logged in to the loginTable.
+	 * @param Knumber
+	 * @return person
+	 */
 	public Person getInfo(int Knumber){
 		Person person = null;
 		try {
