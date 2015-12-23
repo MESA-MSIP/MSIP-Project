@@ -1,11 +1,13 @@
 package com.msip.db;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-import com.msip.model.Person;
+import com.msip.model.LoginEntry;
 
+/**
+ * @author estev_000
+ *
+ */
 public class LoginTable {
 	
 	/**
@@ -49,21 +51,25 @@ public class LoginTable {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Gets the current info of a Student/Admin logged in to the loginTable.
 	 * @param Knumber
 	 * @return person
 	 */
-	public Person getInfo(int Knumber){
-		Person person = null; //TODO should return a LoginEntry Object. Not a person. 
+	public LoginEntry getInfo(int Knumber){
+		LoginEntry person = null; //TODO should return a LoginEntry Object. Not a person. 
+	  Date date = null;// Creates an SQL Date object.
 		try {
+			
 			PreparedStatement studentInfo = DBConnector.myConnection
 					.prepareStatement("SELECT * FROM student WHERE Knumber='"
 							+ Knumber + "';");
 			ResultSet rs = studentInfo.executeQuery();
 			
 			while (rs.next()) {
-			person = new Person(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), null);
+				date = Date.valueOf(rs.getString("DateTime"));
+			person = new LoginEntry(date, Integer.parseInt(rs.getString("Knumber")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
