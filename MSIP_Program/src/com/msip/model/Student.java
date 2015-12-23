@@ -18,6 +18,7 @@ public class Student extends Person {
 	 */
 	public ParcipitationState getParcipitationState() {
 		return parcipitationState;
+		//TODO participation state will be dynamic?
 	}
 
 	/**
