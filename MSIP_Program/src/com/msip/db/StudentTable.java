@@ -92,7 +92,7 @@ public class StudentTable {
 			
 			ResultSet rs = studentInfo.executeQuery();
 			while (rs.next()) {
-				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), null, null);
+				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), null);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
