@@ -19,12 +19,11 @@ public class AdminTools extends JPanel
 	private JTable adminTable;
 	public AdminTools() {
 		setBackground(Color.RED);
-		setLayout(null);
+		setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
-		tabbedPane.setBounds(0, 30, 450, 270);
-		add(tabbedPane);
+		add(tabbedPane, "name_853571406115573");
 		
 		
 		//TODO	fix/adjust Tabs evenly
@@ -74,7 +73,7 @@ public class AdminTools extends JPanel
 		adminTable = new JTable();
 		adminTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
+				{"Christian", "Martinez", "K00383851"},
 				{null, null, null},
 				{null, null, null},
 				{null, null, null},
@@ -111,7 +110,6 @@ public class AdminTools extends JPanel
 		Button button = new Button("Log Out");
 		button.setBackground(Color.CYAN);
 		button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		button.setBounds(371, 0, 79, 24);
-		add(button);
+		add(button, "name_853571423161008");
 	}
 }
