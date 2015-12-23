@@ -5,13 +5,11 @@ public class Person {
 	private String firstName = null;
 	private String lastName = null;
 	private int kNumber = 0;
-	private String pHash = null;
 	
-	public Person(String firstName, String lastName, int kNumber, String pHash) {
+	public Person(String firstName, String lastName, int kNumber) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setkNumber(kNumber);
-		setpHash(pHash);
 	}
 
 	/**
@@ -55,19 +53,4 @@ public class Person {
 	public void setkNumber(int kNumber) {
 		this.kNumber = kNumber;
 	}
-
-	/**
-	 * @return the pHash
-	 */
-	public String getpHash() {
-		return pHash;
-	}
-
-	/**
-	 * @param pHash the pHash to set
-	 */
-	public void setpHash(String pHash) {
-		this.pHash = pHash;
-	}
-
 }
