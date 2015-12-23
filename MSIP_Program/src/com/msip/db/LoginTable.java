@@ -55,7 +55,7 @@ public class LoginTable {
 	 * @return person
 	 */
 	public Person getInfo(int Knumber){
-		Person person = null;
+		Person person = null; //TODO should return a LoginEntry Object. Not a person. 
 		try {
 			PreparedStatement studentInfo = DBConnector.myConnection
 					.prepareStatement("SELECT * FROM student WHERE Knumber='"
