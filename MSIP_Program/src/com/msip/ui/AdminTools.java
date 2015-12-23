@@ -14,8 +14,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminTools extends JPanel 
 {
+	
 	private JTable studentTable;
-	private JTable table;
+	private JTable adminTable;
 	public AdminTools() {
 		setBackground(Color.RED);
 		setLayout(null);
@@ -24,6 +25,9 @@ public class AdminTools extends JPanel
 		tabbedPane.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 		tabbedPane.setBounds(0, 30, 450, 270);
 		add(tabbedPane);
+		
+		
+		//TODO	fix/adjust Tabs evenly
 		
 		JPanel studentPanel = new JPanel();
 		tabbedPane.addTab("Add/Remove Student\r\n", null, studentPanel, null);
@@ -67,8 +71,8 @@ public class AdminTools extends JPanel
 		tabbedPane.addTab("Add/Remove Admin\r\n", null, adminPanel, null);
 		adminPanel.setLayout(null);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		adminTable = new JTable();
+		adminTable.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null},
 				{null, null, null},
@@ -87,9 +91,9 @@ public class AdminTools extends JPanel
 				"New column", "New column", "New column"
 			}
 		));
-		table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		table.setBounds(0, 0, 445, 192);
-		adminPanel.add(table);
+		adminTable.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		adminTable.setBounds(0, 0, 445, 192);
+		adminPanel.add(adminTable);
 		
 		JButton addAdminButton = new JButton("Add");
 		addAdminButton.setFont(new Font("Segoe UI", Font.PLAIN, 13));
