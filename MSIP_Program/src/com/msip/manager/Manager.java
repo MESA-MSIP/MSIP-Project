@@ -71,7 +71,6 @@ public class Manager {
 	 * @param kNumber
 	 */
 	public void setScannedNumber(int kNumber) {
-		// TODO are we going use a hash instead of Knumber. Just an idea?
 		// TODO call UI function to notify that a number was scanned
 	}
 
