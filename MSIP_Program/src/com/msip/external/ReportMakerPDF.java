@@ -7,16 +7,29 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.JFileChooser;
+import javax.swing.border.Border;
+
+import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
+/**
+ * @author Juan Helpful links
+ *         http://howtodoinjava.com/2014/07/29/create-pdf-files-in-java-itext-
+ *         tutorial/ http://www.vogella.com/tutorials/JavaPDF/article.html
+ */
 public class ReportMakerPDF {
 
 	private Document document;
@@ -130,29 +143,94 @@ public class ReportMakerPDF {
 			throw new DocumentException();
 		}
 	}
-	
+
 	/**
 	 * Adds new student to report.
 	 * 
 	 * @param nameOfStudent
 	 * @param numOfTimes
 	 * @param dates
-	 * @throws DocumentException 
+	 * @throws DocumentException
 	 */
-	public void addStudent(String nameOfStudent, String numOfTimes, String[] dates) throws DocumentException {
-		//TODO how will the report look like?
-		
-		Paragraph studentSection = new Paragraph();
-		// We add one empty line
-		addEmptyLine(studentSection, 1);
+	public void addStudent(String nameOfStudent, String kNumber, String numOfTimes, Date[] dates)
+			throws DocumentException {
+		// TODO how will the report look like?
 
-		studentSection.add(new Paragraph(nameOfStudent, small));
+		PdfPTable table = new PdfPTable(3);
+		table.setWidthPercentage(100); // Width 100%
+		table.setSpacingBefore(10f); // Space before table
+		table.setSpacingAfter(10f); // Space after table
+
+		float[] columnWidths = { .8f, .8f, 1f };
+		table.setWidths(columnWidths);
+
+		// Set Table Header
+		PdfPCell headerCell1 = new PdfPCell(new Phrase("Name"));
+		headerCell1.setBorder(0);
+		headerCell1.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(headerCell1);
+
+		PdfPCell headerCell2 = new PdfPCell(new Phrase("Number of Times Present"));
+		headerCell2.setBorder(0);
+		headerCell2.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(headerCell2);
+
+		PdfPCell headerCell3 = new PdfPCell(new Phrase("Dates Present"));
+		headerCell3.setBorder(0);
+		headerCell3.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(headerCell3);
+		table.setHeaderRows(1);
+
+		for (int i = 0; i < dates.length; i++) {
+
+			if (i == 0) {
+				// First row should have name, number of times and start listing
+				// dates
+				PdfPCell contentCell1 = new PdfPCell(new Phrase(nameOfStudent));
+				contentCell1.setBorder(0);
+				table.addCell(contentCell1);
+
+				PdfPCell contentCell2 = new PdfPCell(new Phrase(numOfTimes));
+				contentCell2.setBorder(0);
+				table.addCell(contentCell2);
+
+				PdfPCell contentCell3 = new PdfPCell(new Phrase(dates[i].toString()));
+				contentCell3.setBorder(0);
+				table.addCell(contentCell3);
+			} else if (i == 1) {
+				// Second row should have name and start listing dates
+				PdfPCell contentCell1 = new PdfPCell(new Phrase(kNumber));
+				contentCell1.setBorder(0);
+				table.addCell(contentCell1);
+
+				PdfPCell contentCell2 = new PdfPCell();
+				contentCell2.setBorder(0);
+				table.addCell(contentCell2);
+
+				PdfPCell contentCell3 = new PdfPCell(new Phrase(dates[i].toString()));
+				contentCell3.setBorder(0);
+				table.addCell(contentCell3);
+			} else {
+				// All other rows should have dates
+				PdfPCell contentCell1 = new PdfPCell(new Phrase());
+				contentCell1.setBorder(0);
+				table.addCell(contentCell1);
+
+				PdfPCell contentCell2 = new PdfPCell();
+				contentCell2.setBorder(0);
+				table.addCell(contentCell2);
+
+				PdfPCell contentCell3 = new PdfPCell(new Phrase(dates[i].toString()));
+				contentCell3.setBorder(0);
+				table.addCell(contentCell3);
+			}
+		}
+
+		document.add(table);
 
 		try {
-			document.add(studentSection);
-
-			LineSeparator ls = new LineSeparator();
-			document.add(new Chunk(ls));
+			LineSeparator ls2 = new LineSeparator();
+			document.add(new Chunk(ls2));
 
 		} catch (DocumentException e) {
 			e.printStackTrace();
@@ -196,11 +274,17 @@ public class ReportMakerPDF {
 			File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator + "report.pdf");
 
 			try {
+				Date[] d = new Date[20];
+				for (int i = 0; i < d.length; i++) {
+					d[i] = new Date();
+				}
 
 				ReportMakerPDF rp = new ReportMakerPDF(pathToPDF);
 				rp.addMettaData("Report Title", "Report Subject", "Juan Zepeda");
 				rp.addHeader("Report Title", "Juan Zepeda", "Daily", "John Smith");
-				rp.addStudent("Juan Zepeda", "", null);
+				rp.addStudent("Juan Zepeda", "KNumber", "10", d);
+				rp.addStudent("Juan Zepeda2", "KNumber2", "103", d);
+				rp.addStudent("Juan Zepeda3", "KNumber3", "102", d);
 				rp.closeReport();
 
 			} catch (DocumentException e) {
