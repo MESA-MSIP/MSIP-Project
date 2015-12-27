@@ -29,8 +29,7 @@ public class LoginWindow extends JPanel {
 	private JLabel labelHelp;
 	private JLabel labeladminPassError;
 	
-	
-	public LoginWindow(final Manager manager) {
+	public LoginWindow(Manager manager) {
 		setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setBackground(Color.WHITE);	//to see textfields and other things to work in
 		setLayout(null);
@@ -41,6 +40,7 @@ public class LoginWindow extends JPanel {
 			{
 				String str = kNumber.getText();
 				int kNum = Integer.parseInt(str);			//get string of kNumber txtfield, parse to Integer
+				//TODO NPE Here:
 				int check = manager.isStudent(kNum);		//grab studentDB kNumber, return 0,1
 				if (check == 1)
 				{

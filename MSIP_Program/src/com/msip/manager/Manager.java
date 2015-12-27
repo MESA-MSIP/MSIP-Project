@@ -1,18 +1,19 @@
 package com.msip.manager;
 
-import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.msip.ui.AdminTools;
+import com.msip.ui.CardFunctions;
 import com.msip.ui.LoginWindow;
 
 
 
 public class Manager {
 	private JFrame frame;
+	private JPanel cardPanels;
 	public static void main(String[] args) {
 		// TODO Class will have instances of the UI, External, and DB.
 		System.out.println("Hello Manger!");
@@ -39,20 +40,16 @@ public class Manager {
 		});
 	}
 
-		public Manager() {
-			JPanel cards = new JPanel();
-			cards.setLayout(new CardLayout());
-			cards.add((new LoginWindow(this)), "login");
-			cards.add(new AdminTools() , "admin");
+		public Manager() 
+		{
+			CardFunctions cf = new CardFunctions();
+			cardPanels = cf.setupCards();
 			frame = new JFrame();
 			frame.setBounds(0, 0, 800, 420);
-			frame.add(cards);
-		
-	
-			
+			frame.add(cardPanels);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-	
+		
 	/**
 	 * Called by UI to make an entry in the login entry DB.
 	 * 
