@@ -14,7 +14,7 @@ public class AdminTable {
 			try {
 				PreparedStatement createTable = DBConnector.myConnection
 						.prepareStatement("CREATE TABLE IF NOT EXISTS Admin(ID INT NOT NULL AUTO_INCREMENT, Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
-								+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(50) NOT NULL, PRIMARY KEY(ID))");
+								+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(512) NOT NULL, PRIMARY KEY(ID))");
 				createTable.executeUpdate();
 
 			} catch (SQLException e) {
@@ -94,7 +94,7 @@ public class AdminTable {
 				ResultSet rs = studentInfo.executeQuery();
 				//TODO handle when student is null.
 				while (rs.next()) {
-					admin = new Admin(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("phash"));
+					admin = new Admin(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("pHash"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

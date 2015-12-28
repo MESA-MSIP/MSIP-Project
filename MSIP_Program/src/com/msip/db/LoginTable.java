@@ -1,6 +1,7 @@
 package com.msip.db;
 
 import java.sql.*;
+import java.util.Date;
 
 import com.msip.model.LoginEntry;
 
@@ -58,8 +59,7 @@ public class LoginTable {
 	 * @return person
 	 */
 	public LoginEntry getInfo(int Knumber){
-		LoginEntry person = null; //TODO should return a LoginEntry Object. Not a person. 
-	  Date date = null;// Creates an SQL Date object.
+		LoginEntry loginEntry = null; 
 		try {
 			
 			PreparedStatement studentInfo = DBConnector.myConnection
@@ -68,13 +68,13 @@ public class LoginTable {
 			ResultSet rs = studentInfo.executeQuery();
 			
 			while (rs.next()) {
-				date = Date.valueOf(rs.getString("DateTime"));
-			person = new LoginEntry(date, Integer.parseInt(rs.getString("Knumber")));
+				Date date = rs.getTimestamp("VALUEDATE");
+				loginEntry = new LoginEntry(date, Integer.parseInt(rs.getString("Knumber")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return person;
+		return loginEntry;
 
 		
 	}
