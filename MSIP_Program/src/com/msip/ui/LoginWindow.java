@@ -29,7 +29,7 @@ public class LoginWindow extends JPanel {
 	private JLabel labelHelp;
 	private JLabel labeladminPassError;
 	
-	public LoginWindow(Manager manager) {
+	public LoginWindow(final Manager manager) {
 		setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setBackground(Color.WHITE);	//to see textfields and other things to work in
 		setLayout(null);

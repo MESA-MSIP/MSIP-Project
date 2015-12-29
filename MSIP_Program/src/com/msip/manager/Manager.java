@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.msip.db.DBConnector;
 import com.msip.external.SerialPort;
 import com.msip.ui.CardFunctions;
 
@@ -22,10 +23,12 @@ public class Manager {
 	private JFrame frame;
 	private JPanel cardPanels;
 	
+	SerialPort serialport = new SerialPort(this);
+	DBConnector dbConnector = new DBConnector();
+	
 	public Manager() 
 	{
-		SerialPort serialport = new SerialPort(this);
-		CardFunctions cf = new CardFunctions(this);
+		CardFunctions cf = new CardFunctions();
 		cardPanels = cf.setupCards();
 		frame = new JFrame();
 		frame.setBounds(0, 0, 800, 420);

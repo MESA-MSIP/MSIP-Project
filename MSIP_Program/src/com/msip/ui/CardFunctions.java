@@ -10,7 +10,6 @@ public class CardFunctions extends JPanel
 {
 	private JPanel cards;
 	private Manager mng;
-	public CardFunctions(Manager manager)
 	
 	public JPanel setupCards()
 	{
