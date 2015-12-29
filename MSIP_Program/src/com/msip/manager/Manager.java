@@ -5,26 +5,35 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.msip.ui.AdminTools;
+import com.msip.external.SerialPort;
 import com.msip.ui.CardFunctions;
-import com.msip.ui.LoginWindow;
 
 
+// TODO Class will have instances of the UI, External, and DB.
 
+// 1. Start Main UI window
+// 2. When number is received from RS232 then fill in field in UI
+// 3. UI should handle it appropraitely.
+
+// External object will need an instance of Manager
+// UI will need a instance of Manager
 public class Manager {
+	
 	private JFrame frame;
 	private JPanel cardPanels;
-	public static void main(String[] args) {
-		// TODO Class will have instances of the UI, External, and DB.
-		System.out.println("Hello Manger!");
-
-		// 1. Start Main UI window
-		// 2. When number is received from RS232 then fill in field in UI
-		// 3. UI should handle it appropraitely.
 	
-	// Need Global instances of UI, External, and DB objects.
-	// External object will need an instance of Manager
-	// UI will need a instance of Manager
+	public Manager() 
+	{
+		SerialPort serialport = new SerialPort(this);
+		CardFunctions cf = new CardFunctions(this);
+		cardPanels = cf.setupCards();
+		frame = new JFrame();
+		frame.setBounds(0, 0, 800, 420);
+		frame.add(cardPanels);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run()
@@ -39,16 +48,6 @@ public class Manager {
 		
 		});
 	}
-
-		public Manager() 
-		{
-			CardFunctions cf = new CardFunctions();
-			cardPanels = cf.setupCards();
-			frame = new JFrame();
-			frame.setBounds(0, 0, 800, 420);
-			frame.add(cardPanels);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		}
 		
 	/**
 	 * Called by UI to make an entry in the login entry DB.
