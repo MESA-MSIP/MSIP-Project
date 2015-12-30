@@ -7,5 +7,7 @@ public class Global {
 	//note your username is automatically set to root.
 	public static final String USERNAME="root";
 	public static final String PASSWORD="MSIP";
+	public static final boolean ISPI = false;
+	public static final boolean ISDB = false;
 
 }

@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.msip.db.DBConnector;
+import com.msip.db.Global;
 import com.msip.external.SerialPort;
 import com.msip.ui.CardFunctions;
-
 
 // TODO Class will have instances of the UI, External, and DB.
 
@@ -19,15 +19,22 @@ import com.msip.ui.CardFunctions;
 // External object will need an instance of Manager
 // UI will need a instance of Manager
 public class Manager {
-	
+
 	private JFrame frame;
 	private JPanel cardPanels;
-	
-	SerialPort serialport = new SerialPort(this);
-	DBConnector dbConnector = new DBConnector();
-	
-	public Manager() 
-	{
+
+	private SerialPort serialport;
+	private DBConnector dbConnector;
+
+	public Manager() {
+		
+		if (Global.ISPI) {
+			serialport = new SerialPort(this);
+		}
+		if (Global.ISDB) {
+			dbConnector = new DBConnector();
+		}
+		
 		CardFunctions cf = new CardFunctions();
 		cardPanels = cf.setupCards();
 		frame = new JFrame();
@@ -35,12 +42,11 @@ public class Manager {
 		frame.add(cardPanels);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
-			public void run()
-			{
+			public void run() {
 				try {
 					Manager window = new Manager();
 					window.frame.setVisible(true);
@@ -48,10 +54,9 @@ public class Manager {
 					e.printStackTrace();
 				}
 			}
-		
 		});
 	}
-		
+
 	/**
 	 * Called by UI to make an entry in the login entry DB.
 	 * 
@@ -74,7 +79,7 @@ public class Manager {
 	}
 
 	/**
-	 * Called by UI to see if student exists in the Student DB. 
+	 * Called by UI to see if student exists in the Student DB.
 	 * 
 	 * @param kNumber
 	 * @return If student exists return 1, if not 0.
@@ -86,7 +91,7 @@ public class Manager {
 
 	/**
 	 * Called by UI to see if admin exists in the admin table and correct
-	 * password was entered. 
+	 * password was entered.
 	 * 
 	 * @param kNumber
 	 * @param pHash
