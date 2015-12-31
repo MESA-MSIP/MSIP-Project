@@ -35,7 +35,7 @@ public class Manager {
 			dbConnector = new DBConnector();
 		}
 		
-		CardFunctions cf = new CardFunctions();
+		CardFunctions cf = new CardFunctions(this);
 		cardPanels = cf.setupCards();
 		frame = new JFrame();
 		frame.setBounds(0, 0, 800, 420);
