@@ -5,13 +5,13 @@ import java.awt.Color;
 import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
-import javax.swing.border.BevelBorder;
 import java.awt.Font;
-import java.awt.FlowLayout;
 import java.awt.Button;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import com.msip.ui.GlobalUI;
 
+@SuppressWarnings("serial")
 public class AdminTools extends JPanel 
 {
 	
@@ -26,10 +26,10 @@ public class AdminTools extends JPanel
 		add(tabbedPane, "name_853571406115573");
 		
 		
-		//TODO	fix/adjust Tabs evenly
+		//TODO Adjust Tabs Evenly
 		
 		JPanel studentPanel = new JPanel();
-		tabbedPane.addTab("Add/Remove Student\r\n", null, studentPanel, null);
+		tabbedPane.addTab(GlobalUI.AddRemoveStudentTab, null, studentPanel, null);
 		studentPanel.setLayout(null);
 		
 		studentTable = new JTable();
@@ -67,7 +67,7 @@ public class AdminTools extends JPanel
 		studentPanel.add(removeStudentButton);
 		
 		JPanel adminPanel = new JPanel();
-		tabbedPane.addTab("Add/Remove Admin\r\n", null, adminPanel, null);
+		tabbedPane.addTab(GlobalUI.AddRemoveAdminTab, null, adminPanel, null);
 		adminPanel.setLayout(null);
 		
 		adminTable = new JTable();

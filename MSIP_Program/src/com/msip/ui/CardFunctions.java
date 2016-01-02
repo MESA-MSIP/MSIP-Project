@@ -12,6 +12,11 @@ public class CardFunctions extends JPanel
 	private JPanel cards;
 	private Manager mng;
 	
+	public CardFunctions(Manager manager)
+	{
+		//Empty
+	}
+	
 	public JPanel setupCards()
 	{
 		cards = new JPanel();

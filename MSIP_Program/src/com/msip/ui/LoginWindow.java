@@ -31,6 +31,9 @@ public class LoginWindow extends JPanel implements ActionListener {
 	private JLabel labelHelp;
 	private JLabel labeladminPassError;
 
+	/**
+	 * @param manager
+	 */
 	public LoginWindow(final Manager manager) {
 
 		// Setup Layout, Bounds
@@ -43,7 +46,7 @@ public class LoginWindow extends JPanel implements ActionListener {
 		// JTxtField kNumber
 		kNumber = new JTextField();
 		kNumber.addActionListener(this);
-		kNumber.addKeyListener((KeyListener) this);
+		kNumber.addKeyListener(k);
 		kNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		kNumber.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 		kNumber.setBounds(251, 183, 286, 70);
@@ -129,7 +132,7 @@ public class LoginWindow extends JPanel implements ActionListener {
 		setBackground(background);
 	}
 
-	/** Multiple uses  of actionperformed:
+	/** Multiple uses  of actionPerformed:
 	 * kNumberTextField: Check the string inputed, if correct, show the toast.
 	 * adminPass: check the password: if correct, show AdminTools, if not show an error message.
 	 * 
@@ -140,45 +143,61 @@ public class LoginWindow extends JPanel implements ActionListener {
 		Manager manager = new Manager();
 		if (kNumber == e.getSource())
 		{
-			String str = kNumber.getText();
-			int kNum = Integer.parseInt(str);			//get string of kNumber txtfield, parse to Integer
-			//TODO NPE Here:
-			 GlobalUI.kNumLength = manager.isStudent(kNum);		//grab studentDB kNumber, return 0,1
-			if (GlobalUI.kNumLength == GlobalUI.SUCCESS)
-			{
-				labelHelp.setVisible(false);
-				labelToast.setVisible(true);				//if equal, set the toast to show
-				
+			try{
+				String str = kNumber.getText();
+				int kNum = Integer.parseInt(str);			//get string of kNumber txtfield, parse to Integer
+				GlobalUI.kNumLength = manager.isStudent(kNum);		//grab studentDB kNumber, return 0,1
+				if (GlobalUI.kNumLength == GlobalUI.SUCCESS)
+				{
+					labelHelp.setVisible(false);
+					labelToast.setVisible(true);				//if equal, set the toast to show
+					
+				}
+				else
+				{
+					labelHelp.setVisible(true);
+					labelToast.setVisible(false);			// else show the help message
+					
+				}
+				}
+			catch (Exception r){
+			r.printStackTrace();
 			}
-			else
-			{
-				labelHelp.setVisible(true);
-				labelToast.setVisible(false);			// else show the help message
-				
-			}
+			
 		}
 			else if (adminPass == e.getSource())
 			{
-			String str1 = adminPass.getText();
-			int adminNum = Integer.parseInt(str1);
-			GlobalUI.kNumLength = manager.isStudent(adminNum);
-			if (GlobalUI.kNumLength == 1)
-			{
-				
-				labeladminPassError.setVisible(false);//method same as kNumber, except for admins
-								}
-			else
-			{
-				labeladminPassError.setVisible(true);
-					
-			}
+				try
+				{
+					String str1 = adminPass.getText();
+					int adminNum = Integer.parseInt(str1);
+					GlobalUI.kNumLength = manager.isStudent(adminNum);
+					if (GlobalUI.kNumLength == 1)
+					{
+						
+						labeladminPassError.setVisible(false);//method same as kNumber, except for admins
+						CardFunctions cf = new CardFunctions(manager);
+						cf.showIndexCard(GlobalUI.AdminToolPanel);
+										}
+					else
+					{
+						labeladminPassError.setVisible(true);
+							
+					}
+
+				}
+				catch (Exception r)
+				{
+					r.printStackTrace();
+				}
 			}
 		
 	}
 
-	/**
-	 * Checks the kNumber Textfield to look at the length. If the length < 8,
-	 * dont show the AdminPassword Textfield.
+	KeyListener k  = new KeyAdapter()		//set up a new KeyAdapter() for KeyReleased
+			{
+	/** Listens to the Keys.
+	 * If the kNumber Length is greater than 8, set the Admin Password TxtField Visible.
 	 * 
 	 * @param e
 	 */
@@ -193,4 +212,5 @@ public class LoginWindow extends JPanel implements ActionListener {
 			adminPass.setVisible(true); // else set it visible
 		}
 	}
+			};
 }

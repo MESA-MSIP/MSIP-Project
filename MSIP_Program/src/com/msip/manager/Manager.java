@@ -14,7 +14,7 @@ import com.msip.ui.CardFunctions;
 
 // 1. Start Main UI window
 // 2. When number is received from RS232 then fill in field in UI
-// 3. UI should handle it appropraitely.
+// 3. UI should handle it appropriately.
 
 // External object will need an instance of Manager
 // UI will need a instance of Manager
