@@ -1,5 +1,6 @@
 package com.msip.manager;
 
+import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,7 +22,7 @@ import com.msip.ui.CardFunctions;
 public class Manager {
 
 	private JFrame frame;
-	private JPanel cardPanels;
+	public JPanel cardPanels;
 
 	private SerialPort serialport;
 	private DBConnector dbConnector;
@@ -35,8 +36,8 @@ public class Manager {
 			dbConnector = new DBConnector();
 		}
 		
-		CardFunctions cf = new CardFunctions(this);
-		cardPanels = cf.setupCards();
+		CardFunctions cf = new CardFunctions();
+		cardPanels = cf.setupCards(this);
 		frame = new JFrame();
 		frame.setBounds(0, 0, 800, 420);
 		frame.add(cardPanels);

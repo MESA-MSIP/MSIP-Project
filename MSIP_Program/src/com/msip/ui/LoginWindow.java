@@ -2,6 +2,8 @@ package com.msip.ui;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -172,13 +174,13 @@ public class LoginWindow extends JPanel implements ActionListener {
 					String str1 = adminPass.getText();
 					int adminNum = Integer.parseInt(str1);
 					GlobalUI.kNumLength = manager.isStudent(adminNum);
-					if (GlobalUI.kNumLength == 1)
+					if (GlobalUI.kNumLength == GlobalUI.SUCCESS)
 					{
+						CardLayout cl =(CardLayout) manager.cardPanels.getLayout();
+						cl.show(manager.cardPanels, GlobalUI.AdminToolPanel);
 						
 						labeladminPassError.setVisible(false);//method same as kNumber, except for admins
-						CardFunctions cf = new CardFunctions(manager);
-						cf.showIndexCard(GlobalUI.AdminToolPanel);
-										}
+					}
 					else
 					{
 						labeladminPassError.setVisible(true);
