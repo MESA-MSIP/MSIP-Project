@@ -1,6 +1,6 @@
 package com.msip.external;
 
-import com.msip.manager.Manager;
+import com.msip.manager.MISPCore;
 import com.pi4j.io.serial.Serial;
 import com.pi4j.io.serial.SerialDataEvent;
 import com.pi4j.io.serial.SerialDataListener;
@@ -8,9 +8,9 @@ import com.pi4j.io.serial.SerialFactory;
 
 public class SerialPort {
 
-	private Manager manager;
+	private MISPCore manager;
 
-	public SerialPort(final Manager manager) {
+	public SerialPort(final MISPCore manager) {
 
 		this.setManager(manager);
 
@@ -38,7 +38,7 @@ public class SerialPort {
 	/**
 	 * @return the manager
 	 */
-	public Manager getManager() {
+	public MISPCore getManager() {
 		return manager;
 	}
 
@@ -46,7 +46,7 @@ public class SerialPort {
 	 * @param manager
 	 *            the manager to set
 	 */
-	public void setManager(Manager manager) {
+	public void setManager(MISPCore manager) {
 		this.manager = manager;
 	}
 }
