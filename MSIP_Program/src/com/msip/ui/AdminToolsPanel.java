@@ -17,16 +17,16 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	private MISPCore manager;
 	private JButton btnLogOut;
 
-	public AdminToolsPanel(MISPCore mispCore) {
-		this.setManager(mispCore);
+	public AdminToolsPanel(MISPCore msipCore) {
+		this.setManager(msipCore);
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
-		StudentPanel studentPanel = new StudentPanel();
-		AdminPanel adminPanel = new AdminPanel();
-		ReportPanel reportPanel = new ReportPanel();
+		StudentPanel studentPanel = new StudentPanel(msipCore);
+		AdminPanel adminPanel = new AdminPanel(msipCore);
+		ReportPanel reportPanel = new ReportPanel(msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
 		tabbedPane.add(adminPanel, GlobalUI.AdminTab);

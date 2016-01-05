@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.msip.db.DBConnector;
 import com.msip.db.Global;
 import com.msip.external.SerialPort;
+import com.msip.model.Admin;
+import com.msip.model.Student;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
@@ -123,6 +126,37 @@ public class MISPCore {
 		return 1;
 	}
 	
+	/**
+	 * Get all students in the DB
+	 * @return
+	 */
+	public ArrayList<Student> getStudents(){
+		// TODO See function summary
+		
+		//Temp test code
+		ArrayList<Student> studnets = new ArrayList<Student>();
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
+		
+		return studnets;
+	}
+	
+	/**
+	 * Get all Admins in the DB
+	 * @return
+	 */
+	public ArrayList<Admin> getAdmins(){
+		// TODO See function summary
+		return null;
+	}
 	
 	/**
 	 * @return cards
