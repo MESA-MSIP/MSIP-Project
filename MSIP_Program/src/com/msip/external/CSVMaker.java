@@ -1,26 +1,35 @@
 package com.msip.external;
 
 	import java.io.File;
-	import java.io.FileWriter;
-	import java.io.IOException;
-	import com.csvreader.CsvWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import com.itextpdf.text.Document;
 
 	public class CSVMaker {
-		private String firstColumn;//Name of the first column.
-		private String secondColumn;//Name of the second column.
-		private String thirdColumn;//Name of the third column.
-
+		private String header;
+		private Document doc;
+		private FileWriter writer;
+		
+		private CSVMaker(File fileName){
+			doc = new Document();
+				 try {
+					writer = new FileWriter(fileName);
+					doc.open();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			
+		}
+		
+	
 		/**
 		 * Makes header names.
-		 * @param firstColumn
-		 * @param secondColumn
-		 * @param thirdColumn
+		 * @param header
 		 */
-		public void makeCSVHeader(String firstColumn, String secondColumn,
-				String thirdColumn) {
-			this.firstColumn = firstColumn;
-			this.secondColumn = secondColumn;
-			this.thirdColumn = thirdColumn;
+		public String CSVHeader(String header) {
+			this.header = header;
+		return header;
 		}
 		
 	/**
@@ -28,60 +37,54 @@ package com.msip.external;
 	 * @param studentName
 	 * @param timesPresent
 	 * @param dates
-	 * @param fileName
-	 * @throws IOException
 	 */
-		public void CSVFile(String studentName, String timesPresent, String[] dates, String fileName){
-			
-			//TODO were will the csv file save to.
-			String file = "C:/Users/estev_000/Desktop/" + fileName + ".csv";
-			boolean alreadyExists = new File(file).exists();
+		public void CSVFile(String studentName, String timesPresent, String[] dates){
 			
 			try {
+				//creates a header
+				writer.append(header);
+				//makes a new line
+				writer.append("\n");
 				
-				//Set to true so when we append more data to the same file, the data would not be overwritten.
-				CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), ',');
-				//checks if the file name already exists.
-				//If it doesn't it adds new headers to the csv file.
-				if (!alreadyExists) {
-					csvOutput.write(firstColumn);
-					csvOutput.write(secondColumn);
-					csvOutput.write(thirdColumn);
-					csvOutput.endRecord();//Indicates end
+				writer.append(studentName).append(',');
+				writer.append(timesPresent).append(',');
+				writer.append(dates[0]).append(',');
+				
+				for(int i = 1; i < dates.length;i++){
+					writer.append(',');
+					writer.append(',');
+					writer.append(dates[i]);
 				}
-				
-				csvOutput.write(studentName);
-				csvOutput.write(timesPresent);
-				csvOutput.write(dates[0]);
-				csvOutput.endRecord();
-				
-				for (int i = 1; i < dates.length; i++) {
-					csvOutput.write("");
-					csvOutput.write("");
-					csvOutput.write(dates[i]);
-					csvOutput.endRecord();
-				}
-				
-				csvOutput.close();
+				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
-
-		}
+			
+			}
 
 		public static void main(String[] args) throws IOException {
+			JFileChooser fc = new JFileChooser();
+			// fc.setCurrentDirectory(new java.io.File(".")); // start at
+			// application current directory
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int returnVal = fc.showOpenDialog(null);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-			CSVMaker csv = new CSVMaker();
-			String[] dates = { "12/3/15", "12/4/15", "12/5/15", "12/6/15" };
-			String[] dates2 = { "1/3/16", "1/4/16" };
-			csv.makeCSVHeader("name", "number of times present", "Dates present");
-			csv.CSVFile("Fernando Estevez", "4", dates, "newData");
-			csv.CSVFile("fernando1", "2", dates2, "newData");
+				File yourFolder = fc.getSelectedFile();
+				System.out.println(yourFolder);
+
+				File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator + "report.csv");
+
+			CSVMaker csv = new CSVMaker(pathToPDF);
+			String[] dates = { "1/3/16", "1/4/16", "1/516"};
+
+			csv.CSVHeader("Name,times Present,Dates present");
+			csv.CSVFile("Fernando", "3", dates );
+
+			
 		}
-
+		}
 	}
-
-
 
 
