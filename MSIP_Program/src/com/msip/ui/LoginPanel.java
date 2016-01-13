@@ -43,11 +43,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 		// TODO add to Global.
 		setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
-		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		// JTxtField kNumber
 		txtKNumber = new JTextField();
+		txtKNumber.setBounds(302, 210, 136, 28);
 		txtKNumber.addActionListener(this);
+		setLayout(null);
 		txtKNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		txtKNumber.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 		txtKNumber.setColumns(10);
@@ -55,6 +56,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// Admin Password Textfield
 		txtAdminPass = new JTextField();
+		txtAdminPass.setBounds(302, 273, 136, 28);
 		txtAdminPass.addActionListener(this);
 		txtAdminPass.setHorizontalAlignment(SwingConstants.CENTER);
 		txtAdminPass.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
@@ -64,12 +66,14 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// Title Welcome!
 		JLabel labelWelcome = new JLabel("Welcome!");
+		labelWelcome.setBounds(270, 115, 198, 57);
 		labelWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		labelWelcome.setFont(new Font("Segoe UI", Font.BOLD, 42));
 		add(labelWelcome);
 
 		// Animated Toast that shows Logged In:
 		labelToast = new JLabel("You Have Logged In.");
+		labelToast.setBounds(475, 188, 142, 22);
 		labelToast.setVisible(false);
 		labelToast.setHorizontalAlignment(SwingConstants.CENTER);
 		labelToast.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -77,6 +81,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// kNum Description
 		labelKNumber = new JLabel("Enter K# Here:");
+		labelKNumber.setBounds(302, 188, 98, 22);
 		labelKNumber.setLabelFor(txtKNumber);
 		labelKNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		labelKNumber.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -84,6 +89,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// admin password description:
 		labeladminPass = new JLabel("Password:");
+		labeladminPass.setBounds(308, 251, 70, 22);
 		labeladminPass.setHorizontalAlignment(SwingConstants.CENTER);
 		labeladminPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		labeladminPass.setLabelFor(txtAdminPass);
@@ -97,6 +103,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// kNum# incorrect texttip
 		labelHelp = new JLabel("K# is Incorrect.");
+		labelHelp.setBounds(491, 188, 101, 22);
 		labelHelp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
 		labelHelp.setVisible(false);
@@ -104,6 +111,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// AdminPass/kNum Error TextTip
 		labeladminPassError = new JLabel("Password or K# is incorrect.");
+		labeladminPassError.setBounds(476, 276, 191, 22);
 		labeladminPassError.setHorizontalAlignment(SwingConstants.CENTER);
 		labeladminPassError.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		labeladminPassError.setVisible(false);
