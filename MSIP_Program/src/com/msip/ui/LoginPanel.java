@@ -5,6 +5,9 @@ import javax.swing.JTextField;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -14,8 +17,13 @@ import com.msip.manager.MISPCore;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 
 /**
  * @author Chris
@@ -29,13 +37,16 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labelKNumber;
 	private JLabel labeladminPass;
 	private JLabel labelHelp;
+	private JLabel labelMESALOGO;
 	private JLabel labeladminPassError;
 	private MISPCore manager;
+	private JLabel lblNewLabel;
 
 	/**
 	 * @param manager
 	 */
 	public LoginPanel(final MISPCore manager) {
+		setBounds(new Rectangle(0, 0, 800, 480));
 		
 		this.manager = manager;
 
@@ -53,6 +64,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		txtKNumber.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 		txtKNumber.setColumns(10);
 		add(txtKNumber);
+		
+		//
 
 		// Admin Password Textfield
 		txtAdminPass = new JTextField();
@@ -95,11 +108,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 		labeladminPass.setLabelFor(txtAdminPass);
 		add(labeladminPass);
 		labeladminPass.setVisible(false);
-
-		// MESA LOGO
-		// TODO
-		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+		
 		// Add Mesa Logo
+		
+		ImageIcon icon = CreateIcon(GlobalUI.MESAURL, 315, 72);
+		labelMESALOGO = new JLabel(icon);
+		labelMESALOGO.setBounds(474, 11, 315, 72);
+		add(labelMESALOGO);
+
+		
 
 		// kNum# incorrect texttip
 		labelHelp = new JLabel("K# is Incorrect.");
@@ -116,7 +133,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		labeladminPassError.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		labeladminPassError.setVisible(false);
 		add(labeladminPassError);
-
+		
+		
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			
 			public void keyReleased(KeyEvent e) {
@@ -133,6 +151,25 @@ public class LoginPanel extends JPanel implements ActionListener {
 				}
 			}
 		});
+	}
+	/**
+	 * Grab a corrected size of MESA Logo.
+	 * @param filename
+	 * @param width
+	 * @param height
+	 * @return image
+	 */
+	private ImageIcon CreateIcon(String filename, int width, int height) {
+
+		InputStream url = this.getClass().getResourceAsStream("/images/" + filename);
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ImageIcon image = new ImageIcon(img.getScaledInstance(width, height, 0));
+		return image;
 	}
 
 	/**

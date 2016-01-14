@@ -19,7 +19,7 @@ import com.msip.ui.LoginPanel;
 import java.awt.Dimension;
 
 /**
- * @author Juan Zepeda, Christian Martinez, Fernado Estevez
+ * @author Juan Zepeda, Christian Martinez, Fernando Estevez
  *
  */
 public class MISPCore {

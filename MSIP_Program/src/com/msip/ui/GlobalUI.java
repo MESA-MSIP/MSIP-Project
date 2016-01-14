@@ -29,4 +29,6 @@ public class GlobalUI {
 	public static final String AdminTab = "AdminTab";
 	public static final String ReportTab = "ReportTab";
 
+	//Path File for MESA Logo
+	public static final String MESAURL = "MESA.png";
 }
