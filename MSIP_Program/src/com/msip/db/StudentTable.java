@@ -46,7 +46,7 @@ public class StudentTable {
 	 * 
 	 * @param Knumber
 	 */
-	public static void remove(int Knumber) {
+	public void remove(int Knumber) {
 		try {
 			PreparedStatement delete = DBConnector.myConnection
 					.prepareStatement("DELETE FROM Student WHERE Knumber='"
@@ -54,6 +54,18 @@ public class StudentTable {
 			delete.executeUpdate();
 		} catch (SQLException e) {
 
+		}
+	}
+	
+	/**
+	 * Deletes all rows from Student table. 
+	 */
+	public void deleteAll(){
+		try {
+			PreparedStatement deletAll = DBConnector.myConnection.prepareStatement("DELETE FROM Student");
+			deletAll.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

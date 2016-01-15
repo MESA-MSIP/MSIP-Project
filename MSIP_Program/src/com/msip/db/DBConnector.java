@@ -25,13 +25,37 @@ public class DBConnector {
 		new DBConnector();
 		AdminTable a = new AdminTable();
 		a.add(512840, "Fernando", "Estevez", "123456789");
-		a.modify(512840, "SoccerGod");
-	    a.getInfo(512840);
+		a.add(123456, "Estevez", "Fernando", "123123");
+		a.add(678910, "fer", "estevez", "456789");
+		a.remove(512840);
+		a.modify(123456, "987654321");
+		a.getInfo(678910);
+		a.deleteAll();
+		
 		StudentTable student = new StudentTable();
-		student.add(512840, "Fernando", "Estevez", "Computer Engineer");
-		student.modify(512840, "Art");
-		student.getInfo(512840);
-	
+		student.add(512840, "Fernando", "Estevez", "Computer Engineering");
+		student.add(512000, "Fernando", "Estevez", "Computer Science");
+		student.add(123456, "Fernando", "Estevez", "Math");
+		student.remove(512840);
+		student.modify(512000, "Computer Engineering");
+		student.getInfo(123456);
+		
+		LoginTable login = new LoginTable();
+		login.add(123456);
+		login.add(123456);
+		login.add(001000);
+		login.add(512840);
+		login.add(001000);
+		login.add(111111);
+		login.add(001000);
+		login.add(678910);
+		login.add(000000);
+		login.add(345678);
+		login.add(001000);
+		login.add(987654);
+		login.add(001000);
+		login.getInfo(111111);
+		login.getLoginEntry(111111);
 	}
 
 }

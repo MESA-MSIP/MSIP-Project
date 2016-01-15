@@ -73,7 +73,7 @@ public class ReportMakerCSV {
 
 			File yourFolder = fc.getSelectedFile();
 			System.out.println(yourFolder);
-
+//TODO Change to csv.
 			File pathToPDF = new File(yourFolder.getAbsolutePath()
 					+ File.separator + "newreport.csv");
 

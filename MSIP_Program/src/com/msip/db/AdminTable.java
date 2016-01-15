@@ -48,7 +48,7 @@ public class AdminTable {
 		 * 
 		 * @param Knumber
 		 */
-		public static void remove(int Knumber) {
+		public void remove(int Knumber) {
 			try {
 				PreparedStatement delete = DBConnector.myConnection
 						.prepareStatement("DELETE FROM Admin WHERE Knumber='"
@@ -59,6 +59,18 @@ public class AdminTable {
 
 			}
 
+		}
+		
+		/**
+		 * Deletes all rows from Admin table. 
+		 */
+		public void deleteAll(){
+			try {
+				PreparedStatement deletAll = DBConnector.myConnection.prepareStatement("DELETE FROM Admin");
+				deletAll.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		/**
