@@ -1,6 +1,7 @@
 package com.msip.ui;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import java.awt.CardLayout;
@@ -9,12 +10,14 @@ import java.awt.Color;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.MatteBorder;
-import javax.swing.text.MaskFormatter;
 
+import com.msip.ui.popUpResponse;
 import com.msip.manager.MISPCore;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -22,13 +25,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 import java.awt.Rectangle;
 
 /**
@@ -80,7 +78,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 
 		// Admin Password Textfield
-		txtAdminPass = new JTextField();
+		txtAdminPass = new JPasswordField(10);
 		txtAdminPass.setBounds(302, 273, 136, 28);
 		txtAdminPass.addActionListener(this);
 		txtAdminPass.setHorizontalAlignment(SwingConstants.CENTER);
@@ -232,15 +230,41 @@ public class LoginPanel extends JPanel implements ActionListener {
 		if (txtAdminPass == e.getSource()) {
 			String strAdminPass = txtAdminPass.getText();
 
-			
 				int adminKNum = Integer.parseInt(strAdminPass);
 				int response = manager.isStudent(adminKNum);
 
-				if (response == GlobalUI.SUCCESS) {
-					CardLayout cl = (CardLayout) manager.getCards().getLayout();
-					cl.show(manager.getCards(), GlobalUI.AdminToolsPanel);
+				if (response == GlobalUI.SUCCESS)
+				{
+					if (manager.isStudent(adminKNum) == GlobalUI.SUCCESS)
+					{
+//						JFrame child = new JFrame();
+//						child.setSize(400, 240);
+//						JOptionPane.showConfirmDialog(child, "IS THIS WORKING OR WHAT");
+						popUpResponse popUp = new popUpResponse();
+						int decision = popUp.popUp();
+						if (decision == GlobalUI.STUDENT)
+						{
+							labelHelp.setVisible(false);
+							labelToast.setVisible(true);
+							txtKNumber.setText("");
+							txtAdminPass.setText("");
+						}
+						else if (decision == GlobalUI.ADMIN)
+						{
+							CardLayout cl = (CardLayout) manager.getCards().getLayout();
+							cl.show(manager.getCards(), GlobalUI.AdminToolsPanel);
+							txtKNumber.setText("");
+							txtAdminPass.setText("");
+						}
+						else if (decision == GlobalUI.NEITHER)
+						{
+							txtKNumber.setText("");
+							txtAdminPass.setText("");
+						}
+						
+						
+					}
 
-					labeladminPassError.setVisible(false);
 				} else {
 					labeladminPassError.setVisible(true);
 				}

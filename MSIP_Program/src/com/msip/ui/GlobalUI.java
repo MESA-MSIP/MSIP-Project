@@ -32,4 +32,10 @@ public class GlobalUI {
 	//Path File for MESA Logo
 	public static final String MESAURL = "MESA.png";
 	
+	//Integers for Student Admin Decision
+	public static final int STUDENT = 0;
+	public static final int ADMIN = 1;
+	public static final int NEITHER = 2;
+	
+	
 }
