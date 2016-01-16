@@ -8,10 +8,12 @@ import java.awt.Color;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.MatteBorder;
+import javax.swing.text.MaskFormatter;
 
 import com.msip.manager.MISPCore;
 import java.awt.event.ActionListener;
@@ -21,6 +23,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
@@ -40,7 +46,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labelMESALOGO;
 	private JLabel labeladminPassError;
 	private MISPCore manager;
-	private JLabel lblNewLabel;
 
 	/**
 	 * @param manager
@@ -54,9 +59,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 		// TODO add to Global.
 		setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
-
+		
+		//Format the JTextField to only accept Numbers
+		NumberFormat numberFormat = NumberFormat.getNumberInstance();
+		
+		txtKNumber = new JFormattedTextField(numberFormat);
+		txtKNumber.setColumns(10);
+		
 		// JTxtField kNumber
-		txtKNumber = new JTextField();
+		//txtKNumber = new JTextField();
 		txtKNumber.setBounds(302, 210, 136, 28);
 		txtKNumber.addActionListener(this);
 		setLayout(null);
@@ -65,7 +76,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		txtKNumber.setColumns(10);
 		add(txtKNumber);
 		
-		//
+		
+		
 
 		// Admin Password Textfield
 		txtAdminPass = new JTextField();
@@ -134,8 +146,22 @@ public class LoginPanel extends JPanel implements ActionListener {
 		labeladminPassError.setVisible(false);
 		add(labeladminPassError);
 		
-		
 		txtKNumber.addKeyListener(new KeyAdapter() {
+			
+			
+			/**
+			 * 	Checks if keyTyped is a digit. If Not, Deletes the invalid key.
+			 * 
+			 */
+			public void keyTyped(KeyEvent e)
+			{
+				char keychar = e.getKeyChar();
+				 if (!(Character.isDigit(keychar)
+                         || (keychar == KeyEvent.VK_BACK_SPACE)
+                         || (keychar == KeyEvent.VK_DELETE))) {
+                     e.consume();
+				 }
+			}
 			
 			public void keyReleased(KeyEvent e) {
 				
@@ -191,6 +217,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 				if (response == GlobalUI.SUCCESS) {
 					labelHelp.setVisible(false);
 					labelToast.setVisible(true);
+					txtKNumber.setText("");
 				} else {
 					labelHelp.setVisible(true);
 					labelToast.setVisible(false);
@@ -205,7 +232,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		if (txtAdminPass == e.getSource()) {
 			String strAdminPass = txtAdminPass.getText();
 
-			try {
+			
 				int adminKNum = Integer.parseInt(strAdminPass);
 				int response = manager.isStudent(adminKNum);
 
@@ -218,11 +245,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					labeladminPassError.setVisible(true);
 				}
 
-			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				// TODO Message to user that its not a number?
-				return;
 			}
 		}
 	}
-}
+

@@ -31,4 +31,5 @@ public class GlobalUI {
 
 	//Path File for MESA Logo
 	public static final String MESAURL = "MESA.png";
+	
 }
