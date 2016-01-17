@@ -67,6 +67,7 @@ public class MISPCore {
 		// Create and set up the window.
 		JFrame frame = new JFrame("MSIP");
 		frame.setResizable(false);
+		//frame.setUndecorated(true); //Removes title bar from Window
 		frame.setPreferredSize(new Dimension(800, 480));
 		frame.setMinimumSize(new Dimension(800, 480));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

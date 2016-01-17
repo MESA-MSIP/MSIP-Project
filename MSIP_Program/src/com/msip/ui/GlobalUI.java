@@ -25,9 +25,11 @@ public class GlobalUI {
 	public static final String columnNameMajor = "Major";
 
 	// Strings for Tab Layout
-	public static final String StudentTab = "StudentTab";
-	public static final String AdminTab = "AdminTab";
-	public static final String ReportTab = "ReportTab";
+	public static final String StudentTab = "Students";
+	public static final String AdminTab = "Admins";
+	public static final String ReportTab = "Reports";
+	public static final String NotificationsPanel = "Notifications";
+	public static final String QuestionnairePanel = "Questionnaire";
 
 	//Path File for MESA Logo
 	public static final String MESAURL = "MESA.png";
@@ -36,6 +38,7 @@ public class GlobalUI {
 	public static final int STUDENT = 0;
 	public static final int ADMIN = 1;
 	public static final int NEITHER = 2;
+
 	
 	
 }
