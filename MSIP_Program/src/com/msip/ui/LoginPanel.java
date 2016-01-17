@@ -150,6 +150,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 			/**
 			 * 	Checks if keyTyped is a digit. If Not, Deletes the invalid key.
 			 * 	Checks if String is more 8 characters.
+			 * 	String is now formatted to not include commas.
 			 * 
 			 */
 			public void keyTyped(KeyEvent e)
@@ -169,7 +170,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 				
 				String strKNumber = txtKNumber.getText();
 
-				// if number is less than 8, don't show adminPass
 				
 				if (strKNumber.length() < GlobalUI.kNumMax) {
 					txtAdminPass.setVisible(false);
