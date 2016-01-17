@@ -60,7 +60,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 		//Format the JTextField to only accept Numbers
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();
-		
+		numberFormat.setGroupingUsed(false);
 		txtKNumber = new JFormattedTextField(numberFormat);
 		txtKNumber.setColumns(10);
 		
@@ -149,10 +149,14 @@ public class LoginPanel extends JPanel implements ActionListener {
 			
 			/**
 			 * 	Checks if keyTyped is a digit. If Not, Deletes the invalid key.
+			 * 	Checks if String is more 8 characters.
 			 * 
 			 */
 			public void keyTyped(KeyEvent e)
 			{
+				if (txtKNumber.getText().length() >= 8)
+					e.consume();
+				
 				char keychar = e.getKeyChar();
 				 if (!(Character.isDigit(keychar)
                          || (keychar == KeyEvent.VK_BACK_SPACE)
@@ -163,10 +167,11 @@ public class LoginPanel extends JPanel implements ActionListener {
 			
 			public void keyReleased(KeyEvent e) {
 				
-				String str = txtKNumber.getText();
+				String strKNumber = txtKNumber.getText();
+
 				// if number is less than 8, don't show adminPass
 				
-				if (str.length() < GlobalUI.kNumMax) {
+				if (strKNumber.length() < GlobalUI.kNumMax) {
 					txtAdminPass.setVisible(false);
 					labeladminPass.setVisible(false);
 				} else {
@@ -207,7 +212,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		if (txtKNumber == e.getSource()) {
 			String strKNumber = txtKNumber.getText();
-
 			try {
 				int kNum = Integer.parseInt(strKNumber);
 				int response = manager.isStudent(kNum);
@@ -248,6 +252,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 							labelToast.setVisible(true);
 							txtKNumber.setText("");
 							txtAdminPass.setText("");
+							txtAdminPass.setVisible(false);
+							labeladminPass.setVisible(false);
 						}
 						else if (decision == GlobalUI.ADMIN)
 						{

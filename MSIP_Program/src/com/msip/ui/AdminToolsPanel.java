@@ -49,6 +49,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		if (e.getSource() == btnLogOut) {
 			CardLayout cl = (CardLayout) manager.getCards().getLayout();
 			cl.show(manager.getCards(), GlobalUI.LoginPanel);
+			
 		}
 	}
 
