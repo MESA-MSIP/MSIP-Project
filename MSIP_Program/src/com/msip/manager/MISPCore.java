@@ -8,14 +8,18 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import com.msip.db.DBConnector;
 import com.msip.db.Global;
+import com.msip.db.LoginTable;
 import com.msip.external.SerialPort;
 import com.msip.model.Admin;
 import com.msip.model.Student;
+import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
+
 import java.awt.Dimension;
 
 /**
@@ -27,6 +31,7 @@ public class MISPCore {
 	private JPanel cards; //a panel that uses CardLayout
 	private SerialPort serialport;
 	private DBConnector dbConnector;
+	private static final int ActiveStudent= 3;
 
 	/**
 	 * 
@@ -67,7 +72,6 @@ public class MISPCore {
 		// Create and set up the window.
 		JFrame frame = new JFrame("MSIP");
 		frame.setResizable(false);
-		//frame.setUndecorated(true); //Removes title bar from Window
 		frame.setPreferredSize(new Dimension(800, 480));
 		frame.setMinimumSize(new Dimension(800, 480));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,6 +85,7 @@ public class MISPCore {
 		frame.setVisible(true);
 
 	}
+	
 	
 	/**
 	 * Called by UI to make an entry in the login entry DB.
@@ -164,6 +169,15 @@ public class MISPCore {
 	 */
 	public JPanel getCards() {
 		return cards;
+	}
+	
+	public Enum isStudentActive(Integer Knumber){
+		LoginTable login = new LoginTable();
+		if(login.getparticipation(Knumber).size() >= ActiveStudent ){
+			return ParcipitationState.ACTIVE;
+		} else {
+			return ParcipitationState.INACTIVE;
+		}
 	}
 
 	/**

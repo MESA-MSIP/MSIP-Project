@@ -47,6 +47,7 @@ public class DBConnector {
 		login.add(512840);
 		login.add(001000);
 		login.add(111111);
+		login.add(123456);
 		login.add(001000);
 		login.add(678910);
 		login.add(000000);
@@ -55,7 +56,7 @@ public class DBConnector {
 		login.add(987654);
 		login.add(001000);
 		login.getInfo(111111);
-		login.getLoginEntry(111111);
+		login.getLoginEntry(123456);
 	}
 
 }

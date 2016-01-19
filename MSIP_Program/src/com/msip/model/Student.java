@@ -31,7 +31,7 @@ public class Student extends Person {
 		this.major = major;
 	}
 
-	enum ParcipitationState {
+	public enum ParcipitationState {
 		INACTIVE, ACTIVE
 	}
 

@@ -136,4 +136,8 @@ public class LoginTable {
 		return dateEntry;
 
 	}
+	
+	public ArrayList<Date> getparticipation(Integer Knumber){
+		return getLoginEntry(Knumber);
+	}
 }
