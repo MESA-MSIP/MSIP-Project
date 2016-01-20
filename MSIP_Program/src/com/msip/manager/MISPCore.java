@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,10 +31,10 @@ import java.awt.Dimension;
  */
 public class MISPCore {
 
-	private JPanel cards; //a panel that uses CardLayout
+	private JPanel cards; // a panel that uses CardLayout
 	private SerialPort serialport;
 	private DBConnector dbConnector;
-	private static final int ActiveStudent= 3;
+	private static final int ACTIVE_STUDENT = 3;
 
 	/**
 	 * 
@@ -50,17 +53,17 @@ public class MISPCore {
 	 * @param contentPane
 	 */
 	private void addComponentToPane(Container contentPane) {
-         
-        //Create the cards
-        JPanel loginPanel = new LoginPanel(this);
-        JPanel adminToolsPanel = new AdminToolsPanel(this);
-         
-        //Create the panel that contains the "cards".
-        cards = new JPanel(new CardLayout());
-        cards.add(loginPanel, GlobalUI.LoginPanel);
-        cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
-         
-        contentPane.add(cards, BorderLayout.CENTER);
+
+		// Create the cards
+		JPanel loginPanel = new LoginPanel(this);
+		JPanel adminToolsPanel = new AdminToolsPanel(this);
+
+		// Create the panel that contains the "cards".
+		cards = new JPanel(new CardLayout());
+		cards.add(loginPanel, GlobalUI.LoginPanel);
+		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
+
+		contentPane.add(cards, BorderLayout.CENTER);
 	}
 
 	/**
@@ -85,8 +88,7 @@ public class MISPCore {
 		frame.setVisible(true);
 
 	}
-	
-	
+
 	/**
 	 * Called by UI to make an entry in the login entry DB.
 	 * 
@@ -131,49 +133,70 @@ public class MISPCore {
 		// TODO See function summary
 		return 1;
 	}
-	
+
 	/**
 	 * Get all students in the DB
+	 * 
 	 * @return
 	 */
-	public ArrayList<Student> getStudents(){
+	public ArrayList<Student> getStudents() {
 		// TODO See function summary
-		
-		//Temp test code
+
+		// Temp test code
 		ArrayList<Student> studnets = new ArrayList<Student>();
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789, "Computer Science"));
-		
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+		studnets.add(new Student("Juan", "Zepeda", 123456789,
+				"Computer Science"));
+
 		return studnets;
 	}
-	
+
 	/**
 	 * Get all Admins in the DB
+	 * 
 	 * @return
 	 */
-	public ArrayList<Admin> getAdmins(){
+	public ArrayList<Admin> getAdmins() {
 		// TODO See function summary
 		return null;
 	}
-	
+
 	/**
 	 * @return cards
 	 */
 	public JPanel getCards() {
 		return cards;
 	}
-	
-	public Enum isStudentActive(Integer Knumber){
+
+	public Enum isStudentActive(Integer Knumber) {
 		LoginTable login = new LoginTable();
-		if(login.getparticipation(Knumber).size() >= ActiveStudent ){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = sdf.parse("2016-01-14");
+			endDate = sdf.parse("2016-01-19");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if (login.getparticipation(Knumber, startDate, endDate).size() >= ACTIVE_STUDENT) {
 			return ParcipitationState.ACTIVE;
 		} else {
 			return ParcipitationState.INACTIVE;

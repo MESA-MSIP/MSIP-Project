@@ -3,6 +3,9 @@ package com.msip.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DBConnector {
 	static Connection myConnection;
@@ -41,6 +44,17 @@ public class DBConnector {
 		student.getInfo(123456);
 		
 		LoginTable login = new LoginTable();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	Date date1 = null;
+    	Date date2 = null;
+		try {
+			date1 = sdf.parse("2016-01-14");
+			 date2 = sdf.parse("2016-01-19");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		login.add(123456);
 		login.add(123456);
 		login.add(001000);
@@ -57,6 +71,7 @@ public class DBConnector {
 		login.add(001000);
 		login.getInfo(111111);
 		login.getLoginEntry(123456);
+		login.getparticipation(123456, date1 , date2);
 	}
 
 }

@@ -108,7 +108,8 @@ public class LoginTable {
 		ArrayList<Date> dateEntry = new ArrayList<Date>();
 
 		try {
-			if (Knumber != null) {//When Knumber is null, we will select all dates and add it to the date arraylist. 
+			if (Knumber != null) {// When Knumber is null, we will select all
+									// dates and add it to the date arraylist.
 				PreparedStatement entries = DBConnector.myConnection
 						.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
 								+ Knumber + "';");
@@ -136,8 +137,29 @@ public class LoginTable {
 		return dateEntry;
 
 	}
-	
-	public ArrayList<Date> getparticipation(Integer Knumber){
-		return getLoginEntry(Knumber);
+
+	public ArrayList<Date> getparticipation(int Knumber, Date startDate,
+			Date endDate) {
+		ArrayList<Date> studentLogin = new ArrayList<Date>();
+		try {
+			// When Knumber is null, we will select all dates and add it to the
+			// date arraylist.
+			PreparedStatement entries = DBConnector.myConnection
+					.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
+							+ Knumber + "';");
+			ResultSet rs = entries.executeQuery();
+			while (rs.next()) {
+				Date date = rs.getDate("DateTime");
+				if (date.compareTo(startDate) <= 0
+						&& date.compareTo(endDate) >= 0) {
+					studentLogin.add(date);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return studentLogin;
 	}
 }
