@@ -1,13 +1,17 @@
 package com.msip.db;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.msip.model.LoginEntry;
 
 /**
- * @author estev_000
+ * @author Fernando
  *
  */
 public class LoginTable {
@@ -133,17 +137,22 @@ public class LoginTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(dateEntry);
 		return dateEntry;
 
 	}
 
-	public ArrayList<Date> getparticipation(int Knumber, Date startDate,
+	/**
+	 * Gets an array of dates given a range.
+	 * 
+	 * @param Knumber
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<Date> getEntryRange(int Knumber, Date startDate,
 			Date endDate) {
 		ArrayList<Date> studentLogin = new ArrayList<Date>();
 		try {
-			// When Knumber is null, we will select all dates and add it to the
-			// date arraylist.
 			PreparedStatement entries = DBConnector.myConnection
 					.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
 							+ Knumber + "';");
@@ -159,7 +168,31 @@ public class LoginTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return studentLogin;
+	}
+
+	/**
+	 * gets an array of dates based, last weeks dates, based on students logins.
+	 * 
+	 * @param Knumber
+	 * @return
+	 */
+	public ArrayList<Date> getParticipation(int Knumber) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = ZonedDateTime.now().format(
+				DateTimeFormatter.ISO_LOCAL_DATE);
+		String date2 = ZonedDateTime.now().minusWeeks(1)
+				.format(DateTimeFormatter.ISO_LOCAL_DATE);
+		
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = formatter.parse(date);
+			endDate = formatter.parse(date2);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return getEntryRange(Knumber, startDate, endDate);
 	}
 }

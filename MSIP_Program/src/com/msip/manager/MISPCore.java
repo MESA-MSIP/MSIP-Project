@@ -187,16 +187,8 @@ public class MISPCore {
 
 	public Enum isStudentActive(Integer Knumber) {
 		LoginTable login = new LoginTable();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = sdf.parse("2016-01-14");
-			endDate = sdf.parse("2016-01-19");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if (login.getparticipation(Knumber, startDate, endDate).size() >= ACTIVE_STUDENT) {
+
+		if (login.getParticipation(Knumber).size() >= ACTIVE_STUDENT) {
 			return ParcipitationState.ACTIVE;
 		} else {
 			return ParcipitationState.INACTIVE;
