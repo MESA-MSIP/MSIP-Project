@@ -13,8 +13,8 @@ public class StudentTable {
 	public StudentTable() {
 		try {
 			PreparedStatement createTable = DBConnector.myConnection
-					.prepareStatement("CREATE TABLE IF NOT EXISTS Student(ID INT NOT NULL AUTO_INCREMENT, Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
-							+ "LastName VARCHAR(35) NOT NULL, Major VARCHAR(35) NOT NULL, PRIMARY KEY(ID))");
+					.prepareStatement("CREATE TABLE IF NOT EXISTS Student(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
+							+ "LastName VARCHAR(35) NOT NULL, Major VARCHAR(35) NOT NULL, PRIMARY KEY(Knumber))");
 			createTable.executeUpdate();
 
 		} catch (SQLException e) {
@@ -32,7 +32,7 @@ public class StudentTable {
 			String Major) {
 		try {
 			PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("INSERT INTO Student VALUE(NULL, '" + Knumber
+					.prepareStatement("INSERT INTO Student VALUE('" + Knumber
 							+ "',  '" + firstName + "','" + lastName + "', '"
 							+ Major + "');");
 			insert.executeUpdate();

@@ -34,7 +34,7 @@ public class DBConnector {
 		a.deleteAll();
 		
 		StudentTable student = new StudentTable();
-		student.add(512840, "Fernando", "Estevez", "Computer Engineering");
+	student.add(512840, "Fernando", "Estevez", "Computer Engineering");
 		student.add(512000, "Fernando", "Estevez", "Computer Science");
 		student.add(123456, "Fernando", "Estevez", "Math");
 		student.remove(512840);

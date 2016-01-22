@@ -13,8 +13,8 @@ public class AdminTable {
 		
 			try {
 				PreparedStatement createTable = DBConnector.myConnection
-						.prepareStatement("CREATE TABLE IF NOT EXISTS Admin(ID INT NOT NULL AUTO_INCREMENT, Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
-								+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(512) NOT NULL, PRIMARY KEY(ID))");
+						.prepareStatement("CREATE TABLE IF NOT EXISTS Admin(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
+								+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(512) NOT NULL, PRIMARY KEY(Knumber))");
 				createTable.executeUpdate();
 
 			} catch (SQLException e) {
@@ -34,7 +34,7 @@ public class AdminTable {
 
 			try {
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("INSERT INTO Admin VALUE(NULL, '" + Knumber
+						.prepareStatement("INSERT INTO Admin VALUE('" + Knumber
 								+ "',  '" + firstName + "', '" + lastName + "', '"
 								+ password + "');");
 				insert.executeUpdate();
