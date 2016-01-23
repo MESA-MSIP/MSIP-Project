@@ -10,6 +10,9 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import java.awt.Component;
+import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class AdminToolsPanel extends JPanel implements ActionListener {
@@ -45,6 +48,14 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		btnLogOut = new JButton("Log Out");
 		btnLogOut.addActionListener(this);
 		panel.add(btnLogOut);
+		
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(panel_1, BorderLayout.SOUTH);
+		
+		JLabel lblWelcomeToThe = new JLabel("Welcome to the Admin panel");
+		panel_1.add(lblWelcomeToThe);
 	}
 
 	@Override

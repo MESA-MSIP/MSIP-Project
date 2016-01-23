@@ -21,6 +21,7 @@ public class StudentTable {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Adds student to the student database.
 	 * 

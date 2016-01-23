@@ -3,17 +3,15 @@ package com.msip.model;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
-
 import com.msip.ui.GlobalUI;
 
-public class StudentTableModel extends AbstractTableModel {
+public class StudentTableModel extends AbstractTableModel   {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Student> students;
 
 	public StudentTableModel(ArrayList<Student> students) {
 		this.students = students;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -61,15 +59,23 @@ public class StudentTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return true;
+		return false;
 	}
 
-	public void addStudent() {
-
+	/**
+	 * @return the students
+	 */
+	public ArrayList<Student> getStudents() {
+		return students;
 	}
 
-	public void removeStudent() {
-
+	/**
+	 * @param students the students to set
+	 */
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
+		fireTableDataChanged();
+		fireTableStructureChanged();
 	}
 
 }

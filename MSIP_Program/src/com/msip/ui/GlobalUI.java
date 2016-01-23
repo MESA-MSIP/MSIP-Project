@@ -1,5 +1,8 @@
 package com.msip.ui;
 
+import java.awt.Dimension;
+import java.awt.Font;
+
 public class GlobalUI {
 	// Strings for Card layout
 	public static final String LoginPanel = "LoginPanel";
@@ -38,6 +41,19 @@ public class GlobalUI {
 	public static final int STUDENT = 0;
 	public static final int ADMIN = 1;
 	public static final int NEITHER = 2;
+	
+	//Button properties
+	public static final Dimension ButtonDimenesions = new Dimension(100, 30);
+	
+	//Label Properties
+	public static final Font LableFont = new Font("Tahoma", Font.BOLD, 13);
+	
+	//Label Text Field
+	public static final Font TextFieldFont = new Font("Tahoma", Font.BOLD, 13);
+	
+	//General Strings
+	public static final String ADDSTUDENT = "Add Student to Database";
+	public static final String MODIFYSTUDENT = "Edit Student Information";
 
 	
 	

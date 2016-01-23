@@ -4,21 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.msip.db.DBConnector;
 import com.msip.db.Global;
 import com.msip.db.LoginTable;
+import com.msip.db.StudentTable;
 import com.msip.external.SerialPort;
 import com.msip.model.Admin;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
+import com.msip.ui.AdminTable;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
@@ -34,11 +32,11 @@ public class MISPCore {
 	private JPanel cards; // a panel that uses CardLayout
 	private SerialPort serialport;
 	private DBConnector dbConnector;
+	private AdminTable adminTable;
+	private StudentTable studentTable;
+	private LoginTable loginTable;
 	private static final int ACTIVE_STUDENT = 3;
 
-	/**
-	 * 
-	 */
 	public MISPCore() {
 
 		if (Global.ISPI) {
@@ -46,6 +44,9 @@ public class MISPCore {
 		}
 		if (Global.ISDB) {
 			dbConnector = new DBConnector();
+			adminTable = new AdminTable();
+			studentTable = new StudentTable();
+			loginTable = new LoginTable();
 		}
 	}
 
@@ -60,10 +61,17 @@ public class MISPCore {
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		cards.add(loginPanel, GlobalUI.LoginPanel);
+		// cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 
 		contentPane.add(cards, BorderLayout.CENTER);
+	}
+
+	/**
+	 * @return cards
+	 */
+	public JPanel getCards() {
+		return cards;
 	}
 
 	/**
@@ -89,6 +97,12 @@ public class MISPCore {
 
 	}
 
+	// **********************************************************//
+	// **********************************************************//
+	// *** Login Entries Functions ****//
+	// **********************************************************//
+	// **********************************************************//
+
 	/**
 	 * Called by UI to make an entry in the login entry DB.
 	 * 
@@ -110,6 +124,12 @@ public class MISPCore {
 		// TODO call UI function to notify that a number was scanned
 	}
 
+	// **********************************************************//
+	// **********************************************************//
+	// *** Student Functions ****//
+	// **********************************************************//
+	// **********************************************************//
+
 	/**
 	 * Called by UI to see if student exists in the Student DB.
 	 * 
@@ -120,6 +140,67 @@ public class MISPCore {
 		// TODO See function summary
 		return 1;
 	}
+
+	/**
+	 * Get all students in the DB
+	 * 
+	 * @return
+	 */
+	public ArrayList<Student> getStudents() {
+		// TODO See function summary
+
+		// Temp test code
+		ArrayList<Student> studnets = new ArrayList<Student>(10);
+		studnets.add(new Student("Christian", "Martinez", 44444444, "Computer Science"));
+		studnets.add(new Student("Celina", "Lazaro", 55555555, "Computer Engineering"));
+		studnets.add(new Student("Jorge", "Pantaleon", 66666666, "Electrcal Engineering"));
+		studnets.add(new Student("Daryl", "Delgado", 77777777, "Electrcal Engineering"));
+		return studnets;
+	}
+
+	/**
+	 * Deletes the student from the student table
+	 * 
+	 * @param kNumber
+	 */
+	public void deleteStudent(int kNumber) {
+		studentTable.remove(kNumber);
+	}
+
+	/**
+	 * Add Student to Database
+	 * 
+	 * @param student
+	 */
+	public void addStudent(Student student) {
+		studentTable.add(student.getkNumber(), student.getFirstName(), student.getLastName(), student.getMajor());
+	}
+
+	/**
+	 * Modify Student in Database
+	 * 
+	 * @param student
+	 */
+	public void modifyStudent(Student student) {
+		studentTable.modify(student.getkNumber(),  student.getMajor());
+		//TODO can modify Name of student too
+	}
+
+	public ParcipitationState isStudentActive(Integer Knumber) {
+		LoginTable login = new LoginTable();
+
+		if (login.getParticipation(Knumber).size() >= ACTIVE_STUDENT) {
+			return ParcipitationState.ACTIVE;
+		} else {
+			return ParcipitationState.INACTIVE;
+		}
+	}
+
+	// **********************************************************//
+	// **********************************************************//
+	// *** Admin Functions ****//
+	// **********************************************************//
+	// **********************************************************//
 
 	/**
 	 * Called by UI to see if admin exists in the admin table and correct
@@ -135,40 +216,6 @@ public class MISPCore {
 	}
 
 	/**
-	 * Get all students in the DB
-	 * 
-	 * @return
-	 */
-	public ArrayList<Student> getStudents() {
-		// TODO See function summary
-
-		// Temp test code
-		ArrayList<Student> studnets = new ArrayList<Student>();
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-		studnets.add(new Student("Juan", "Zepeda", 123456789,
-				"Computer Science"));
-
-		return studnets;
-	}
-
-	/**
 	 * Get all Admins in the DB
 	 * 
 	 * @return
@@ -176,23 +223,6 @@ public class MISPCore {
 	public ArrayList<Admin> getAdmins() {
 		// TODO See function summary
 		return null;
-	}
-
-	/**
-	 * @return cards
-	 */
-	public JPanel getCards() {
-		return cards;
-	}
-
-	public Enum isStudentActive(Integer Knumber) {
-		LoginTable login = new LoginTable();
-
-		if (login.getParticipation(Knumber).size() >= ACTIVE_STUDENT) {
-			return ParcipitationState.ACTIVE;
-		} else {
-			return ParcipitationState.INACTIVE;
-		}
 	}
 
 	/**
@@ -210,4 +240,5 @@ public class MISPCore {
 		});
 
 	}
+
 }

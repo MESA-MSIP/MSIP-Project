@@ -32,6 +32,13 @@ public class Person {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	/**
+	 * @return the lastName
+	 */
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 
 	/**
 	 * @param lastName the lastName to set
