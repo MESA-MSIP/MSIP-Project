@@ -54,6 +54,10 @@ public class GlobalUI {
 	//General Strings
 	public static final String ADDSTUDENT = "Add Student to Database";
 	public static final String MODIFYSTUDENT = "Edit Student Information";
+	public static final String SELECTASTUDENT = "Please Select a student";
+	
+	//Magic Number
+	public static final int TWO_THOUSAND_MILLI_SECONDS = 2000;
 
 	
 	

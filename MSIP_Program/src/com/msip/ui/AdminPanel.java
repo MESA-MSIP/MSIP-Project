@@ -17,9 +17,11 @@ public class AdminPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private AdminTable adminTable;
 	private MISPCore manager;
+	private AdminToolsPanel adminToolsPanel;
 	
-	public AdminPanel(MISPCore mispCore) {
+	public AdminPanel(MISPCore mispCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(mispCore);
+		this.setAdminToolsPanel(adminToolsPanel);
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 		
@@ -42,5 +44,19 @@ public class AdminPanel extends JPanel {
 	 */
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
+	}
+
+	/**
+	 * @return the adminToolsPanel
+	 */
+	public AdminToolsPanel getAdminToolsPanel() {
+		return adminToolsPanel;
+	}
+
+	/**
+	 * @param adminToolsPanel the adminToolsPanel to set
+	 */
+	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
+		this.adminToolsPanel = adminToolsPanel;
 	}
 }

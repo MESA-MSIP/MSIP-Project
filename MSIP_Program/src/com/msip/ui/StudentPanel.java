@@ -32,10 +32,12 @@ public class StudentPanel extends JPanel implements ActionListener {
 	private StudentTable studentTable;
 	private JButton btnEdit;
 	private Component horizontalStrut_1;
+	private AdminToolsPanel adminToolsPanel;
 
-	public StudentPanel(MISPCore msipCore) {
+	public StudentPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
-
+		this.setAdminToolsPanel(adminToolsPanel);
+		
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 		studentModel = new StudentTableModel(msipCore.getStudents());
@@ -60,7 +62,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		panel.add(btnRemove);
 
 		btnEdit = new JButton("Edit");
-		btnRemove.addActionListener(this);
+		btnEdit.addActionListener(this);
 		btnEdit.setPreferredSize(GlobalUI.ButtonDimenesions);
 
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -83,21 +85,21 @@ public class StudentPanel extends JPanel implements ActionListener {
 		if (e.getSource() == btnEdit) {
 			
 			int rowIndex = studentTable.getSelectedRow();
-			
+
 			// Make sure they made a selection on the table
-			if(rowIndex > 0){
-				
+			if (rowIndex > 0) {
+
 				// Get the student they selected
 				Student studentToEdit = studentModel.getStudents().get(rowIndex);
-				
+
 				StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.MODIFYSTUDENT);
 				dialog.setFields(studentToEdit);
 				if (dialog.getResults() == JOptionPane.YES_OPTION) {
 					getManager().modifyStudent(dialog.getStudent());
 					reloadStudentTable();
 				}
-			}else{
-				//TOOD Message to user to select a Student
+			} else {
+				getAdminToolsPanel().setStatusMsg(GlobalUI.SELECTASTUDENT);
 			}
 		}
 
@@ -118,8 +120,8 @@ public class StudentPanel extends JPanel implements ActionListener {
 					getManager().deleteStudent(studentToDelete.getkNumber());
 					reloadStudentTable();
 				}
-			}else{
-				//TOOD Message to user to select a Student
+			} else {
+				getAdminToolsPanel().setStatusMsg(GlobalUI.SELECTASTUDENT);
 			}
 		}
 	}
@@ -144,5 +146,20 @@ public class StudentPanel extends JPanel implements ActionListener {
 	 */
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
+	}
+
+	/**
+	 * @return the adminToolsPanel
+	 */
+	public AdminToolsPanel getAdminToolsPanel() {
+		return adminToolsPanel;
+	}
+
+	/**
+	 * @param adminToolsPanel
+	 *            the adminToolsPanel to set
+	 */
+	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
+		this.adminToolsPanel = adminToolsPanel;
 	}
 }

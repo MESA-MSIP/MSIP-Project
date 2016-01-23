@@ -10,6 +10,9 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.JLabel;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -19,6 +22,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 	private MISPCore manager;
 	private JButton btnLogOut;
+	private JLabel lblStatusMsg;
 
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -27,8 +31,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
-		StudentPanel studentPanel = new StudentPanel(msipCore);
-		AdminPanel adminPanel = new AdminPanel(msipCore);
+		StudentPanel studentPanel = new StudentPanel(msipCore, this);
+		AdminPanel adminPanel = new AdminPanel(msipCore, this);
 		ReportPanel reportPanel = new ReportPanel(msipCore);
 		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
 		QuestionnairePanel questionnairePanel = new QuestionnairePanel(msipCore);
@@ -49,15 +53,28 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		btnLogOut.addActionListener(this);
 		panel.add(btnLogOut);
 		
-		JPanel panel_1 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		add(panel_1, BorderLayout.SOUTH);
+		JPanel panelStatus = new JPanel();
+		FlowLayout fl_panelStatus = (FlowLayout) panelStatus.getLayout();
+		fl_panelStatus.setAlignment(FlowLayout.LEFT);
+		add(panelStatus, BorderLayout.SOUTH);
 		
-		JLabel lblWelcomeToThe = new JLabel("Welcome to the Admin panel");
-		panel_1.add(lblWelcomeToThe);
+		lblStatusMsg = new JLabel("Welcome to the Admin panel");
+		panelStatus.add(lblStatusMsg);
 	}
 
+	public void setStatusMsg(final String msg) {
+		lblStatusMsg.setText("  " + msg);
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+
+				lblStatusMsg.setText("  ");
+			}
+		}, GlobalUI.TWO_THOUSAND_MILLI_SECONDS);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
