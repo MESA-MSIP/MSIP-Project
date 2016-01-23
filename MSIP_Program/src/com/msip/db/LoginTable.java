@@ -195,4 +195,19 @@ public class LoginTable {
 
 		return getEntryRange(Knumber, startDate, endDate);
 	}
+	
+	/**
+	 * test purpose.
+	 * @param Knumber
+	 */
+	public void addUsingDates(int Knumber, Date today) {
+		try {
+			PreparedStatement delete = DBConnector.myConnection
+					.prepareStatement("INSERT INTO Login VALUE(NULL, '"
+							+ Knumber + "', '" +today+ "');");
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

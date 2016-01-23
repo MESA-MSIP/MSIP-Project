@@ -3,6 +3,9 @@ package com.msip.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class DBConnector {
@@ -18,48 +21,40 @@ public class DBConnector {
 					Global.USERNAME, Global.PASSWORD);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("\n" + "You did not Sign in correctly or you aren't using 'MesaDB' database" + "\n");
 		}
 	}
 
 
 	public static void main(String[] args) {
 		new DBConnector();
-		AdminTable a = new AdminTable();
-		a.add(512840, "Fernando", "Estevez", "123456789");
-		a.add(123456, "Estevez", "Fernando", "123123");
-		a.add(678910, "fer", "estevez", "456789");
-		a.remove(512840);
-		a.modify(123456, "987654321");
-		a.getInfo(678910);
-		a.deleteAll();
+		AdminTable admin = new AdminTable();
+		admin.deleteAll();
+		admin.add(11111111, "Juan", "Zepeda", "1");
+		admin.add(22222222, "Cynthia", "Zepeda", "2");
+
 		
 		StudentTable student = new StudentTable();
-	student.add(512840, "Fernando", "Estevez", "Computer Engineering");
-		student.add(512000, "Fernando", "Estevez", "Computer Science");
-		student.add(123456, "Fernando", "Estevez", "Math");
-		student.remove(512840);
-		student.modify(512000, "Computer Engineering");
-		student.getInfo(123456);
+		student.deleteAll();
+		student.add(33333333, "Fernando", "Estevez", "Computer Engineering");
+		student.add(44444444, "Christian", "Martinez", "Computer Science");
+		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
+		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
+		student.add(77777777, "Daryl","Delgado", "Electrical Engineering");
+
+	
 		
 		LoginTable login = new LoginTable();
+		login.add(33333333);
+		login.add(11111111);
+		login.add(22222222);
+		login.add(44444444);
+		login.add(55555555);
+		login.add(66666666);
+		login.add(77777777);
+
 		
-		login.add(123456);
-		login.add(123456);
-		login.add(001000);
-		login.add(512840);
-		login.add(001000);
-		login.add(111111);
-		login.add(123456);
-		login.add(001000);
-		login.add(678910);
-		login.add(000000);
-		login.add(345678);
-		login.add(001000);
-		login.add(987654);
-		login.add(001000);
-		login.getInfo(111111);
-		login.getLoginEntry(123456);
-       login.getParticipation(123456);
+	
 }
 
 }
