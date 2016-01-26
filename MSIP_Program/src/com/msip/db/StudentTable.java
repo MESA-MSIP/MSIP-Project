@@ -4,6 +4,7 @@ import com.msip.model.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StudentTable {
 	
@@ -111,6 +112,30 @@ public class StudentTable {
 			e.printStackTrace();
 		}
 		return student;
+	}
+	
+	/**
+	 * Gets all the students and stores it in an ArrayList of students.
+	 * @return
+	 */
+	public ArrayList<Student> getAll(){
+		ArrayList<Student> allStudents = new ArrayList<Student>();
+		Student student = null;
+		PreparedStatement studentInfo;
+		try {
+			studentInfo = DBConnector.myConnection
+					.prepareStatement("SELECT * FROM Student;");
+			
+			ResultSet rs = studentInfo.executeQuery();
+			while (rs.next()) {
+				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"));
+				allStudents.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allStudents;
+		
 	}
 
 }

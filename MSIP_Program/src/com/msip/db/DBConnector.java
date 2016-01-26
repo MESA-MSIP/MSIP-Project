@@ -3,6 +3,11 @@ package com.msip.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class DBConnector {
 	static Connection myConnection;
@@ -22,12 +27,13 @@ public class DBConnector {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		new DBConnector();
 		AdminTable admin = new AdminTable();
 		admin.deleteAll();
 		admin.add(11111111, "Juan", "Zepeda", "1");
 		admin.add(22222222, "Cynthia", "Zepeda", "2");
+		//admin.getAll();
 
 		
 		StudentTable student = new StudentTable();
@@ -37,17 +43,28 @@ public class DBConnector {
 		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
 		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
 		student.add(77777777, "Daryl","Delgado", "Electrical Engineering");
+		//student.getAll();
 
 	
 		
 		LoginTable login = new LoginTable();
-		login.add(33333333);
-		login.add(11111111);
-		login.add(22222222);
-		login.add(44444444);
-		login.add(55555555);
-		login.add(66666666);
-		login.add(77777777);
+		// Still working on creating a months worth of data.
+		String dateInString = "2016-01-25";
+		
+		
+		
+		
+
+
+//		login.add(33333333);
+//		login.add(11111111);
+//		login.add(22222222);
+//		login.add(44444444);
+//		login.add(55555555);
+//		login.add(66666666);
+//		login.add(77777777);
+		login.getParticipation(33333333);
+		//login.addUsingDates(33333333, dateInString);
 
 		
 	

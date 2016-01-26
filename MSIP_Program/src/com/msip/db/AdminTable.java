@@ -5,6 +5,7 @@ import com.msip.model.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 public class AdminTable {
 	/**
 	 * Creates the AdminTable if it doesn't exist.
@@ -98,13 +99,13 @@ public class AdminTable {
 		public Admin getInfo(int Knumber){
 			Admin admin = null;
 
-			PreparedStatement studentInfo;
+			PreparedStatement adminInfo;
 			try {
-				studentInfo = DBConnector.myConnection
+				adminInfo = DBConnector.myConnection
 						.prepareStatement("SELECT * FROM Admin WHERE Knumber='"
 								+ Knumber + "';");
-				ResultSet rs = studentInfo.executeQuery();
-				//TODO handle when student is null.
+				ResultSet rs = adminInfo.executeQuery();
+				//TODO handle when admin is null.
 				while (rs.next()) {
 					admin = new Admin(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("pHash"));
 				}
@@ -112,6 +113,30 @@ public class AdminTable {
 				e.printStackTrace();
 			}
 			return admin;
+		}
+		
+		/**
+		 * Gets all the admins and stores it in an ArrayList of admins.
+		 * @return
+		 */
+		public ArrayList<Admin> getAll(){
+			ArrayList<Admin> allAdmins = new ArrayList<Admin>();
+			Admin admin = null;
+			PreparedStatement adminInfo;
+			try {
+				adminInfo = DBConnector.myConnection
+						.prepareStatement("SELECT * FROM Admin;");
+				
+				ResultSet rs = adminInfo.executeQuery();
+				while (rs.next()) {
+					admin = new Admin(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("pHash"));
+					allAdmins.add(admin);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return allAdmins;
+			
 		}
 	}
 

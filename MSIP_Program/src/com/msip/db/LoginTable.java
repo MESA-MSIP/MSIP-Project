@@ -200,7 +200,14 @@ public class LoginTable {
 	 * test purpose.
 	 * @param Knumber
 	 */
-	public void addUsingDates(int Knumber, Date today) {
+	public void addUsingDates(int Knumber, String date) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = null;
+		try {
+			today = formatter.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		try {
 			PreparedStatement delete = DBConnector.myConnection
 					.prepareStatement("INSERT INTO Login VALUE(NULL, '"
