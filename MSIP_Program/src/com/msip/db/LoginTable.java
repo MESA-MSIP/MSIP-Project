@@ -37,15 +37,11 @@ public class LoginTable {
 	 * 
 	 * @param Knumber
 	 */
-	public void add(int Knumber) {
-		try {
+	public void add(int Knumber) throws SQLException {
 			PreparedStatement delete = DBConnector.myConnection
 					.prepareStatement("INSERT INTO Login VALUE(NULL, '"
 							+ Knumber + "', NOW());");
 			delete.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

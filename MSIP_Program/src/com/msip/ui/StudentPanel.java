@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 
@@ -92,10 +93,14 @@ public class StudentPanel extends JPanel implements ActionListener {
 				// Get the student they selected
 				Student studentToEdit = studentModel.getStudents().get(rowIndex);
 
-				StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.MODIFYSTUDENT);
-				dialog.setFields(studentToEdit);
+				StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.MODIFYSTUDENT, studentToEdit);
 				if (dialog.getResults() == JOptionPane.YES_OPTION) {
-					getManager().modifyStudent(dialog.getStudent());
+					try {
+						getManager().modifyStudent(dialog.getStudent());
+					} catch (Exception e1){
+						getAdminToolsPanel().setStatusMsg("Could not edit student");
+						System.out.println("StudentPanel.actionPerformed() " + e1.getMessage());
+					}
 					reloadStudentTable();
 				}
 			} else {

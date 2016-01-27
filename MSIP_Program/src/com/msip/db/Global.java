@@ -8,6 +8,4 @@ public class Global {
 	public static final String USERNAME="root";
 	public static final String PASSWORD="zuVu8efrucRUgAf";
 	public static final boolean ISPI = false;
-	public static final boolean ISDB = false;
-
 }

@@ -32,6 +32,20 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 	 */
 	public StudentAddEditDialog(String title) {
 
+		setupUI(title);
+		setVisible(true);
+	}
+
+	public StudentAddEditDialog(String title, Student studentToEdit) {
+		
+		setupUI(title);
+		setFields(studentToEdit);
+		setVisible(true);
+	}
+	/**
+	 * @param title
+	 */
+	private void setupUI(String title) {
 		this.setTitle(title);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
@@ -99,8 +113,6 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		cancelButton.setPreferredSize(GlobalUI.ButtonDimenesions);
 		cancelButton.addActionListener(this);
 		buttonPane.add(cancelButton);
-
-		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

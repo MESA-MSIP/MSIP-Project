@@ -1,4 +1,5 @@
 package com.msip.db;
+
 import com.msip.model.*;
 
 import java.sql.PreparedStatement;
@@ -7,14 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StudentTable {
-	
+
 	/**
 	 * Creates the StudentTable if it doesn't exist.
 	 */
 	public StudentTable() {
 		try {
-			PreparedStatement createTable = DBConnector.myConnection
-					.prepareStatement("CREATE TABLE IF NOT EXISTS Student(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
+			PreparedStatement createTable = DBConnector.myConnection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS Student(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
 							+ "LastName VARCHAR(35) NOT NULL, Major VARCHAR(35) NOT NULL, PRIMARY KEY(Knumber))");
 			createTable.executeUpdate();
 
@@ -22,7 +23,7 @@ public class StudentTable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Adds student to the student database.
 	 * 
@@ -30,13 +31,11 @@ public class StudentTable {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public void add(int Knumber, String firstName, String lastName,
-			String Major) {
+	public void add(int Knumber, String firstName, String lastName, String Major) {
 		try {
 			PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("INSERT INTO Student VALUE('" + Knumber
-							+ "',  '" + firstName + "','" + lastName + "', '"
-							+ Major + "');");
+					.prepareStatement("INSERT INTO Student VALUE('" + Knumber + "',  '" + firstName + "','" + lastName
+							+ "', '" + Major + "');");
 			insert.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,18 +50,17 @@ public class StudentTable {
 	public void remove(int Knumber) {
 		try {
 			PreparedStatement delete = DBConnector.myConnection
-					.prepareStatement("DELETE FROM Student WHERE Knumber='"
-							+ Knumber + "';");
+					.prepareStatement("DELETE FROM Student WHERE Knumber='" + Knumber + "';");
 			delete.executeUpdate();
 		} catch (SQLException e) {
 
 		}
 	}
-	
+
 	/**
-	 * Deletes all rows from Student table. 
+	 * Deletes all rows from Student table.
 	 */
-	public void deleteAll(){
+	public void deleteAll() {
 		try {
 			PreparedStatement deletAll = DBConnector.myConnection.prepareStatement("DELETE FROM Student");
 			deletAll.executeUpdate();
@@ -77,65 +75,61 @@ public class StudentTable {
 	 * @param Knumber
 	 *            Major
 	 * @return student
+	 * @throws SQLException
 	 */
-	public Student modify(int Knumber, String Major) {
-		try {
-			PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("UPDATE Student SET Major='" + Major
-							+ "' WHERE Knumber='" + Knumber + "';");
-			updateTable.executeUpdate();
+	public Student modify(int Knumber, String Major) throws SQLException {
+		PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
+				.prepareStatement("UPDATE Student SET Major='" + Major + "' WHERE Knumber='" + Knumber + "';");
+		updateTable.executeUpdate();
 
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return getInfo(Knumber);
 	}
+
 	/**
 	 * Gets the current info of a Student.
+	 * 
 	 * @param Knumber
 	 * @return Student
+	 * @throws SQLException
 	 */
-	public Student getInfo(int Knumber){
+	public Student getInfo(int Knumber) throws SQLException {
 		Student student = null;
 		PreparedStatement studentInfo;
-		try {
-			studentInfo = DBConnector.myConnection
-					.prepareStatement("SELECT * FROM Student WHERE Knumber='"
-							+ Knumber + "';");
-			
-			ResultSet rs = studentInfo.executeQuery();
-			while (rs.next()) {
-				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+
+		studentInfo = DBConnector.myConnection
+				.prepareStatement("SELECT * FROM Student WHERE Knumber='" + Knumber + "';");
+
+		ResultSet rs = studentInfo.executeQuery();
+		while (rs.next()) {
+			student = new Student(rs.getString("FirstName"), rs.getString("LastName"),
+					Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"));
 		}
 		return student;
 	}
-	
+
 	/**
 	 * Gets all the students and stores it in an ArrayList of students.
+	 * 
 	 * @return
 	 */
-	public ArrayList<Student> getAll(){
+	public ArrayList<Student> getAll() {
 		ArrayList<Student> allStudents = new ArrayList<Student>();
 		Student student = null;
 		PreparedStatement studentInfo;
 		try {
-			studentInfo = DBConnector.myConnection
-					.prepareStatement("SELECT * FROM Student;");
-			
+			studentInfo = DBConnector.myConnection.prepareStatement("SELECT * FROM Student;");
+
 			ResultSet rs = studentInfo.executeQuery();
 			while (rs.next()) {
-				student = new Student(rs.getString("FirstName"), rs.getString("LastName"), Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"));
+				student = new Student(rs.getString("FirstName"), rs.getString("LastName"),
+						Integer.parseInt(rs.getString("Knumber")), rs.getString("Major"));
 				allStudents.add(student);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return allStudents;
-		
+
 	}
 
 }

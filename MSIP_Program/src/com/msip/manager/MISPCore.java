@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.msip.db.AdminTable;
 import com.msip.db.DBConnector;
 import com.msip.db.Global;
 import com.msip.db.LoginTable;
@@ -16,7 +18,6 @@ import com.msip.external.SerialPort;
 import com.msip.model.Admin;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
-import com.msip.ui.AdminTable;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
@@ -42,12 +43,10 @@ public class MISPCore {
 		if (Global.ISPI) {
 			serialport = new SerialPort(this);
 		}
-		if (Global.ISDB) {
-			dbConnector = new DBConnector();
-			adminTable = new AdminTable();
-			studentTable = new StudentTable();
-			loginTable = new LoginTable();
-		}
+		dbConnector = new DBConnector();
+		adminTable = new AdminTable();
+		studentTable = new StudentTable();
+		loginTable = new LoginTable();
 	}
 
 	/**
@@ -61,7 +60,7 @@ public class MISPCore {
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		// cards.add(loginPanel, GlobalUI.LoginPanel);
+		cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 
 		contentPane.add(cards, BorderLayout.CENTER);
@@ -110,8 +109,14 @@ public class MISPCore {
 	 * @return if successful entry was made. 1 success and 0 failed.
 	 */
 	public int logStudent(int kNumber) {
-		return 0;
-		// TODO log student in the Login Table DB
+		try {
+			loginTable.add(kNumber);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("MISPCore.logStudent() SQLException Error ");
+			return GlobalUI.FAIL;
+		}
+		return GlobalUI.SUCCESS;
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class MISPCore {
 	 * @param kNumber
 	 */
 	public void setScannedNumber(int kNumber) {
-		// TODO call UI function to notify that a number was scanned
+		LoginPanel.setScannedNumber(kNumber);
 	}
 
 	// **********************************************************//
@@ -137,8 +142,12 @@ public class MISPCore {
 	 * @return If student exists return 1, if not 0.
 	 */
 	public int isStudent(int kNumber) {
-		// TODO See function summary
-		return 1;
+		try {
+			studentTable.getInfo(kNumber);
+		} catch (SQLException e) {
+			return GlobalUI.FAIL;
+		}
+		return GlobalUI.SUCCESS;
 	}
 
 	/**
@@ -147,15 +156,7 @@ public class MISPCore {
 	 * @return
 	 */
 	public ArrayList<Student> getStudents() {
-		// TODO See function summary
-
-		// Temp test code
-		ArrayList<Student> studnets = new ArrayList<Student>(10);
-		studnets.add(new Student("Christian", "Martinez", 44444444, "Computer Science"));
-		studnets.add(new Student("Celina", "Lazaro", 55555555, "Computer Engineering"));
-		studnets.add(new Student("Jorge", "Pantaleon", 66666666, "Electrcal Engineering"));
-		studnets.add(new Student("Daryl", "Delgado", 77777777, "Electrcal Engineering"));
-		return studnets;
+		return studentTable.getAll();
 	}
 
 	/**
@@ -180,10 +181,11 @@ public class MISPCore {
 	 * Modify Student in Database
 	 * 
 	 * @param student
+	 * @throws SQLException 
 	 */
-	public void modifyStudent(Student student) {
-		studentTable.modify(student.getkNumber(),  student.getMajor());
-		//TODO can modify Name of student too
+	public void modifyStudent(Student student) throws SQLException {
+		studentTable.modify(student.getkNumber(), student.getMajor());
+		// TODO can modify Name of student too
 	}
 
 	public ParcipitationState isStudentActive(Integer Knumber) {
@@ -211,18 +213,21 @@ public class MISPCore {
 	 * @return If Admin and password are correct return 1, if not 0.
 	 */
 	public int isAdmin(int kNumber, String pHash) {
-		// TODO See function summary
-		return 1;
+		try {
+			adminTable.getInfo(kNumber);
+		} catch (SQLException e) {
+			return GlobalUI.FAIL;
+		}
+		return GlobalUI.SUCCESS;
 	}
 
 	/**
 	 * Get all Admins in the DB
 	 * 
-	 * @return
+	 * @return ArrayList<Admin>
 	 */
 	public ArrayList<Admin> getAdmins() {
-		// TODO See function summary
-		return null;
+		return adminTable.getAll();
 	}
 
 	/**
