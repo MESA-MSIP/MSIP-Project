@@ -30,6 +30,7 @@ public class DBConnector {
 		admin.deleteAll();
 		admin.add(11111111, "Juan", "Zepeda", "1");
 		admin.add(22222222, "Cynthia", "Barajas", "2");
+		admin.add(33333333, "Fernando", "Estevez", "3");
 		// admin.getAll();
 
 		StudentTable student = new StudentTable();
