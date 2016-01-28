@@ -3,11 +3,6 @@ package com.msip.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DBConnector {
 	static Connection myConnection;
@@ -27,12 +22,12 @@ public class DBConnector {
 	}
 
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws SQLException{
 		new DBConnector();
 		AdminTable admin = new AdminTable();
 		admin.deleteAll();
 		admin.add(11111111, "Juan", "Zepeda", "1");
-		admin.add(22222222, "Cynthia", "Zepeda", "2");
+		admin.add(22222222, "Cynthia", "Barajas", "2");
 		//admin.getAll();
 
 		

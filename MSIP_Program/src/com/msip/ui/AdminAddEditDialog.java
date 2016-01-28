@@ -1,46 +1,55 @@
+/**
+ * 
+ */
 package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.msip.model.Student;
-
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-public class StudentAddEditDialog extends JDialog implements ActionListener {
+import com.msip.external.Utility;
+import com.msip.model.Admin;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+import javax.swing.Box;
+
+public class AdminAddEditDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
-	private JTextField textFieldMajor;
 	private JTextField textFieldKNumber;
+	private JTextField textFieldPassword;
 	private JButton okButton;
 	private int results;
+	private JTextField textFieldPassword2;
 
 	/**
 	 * Create the dialog.
 	 * @wbp.parser.constructor
 	 */
-	public StudentAddEditDialog(String title) {
+	public AdminAddEditDialog(String title) {
 
 		setupUI(title);
 		setVisible(true);
 	}
 
-	public StudentAddEditDialog(String title, Student studentToEdit) {
+	public AdminAddEditDialog(String title, Admin adminToEdit) {
 		
 		setupUI(title);
-		setFields(studentToEdit);
+		setFields(adminToEdit);
 		setVisible(true);
 	}
 	/**
@@ -51,7 +60,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 
-		setBounds(100, 100, 450, 251);
+		setBounds(100, 100, 450, 294);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -84,22 +93,32 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		lblKnumber.setBounds(25, 94, 80, 14);
 		contentPanel.add(lblKnumber);
 
-		JLabel lblMajor = new JLabel("Major:");
-		lblMajor.setFont(GlobalUI.LableFont);
-		lblMajor.setBounds(25, 134, 80, 14);
-		contentPanel.add(lblMajor);
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setFont(GlobalUI.LableFont);
+		lblPassword.setBounds(25, 134, 80, 14);
+		contentPanel.add(lblPassword);
 
-		textFieldMajor = new JTextField();
-		textFieldMajor.setFont(GlobalUI.TextFieldFont);
-		textFieldMajor.setBounds(105, 131, 319, 25);
-		contentPanel.add(textFieldMajor);
-		textFieldMajor.setColumns(10);
+		textFieldPassword = new JTextField();
+		textFieldPassword.setFont(GlobalUI.TextFieldFont);
+		textFieldPassword.setBounds(105, 131, 319, 25);
+		contentPanel.add(textFieldPassword);
 
 		textFieldKNumber = new JTextField();
 		textFieldKNumber.setFont(GlobalUI.TextFieldFont);
 		textFieldKNumber.setBounds(105, 91, 319, 25);
 		contentPanel.add(textFieldKNumber);
 		textFieldKNumber.setColumns(10);
+		
+		JLabel lblPassword2 = new JLabel("<html><p>Re-Type Password</p></html>");
+		lblPassword2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPassword2.setBounds(25, 174, 80, 30);
+		contentPanel.add(lblPassword2);
+		
+		textFieldPassword2 = new JTextField();
+		textFieldPassword2.setFont(GlobalUI.TextFieldFont);
+		textFieldPassword2.setBounds(105, 169, 319, 25);
+		contentPanel.add(textFieldPassword2);
+		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -107,6 +126,12 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		okButton = new JButton("OK");
 		okButton.setPreferredSize(GlobalUI.ButtonDimenesions);
 		okButton.addActionListener(this);
+		
+		JLabel lblMessage = new JLabel("");
+		buttonPane.add(lblMessage);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		buttonPane.add(horizontalStrut);
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 
@@ -130,16 +155,16 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 	 * Sets the fields in the dialog
 	 * @param student
 	 */
-	public void setFields(Student student) {
-		textFieldFirstName.setText(student.getFirstName());
-		textFieldLastName.setText(student.getLastName());
-		textFieldKNumber.setText(String.valueOf(student.getkNumber()));
-		textFieldMajor.setText(student.getMajor());
+	public void setFields(Admin admin) {
+		//TODO password check not blank, enforce, hash
+		textFieldFirstName.setText(admin.getFirstName());
+		textFieldLastName.setText(admin.getLastName());
+		textFieldKNumber.setText(String.valueOf(admin.getkNumber()));
 	}
 
-	public Student getStudent() throws NumberFormatException {
-		return new Student(textFieldFirstName.getText(), textFieldLastName.getText(),
-				Integer.parseInt(textFieldKNumber.getText()), textFieldMajor.getText());
+	public Admin getAdmin() throws NumberFormatException, NoSuchAlgorithmException {
+		return  new Admin(textFieldFirstName.getText(), textFieldLastName.getText(),
+				Integer.parseInt(textFieldKNumber.getText()), Utility.getHashedPassword(textFieldPassword.getText()));
 	}
 
 	/**
@@ -156,5 +181,5 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 	private void setResults(int results) {
 		this.results = results;
 	}
-
+	
 }

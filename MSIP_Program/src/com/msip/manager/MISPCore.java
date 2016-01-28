@@ -60,7 +60,7 @@ public class MISPCore {
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		cards.add(loginPanel, GlobalUI.LoginPanel);
+		//cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 
 		contentPane.add(cards, BorderLayout.CENTER);
@@ -164,7 +164,7 @@ public class MISPCore {
 	 * 
 	 * @param kNumber
 	 */
-	public void deleteStudent(int kNumber) {
+	public void deleteStudent(int kNumber) throws SQLException {
 		studentTable.remove(kNumber);
 	}
 
@@ -173,7 +173,7 @@ public class MISPCore {
 	 * 
 	 * @param student
 	 */
-	public void addStudent(Student student) {
+	public void addStudent(Student student) throws SQLException {
 		studentTable.add(student.getkNumber(), student.getFirstName(), student.getLastName(), student.getMajor());
 	}
 
@@ -230,6 +230,32 @@ public class MISPCore {
 		return adminTable.getAll();
 	}
 
+	public void addAdmin(Admin admin) throws SQLException  {
+		adminTable.add(admin.getkNumber(),admin.getFirstName(), admin.getLastName(), admin.getpHash());
+		
+	}
+	
+	/**
+	 * Modify Admin in Database
+	 * 
+	 * @param student
+	 * @throws SQLException 
+	 */
+	public void modifyAdmin(Admin admin) throws SQLException {
+		adminTable.modify(admin.getkNumber(), admin.getpHash());
+		//TODO can modify Names too.. 
+	}
+	
+	/**
+	 * Deletes the admin from the student table
+	 * 
+	 * @param kNumber
+	 * @throws SQLException 
+	 */
+	public void deleteAdmin(int kNumber) throws SQLException {
+		adminTable.remove(kNumber);
+		
+	}
 	/**
 	 * @param args
 	 */
@@ -245,5 +271,4 @@ public class MISPCore {
 		});
 
 	}
-
 }

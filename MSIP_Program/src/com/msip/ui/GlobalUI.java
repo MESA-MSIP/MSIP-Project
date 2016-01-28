@@ -16,7 +16,8 @@ public class GlobalUI {
 	public static final int kNumMax = 8;
 	public static final int kNumLength = 0;
 
-	// Student Table Constant
+	// Student/Admin Table Constant
+	public static final int numOfColumnsInAdmin = 3;
 	public static final int numOfColumnsInStudent = 4;
 	public static final int columnIndexFirstName = 0;
 	public static final int columnIndexLastName = 1;
@@ -55,9 +56,17 @@ public class GlobalUI {
 	public static final String ADDSTUDENT = "Add Student to Database";
 	public static final String MODIFYSTUDENT = "Edit Student Information";
 	public static final String SELECTASTUDENT = "Please Select a student";
+	public static final String SELECTANADMIN = "Please Select an Admin";
+	public static final String ADDADMIN = "Add Admin to Database";
+	public static final String PLEASE_SEE_DEVELOPER = "Please see developer. Something went wrong.. Oops!";
+	public static final String MODIFY_ADMIN = "Edit Admin Information";;
 	
 	//Magic Number
 	public static final int TWO_THOUSAND_MILLI_SECONDS = 2000;
+
+
+
+
 
 	
 	

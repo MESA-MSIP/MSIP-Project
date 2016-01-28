@@ -30,34 +30,26 @@ public class AdminTable {
 	 * @param Knumber
 	 * @param firstName
 	 * @param lastName
+	 * @throws SQLException
 	 */
-	public void add(int Knumber, String firstName, String lastName, String password) {
+	public void add(int Knumber, String firstName, String lastName, String password) throws SQLException {
 
-		try {
-			PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("INSERT INTO Admin VALUE('" + Knumber + "',  '" + firstName + "', '" + lastName
-							+ "', '" + password + "');");
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
+				.prepareStatement("INSERT INTO Admin VALUE('" + Knumber + "',  '" + firstName + "', '" + lastName
+						+ "', '" + password + "');");
+		insert.executeUpdate();
 	}
 
 	/**
 	 * Removes admin from admin table.
 	 * 
 	 * @param Knumber
+	 * @throws SQLException 
 	 */
-	public void remove(int Knumber) {
-		try {
-			PreparedStatement delete = DBConnector.myConnection
-					.prepareStatement("DELETE FROM Admin WHERE Knumber='" + Knumber + "';");
-			delete.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		}
-
+	public void remove(int Knumber) throws SQLException {
+		PreparedStatement delete = DBConnector.myConnection
+				.prepareStatement("DELETE FROM Admin WHERE Knumber='" + Knumber + "';");
+		delete.executeUpdate();
 	}
 
 	/**
@@ -85,7 +77,6 @@ public class AdminTable {
 				.prepareStatement("UPDATE Admin SET pHash='" + pHash + "' WHERE Knumber='" + Knumber + "';");
 		updateTable.executeUpdate();
 		return getInfo(Knumber);
-
 	}
 
 	/**

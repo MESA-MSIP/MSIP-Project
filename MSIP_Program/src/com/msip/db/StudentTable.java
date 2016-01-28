@@ -30,31 +30,25 @@ public class StudentTable {
 	 * @param Knumber
 	 * @param firstName
 	 * @param lastName
+	 * @throws SQLException
 	 */
-	public void add(int Knumber, String firstName, String lastName, String Major) {
-		try {
-			PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("INSERT INTO Student VALUE('" + Knumber + "',  '" + firstName + "','" + lastName
-							+ "', '" + Major + "');");
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void add(int Knumber, String firstName, String lastName, String Major) throws SQLException {
+		PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
+				.prepareStatement("INSERT INTO Student VALUE('" + Knumber + "',  '" + firstName + "','" + lastName
+						+ "', '" + Major + "');");
+		insert.executeUpdate();
 	}
 
 	/**
 	 * Removes student from student database.
 	 * 
 	 * @param Knumber
+	 * @throws SQLException
 	 */
-	public void remove(int Knumber) {
-		try {
-			PreparedStatement delete = DBConnector.myConnection
-					.prepareStatement("DELETE FROM Student WHERE Knumber='" + Knumber + "';");
-			delete.executeUpdate();
-		} catch (SQLException e) {
-
-		}
+	public void remove(int Knumber) throws SQLException {
+		PreparedStatement delete = DBConnector.myConnection
+				.prepareStatement("DELETE FROM Student WHERE Knumber='" + Knumber + "';");
+		delete.executeUpdate();
 	}
 
 	/**
@@ -81,7 +75,6 @@ public class StudentTable {
 		PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
 				.prepareStatement("UPDATE Student SET Major='" + Major + "' WHERE Knumber='" + Knumber + "';");
 		updateTable.executeUpdate();
-
 		return getInfo(Knumber);
 	}
 

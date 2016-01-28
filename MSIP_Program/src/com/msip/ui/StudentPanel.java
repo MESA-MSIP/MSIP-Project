@@ -41,6 +41,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
+		
 		studentModel = new StudentTableModel(msipCore.getStudents());
 		studentTable = new StudentTable(studentModel);
 		JScrollPane studentScrollPane = new JScrollPane(studentTable);
@@ -78,7 +79,15 @@ public class StudentPanel extends JPanel implements ActionListener {
 
 			StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.ADDSTUDENT);
 			if (dialog.getResults() == JOptionPane.YES_OPTION) {
-				getManager().addStudent(dialog.getStudent());
+				try {
+					getManager().addStudent(dialog.getStudent());
+				} catch (NumberFormatException e1) {
+					getAdminToolsPanel().setStatusMsg(GlobalUI.PLEASE_SEE_DEVELOPER);
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					getAdminToolsPanel().setStatusMsg("Could not add Student");
+					e1.printStackTrace();
+				}
 				reloadStudentTable();
 			}
 		}
@@ -88,7 +97,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 			int rowIndex = studentTable.getSelectedRow();
 
 			// Make sure they made a selection on the table
-			if (rowIndex > 0) {
+			if (rowIndex >= 0) {
 
 				// Get the student they selected
 				Student studentToEdit = studentModel.getStudents().get(rowIndex);
@@ -112,7 +121,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 			int rowIndex = studentTable.getSelectedRow();
 
 			// Make sure they made a selection on the table
-			if (rowIndex > 0) {
+			if (rowIndex >= 0) {
 
 				// Get the student they selected
 				Student studentToDelete = studentModel.getStudents().get(rowIndex);
@@ -122,7 +131,12 @@ public class StudentPanel extends JPanel implements ActionListener {
 
 				// If they say yes then delete them!
 				if (selectedValue == JOptionPane.YES_OPTION) {
-					getManager().deleteStudent(studentToDelete.getkNumber());
+					try {
+						getManager().deleteStudent(studentToDelete.getkNumber());
+					} catch (SQLException e1) {
+						getAdminToolsPanel().setStatusMsg("Could not delete student");
+						System.out.println("StudentPanel.actionPerformed() " + e1.getMessage());
+					}
 					reloadStudentTable();
 				}
 			} else {
