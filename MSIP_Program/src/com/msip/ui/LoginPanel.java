@@ -181,7 +181,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 			public void run() {
 				labelToast.setVisible(false);
 			}
-		}, 5000);
+		}, 3000);
 	}
 
 	/**
