@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.Random;
 
 public class DBConnector {
 	static Connection myConnection;

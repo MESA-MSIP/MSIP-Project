@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.JFileChooser;
-import javax.swing.border.Border;
-
-import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

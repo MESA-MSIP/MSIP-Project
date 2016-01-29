@@ -20,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 import com.msip.external.Utility;
 import com.msip.model.Admin;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.Box;
 

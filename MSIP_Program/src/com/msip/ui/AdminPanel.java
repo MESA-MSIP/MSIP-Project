@@ -17,11 +17,8 @@ import javax.swing.JScrollPane;
 import com.msip.manager.MISPCore;
 import com.msip.model.Admin;
 import com.msip.model.AdminTableModel;
-import com.msip.model.Student;
-
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class AdminPanel extends JPanel implements ActionListener {

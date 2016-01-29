@@ -13,6 +13,8 @@ import com.msip.manager.MISPCore;
  */
 public class QuestionnairePanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+
 	public QuestionnairePanel(MISPCore msipCore) {
 		// TODO Auto-generated constructor stub
 	}
