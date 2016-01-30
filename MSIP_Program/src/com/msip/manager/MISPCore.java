@@ -205,12 +205,10 @@ public class MISPCore {
 	// **********************************************************//
 
 	/**
-	 * Called by UI to see if admin exists in the admin table and correct
-	 * password was entered.
+	 * Called by UI to see if admin exists in the admin table
 	 * 
 	 * @param kNumber
-	 * @param pHash
-	 * @return If Admin and password are correct return 1, if not 0.
+	 * @return If Admin return 1, if not 0.
 	 */
 	public int isAdmin(int kNumber) {
 		try {
@@ -220,6 +218,19 @@ public class MISPCore {
 		} catch (SQLException e) {
 			return GlobalUI.FAIL;
 		}
+		return GlobalUI.SUCCESS;
+	}
+	
+	/**
+	 * Called by UI to see if admin exists in the admin table and correct
+	 * password was entered.
+	 * 
+	 * @param kNumber
+	 * @param pHash
+	 * @return If Admin and password are correct return 1, if not 0.
+	 */
+	public int verifyAdmin(int kNumber, String pHash) {
+
 		return GlobalUI.SUCCESS;
 	}
 
