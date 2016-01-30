@@ -160,15 +160,26 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 
 			public void keyReleased(KeyEvent e) {
-
-				String strKNumber = txtKNumber.getText();
-
+				
+				//check if an kNum is an admin
+				
+					String strKNumber = txtKNumber.getText();
+					
+			
+				
 				if (strKNumber.length() < GlobalUI.kNumMax) {
+					
 					txtAdminPass.setVisible(false);
 					labeladminPass.setVisible(false);
 				} else {
-					labeladminPass.setVisible(true);
-					txtAdminPass.setVisible(true);
+					int adminKNum = Integer.parseInt(strKNumber.trim());
+					int adminResponse = manager.isAdmin(adminKNum);
+					if (adminResponse == GlobalUI.SUCCESS)
+					{
+						labeladminPass.setVisible(true);
+						txtAdminPass.setVisible(true);
+					}
+					
 				}
 			}
 		});
