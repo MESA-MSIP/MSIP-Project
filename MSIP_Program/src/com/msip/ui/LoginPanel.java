@@ -223,6 +223,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 				if (response == GlobalUI.SUCCESS) {
 					labelHelp.setVisible(false);
 					labelToast.setVisible(true);
+					
+					manager.logStudent(kNum);
+					
 					txtKNumber.setText("");
 					// Delay on Toast
 					turnOffToast();
@@ -255,6 +258,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 						txtAdminPass.setText("");
 						txtAdminPass.setVisible(false);
 						labeladminPass.setVisible(false);
+						
+						manager.logStudent(adminKNum);
+						
 						turnOffToast();
 					} else if (decision == GlobalUI.ADMIN) {
 						CardLayout cl = (CardLayout) manager.getCards().getLayout();

@@ -60,7 +60,7 @@ public class MISPCore {
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		//cards.add(loginPanel, GlobalUI.LoginPanel);
+		cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 
 		contentPane.add(cards, BorderLayout.CENTER);
@@ -212,9 +212,11 @@ public class MISPCore {
 	 * @param pHash
 	 * @return If Admin and password are correct return 1, if not 0.
 	 */
-	public int isAdmin(int kNumber, String pHash) {
+	public int isAdmin(int kNumber) {
 		try {
-			adminTable.getInfo(kNumber);
+			if(adminTable.getInfo(kNumber) == null){
+				return GlobalUI.FAIL;
+			}
 		} catch (SQLException e) {
 			return GlobalUI.FAIL;
 		}
