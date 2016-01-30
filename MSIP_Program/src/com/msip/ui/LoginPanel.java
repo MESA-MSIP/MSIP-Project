@@ -94,7 +94,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// Animated Toast that shows Logged In:
 		labelToast = new JLabel("You Have Logged In.");
-		labelToast.setBounds(475, 188, 142, 22);
+		labelToast.setBounds(506, 203, 170, 22);
 		labelToast.setVisible(false);
 		labelToast.setHorizontalAlignment(SwingConstants.CENTER);
 		labelToast.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -124,20 +124,21 @@ public class LoginPanel extends JPanel implements ActionListener {
 		labelMESALOGO.setBounds(474, 11, 315, 72);
 		add(labelMESALOGO);
 
-		// kNum# incorrect texttip
-		labelHelp = new JLabel("K# is Incorrect.");
-		labelHelp.setBounds(491, 188, 101, 22);
-		labelHelp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
-		labelHelp.setVisible(false);
-		add(labelHelp);
-
 		// AdminPass/kNum Error TextTip
 		labeladminPassError = new JLabel("Password or K# is incorrect.");
 		labeladminPassError.setBounds(476, 276, 191, 22);
 		labeladminPassError.setHorizontalAlignment(SwingConstants.CENTER);
 		labeladminPassError.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		labeladminPassError.setVisible(false);
+		
+				// kNum# incorrect texttip
+				labelHelp = new JLabel("K# is Incorrect.  Try Again.");
+				labelHelp.setToolTipText("");
+				labelHelp.setBounds(491, 188, 195, 52);
+				labelHelp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+				labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
+				labelHelp.setVisible(false);
+				add(labelHelp);
 		add(labeladminPassError);
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
@@ -184,7 +185,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-
+	private void turnOffHelp()
+	{
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				labelHelp.setVisible(false);
+			}
+		}, 3000);
+	}
 	private void turnOffToast() {
 
 		Timer timer = new Timer();
@@ -226,31 +235,43 @@ public class LoginPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (txtKNumber == e.getSource()) {
-			String strKNumber = txtKNumber.getText();
-			try {
-				int kNum = Integer.parseInt(strKNumber);
-				int response = manager.isStudent(kNum);
-
-				if (response == GlobalUI.SUCCESS) {
-					labelHelp.setVisible(false);
-					labelToast.setVisible(true);
-					
-					manager.logStudent(kNum);
-					
-					txtKNumber.setText("");
-					// Delay on Toast
-					turnOffToast();
-
-				} else {
-					labelHelp.setVisible(true);
-					labelToast.setVisible(false);
-				}
-			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				// TODO Message to user that its not a number?
-				return;
+			//check if they are trying to submit a less than 8 character password:
+			if (txtKNumber.getText().length() < 8)
+			{
+				labelHelp.setVisible(true);
+				txtKNumber.setText("");
+				turnOffHelp();
 			}
-		}
+			else
+			{
+				String strKNumber = txtKNumber.getText();
+				try {
+					int kNum = Integer.parseInt(strKNumber);
+					int response = manager.isStudent(kNum);
+
+					if (response == GlobalUI.SUCCESS) {
+						labelHelp.setVisible(false);
+						labelToast.setVisible(true);
+						
+						manager.logStudent(kNum);
+						
+						txtKNumber.setText("");
+						// Delay on Toast
+						turnOffToast();
+
+					} else {
+						labelHelp.setVisible(true);
+						labelToast.setVisible(false);
+					}
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+					// TODO Message to user that its not a number?
+					return;
+				}
+			}
+			}
+	
+			
 
 		if (txtAdminPass == e.getSource()) {
 			String strAdminPass = txtAdminPass.getText();
