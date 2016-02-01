@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
+import javax.swing.JTextArea;
 
 /**
  * @author Chris
@@ -45,6 +46,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labelHelp;
 	private JLabel labelMESALOGO;
 	private JLabel labeladminPassError;
+	private JTextArea txtErrorMessage;
 	private MISPCore manager;
 
 	/**
@@ -96,7 +98,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		// Animated Toast that shows Logged In:
 		labelToast = new JLabel("You Have Logged In.");
-		labelToast.setBounds(534, 205, 170, 22);
+		labelToast.setBounds(514, 215, 170, 22);
 		labelToast.setVisible(false);
 		labelToast.setHorizontalAlignment(SwingConstants.CENTER);
 		labelToast.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -136,12 +138,20 @@ public class LoginPanel extends JPanel implements ActionListener {
 				// kNum# incorrect texttip
 				labelHelp = new JLabel("K# is Incorrect.  Try Again.");
 				labelHelp.setToolTipText("");
-				labelHelp.setBounds(519, 190, 195, 52);
+				labelHelp.setBounds(504, 200, 195, 52);
 				labelHelp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 				labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
 				labelHelp.setVisible(false);
 				add(labelHelp);
 		add(labeladminPassError);
+		
+		txtErrorMessage = new JTextArea();
+		txtErrorMessage.setToolTipText("");
+		txtErrorMessage.setText("See a MESA Advisor to Sign In.");
+		txtErrorMessage.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		txtErrorMessage.setBounds(514, 213, 232, 28);
+		txtErrorMessage.setVisible(false);
+		add(txtErrorMessage);
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 
@@ -205,6 +215,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 		}, 3000);
 	}
+	private void turnOffErrorMessage()
+	{
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				txtErrorMessage.setVisible(false);;
+			}
+		}, 3000);
+	}
 
 	/**
 	 * Grab a corrected size of MESA Logo.
@@ -250,21 +269,39 @@ public class LoginPanel extends JPanel implements ActionListener {
 				try {
 					int kNum = Integer.parseInt(strKNumber);
 					int response = manager.isStudent(kNum);
-
-					if (response == GlobalUI.SUCCESS) {
-						labelHelp.setVisible(false);
-						labelToast.setVisible(true);
-						
-						manager.logStudent(kNum);
-						
+					int adminResponse = manager.isAdmin(kNum);
+					
+					System.out.println("Student Response: " + response);
+					System.out.println("Admin Response: " + adminResponse);
+					//Check
+					
+					
+					//If kNumber does not show in both databases:
+					if ((response ==  GlobalUI.FAIL) && (adminResponse == GlobalUI.FAIL))
+					{
+						txtErrorMessage.setVisible(true);
 						txtKNumber.setText("");
-						// Delay on Toast
-						turnOffToast();
-
-					} else {
-						labelHelp.setVisible(true);
-						labelToast.setVisible(false);
+						turnOffErrorMessage();
 					}
+					else
+					{
+						if (response == GlobalUI.SUCCESS) {
+							labelHelp.setVisible(false);
+							labelToast.setVisible(true);
+							
+							manager.logStudent(kNum);
+							
+							txtKNumber.setText("");
+							// Delay on Toast
+							turnOffToast();
+
+						} else {
+							labelHelp.setVisible(true);
+							labelToast.setVisible(false);
+						}
+					}
+
+				
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 					// TODO Message to user that its not a number?
