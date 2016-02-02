@@ -232,7 +232,17 @@ public class MISPCore {
 	 * @return If Admin and password are correct return 1, if not 0.
 	 */
 	public int verifyAdmin(int kNumber, String pHash) {
+		
+		//If returns null.. knumber not in DB
+		if (adminTable.getPhash(kNumber) != null) {
+			return GlobalUI.FAIL;
+		}
 
+		// hash's don't match so fail
+		if (pHash.compareTo(adminTable.getPhash(kNumber)) != 0) {
+			return GlobalUI.FAIL;
+		}
+		
 		return GlobalUI.SUCCESS;
 	}
 
