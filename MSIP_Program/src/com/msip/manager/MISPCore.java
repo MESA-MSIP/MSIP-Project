@@ -143,7 +143,9 @@ public class MISPCore {
 	 */
 	public int isStudent(int kNumber) {
 		try {
-			studentTable.getInfo(kNumber);
+			if(studentTable.getInfo(kNumber) == null){
+				return GlobalUI.FAIL;
+			}
 		} catch (SQLException e) {
 			return GlobalUI.FAIL;
 		}
