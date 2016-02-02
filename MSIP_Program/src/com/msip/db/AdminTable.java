@@ -80,6 +80,25 @@ public class AdminTable {
 	}
 
 	/**
+	 * Returns the phash based on the knumber.
+	 * @param Knumber
+	 */
+	public String getPhash(int Knumber){
+		String myPhash = null;
+		try {
+			PreparedStatement pHashRetrever = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("SELECT pHash FROM Admin WHERE Knumber='" + Knumber + "';");
+			ResultSet rs = pHashRetrever.executeQuery();
+			while(rs.next()){
+				myPhash = rs.getString("pHash");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return myPhash;
+		}
+	
+	/**
 	 * Gets the current info of an admin.
 	 * 
 	 * @param Knumber
