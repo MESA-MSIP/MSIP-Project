@@ -299,12 +299,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 					int response = manager.isStudent(kNum);
 					int adminResponse = manager.isAdmin(kNum);
 					
-					System.out.println("Student: " + response);
-					System.out.println("Admin: " + adminResponse);
-					
-					
-					
-					
 					//If kNumber does not show in both databases:
 					if ((response ==  GlobalUI.FAIL) && (adminResponse == GlobalUI.FAIL))
 					{
@@ -356,12 +350,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 			int adminKNum = Integer.parseInt(strAdminKNum);
 			int response = manager.verifyAdmin(adminKNum, strAdminPass);
 			
-			//TODO check why verifyAdmin Fails
-			System.out.println("kNumber: " + adminKNum);
-			System.out.println("Password: " + strAdminPass);
-			System.out.println("verifyAdmin: " + response);
-			
-
 			if (response == GlobalUI.SUCCESS)
 			{
 				
