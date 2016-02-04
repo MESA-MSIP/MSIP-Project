@@ -48,6 +48,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labeladminPassError;
 	private JTextArea txtErrorMessage;
 	private MISPCore manager;
+	private JLabel labelInsertAdminPass;
 
 	/**
 	 * @param manager
@@ -152,6 +153,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 		txtErrorMessage.setBounds(514, 213, 232, 28);
 		txtErrorMessage.setVisible(false);
 		add(txtErrorMessage);
+		
+		labelInsertAdminPass = new JLabel("Enter your Password.");
+		labelInsertAdminPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		labelInsertAdminPass.setBounds(514, 212, 204, 28);
+		labelInsertAdminPass.setVisible(false);
+		add(labelInsertAdminPass);
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 
@@ -181,7 +188,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 			
 				
 				if (strKNumber.length() < GlobalUI.kNumMax) {
-					
+					txtAdminPass.setText("");
 					txtAdminPass.setVisible(false);
 					labeladminPass.setVisible(false);
 				} else {
@@ -196,6 +203,26 @@ public class LoginPanel extends JPanel implements ActionListener {
 				}
 			}
 		});
+	}
+	private void turnOffInsertAdminPass()
+	{
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				labelInsertAdminPass.setVisible(false);
+			}
+		}, 3000);
+	}
+	private void turnOffAdminError()
+	{
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask()
+				{
+				public void run()
+				{
+					labeladminPassError.setVisible(false);
+				}
+				}, 3000);
 	}
 	private void turnOffHelp()
 	{
@@ -265,11 +292,17 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 			else
 			{
-				String strKNumber = txtKNumber.getText();
+				
 				try {
+					String strKNumber = txtKNumber.getText();
 					int kNum = Integer.parseInt(strKNumber);
 					int response = manager.isStudent(kNum);
 					int adminResponse = manager.isAdmin(kNum);
+					
+					System.out.println("Student: " + response);
+					System.out.println("Admin: " + adminResponse);
+					
+					
 					
 					
 					//If kNumber does not show in both databases:
@@ -281,20 +314,29 @@ public class LoginPanel extends JPanel implements ActionListener {
 					}
 					else
 					{
-						if ((response == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
-							labelHelp.setVisible(false);
-							labelToast.setVisible(true);
-							
-							manager.logStudent(kNum);
-							
-							txtKNumber.setText("");
-							// Delay on Toast
-							turnOffToast();
-
-						} else {
-							labelHelp.setVisible(true);
-							labelToast.setVisible(false);
+						if ((response == GlobalUI.FAIL) && (adminResponse == GlobalUI.SUCCESS))
+						{
+							labelInsertAdminPass.setVisible(true);
+							turnOffInsertAdminPass();
 						}
+						else
+						{
+							if ((response == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
+								labelHelp.setVisible(false);
+								labelToast.setVisible(true);
+								
+								manager.logStudent(kNum);
+								
+								txtKNumber.setText("");
+								// Delay on Toast
+								turnOffToast();
+
+							} else {
+								labelHelp.setVisible(true);
+								labelToast.setVisible(false);
+							}
+						}
+						
 					}
 
 				
@@ -310,11 +352,20 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		if (txtAdminPass == e.getSource()) {
 			String strAdminPass = txtAdminPass.getText();
+			String strAdminKNum = txtKNumber.getText();
+			int adminKNum = Integer.parseInt(strAdminKNum);
+			int response = manager.verifyAdmin(adminKNum, strAdminPass);
+			
+			//TODO check why verifyAdmin Fails
+			System.out.println("kNumber: " + adminKNum);
+			System.out.println("Password: " + strAdminPass);
+			System.out.println("verifyAdmin: " + response);
+			
 
-			int adminKNum = Integer.parseInt(strAdminPass);
-			int response = manager.isStudent(adminKNum);
-
-			if (response == GlobalUI.SUCCESS) {
+			if (response == GlobalUI.SUCCESS)
+			{
+				
+				// If admin is also a Student
 				if (manager.isStudent(adminKNum) == GlobalUI.SUCCESS) {
 					popUpResponse popUp = new popUpResponse();
 					int decision = popUp.popUp();
@@ -345,9 +396,20 @@ public class LoginPanel extends JPanel implements ActionListener {
 					}
 
 				}
+				else
+				{
+					CardLayout cl = (CardLayout) manager.getCards().getLayout();
+					cl.show(manager.getCards(), GlobalUI.AdminToolsPanel);
+					txtKNumber.setText("");
+					txtAdminPass.setText("");
+					txtAdminPass.setVisible(false);
+					labeladminPass.setVisible(false);
+				}
 
 			} else {
+				
 				labeladminPassError.setVisible(true);
+				turnOffAdminError();
 			}
 
 		}
