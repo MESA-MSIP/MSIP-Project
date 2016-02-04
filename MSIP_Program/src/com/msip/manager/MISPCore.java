@@ -234,7 +234,7 @@ public class MISPCore {
 	public int verifyAdmin(int kNumber, String pHash) {
 		
 		//If returns null.. knumber not in DB
-		if (adminTable.getPhash(kNumber) != null) {
+		if (adminTable.getPhash(kNumber) == null) {
 			return GlobalUI.FAIL;
 		}
 
