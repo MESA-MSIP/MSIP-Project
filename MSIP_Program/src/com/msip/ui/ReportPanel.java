@@ -48,7 +48,6 @@ public class ReportPanel extends JPanel {
 		String[] reportTypes = { "Hour", "Day", "Week", "Month" };
 		dateTypeSearch.setBounds(0, 0, 137, 26);
 		actionPanel.add(dateTypeSearch, BorderLayout.NORTH);
-		dateTypeSearch.addItem("Hour");
 		
 		for (String date : reportTypes) {
 			dateTypeSearch.addItem(date);
