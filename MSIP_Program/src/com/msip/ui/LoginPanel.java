@@ -270,7 +270,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					int kNum = Integer.parseInt(strKNumber);
 					int response = manager.isStudent(kNum);
 					int adminResponse = manager.isAdmin(kNum);
-				
+					
 					
 					//If kNumber does not show in both databases:
 					if ((response ==  GlobalUI.FAIL) && (adminResponse == GlobalUI.FAIL))
@@ -281,7 +281,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					}
 					else
 					{
-						if (response == GlobalUI.SUCCESS) {
+						if ((response == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
 							labelHelp.setVisible(false);
 							labelToast.setVisible(true);
 							
