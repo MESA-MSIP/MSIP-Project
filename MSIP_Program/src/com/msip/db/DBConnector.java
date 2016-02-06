@@ -1,10 +1,13 @@
 package com.msip.db;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+
+import com.msip.external.Utility;
 
 public class DBConnector {
 	static Connection myConnection;
@@ -22,14 +25,13 @@ public class DBConnector {
 		}
 	}
 
-	public static void main(String[] args) throws SQLException, ParseException {
+	public static void main(String[] args) throws SQLException, ParseException, NoSuchAlgorithmException {
 		new DBConnector();
 		AdminTable admin = new AdminTable();
 		admin.deleteAll();
-		admin.add(11111111, "Juan", "Zepeda", "1");
-		admin.add(22222222, "Cynthia", "Barajas", "2");
-		admin.add(33333333, "Fernando", "Estevez", "3");
-		admin.getPhash(33333333);
+		admin.add(11111111, "Juan", "Zepeda", Utility.getHashedPassword("1"));
+		admin.add(22222222, "Cynthia", "Barajas", Utility.getHashedPassword("2"));
+		admin.add(33333333, "Fernando", "Estevez", Utility.getHashedPassword("3"));
 		// admin.getAll();
 
 		StudentTable student = new StudentTable();

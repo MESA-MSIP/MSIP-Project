@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import com.msip.db.Global;
 import com.msip.db.LoginTable;
 import com.msip.db.StudentTable;
 import com.msip.external.SerialPort;
+import com.msip.external.Utility;
 import com.msip.model.Admin;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
@@ -233,13 +235,21 @@ public class MISPCore {
 	 */
 	public int verifyAdmin(int kNumber, String pHash) {
 		
+		String hashedPasswordFromUser;
+		try {
+			hashedPasswordFromUser = Utility.getHashedPassword(pHash);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return GlobalUI.FAIL;
+		}
+		
 		//If returns null.. knumber not in DB
 		if (adminTable.getPhash(kNumber) == null) {
 			return GlobalUI.FAIL;
 		}
 
 		// hash's don't match so fail
-		if (pHash.compareTo(adminTable.getPhash(kNumber)) != 0) {
+		if (hashedPasswordFromUser.compareTo(adminTable.getPhash(kNumber)) != 0) {
 			return GlobalUI.FAIL;
 		}
 		
