@@ -3,8 +3,10 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 
 import com.msip.manager.MISPCore;
 import com.msip.model.Person;
+import com.msip.model.Student;
 
 import javax.swing.JLabel;
 
@@ -21,10 +24,10 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-
-import java.awt.GridLayout;
-
-import net.miginfocom.swing.MigLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ReportPanel extends JPanel {
 
@@ -38,46 +41,88 @@ public class ReportPanel extends JPanel {
 	private JLabel lblChooseAStudent;
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
+	private JLabel lblEndDate;
+	private ArrayList<String> studentList = new ArrayList<String>();
+	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
+	private String[] reportTypes = { "Hour", "Day", "Week", "Month" };
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 
-		// JLabel lblReportPanel = new JLabel("Report Panel");
-		// add(lblReportPanel, BorderLayout.NORTH);
 		actionPanel = new JPanel();
+		actionPanel.setPreferredSize(new Dimension(100, 100));
 		add(actionPanel, BorderLayout.NORTH);
-		actionPanel.setLayout(new MigLayout("", "[160px][160px][160px][160px][160px]", "[29px][29px][29px]"));
+		actionPanel.setLayout(null);
 
 		studentSearch = new JComboBox<Object>();
-		studentSearch.setBounds(0, 0, 137, 26);
-		actionPanel.add(studentSearch, "cell 0 0,grow");
-		//ArrayList<String> students = new ArrayList<String>();
+		studentSearch.setBounds(15, 40, 137, 26);
+		actionPanel.add(studentSearch);
+
 		studentSearch.addItem("All Student's");
-		for( int i = 0; i < msipCore.getStudents().size(); i++){
-			studentSearch.addItem(msipCore.getStudents().get(i).getFullName());
+
+		//Adds all students to combo box.
+		for (int i = 0; i < msipCore.getStudents().size(); i++) {
+			// Adds a student to a String Array
+			studentList.add(msipCore.getStudents().get(i).getFullName());
+			// Adds a student to a Student Array
+			listOfStudents.add(msipCore.getStudents().get(i));
+			// Adds a student to combo box.
+			studentSearch.addItem(studentList.get(i));
 		}
 
+		studentSearch.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+
+				// returns the users choice as an index based on the combo box list.
+				int comboBoxIndex = studentSearch.getSelectedIndex();
+				int studentListIndex = 0;
+				// When ever user chooses All students it prints out all of the
+				// students.
+				if (comboBoxIndex == 0) {
+					for (int i = 0; i < studentList.size(); i++) {
+						System.out.println(studentList.get(i));
+					}
+					// otherwise it gets the index of the combo box and
+					// subtracts it by one. To choose the same person from the student list.
+				} else {
+					studentListIndex = comboBoxIndex - 1;
+					System.out.println(studentList.get(studentListIndex));
+				}
+			}
+		});
+
 		dateTypeSearch = new JComboBox<Object>();
-		String[] reportTypes = { "Hour", "Day", "Week", "Month" };
-		dateTypeSearch.setBounds(0, 0, 137, 26);
-		actionPanel.add(dateTypeSearch, "cell 1 0,grow");
-		
+		dateTypeSearch.setBounds(179, 40, 137, 26);
+		actionPanel.add(dateTypeSearch);
+
+		//Adds different report types to combo box.
 		for (String date : reportTypes) {
 			dateTypeSearch.addItem(date);
 		}
-		
+
+		dateTypeSearch.addItemListener(new ItemListener() {
+
+			public void itemStateChanged(ItemEvent arg0) {
+				int reportTypeIndex = dateTypeSearch.getSelectedIndex();
+				//prints out users choice of report.
+				System.out.println(reportTypes[reportTypeIndex]);
+
+			}
+		});
+
 		UtilDateModel startModel = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.year", "Year");
 		p.put("text.month", "Month");
 		p.put("text.today", "Today");
 		JDatePanelImpl startDatePanel = new JDatePanelImpl(startModel, p);
-		JDatePickerImpl startDatePicker = new JDatePickerImpl(startDatePanel, null);
-		startDatePicker.setBounds(0, 0, 137, 26);
-		actionPanel.add(startDatePicker, "cell 2 0,grow");
-		
+		JDatePickerImpl startDatePicker = new JDatePickerImpl(startDatePanel,
+				null);
+		startDatePicker.setBounds(341, 40, 137, 26);
+		actionPanel.add(startDatePicker);
+
 		UtilDateModel endModel = new UtilDateModel();
 		Properties p2 = new Properties();
 		p2.put("text.year", "Year");
@@ -85,30 +130,38 @@ public class ReportPanel extends JPanel {
 		p2.put("text.today", "Today");
 		JDatePanelImpl endDatePanel = new JDatePanelImpl(endModel, p2);
 		JDatePickerImpl endDatePicker = new JDatePickerImpl(endDatePanel, null);
-		endDatePicker.setBounds(0, 0, 137, 26);
+		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
-		
+
 		save = new JButton("Save Report");
-		save.setBounds(0, 0, 137, 26);
-		actionPanel.add(save, "cell 4 0,grow");
-		
-		lblChooseAStudent = DefaultComponentFactory.getInstance().createLabel("Choose a Student:");
-		actionPanel.add(lblChooseAStudent, "cell 0 1,grow");
-		
-		lblReportType = new JLabel("Report Type");
-		actionPanel.add(lblReportType, "cell 1 1,grow");
-		
-		lblStartDate = new JLabel("Start Date");
-		actionPanel.add(lblStartDate, "cell 2 1,grow");
-		
-		JLabel lblEndDate = new JLabel("End Date");
-		actionPanel.add(lblEndDate, "cell 3 1,grow");
-		
-		
+		save.setBounds(648, 40, 137, 26);
+		actionPanel.add(save);
+
+		lblChooseAStudent = DefaultComponentFactory.getInstance().createLabel(
+				"Choose a Student(s):");
+		lblChooseAStudent.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblChooseAStudent.setBounds(25, 16, 155, 20);
+		actionPanel.add(lblChooseAStudent);
+
+		lblReportType = DefaultComponentFactory.getInstance().createLabel(
+				"Report Type:");
+		lblReportType.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblReportType.setBounds(208, 16, 93, 20);
+		actionPanel.add(lblReportType);
+
+		lblStartDate = DefaultComponentFactory.getInstance().createLabel(
+				"Start Date:");
+		lblStartDate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblStartDate.setBounds(366, 16, 76, 20);
+		actionPanel.add(lblStartDate);
+
+		lblEndDate = DefaultComponentFactory.getInstance().createLabel(
+				"End Date:");
+		lblEndDate.setBounds(520, 16, 76, 20);
+		actionPanel.add(lblEndDate);
+
 		graphPanel = new JPanel();
 		add(graphPanel, BorderLayout.CENTER);
-		
-
 
 	}
 
