@@ -23,7 +23,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
@@ -137,26 +136,22 @@ public class ReportPanel extends JPanel {
 		save.setBounds(648, 40, 137, 26);
 		actionPanel.add(save);
 
-		lblChooseAStudent = DefaultComponentFactory.getInstance().createLabel(
-				"Choose a Student(s):");
+		lblChooseAStudent = new JLabel("Choose a Student(s):");
 		lblChooseAStudent.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblChooseAStudent.setBounds(25, 16, 155, 20);
 		actionPanel.add(lblChooseAStudent);
 
-		lblReportType = DefaultComponentFactory.getInstance().createLabel(
-				"Report Type:");
+		lblReportType = new JLabel("Report Type:");
 		lblReportType.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblReportType.setBounds(208, 16, 93, 20);
 		actionPanel.add(lblReportType);
 
-		lblStartDate = DefaultComponentFactory.getInstance().createLabel(
-				"Start Date:");
+		lblStartDate = new JLabel("Start Date:");
 		lblStartDate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblStartDate.setBounds(366, 16, 76, 20);
 		actionPanel.add(lblStartDate);
 
-		lblEndDate = DefaultComponentFactory.getInstance().createLabel(
-				"End Date:");
+		lblEndDate = new JLabel("End Date:");
 		lblEndDate.setBounds(520, 16, 76, 20);
 		actionPanel.add(lblEndDate);
 
