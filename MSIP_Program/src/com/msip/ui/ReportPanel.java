@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.io.File;
 import java.sql.Savepoint;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
@@ -31,6 +33,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DateFormatter;
 
+import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -133,19 +136,22 @@ public class ReportPanel extends JPanel {
 
 			}
 		});
-
+		
+		//Creates the date picker
 		UtilDateModel startModel = new UtilDateModel();
 		Properties p = new Properties();
-		p.put("text.year", "Year");
 		p.put("text.month", "Month");
 		p.put("text.today", "Today");
+		p.put("text.year", "Year");
 		JDatePanelImpl startDatePanel = new JDatePanelImpl(startModel, p);
 		JDatePickerImpl startDatePicker = new JDatePickerImpl(startDatePanel,
-				null);
+				new DateComponentFormatter());
 		actionPanel.add(startDatePicker);
 		startDatePicker.setBounds(341, 40, 137, 26);
+		
 		startDatePicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//returns the chosen date.
 				selectedStartDate = (Date) startDatePicker.getModel()
 						.getValue();
 				System.out.println(selectedStartDate);
@@ -158,7 +164,7 @@ public class ReportPanel extends JPanel {
 		p2.put("text.month", "Month");
 		p2.put("text.today", "Today");
 		JDatePanelImpl endDatePanel = new JDatePanelImpl(endModel, p2);
-		JDatePickerImpl endDatePicker = new JDatePickerImpl(endDatePanel, null);
+		JDatePickerImpl endDatePicker = new JDatePickerImpl(endDatePanel, new DateComponentFormatter());
 		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
 
@@ -190,9 +196,9 @@ public class ReportPanel extends JPanel {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					System.out.println(fc.getFileFilter().getDescription());
 
-					File yourFolder = fc.getSelectedFile();
-					System.out.println(yourFolder);
 					if (fc.getFileFilter().getDescription().equals(".csv")) {
+						File yourFolder = fc.getSelectedFile();
+						System.out.println(yourFolder);
 						String numOfLogins = "";
 						System.out.println("Im in");
 						File pathToCSV = new File(yourFolder.getAbsolutePath()
@@ -205,7 +211,7 @@ public class ReportPanel extends JPanel {
 						for (int i = 0; i < d.length; i++) {
 							d[i] = new Date();
 						}
-
+						
 						String[] s = new String[5];
 						for (int i = 0; i < s.length; i++) {
 							s[i] = str.format(d[i]);
@@ -215,31 +221,27 @@ public class ReportPanel extends JPanel {
 						csv.CreateCSVFile(student, numOfLogins, s);
 
 					} else {
+						File yourFolder = fc.getSelectedFile();
 						File pathToPDF = new File(yourFolder.getAbsolutePath()
 								+ File.separator + "Fernando'sReport.pdf");
 						try {
 							
-							Date[] d = new Date[20];
-							for (int i = 0; i < d.length; i++) {
-								d[i] = new Date();
+							Date[] d2 = new Date[20];
+							for (int i = 0; i < d2.length; i++) {
+								d2[i] = new Date();
 							}
-								String timesPresent = Integer.toString(d.length);
+								String timesPresent = Integer.toString(d2.length);
 							
 							ReportMakerPDF pdf = new ReportMakerPDF(pathToPDF);
 							pdf.addMettaData("Report Title", "Report Subject", "Juan Zepeda");
 							pdf.addHeader("Report Title", student, reportType, "John Smith");
-							pdf.addStudent(student, "KNumber", timesPresent, d);
+							pdf.addStudent(student, "KNumber", timesPresent, d2);
 						} catch (DocumentException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 				}
-				// // TODO Change to csv.
-				// File pathToPDF = new File(yourFolder.getAbsolutePath()
-				// + File.separator + "Samplereport_csv.csv");
-				//
-
 			}
 		});
 
