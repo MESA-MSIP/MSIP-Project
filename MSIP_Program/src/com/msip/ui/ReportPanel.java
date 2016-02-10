@@ -2,22 +2,34 @@ package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
+import java.sql.Savepoint;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
+import com.itextpdf.text.DocumentException;
 import com.msip.manager.MISPCore;
 import com.msip.model.Person;
 import com.msip.model.Student;
+import com.msip.external.ReportMakerCSV;
+import com.msip.external.ReportMakerPDF;
 
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DateFormatter;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -27,6 +39,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ReportPanel extends JPanel {
 
@@ -34,7 +48,7 @@ public class ReportPanel extends JPanel {
 	private MISPCore manager;
 	private JComboBox<Object> studentSearch;
 	private JComboBox<Object> dateTypeSearch;
-	private JButton save;
+	private JButton saveReport;
 	private JPanel actionPanel;
 	private JPanel graphPanel;
 	private JLabel lblChooseAStudent;
@@ -44,6 +58,10 @@ public class ReportPanel extends JPanel {
 	private ArrayList<String> studentList = new ArrayList<String>();
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
 	private String[] reportTypes = { "Hour", "Day", "Week", "Month" };
+	private String student = "";
+	private String reportType = "";
+	private Date selectedStartDate = null;
+	private Date selectedEndDate = null;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -61,7 +79,7 @@ public class ReportPanel extends JPanel {
 
 		studentSearch.addItem("All Student's");
 
-		//Adds all students to combo box.
+		// Adds all students to combo box.
 		for (int i = 0; i < msipCore.getStudents().size(); i++) {
 			// Adds a student to a String Array
 			studentList.add(msipCore.getStudents().get(i).getFullName());
@@ -74,19 +92,23 @@ public class ReportPanel extends JPanel {
 		studentSearch.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 
-				// returns the users choice as an index based on the combo box list.
+				// returns the users choice as an index based on the combo box
+				// list.
 				int comboBoxIndex = studentSearch.getSelectedIndex();
 				int studentListIndex = 0;
 				// When ever user chooses All students it prints out all of the
 				// students.
 				if (comboBoxIndex == 0) {
 					for (int i = 0; i < studentList.size(); i++) {
+						student = studentList.get(i);
 						System.out.println(studentList.get(i));
 					}
 					// otherwise it gets the index of the combo box and
-					// subtracts it by one. To choose the same person from the student list.
+					// subtracts it by one. To choose the same person from the
+					// student list.
 				} else {
 					studentListIndex = comboBoxIndex - 1;
+					student = studentList.get(studentListIndex);
 					System.out.println(studentList.get(studentListIndex));
 				}
 			}
@@ -96,7 +118,7 @@ public class ReportPanel extends JPanel {
 		dateTypeSearch.setBounds(179, 40, 137, 26);
 		actionPanel.add(dateTypeSearch);
 
-		//Adds different report types to combo box.
+		// Adds different report types to combo box.
 		for (String date : reportTypes) {
 			dateTypeSearch.addItem(date);
 		}
@@ -105,7 +127,8 @@ public class ReportPanel extends JPanel {
 
 			public void itemStateChanged(ItemEvent arg0) {
 				int reportTypeIndex = dateTypeSearch.getSelectedIndex();
-				//prints out users choice of report.
+				// prints out users choice of report.
+				reportType = reportTypes[reportTypeIndex];
 				System.out.println(reportTypes[reportTypeIndex]);
 
 			}
@@ -119,8 +142,15 @@ public class ReportPanel extends JPanel {
 		JDatePanelImpl startDatePanel = new JDatePanelImpl(startModel, p);
 		JDatePickerImpl startDatePicker = new JDatePickerImpl(startDatePanel,
 				null);
-		startDatePicker.setBounds(341, 40, 137, 26);
 		actionPanel.add(startDatePicker);
+		startDatePicker.setBounds(341, 40, 137, 26);
+		startDatePicker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedStartDate = (Date) startDatePicker.getModel()
+						.getValue();
+				System.out.println(selectedStartDate);
+			}
+		});
 
 		UtilDateModel endModel = new UtilDateModel();
 		Properties p2 = new Properties();
@@ -132,9 +162,86 @@ public class ReportPanel extends JPanel {
 		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
 
-		save = new JButton("Save Report");
-		save.setBounds(648, 40, 137, 26);
-		actionPanel.add(save);
+		endDatePicker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedEndDate = (Date) endDatePicker.getModel().getValue();
+				System.out.println(selectedEndDate);
+			}
+		});
+
+		saveReport = new JButton("Save Report");
+		saveReport.setBounds(648, 40, 137, 26);
+		actionPanel.add(saveReport);
+
+		saveReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						".csv", "Report Type");
+				FileNameExtensionFilter filter2 = new FileNameExtensionFilter(
+						".pdf", "Report Type");
+				fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
+				fc.addChoosableFileFilter(filter);
+				fc.addChoosableFileFilter(filter2);
+				int returnVal = fc.showOpenDialog(null);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					System.out.println(fc.getFileFilter().getDescription());
+
+					File yourFolder = fc.getSelectedFile();
+					System.out.println(yourFolder);
+					if (fc.getFileFilter().getDescription().equals(".csv")) {
+						String numOfLogins = "";
+						System.out.println("Im in");
+						File pathToCSV = new File(yourFolder.getAbsolutePath()
+								+ File.separator + "Fernando'sReport_csv.csv");
+
+						ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
+						SimpleDateFormat str = new SimpleDateFormat(
+								"yyyy-MM-dd");
+						Date[] d = new Date[5];
+						for (int i = 0; i < d.length; i++) {
+							d[i] = new Date();
+						}
+
+						String[] s = new String[5];
+						for (int i = 0; i < s.length; i++) {
+							s[i] = str.format(d[i]);
+						}
+						numOfLogins = Integer.toString(s.length);
+						csv.addHeader("Name,times Present,Dates present");
+						csv.CreateCSVFile(student, numOfLogins, s);
+
+					} else {
+						File pathToPDF = new File(yourFolder.getAbsolutePath()
+								+ File.separator + "Fernando'sReport.pdf");
+						try {
+							
+							Date[] d = new Date[20];
+							for (int i = 0; i < d.length; i++) {
+								d[i] = new Date();
+							}
+								String timesPresent = Integer.toString(d.length);
+							
+							ReportMakerPDF pdf = new ReportMakerPDF(pathToPDF);
+							pdf.addMettaData("Report Title", "Report Subject", "Juan Zepeda");
+							pdf.addHeader("Report Title", student, reportType, "John Smith");
+							pdf.addStudent(student, "KNumber", timesPresent, d);
+						} catch (DocumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				// // TODO Change to csv.
+				// File pathToPDF = new File(yourFolder.getAbsolutePath()
+				// + File.separator + "Samplereport_csv.csv");
+				//
+
+			}
+		});
 
 		lblChooseAStudent = new JLabel("Choose a Student(s):");
 		lblChooseAStudent.setAlignmentX(Component.CENTER_ALIGNMENT);

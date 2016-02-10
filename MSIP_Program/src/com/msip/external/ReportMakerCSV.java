@@ -16,7 +16,7 @@ public class ReportMakerCSV {
 	private Document doc;
 	private FileWriter writer;
 
-	private ReportMakerCSV(File fileName) {
+	public ReportMakerCSV(File fileName) {
 		doc = new Document();
 		try {
 			writer = new FileWriter(fileName);
