@@ -24,7 +24,7 @@ public class LoginTable {
 		try {
 			createLoginTable = DBConnector.myConnection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Login(ID INT NOT NULL AUTO_INCREMENT, "
-							+ "Knumber INT NOT NULL, " + "DateTime DATETIME NOT NULL DEFAULT NOW(), PRIMARY KEY(ID))");
+							+ "Knumber INT NOT NULL, " + "DateTime DATETIME NOT NULL, PRIMARY KEY(ID))");
 			createLoginTable.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
