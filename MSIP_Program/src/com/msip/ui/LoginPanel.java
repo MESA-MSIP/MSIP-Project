@@ -1,24 +1,12 @@
 package com.msip.ui;
 
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import java.awt.CardLayout;
-import java.awt.Color;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-import java.awt.Font;
-import javax.swing.border.MatteBorder;
-
-import com.msip.ui.popUpResponse;
 import com.msip.external.Utility;
 import com.msip.manager.MISPCore;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -28,383 +16,355 @@ import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.ActionEvent;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.MatteBorder;
 
-/**
- * @author Chris
- *
- */
-@SuppressWarnings("serial")
-public class LoginPanel extends JPanel implements ActionListener {
-	private static JTextField txtKNumber;
-	private JTextField txtAdminPass;
-	private JLabel labelToast;
-	private JLabel labelKNumber;
-	private JLabel labeladminPass;
-	private JLabel labelHelp;
-	private JLabel labelMESALOGO;
-	private JLabel labeladminPassError;
-	private JTextArea txtErrorMessage;
-	private MISPCore manager;
-	private JLabel labelInsertAdminPass;
-
-	/**
-	 * @param manager
-	 */
-	public LoginPanel(final MISPCore manager) {
-		setBounds(new Rectangle(0, 0, 800, 480));
-
-		this.manager = manager;
-
-		// Setup Layout, Bounds
-		// TODO add to Global.
-		setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		setBackground(Color.WHITE);
-
-		// Format the JTextField to only accept Numbers
-		NumberFormat numberFormat = NumberFormat.getNumberInstance();
-		numberFormat.setGroupingUsed(false);
-		txtKNumber = new JFormattedTextField(numberFormat);
-		txtKNumber.setColumns(10);
-
-		// JTxtField kNumber
-		// txtKNumber = new JTextField();
-		txtKNumber.setBounds(330, 212, 136, 28);
-		txtKNumber.addActionListener(this);
-		setLayout(null);
-		txtKNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		txtKNumber.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
-		txtKNumber.setColumns(10);
-		add(txtKNumber);
-
-		// Admin Password Textfield
-		txtAdminPass = new JPasswordField(10);
-		txtAdminPass.setBounds(330, 275, 136, 28);
-		txtAdminPass.addActionListener(this);
-		txtAdminPass.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAdminPass.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
-		txtAdminPass.setColumns(10);
-		txtAdminPass.setVisible(false);
-		add(txtAdminPass);
-
-		// Title Welcome!
-		JLabel labelWelcome = new JLabel("Welcome!");
-		labelWelcome.setBounds(0, 115, 800, 57);
-		labelWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		labelWelcome.setFont(new Font("Segoe UI", Font.BOLD, 42));
-		Utility.iterateWelcome(labelWelcome, 3000);
-		add(labelWelcome);
-
-		// Animated Toast that shows Logged In:
-		labelToast = new JLabel("You Have Logged In.");
-		labelToast.setBounds(514, 215, 170, 22);
-		labelToast.setVisible(false);
-		labelToast.setHorizontalAlignment(SwingConstants.CENTER);
-		labelToast.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		add(labelToast);
-
-		// kNum Description
-		labelKNumber = new JLabel("Enter K# Here:");
-		labelKNumber.setBounds(330, 190, 98, 22);
-		labelKNumber.setLabelFor(txtKNumber);
-		labelKNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		labelKNumber.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		add(labelKNumber);
-
-		// admin password description:
-		labeladminPass = new JLabel("Password:");
-		labeladminPass.setBounds(336, 253, 70, 22);
-		labeladminPass.setHorizontalAlignment(SwingConstants.CENTER);
-		labeladminPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		labeladminPass.setLabelFor(txtAdminPass);
-		add(labeladminPass);
-		labeladminPass.setVisible(false);
-
-		// Add Mesa Logo
-
-		ImageIcon icon = CreateIcon(GlobalUI.MESAURL, 315, 72);
-		labelMESALOGO = new JLabel(icon);
-		labelMESALOGO.setBounds(474, 11, 315, 72);
-		add(labelMESALOGO);
-
-		// AdminPass/kNum Error TextTip
-		labeladminPassError = new JLabel("Password or K# is incorrect.");
-		labeladminPassError.setBounds(504, 278, 191, 22);
-		labeladminPassError.setHorizontalAlignment(SwingConstants.CENTER);
-		labeladminPassError.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		labeladminPassError.setVisible(false);
-		
-				// kNum# incorrect texttip
-				labelHelp = new JLabel("K# is Incorrect.  Try Again.");
-				labelHelp.setToolTipText("");
-				labelHelp.setBounds(504, 200, 195, 52);
-				labelHelp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-				labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
-				labelHelp.setVisible(false);
-				add(labelHelp);
-		add(labeladminPassError);
-		
-		txtErrorMessage = new JTextArea();
-		txtErrorMessage.setToolTipText("");
-		txtErrorMessage.setText("See a MESA Advisor to Sign In.");
-		txtErrorMessage.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		txtErrorMessage.setBounds(514, 213, 232, 28);
-		txtErrorMessage.setVisible(false);
-		add(txtErrorMessage);
-		
-		labelInsertAdminPass = new JLabel("Enter your Password.");
-		labelInsertAdminPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		labelInsertAdminPass.setBounds(514, 212, 204, 28);
-		labelInsertAdminPass.setVisible(false);
-		add(labelInsertAdminPass);
-
-		txtKNumber.addKeyListener(new KeyAdapter() {
-
-			/**
-			 * Checks if keyTyped is a digit. If Not, Deletes the invalid key.
-			 * Checks if String is more 8 characters. String is now formatted to
-			 * not include commas.
-			 * 
-			 */
-			public void keyTyped(KeyEvent e) {
-				if (txtKNumber.getText().length() >= 8)
-					e.consume();
-
-				char keychar = e.getKeyChar();
-				if (!(Character.isDigit(keychar) || (keychar == KeyEvent.VK_BACK_SPACE)
-						|| (keychar == KeyEvent.VK_DELETE))) {
-					e.consume();
-				}
-			}
-
-			public void keyReleased(KeyEvent e) {
-				
-				//check if an kNum is an admin
-				
-					String strKNumber = txtKNumber.getText();
-					
-			
-				
-				if (strKNumber.length() < GlobalUI.kNumMax) {
-					txtAdminPass.setText("");
-					txtAdminPass.setVisible(false);
-					labeladminPass.setVisible(false);
-				} else {
-					int adminKNum = Integer.parseInt(strKNumber.trim());
-					int adminResponse = manager.isAdmin(adminKNum);
-					if (adminResponse == GlobalUI.SUCCESS)
-					{
-						labeladminPass.setVisible(true);
-						txtAdminPass.setVisible(true);
-					}
-					
-				}
-			}
-		});
-	}
-	private void turnOffInsertAdminPass()
-	{
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				labelInsertAdminPass.setVisible(false);
-			}
-		}, 3000);
-	}
-	private void turnOffAdminError()
-	{
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask()
-				{
-				public void run()
-				{
-					labeladminPassError.setVisible(false);
-				}
-				}, 3000);
-	}
-	private void turnOffHelp()
-	{
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				labelHelp.setVisible(false);
-			}
-		}, 3000);
-	}
-	private void turnOffToast() {
-
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				labelToast.setVisible(false);
-			}
-		}, 3000);
-	}
-	private void turnOffErrorMessage()
-	{
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				txtErrorMessage.setVisible(false);;
-			}
-		}, 3000);
-	}
-
-	/**
-	 * Grab a corrected size of MESA Logo.
-	 * 
-	 * @param filename
-	 * @param width
-	 * @param height
-	 * @return image
-	 */
-	private ImageIcon CreateIcon(String filename, int width, int height) {
-
-		InputStream url = this.getClass().getResourceAsStream("/images/" + filename);
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		ImageIcon image = new ImageIcon(img.getScaledInstance(width, height, 0));
-		return image;
-	}
-
-	/**
-	 * Multiple uses of actionPerformed: kNumberTextField: Check the string
-	 * inputed, if correct, show the toast. adminPass: check the password: if
-	 * correct, show AdminTools, if not show an error message.
-	 * 
-	 * @param event
-	 */
-	public void actionPerformed(ActionEvent e) {
-
-		if (txtKNumber == e.getSource()) {
-			//check if they are trying to submit a less than 8 character password:
-			if (txtKNumber.getText().length() < 8)
-			{
-				labelHelp.setVisible(true);
-				txtKNumber.setText("");
-				turnOffHelp();
-			}
-			else
-			{
-				
-				try {
-					String strKNumber = txtKNumber.getText();
-					int kNum = Integer.parseInt(strKNumber);
-					int response = manager.isStudent(kNum);
-					int adminResponse = manager.isAdmin(kNum);
-					
-					//If kNumber does not show in both databases:
-					if ((response ==  GlobalUI.FAIL) && (adminResponse == GlobalUI.FAIL))
-					{
-						txtErrorMessage.setVisible(true);
-						txtKNumber.setText("");
-						turnOffErrorMessage();
-					}
-					else
-					{
-						if ((response == GlobalUI.FAIL) && (adminResponse == GlobalUI.SUCCESS))
-						{
-							labelInsertAdminPass.setVisible(true);
-							turnOffInsertAdminPass();
-						}
-						else
-						{
-							if ((response == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
-								labelHelp.setVisible(false);
-								labelToast.setVisible(true);
-								
-								manager.logStudent(kNum);
-								
-								txtKNumber.setText("");
-								// Delay on Toast
-								turnOffToast();
-
-							} else {
-								labelHelp.setVisible(true);
-								labelToast.setVisible(false);
-							}
-						}
-						
-					}
-
-				
-				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
-					// TODO Message to user that its not a number?
-					return;
-				}
-			}
-			}
-	
-			
-
-		if (txtAdminPass == e.getSource()) {
-			String strAdminPass = txtAdminPass.getText();
-			String strAdminKNum = txtKNumber.getText();
-			int adminKNum = Integer.parseInt(strAdminKNum);
-			int response = manager.verifyAdmin(adminKNum, strAdminPass);
-			
-			if (response == GlobalUI.SUCCESS)
-			{
-				
-				// If admin is also a Student
-				if (manager.isStudent(adminKNum) == GlobalUI.SUCCESS) {
-					popUpResponse popUp = new popUpResponse();
-					int decision = popUp.popUp();
-					if (decision == GlobalUI.STUDENT) {
-						labelHelp.setVisible(false);
-						labelToast.setVisible(true);
-						txtKNumber.setText("");
-						txtAdminPass.setText("");
-						txtAdminPass.setVisible(false);
-						labeladminPass.setVisible(false);
-						
-						manager.logStudent(adminKNum);
-						
-						turnOffToast();
-					} else if (decision == GlobalUI.ADMIN) {
-						CardLayout cl = (CardLayout) manager.getCards().getLayout();
-						cl.show(manager.getCards(), GlobalUI.AdminToolsPanel);
-						txtKNumber.setText("");
-						txtAdminPass.setText("");
-						txtAdminPass.setVisible(false);
-						labeladminPass.setVisible(false);
-					} else if (decision == GlobalUI.NEITHER) {
-						txtKNumber.setText("");
-						txtAdminPass.setText("");
-						txtAdminPass.setVisible(false);
-						labeladminPass.setVisible(false);
-						labelToast.setVisible(false);
-					}
-
-				}
-				else
-				{
-					CardLayout cl = (CardLayout) manager.getCards().getLayout();
-					cl.show(manager.getCards(), GlobalUI.AdminToolsPanel);
-					txtKNumber.setText("");
-					txtAdminPass.setText("");
-					txtAdminPass.setVisible(false);
-					labeladminPass.setVisible(false);
-				}
-
-			} else {
-				
-				labeladminPassError.setVisible(true);
-				turnOffAdminError();
-			}
-
-		}
-	}
-
-	public static void setScannedNumber(int kNumber) {
-		txtKNumber.setText(String.valueOf(kNumber));
-
-	}
+public class LoginPanel
+  extends JPanel
+  implements ActionListener
+{
+  private static JTextField txtKNumber;
+  private JTextField txtAdminPass;
+  private JLabel labelToast;
+  private JLabel labelKNumber;
+  private JLabel labeladminPass;
+  private JLabel labelHelp;
+  private JLabel labelMESALOGO;
+  private JLabel labeladminPassError;
+  private JTextArea txtErrorMessage;
+  private MISPCore manager;
+  private JLabel labelInsertAdminPass;
+  
+  public LoginPanel(final MISPCore manager)
+  {
+    setBounds(new Rectangle(0, 0, 800, 480));
+    
+    this.manager = manager;
+    
+    setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
+    setBackground(Color.WHITE);
+    
+    NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    numberFormat.setGroupingUsed(false);
+    txtKNumber = new JFormattedTextField(numberFormat);
+    txtKNumber.setColumns(10);
+    
+    txtKNumber.setBounds(298, 260, 211, 40);
+    txtKNumber.addActionListener(this);
+    setLayout(null);
+    txtKNumber.setHorizontalAlignment(0);
+    txtKNumber.setFont(new Font("Segoe UI Light", 0, 16));
+    txtKNumber.setColumns(10);
+    add(txtKNumber);
+    
+    this.txtAdminPass = new JPasswordField(10);
+    this.txtAdminPass.setBounds(297, 375, 212, 40);
+    this.txtAdminPass.addActionListener(this);
+    this.txtAdminPass.setHorizontalAlignment(0);
+    this.txtAdminPass.setFont(new Font("Segoe UI Light", 0, 16));
+    this.txtAdminPass.setColumns(10);
+    this.txtAdminPass.setVisible(false);
+    add(this.txtAdminPass);
+    
+    this.labeladminPass = new JLabel("Password:");
+    this.labeladminPass.setBounds(321, 340, 166, 22);
+    this.labeladminPass.setHorizontalAlignment(0);
+    this.labeladminPass.setFont(new Font("Segoe UI", 0, 24));
+    this.labeladminPass.setLabelFor(this.txtAdminPass);
+    add(this.labeladminPass);
+    this.labeladminPass.setVisible(false);
+    
+    this.labelKNumber = new JLabel("Enter K# Here:");
+    this.labelKNumber.setBounds(282, 225, 227, 22);
+    this.labelKNumber.setLabelFor(txtKNumber);
+    this.labelKNumber.setHorizontalAlignment(0);
+    this.labelKNumber.setFont(new Font("Segoe UI", 0, 24));
+    add(this.labelKNumber);
+    
+    JLabel labelWelcome = new JLabel("Welcome!");
+    labelWelcome.setBounds(0, 116, 800, 84);
+    labelWelcome.setHorizontalAlignment(0);
+    labelWelcome.setFont(new Font("Segoe UI", 1, 60));
+    Utility.iterateWelcome(labelWelcome, 3000L);
+    add(labelWelcome);
+    
+    this.labelToast = new JLabel("You Have Logged In.");
+    this.labelToast.setBounds(531, 264, 215, 32);
+    this.labelToast.setVisible(true);
+    this.labelToast.setHorizontalAlignment(0);
+    this.labelToast.setFont(new Font("Segoe UI", 0, 16));
+    add(this.labelToast);
+    
+    ImageIcon icon = CreateIcon("MESA.png", 315, 72);
+    
+    this.labeladminPassError = new JLabel("Password or K# is incorrect.");
+    this.labeladminPassError.setBounds(531, 384, 240, 22);
+    this.labeladminPassError.setHorizontalAlignment(0);
+    this.labeladminPassError.setFont(new Font("Segoe UI", 0, 18));
+    this.labeladminPassError.setVisible(false);
+    
+    this.labelHelp = new JLabel("K# is Incorrect.  Try Again.");
+    this.labelHelp.setToolTipText("");
+    this.labelHelp.setBounds(521, 259, 225, 43);
+    this.labelHelp.setFont(new Font("Segoe UI", 0, 18));
+    this.labelHelp.setHorizontalAlignment(0);
+    this.labelHelp.setVisible(false);
+    this.labelMESALOGO = new JLabel(icon);
+    this.labelMESALOGO.setBounds(503, 3, 289, 77);
+    add(this.labelMESALOGO);
+    add(this.labelHelp);
+    add(this.labeladminPassError);
+    
+    this.txtErrorMessage = new JTextArea();
+    this.txtErrorMessage.setToolTipText("");
+    this.txtErrorMessage.setText("See a MESA Advisor to Sign In.");
+    this.txtErrorMessage.setFont(new Font("Segoe UI", 0, 18));
+    this.txtErrorMessage.setBounds(521, 259, 225, 43);
+    this.txtErrorMessage.setVisible(false);
+    add(this.txtErrorMessage);
+    
+    this.labelInsertAdminPass = new JLabel("Enter your Password.");
+    this.labelInsertAdminPass.setFont(new Font("Segoe UI", 0, 18));
+    this.labelInsertAdminPass.setBounds(521, 259, 225, 43);
+    this.labelInsertAdminPass.setVisible(false);
+    add(this.labelInsertAdminPass);
+    
+    txtKNumber.addKeyListener(new KeyAdapter()
+    {
+      public void keyTyped(KeyEvent e)
+      {
+        if (LoginPanel.txtKNumber.getText().length() >= 8) {
+          e.consume();
+        }
+        char keychar = e.getKeyChar();
+        if ((!Character.isDigit(keychar)) && (keychar != '\b') && 
+          (keychar != '')) {
+          e.consume();
+        }
+      }
+      
+      public void keyReleased(KeyEvent e)
+      {
+        String strKNumber = LoginPanel.txtKNumber.getText();
+        if (strKNumber.length() < 8)
+        {
+          LoginPanel.this.txtAdminPass.setText("");
+          LoginPanel.this.txtAdminPass.setVisible(false);
+          LoginPanel.this.labeladminPass.setVisible(false);
+        }
+        else
+        {
+          int adminKNum = Integer.parseInt(strKNumber.trim());
+          int adminResponse = manager.isAdmin(adminKNum);
+          if (adminResponse == 1)
+          {
+            LoginPanel.this.labeladminPass.setVisible(true);
+            LoginPanel.this.txtAdminPass.setVisible(true);
+          }
+        }
+      }
+    });
+  }
+  
+  private void turnOffInsertAdminPass()
+  {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        LoginPanel.this.labelInsertAdminPass.setVisible(false);
+      }
+    }, 3000L);
+  }
+  
+  private void turnOffAdminError()
+  {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        LoginPanel.this.labeladminPassError.setVisible(false);
+      }
+    }, 3000L);
+  }
+  
+  private void turnOffHelp()
+  {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        LoginPanel.this.labelHelp.setVisible(false);
+      }
+    }, 3000L);
+  }
+  
+  private void turnOffToast()
+  {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        LoginPanel.this.labelToast.setVisible(false);
+      }
+    }, 3000L);
+  }
+  
+  private void turnOffErrorMessage()
+  {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        LoginPanel.this.txtErrorMessage.setVisible(false);
+      }
+    }, 3000L);
+  }
+  
+  private ImageIcon CreateIcon(String filename, int width, int height)
+  {
+    InputStream url = getClass().getResourceAsStream("/images/" + filename);
+    BufferedImage img = null;
+    try
+    {
+      img = ImageIO.read(url);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    ImageIcon image = new ImageIcon(img.getScaledInstance(width, height, 0));
+    return image;
+  }
+  
+  public void actionPerformed(ActionEvent e)
+  {
+    if (txtKNumber == e.getSource()) {
+      if (txtKNumber.getText().length() < 8)
+      {
+        this.labelHelp.setVisible(true);
+        txtKNumber.setText("");
+        turnOffHelp();
+      }
+      else
+      {
+        try
+        {
+          String strKNumber = txtKNumber.getText();
+          int kNum = Integer.parseInt(strKNumber);
+          int response = this.manager.isStudent(kNum);
+          int adminResponse = this.manager.isAdmin(kNum);
+          if ((response == 0) && (adminResponse == 0))
+          {
+            this.txtErrorMessage.setVisible(true);
+            txtKNumber.setText("");
+            turnOffErrorMessage();
+          }
+          else if ((response == 0) && (adminResponse == 1))
+          {
+            this.labelInsertAdminPass.setVisible(true);
+            turnOffInsertAdminPass();
+          }
+          else if ((response == 1) || (adminResponse == 1))
+          {
+            this.labelHelp.setVisible(false);
+            this.labelToast.setVisible(true);
+            
+            this.manager.logStudent(kNum);
+            
+            txtKNumber.setText("");
+            
+            turnOffToast();
+          }
+          else
+          {
+            this.labelHelp.setVisible(true);
+            this.labelToast.setVisible(false);
+          }
+        }
+        catch (NumberFormatException e1)
+        {
+          e1.printStackTrace();
+          
+          return;
+        }
+      }
+    }
+    if (this.txtAdminPass == e.getSource())
+    {
+      String strAdminPass = this.txtAdminPass.getText();
+      String strAdminKNum = txtKNumber.getText();
+      int adminKNum = Integer.parseInt(strAdminKNum);
+      int response = this.manager.verifyAdmin(adminKNum, strAdminPass);
+      if (response == 1)
+      {
+        if (this.manager.isStudent(adminKNum) == 1)
+        {
+          popUpResponse popUp = new popUpResponse();
+          int decision = popUp.popUp();
+          if (decision == 0)
+          {
+            this.labelHelp.setVisible(false);
+            this.labelToast.setVisible(true);
+            txtKNumber.setText("");
+            this.txtAdminPass.setText("");
+            this.txtAdminPass.setVisible(false);
+            this.labeladminPass.setVisible(false);
+            
+            this.manager.logStudent(adminKNum);
+            
+            turnOffToast();
+          }
+          else if (decision == 1)
+          {
+            CardLayout cl = (CardLayout)this.manager.getCards().getLayout();
+            cl.show(this.manager.getCards(), "AdminToolsPanel");
+            txtKNumber.setText("");
+            this.txtAdminPass.setText("");
+            this.txtAdminPass.setVisible(false);
+            this.labeladminPass.setVisible(false);
+          }
+          else if (decision == 2)
+          {
+            txtKNumber.setText("");
+            this.txtAdminPass.setText("");
+            this.txtAdminPass.setVisible(false);
+            this.labeladminPass.setVisible(false);
+            this.labelToast.setVisible(false);
+          }
+        }
+        else
+        {
+          CardLayout cl = (CardLayout)this.manager.getCards().getLayout();
+          cl.show(this.manager.getCards(), "AdminToolsPanel");
+          txtKNumber.setText("");
+          this.txtAdminPass.setText("");
+          this.txtAdminPass.setVisible(false);
+          this.labeladminPass.setVisible(false);
+        }
+      }
+      else
+      {
+        this.labeladminPassError.setVisible(true);
+        turnOffAdminError();
+      }
+    }
+  }
+  
+  public static void setScannedNumber(int kNumber)
+  {
+    txtKNumber.setText(String.valueOf(kNumber));
+  }
 }
