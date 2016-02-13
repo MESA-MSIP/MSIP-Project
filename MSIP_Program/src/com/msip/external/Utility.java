@@ -8,11 +8,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import com.msip.ui.GlobalUI;
 
 public class Utility {
 
 	/**
 	 * Intended to hash the password then store its output
+	 * 
 	 * @param password
 	 * @return hash of string
 	 * @throws NoSuchAlgorithmException
@@ -30,11 +34,12 @@ public class Utility {
 
 	/**
 	 * iterate over strings and show in the label every delayInMillis
+	 * 
 	 * @param label
 	 * @param strings
 	 * @param delayInMillis
 	 */
-	public static void iterateLabel(JLabel label, ArrayList<String> strings, long delayInMillis) {
+	public static void iterateLabel(final JLabel label, final ArrayList<String> strings, long delayInMillis) {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			int index = 0;
@@ -54,7 +59,9 @@ public class Utility {
 	}
 
 	/**
-	 * Have label iterate every delayInMillis and show welcome in different languages
+	 * Have label iterate every delayInMillis and show welcome in different
+	 * languages
+	 * 
 	 * @param label
 	 * @param delayInMillis
 	 */
@@ -71,6 +78,7 @@ public class Utility {
 
 	/**
 	 * fade label out and in if not reset
+	 * 
 	 * @param label
 	 */
 	public static void fadingAnimation(JLabel label) {
@@ -97,4 +105,52 @@ public class Utility {
 		}
 	}
 
+	/**
+	 * Checks for a valid knumber length
+	 * @param tf
+	 * @return
+	 */
+	public static boolean isValidKNumberLength(JTextField tf) {
+		if (tf.getText().length() == GlobalUI.kNumMax) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks to see if we have matching passwords
+	 * @param tf
+	 * @param tf2
+	 * @return
+	 */
+	public static boolean isValidPasswordFieldsMatch(JTextField tf, JTextField tf2) {
+		if (tf.getText().compareTo(tf2.getText()) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks for the password strength and validity
+	 * @param tf
+	 * @return
+	 */
+	public static boolean isValidPasswordStrength(JTextField tf) {
+		boolean containsDigit = false;
+
+		if (tf.getText() == null) {
+			return false;
+		}
+
+		if (tf.getText().length() <= 8) {
+			return false;
+		}
+
+		for (char ch : tf.getText().toCharArray()) {
+			if (Character.isDigit(ch))
+				containsDigit = true;
+		}
+		return containsDigit;
+
+	}
 }

@@ -30,7 +30,8 @@ public class LoginPanel
   extends JPanel
   implements ActionListener
 {
-  private static JTextField txtKNumber;
+	private static final long serialVersionUID = 1L;
+private static JTextField txtKNumber;
   private JTextField txtAdminPass;
   private JLabel labelToast;
   private JLabel labelKNumber;

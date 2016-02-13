@@ -7,6 +7,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JButton;
@@ -23,7 +26,7 @@ import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
 
-public class AdminAddEditDialog extends JDialog implements ActionListener {
+public class AdminAddEditDialog extends JDialog implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -37,6 +40,7 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Create the dialog.
+	 * 
 	 * @wbp.parser.constructor
 	 */
 	public AdminAddEditDialog(String title) {
@@ -46,11 +50,12 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 	}
 
 	public AdminAddEditDialog(String title, Admin adminToEdit) {
-		
+
 		setupUI(title);
 		setFields(adminToEdit);
 		setVisible(true);
 	}
+
 	/**
 	 * @param title
 	 */
@@ -73,6 +78,7 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 		textFieldFirstName = new JTextField();
 		textFieldFirstName.setFont(GlobalUI.TextFieldFont);
 		textFieldFirstName.setBounds(105, 11, 319, 25);
+		textFieldFirstName.addKeyListener(this);
 		contentPanel.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
 
@@ -84,6 +90,7 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 		textFieldLastName = new JTextField();
 		textFieldLastName.setFont(GlobalUI.TextFieldFont);
 		textFieldLastName.setBounds(105, 49, 319, 25);
+		textFieldLastName.addKeyListener(this);
 		contentPanel.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
 
@@ -100,35 +107,39 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 		textFieldPassword = new JTextField();
 		textFieldPassword.setFont(GlobalUI.TextFieldFont);
 		textFieldPassword.setBounds(105, 131, 319, 25);
+		textFieldPassword.addKeyListener(this);
 		contentPanel.add(textFieldPassword);
 
 		textFieldKNumber = new JTextField();
 		textFieldKNumber.setFont(GlobalUI.TextFieldFont);
 		textFieldKNumber.setBounds(105, 91, 319, 25);
+		textFieldKNumber.addKeyListener(this);
 		contentPanel.add(textFieldKNumber);
 		textFieldKNumber.setColumns(10);
-		
+
 		JLabel lblPassword2 = new JLabel("<html><p>Re-Type Password</p></html>");
 		lblPassword2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPassword2.setBounds(25, 174, 80, 30);
 		contentPanel.add(lblPassword2);
-		
+
 		textFieldPassword2 = new JTextField();
 		textFieldPassword2.setFont(GlobalUI.TextFieldFont);
 		textFieldPassword2.setBounds(105, 169, 319, 25);
+		textFieldPassword2.addKeyListener(this);
 		contentPanel.add(textFieldPassword2);
-		
+
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
 		okButton = new JButton("OK");
 		okButton.setPreferredSize(GlobalUI.ButtonDimenesions);
+		okButton.setEnabled(false);
 		okButton.addActionListener(this);
-		
+
 		JLabel lblMessage = new JLabel("");
 		buttonPane.add(lblMessage);
-		
+
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		buttonPane.add(horizontalStrut);
 		buttonPane.add(okButton);
@@ -138,13 +149,36 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 		cancelButton.setPreferredSize(GlobalUI.ButtonDimenesions);
 		cancelButton.addActionListener(this);
 		buttonPane.add(cancelButton);
+
+		textFieldKNumber.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (textFieldKNumber.getText().length() >= 8) {
+					e.consume();
+				}
+				char keychar = e.getKeyChar();
+				if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
+					e.consume();
+				}
+			}
+		});
 	}
 
 	public void actionPerformed(ActionEvent e) {
+
 		if (okButton == e.getSource()) {
+
+			if (!Utility.isValidPasswordFieldsMatch(textFieldPassword, textFieldPassword2)) {
+				JOptionPane.showMessageDialog(this, "Passwords do not match.");
+				return;
+			} else if (!Utility.isValidPasswordStrength(textFieldPassword)) {
+				JOptionPane.showMessageDialog(this,
+						"Password should contain a charcter, a digit and be at least 8 characters long.");
+				return;
+			}
+
 			setResults(JOptionPane.YES_OPTION);
 		} else {
-			
+
 			setResults(JOptionPane.NO_OPTION);
 		}
 		this.dispose();
@@ -152,17 +186,18 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Sets the fields in the dialog
+	 * 
 	 * @param student
 	 */
 	public void setFields(Admin admin) {
-		//TODO password check not blank, enforce, hash
+		// TODO password check not blank, enforce, hash
 		textFieldFirstName.setText(admin.getFirstName());
 		textFieldLastName.setText(admin.getLastName());
 		textFieldKNumber.setText(String.valueOf(admin.getkNumber()));
 	}
 
 	public Admin getAdmin() throws NumberFormatException, NoSuchAlgorithmException {
-		return  new Admin(textFieldFirstName.getText(), textFieldLastName.getText(),
+		return new Admin(textFieldFirstName.getText(), textFieldLastName.getText(),
 				Integer.parseInt(textFieldKNumber.getText()), Utility.getHashedPassword(textFieldPassword.getText()));
 	}
 
@@ -180,5 +215,23 @@ public class AdminAddEditDialog extends JDialog implements ActionListener {
 	private void setResults(int results) {
 		this.results = results;
 	}
-	
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty()
+				|| textFieldPassword.getText().isEmpty() || textFieldPassword2.getText().isEmpty()
+				|| (!Utility.isValidKNumberLength(textFieldKNumber))) {
+			okButton.setEnabled(false);
+		} else {
+			okButton.setEnabled(true);
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
 }

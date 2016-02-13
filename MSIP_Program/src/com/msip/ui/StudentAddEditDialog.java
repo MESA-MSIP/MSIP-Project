@@ -4,19 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.msip.external.Utility;
 import com.msip.model.Student;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class StudentAddEditDialog extends JDialog implements ActionListener {
+public class StudentAddEditDialog extends JDialog implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -29,6 +33,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Create the dialog.
+	 * 
 	 * @wbp.parser.constructor
 	 */
 	public StudentAddEditDialog(String title) {
@@ -38,11 +43,12 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 	}
 
 	public StudentAddEditDialog(String title, Student studentToEdit) {
-		
+
 		setupUI(title);
 		setFields(studentToEdit);
 		setVisible(true);
 	}
+
 	/**
 	 * @param title
 	 */
@@ -64,6 +70,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 
 		textFieldFirstName = new JTextField();
 		textFieldFirstName.setFont(GlobalUI.TextFieldFont);
+		textFieldFirstName.addKeyListener(this);
 		textFieldFirstName.setBounds(105, 11, 319, 25);
 		contentPanel.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
@@ -76,6 +83,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		textFieldLastName = new JTextField();
 		textFieldLastName.setFont(GlobalUI.TextFieldFont);
 		textFieldLastName.setBounds(105, 49, 319, 25);
+		textFieldLastName.addKeyListener(this);
 		contentPanel.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
 
@@ -92,12 +100,14 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		textFieldMajor = new JTextField();
 		textFieldMajor.setFont(GlobalUI.TextFieldFont);
 		textFieldMajor.setBounds(105, 131, 319, 25);
+		textFieldMajor.addKeyListener(this);
 		contentPanel.add(textFieldMajor);
 		textFieldMajor.setColumns(10);
 
 		textFieldKNumber = new JTextField();
 		textFieldKNumber.setFont(GlobalUI.TextFieldFont);
 		textFieldKNumber.setBounds(105, 91, 319, 25);
+		textFieldKNumber.addKeyListener(this);
 		contentPanel.add(textFieldKNumber);
 		textFieldKNumber.setColumns(10);
 		JPanel buttonPane = new JPanel();
@@ -107,6 +117,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		okButton = new JButton("OK");
 		okButton.setPreferredSize(GlobalUI.ButtonDimenesions);
 		okButton.addActionListener(this);
+		okButton.setEnabled(false);
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 
@@ -114,13 +125,25 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		cancelButton.setPreferredSize(GlobalUI.ButtonDimenesions);
 		cancelButton.addActionListener(this);
 		buttonPane.add(cancelButton);
+
+		textFieldKNumber.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (textFieldKNumber.getText().length() >= 8) {
+					e.consume();
+				}
+				char keychar = e.getKeyChar();
+				if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
+					e.consume();
+				}
+			}
+		});
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (okButton == e.getSource()) {
 			setResults(JOptionPane.YES_OPTION);
 		} else {
-			
+
 			setResults(JOptionPane.NO_OPTION);
 		}
 		this.dispose();
@@ -128,6 +151,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Sets the fields in the dialog
+	 * 
 	 * @param student
 	 */
 	public void setFields(Student student) {
@@ -157,4 +181,21 @@ public class StudentAddEditDialog extends JDialog implements ActionListener {
 		this.results = results;
 	}
 
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty()
+				|| textFieldMajor.getText().isEmpty() || (! Utility.isValidKNumberLength(textFieldKNumber))) {
+			okButton.setEnabled(false);
+		} else {
+			okButton.setEnabled(true);
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
 }
