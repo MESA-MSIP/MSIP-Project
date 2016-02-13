@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -121,6 +123,18 @@ public class MISPCore {
 		return GlobalUI.SUCCESS;
 	}
 
+	/**
+	 * Return the dates for student that has logged in within startDate and End Date
+	 * if knumber is null then it returns all the students
+	 * @param Knumber
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<Date> getStudentDataRange(int Knumber, Date startDate, Date endDate) {
+		return loginTable.getEntryRange(Knumber, startDate, endDate);
+	}
+	
 	/**
 	 * Called by External Interface to set the number that was scanned UI then
 	 * gets notified that a number was scanned

@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import com.itextpdf.text.DocumentException;
 import com.msip.manager.MISPCore;
 import com.msip.model.Student;
+import com.msip.db.LoginTable;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
 
@@ -33,6 +34,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.Box;
 
 public class ReportPanel extends JPanel {
 
@@ -54,6 +56,9 @@ public class ReportPanel extends JPanel {
 	private String reportType = "";
 	private Date selectedStartDate = null;
 	private Date selectedEndDate = null;
+	private Component horizontalStrut;
+	private Component horizontalStrut_1;
+	private Component verticalStrut;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -61,7 +66,7 @@ public class ReportPanel extends JPanel {
 		setBackground(Color.WHITE);
 
 		actionPanel = new JPanel();
-		actionPanel.setPreferredSize(new Dimension(100, 100));
+		actionPanel.setPreferredSize(new Dimension(100, 75));
 		add(actionPanel, BorderLayout.NORTH);
 		actionPanel.setLayout(null);
 
@@ -260,9 +265,26 @@ public class ReportPanel extends JPanel {
 		lblEndDate.setBounds(520, 16, 76, 20);
 		actionPanel.add(lblEndDate);
 
-		graphPanel = new JPanel();
-		add(graphPanel, BorderLayout.CENTER);
-
+		//TODO starting values
+		GeneralGraph graph = new GeneralGraph("");
+		Date startDate = (Date) startDatePicker.getModel().getValue();
+		Date endDate = (Date) endDatePicker.getModel().getValue();
+		ArrayList<Date> dates = msipCore.getStudentDataRange(33333333, startDate, endDate);
+		int graphIndex = dateTypeSearch.getSelectedIndex();
+		graph.createGraph(graphIndex, dates);
+		add(graph.getGraph(), BorderLayout.CENTER);
+		
+		horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalStrut.setPreferredSize(new Dimension(3, 0));
+		add(horizontalStrut, BorderLayout.WEST);
+		
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		horizontalStrut_1.setPreferredSize(new Dimension(3, 0));
+		add(horizontalStrut_1, BorderLayout.EAST);
+		
+		verticalStrut = Box.createVerticalStrut(20);
+		verticalStrut.setPreferredSize(new Dimension(5, 5));
+		add(verticalStrut, BorderLayout.SOUTH);
 	}
 
 	/**
