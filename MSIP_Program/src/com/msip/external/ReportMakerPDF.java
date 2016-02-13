@@ -33,8 +33,6 @@ public class ReportMakerPDF {
 	PdfWriter writer;
 	private String creator = "MSIP Software";
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
-	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 	private static Font small = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
 
 	/**

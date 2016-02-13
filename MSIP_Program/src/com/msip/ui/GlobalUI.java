@@ -3,6 +3,8 @@ package com.msip.ui;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.ComboBoxModel;
+
 public class GlobalUI {
 	// Strings for Card layout
 	public static final String LoginPanel = "LoginPanel";
@@ -35,24 +37,24 @@ public class GlobalUI {
 	public static final String NotificationsPanel = "Notifications";
 	public static final String QuestionnairePanel = "Questionnaire";
 
-	//Path File for MESA Logo
+	// Path File for MESA Logo
 	public static final String MESAURL = "MESA.png";
-	
-	//Integers for Student Admin Decision
+
+	// Integers for Student Admin Decision
 	public static final int STUDENT = 0;
 	public static final int ADMIN = 1;
 	public static final int NEITHER = 2;
-	
-	//Button properties
+
+	// Button properties
 	public static final Dimension ButtonDimenesions = new Dimension(100, 30);
-	
-	//Label Properties
+
+	// Label Properties
 	public static final Font LableFont = new Font("Tahoma", Font.BOLD, 13);
-	
-	//Label Text Field
+
+	// Label Text Field
 	public static final Font TextFieldFont = new Font("Tahoma", Font.BOLD, 13);
-	
-	//General Strings
+
+	// General Strings
 	public static final String ADDSTUDENT = "Add Student to Database";
 	public static final String MODIFYSTUDENT = "Edit Student Information";
 	public static final String SELECTASTUDENT = "Please Select a student";
@@ -60,14 +62,15 @@ public class GlobalUI {
 	public static final String ADDADMIN = "Add Admin to Database";
 	public static final String PLEASE_SEE_DEVELOPER = "Please see developer. Something went wrong.. Oops!";
 	public static final String MODIFY_ADMIN = "Edit Admin Information";;
-	
-	//Magic Number
+
+	// Magic Number
 	public static final int TWO_THOUSAND_MILLI_SECONDS = 2000;
 
+	public static String[] getListMajors() {
+		String[] majorList = { "Mechanical Engineer", "Electrical Engineer", "Computer Science", "Civil Engineer",
+				"Chemical Engineer", "Information Technology", "Chemistry", "Biology", "Physics", "Other" };
 
+		return majorList;
+	}
 
-
-
-	
-	
 }

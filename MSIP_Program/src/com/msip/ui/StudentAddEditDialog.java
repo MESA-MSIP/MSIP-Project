@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +27,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener, Key
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
-	private JTextField textFieldMajor;
+	private JComboBox<String> cmboBoxMajor;
 	private JTextField textFieldKNumber;
 	private JButton okButton;
 	private int results;
@@ -97,12 +98,10 @@ public class StudentAddEditDialog extends JDialog implements ActionListener, Key
 		lblMajor.setBounds(25, 134, 80, 14);
 		contentPanel.add(lblMajor);
 
-		textFieldMajor = new JTextField();
-		textFieldMajor.setFont(GlobalUI.TextFieldFont);
-		textFieldMajor.setBounds(105, 131, 319, 25);
-		textFieldMajor.addKeyListener(this);
-		contentPanel.add(textFieldMajor);
-		textFieldMajor.setColumns(10);
+		cmboBoxMajor = new JComboBox<String>(GlobalUI.getListMajors());
+		cmboBoxMajor.setFont(GlobalUI.TextFieldFont);
+		cmboBoxMajor.setBounds(105, 131, 319, 25);
+		contentPanel.add(cmboBoxMajor);
 
 		textFieldKNumber = new JTextField();
 		textFieldKNumber.setFont(GlobalUI.TextFieldFont);
@@ -158,12 +157,32 @@ public class StudentAddEditDialog extends JDialog implements ActionListener, Key
 		textFieldFirstName.setText(student.getFirstName());
 		textFieldLastName.setText(student.getLastName());
 		textFieldKNumber.setText(String.valueOf(student.getkNumber()));
-		textFieldMajor.setText(student.getMajor());
+		cmboBoxMajor.setSelectedIndex((getIndexfromMajorComboBox(student.getMajor())));
+
+		// Check to see if valid fields to enable OK button
+		if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty()
+				|| (!Utility.isValidKNumberLength(textFieldKNumber))) {
+			okButton.setEnabled(false);
+		} else {
+			okButton.setEnabled(true);
+		}
+	}
+
+	private int getIndexfromMajorComboBox(String major) {
+		int results = 0;
+
+		String[] majors = GlobalUI.getListMajors();
+		for (int i = 0; i < majors.length; i++) {
+			if (majors[i].compareTo(major) == 0) {
+				return i;
+			}
+		}
+		return results;
 	}
 
 	public Student getStudent() throws NumberFormatException {
 		return new Student(textFieldFirstName.getText(), textFieldLastName.getText(),
-				Integer.parseInt(textFieldKNumber.getText()), textFieldMajor.getText());
+				Integer.parseInt(textFieldKNumber.getText()), (String) cmboBoxMajor.getModel().getSelectedItem());
 	}
 
 	/**
@@ -184,7 +203,7 @@ public class StudentAddEditDialog extends JDialog implements ActionListener, Key
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty()
-				|| textFieldMajor.getText().isEmpty() || (! Utility.isValidKNumberLength(textFieldKNumber))) {
+				|| (!Utility.isValidKNumberLength(textFieldKNumber))) {
 			okButton.setEnabled(false);
 		} else {
 			okButton.setEnabled(true);
