@@ -35,19 +35,19 @@ public class GeneralGraph extends ApplicationFrame {
 		case HOURS:
 			int[] arrayHours = analyzeHourData(dataset);
 			panel = hoursChart(arrayHours);
-
+			break;
 		case DAYS:
 			int[] arrayDays = analyzeDayData(dataset);
 			panel = daysChart(arrayDays);
-
+			break;
 		case WEEKS:
 			int[] arrayWeeks = analyzeWeekData(dataset);
 			panel = weeksChart(arrayWeeks);
-
+			break;
 		case MONTHS:
 			int[] arrayMonths = analyzeMonthData(dataset);
 			panel = monthsChart(arrayMonths);
-
+			break;
 		default:
 			panel = new JPanel();
 			break;
@@ -215,7 +215,7 @@ public class GeneralGraph extends ApplicationFrame {
 		for (int m = 0; m < arrayMonths.length; m++) {
 			arrayMonths[m] = 0;
 		}
-		
+
 		for (Date arrM : dataset) {
 			int month = getMonth(arrM);
 
@@ -243,7 +243,7 @@ public class GeneralGraph extends ApplicationFrame {
 	}
 
 	private CategoryDataset MonthDataset(int[] arrayMonths) {
-		
+
 		String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 				"October", "November", "December" };
 		final DefaultCategoryDataset datasetMonths = new DefaultCategoryDataset();
