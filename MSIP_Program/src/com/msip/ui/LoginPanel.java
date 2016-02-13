@@ -97,22 +97,22 @@ public class LoginPanel
     
     this.labelToast = new JLabel("You Have Logged In.");
     this.labelToast.setBounds(531, 264, 215, 32);
-    this.labelToast.setVisible(true);
+    this.labelToast.setVisible(false);
     this.labelToast.setHorizontalAlignment(0);
-    this.labelToast.setFont(new Font("Segoe UI", 0, 16));
+    this.labelToast.setFont(new Font("Segoe UI", 0, 17));
     add(this.labelToast);
     
     ImageIcon icon = CreateIcon("MESA.png", 315, 72);
     
     this.labeladminPassError = new JLabel("Password or K# is incorrect.");
-    this.labeladminPassError.setBounds(531, 384, 240, 22);
+    this.labeladminPassError.setBounds(531, 384, 261, 22);
     this.labeladminPassError.setHorizontalAlignment(0);
     this.labeladminPassError.setFont(new Font("Segoe UI", 0, 18));
     this.labeladminPassError.setVisible(false);
     
     this.labelHelp = new JLabel("K# is Incorrect.  Try Again.");
     this.labelHelp.setToolTipText("");
-    this.labelHelp.setBounds(521, 259, 225, 43);
+    this.labelHelp.setBounds(521, 259, 271, 43);
     this.labelHelp.setFont(new Font("Segoe UI", 0, 18));
     this.labelHelp.setHorizontalAlignment(0);
     this.labelHelp.setVisible(false);
@@ -125,8 +125,8 @@ public class LoginPanel
     this.txtErrorMessage = new JTextArea();
     this.txtErrorMessage.setToolTipText("");
     this.txtErrorMessage.setText("See a MESA Advisor to Sign In.");
-    this.txtErrorMessage.setFont(new Font("Segoe UI", 0, 18));
-    this.txtErrorMessage.setBounds(521, 259, 225, 43);
+    this.txtErrorMessage.setFont(new Font("Segoe UI", 0, 17));
+    this.txtErrorMessage.setBounds(529, 266, 271, 43);
     this.txtErrorMessage.setVisible(false);
     add(this.txtErrorMessage);
     
