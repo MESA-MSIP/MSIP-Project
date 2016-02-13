@@ -46,29 +46,29 @@ public class DBConnector {
 		LoginTable login = new LoginTable();
 		login.deleteAll();
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 150; i++) {
 			login.addUsingDates(33333333, getRandomDate());
 		}
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 150; i++) {
 			login.addUsingDates(44444444, getRandomDate());
 		}
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 150; i++) {
 			login.addUsingDates(55555555, getRandomDate());
 		}
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 150; i++) {
 			login.addUsingDates(66666666, getRandomDate());
 		}
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 150; i++) {
 			login.addUsingDates(77777777, getRandomDate());
 		}
 	}
 
 	private static Timestamp getRandomDate() {
 		long offset = Timestamp.valueOf("2015-01-01 00:00:00").getTime();
-		long end = Timestamp.valueOf("2016-01-01 00:00:00").getTime();
+		long end = Timestamp.valueOf("2016-12-01 00:00:00").getTime();
 		long diff = end - offset + 1;
 		return new Timestamp(offset + (long) (Math.random() * diff));
 	}

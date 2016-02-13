@@ -145,7 +145,7 @@ public class LoginTable {
 			ResultSet rs = entries.executeQuery();
 			while (rs.next()) {
 				Date date = rs.getDate("DateTime");
-				if (date.compareTo(startDate) <= 0 && date.compareTo(endDate) >= 0) {
+				if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
 					studentLogin.add(date);
 				}
 			}
