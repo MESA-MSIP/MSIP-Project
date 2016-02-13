@@ -3,35 +3,24 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
-import java.sql.Savepoint;
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 
 import com.itextpdf.text.DocumentException;
 import com.msip.manager.MISPCore;
-import com.msip.model.Person;
 import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
 
 import javax.swing.JLabel;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.DateFormatter;
 
 import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -79,7 +68,6 @@ public class ReportPanel extends JPanel {
 		studentSearch = new JComboBox<Object>();
 		studentSearch.setBounds(15, 40, 137, 26);
 		actionPanel.add(studentSearch);
-
 		studentSearch.addItem("All Student's");
 
 		// Adds all students to combo box.
@@ -90,8 +78,8 @@ public class ReportPanel extends JPanel {
 			listOfStudents.add(msipCore.getStudents().get(i));
 			// Adds a student to combo box.
 			studentSearch.addItem(studentList.get(i));
-		}
-
+		
+	}
 		studentSearch.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 
@@ -136,8 +124,8 @@ public class ReportPanel extends JPanel {
 
 			}
 		});
-		
-		//Creates the date picker
+
+		// Creates the date picker
 		UtilDateModel startModel = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.month", "Month");
@@ -147,11 +135,15 @@ public class ReportPanel extends JPanel {
 		JDatePickerImpl startDatePicker = new JDatePickerImpl(startDatePanel,
 				new DateComponentFormatter());
 		actionPanel.add(startDatePicker);
+		// set current date by default
+		startModel.setDate(startModel.getYear(), startModel.getMonth() - 1,
+				startModel.getDay());
+		startModel.setSelected(true);
 		startDatePicker.setBounds(341, 40, 137, 26);
-		
+
 		startDatePicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//returns the chosen date.
+				// returns the chosen date.
 				selectedStartDate = (Date) startDatePicker.getModel()
 						.getValue();
 				System.out.println(selectedStartDate);
@@ -164,9 +156,12 @@ public class ReportPanel extends JPanel {
 		p2.put("text.month", "Month");
 		p2.put("text.today", "Today");
 		JDatePanelImpl endDatePanel = new JDatePanelImpl(endModel, p2);
-		JDatePickerImpl endDatePicker = new JDatePickerImpl(endDatePanel, new DateComponentFormatter());
+		JDatePickerImpl endDatePicker = new JDatePickerImpl(endDatePanel,
+				new DateComponentFormatter());
 		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
+		// set current date by default
+		endModel.setSelected(true);
 
 		endDatePicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -184,13 +179,13 @@ public class ReportPanel extends JPanel {
 
 				JFileChooser fc = new JFileChooser();
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
 						".csv", "Report Type");
-				FileNameExtensionFilter filter2 = new FileNameExtensionFilter(
+				FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
 						".pdf", "Report Type");
 				fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
-				fc.addChoosableFileFilter(filter);
-				fc.addChoosableFileFilter(filter2);
+				fc.addChoosableFileFilter(csvFilter);
+				fc.addChoosableFileFilter(pdfFilter);
 				int returnVal = fc.showOpenDialog(null);
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -200,7 +195,6 @@ public class ReportPanel extends JPanel {
 						File yourFolder = fc.getSelectedFile();
 						System.out.println(yourFolder);
 						String numOfLogins = "";
-						System.out.println("Im in");
 						File pathToCSV = new File(yourFolder.getAbsolutePath()
 								+ File.separator + "Fernando'sReport_csv.csv");
 
@@ -211,7 +205,7 @@ public class ReportPanel extends JPanel {
 						for (int i = 0; i < d.length; i++) {
 							d[i] = new Date();
 						}
-						
+
 						String[] s = new String[5];
 						for (int i = 0; i < s.length; i++) {
 							s[i] = str.format(d[i]);
@@ -225,16 +219,18 @@ public class ReportPanel extends JPanel {
 						File pathToPDF = new File(yourFolder.getAbsolutePath()
 								+ File.separator + "Fernando'sReport.pdf");
 						try {
-							
+
 							Date[] d2 = new Date[20];
 							for (int i = 0; i < d2.length; i++) {
 								d2[i] = new Date();
 							}
-								String timesPresent = Integer.toString(d2.length);
-							
+							String timesPresent = Integer.toString(d2.length);
+
 							ReportMakerPDF pdf = new ReportMakerPDF(pathToPDF);
-							pdf.addMettaData("Report Title", "Report Subject", "Juan Zepeda");
-							pdf.addHeader("Report Title", student, reportType, "John Smith");
+							pdf.addMettaData("Report Title", "Report Subject",
+									"Juan Zepeda");
+							pdf.addHeader("Report Title", student, reportType,
+									"John Smith");
 							pdf.addStudent(student, "KNumber", timesPresent, d2);
 						} catch (DocumentException e) {
 							// TODO Auto-generated catch block
