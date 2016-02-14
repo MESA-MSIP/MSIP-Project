@@ -269,6 +269,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 						pdf.addHeader("Report Title", student, reportType,
 								"John Smith");
 						pdf.addStudent(student, "KNumber", timesPresent, d2);
+						pdf.closeReport();
 					} catch (DocumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
