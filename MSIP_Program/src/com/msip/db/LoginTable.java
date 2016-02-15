@@ -24,7 +24,8 @@ public class LoginTable {
 		try {
 			createLoginTable = DBConnector.myConnection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Login(ID INT NOT NULL AUTO_INCREMENT, "
-							+ "Knumber INT NOT NULL, " + "DateTime DATETIME NOT NULL, PRIMARY KEY(ID))");
+							+ "Knumber INT NOT NULL, "
+							+ "DateTime DATETIME NOT NULL, PRIMARY KEY(ID))");
 			createLoginTable.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,7 +39,8 @@ public class LoginTable {
 	 */
 	public void add(int Knumber) throws SQLException {
 		PreparedStatement delete = DBConnector.myConnection
-				.prepareStatement("INSERT INTO Login VALUE(NULL, '" + Knumber + "', NOW());");
+				.prepareStatement("INSERT INTO Login VALUE(NULL, '" + Knumber
+						+ "', NOW());");
 		delete.executeUpdate();
 	}
 
@@ -48,7 +50,8 @@ public class LoginTable {
 	public void remove(int Knumber) {
 		try {
 			PreparedStatement delete = DBConnector.myConnection
-					.prepareStatement("DELETE FROM Login WHERE Knumber='" + Knumber + "';");
+					.prepareStatement("DELETE FROM Login WHERE Knumber='"
+							+ Knumber + "';");
 			delete.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,7 +63,8 @@ public class LoginTable {
 	 */
 	public void deleteAll() {
 		try {
-			PreparedStatement deletAll = DBConnector.myConnection.prepareStatement("DELETE FROM Login");
+			PreparedStatement deletAll = DBConnector.myConnection
+					.prepareStatement("DELETE FROM Login");
 			deletAll.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,12 +82,14 @@ public class LoginTable {
 		try {
 
 			PreparedStatement studentInfo = DBConnector.myConnection
-					.prepareStatement("SELECT * FROM Login WHERE Knumber='" + Knumber + "';");
+					.prepareStatement("SELECT * FROM Login WHERE Knumber='"
+							+ Knumber + "';");
 			ResultSet rs = studentInfo.executeQuery();
 
 			while (rs.next()) {
 				Date date = rs.getTimestamp("DateTime");
-				loginEntry = new LoginEntry(date, Integer.parseInt(rs.getString("Knumber")));
+				loginEntry = new LoginEntry(date, Integer.parseInt(rs
+						.getString("Knumber")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,14 +104,15 @@ public class LoginTable {
 	 * @param Knumber
 	 * @return list of dates.
 	 */
-	public ArrayList<Date> getLoginEntry(Integer Knumber) {
+	public ArrayList<Date> getLoginEntry(int Knumber) {
 		ArrayList<Date> dateEntry = new ArrayList<Date>();
 
 		try {
-			if (Knumber != null) {// When Knumber is null, we will select all
-									// dates and add it to the date arraylist.
+			if (Knumber != 0) {// When Knumber is null, we will select all
+								// dates and add it to the date arraylist.
 				PreparedStatement entries = DBConnector.myConnection
-						.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='" + Knumber + "';");
+						.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
+								+ Knumber + "';");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
 					Date date = rs.getDate("DateTime");
@@ -113,7 +120,8 @@ public class LoginTable {
 				}
 			} else {
 
-				PreparedStatement entries = DBConnector.myConnection.prepareStatement("SELECT DateTime FROM Login;");
+				PreparedStatement entries = DBConnector.myConnection
+						.prepareStatement("SELECT DateTime FROM Login;");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
 					Date date = rs.getDate("DateTime");
@@ -137,19 +145,35 @@ public class LoginTable {
 	 * @param endDate
 	 * @return
 	 */
-	public ArrayList<Date> getEntryRange(int Knumber, Date startDate, Date endDate) {
+	public ArrayList<Date> getEntryRange(int Knumber, Date startDate,
+			Date endDate) {
 		ArrayList<Date> studentLogin = new ArrayList<Date>();
 		try {
-			PreparedStatement entries = DBConnector.myConnection
-					.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='" + Knumber + "';");
-			ResultSet rs = entries.executeQuery();
-			while (rs.next()) {
-				Date date = rs.getDate("DateTime");
-				if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
-					studentLogin.add(date);
+			if (Knumber == 0) {// When Knumber is null, we will select all
+				// dates and add it to the date arraylist.
+				PreparedStatement entries = DBConnector.myConnection
+						.prepareStatement("SELECT DateTime FROM Login;");
+				ResultSet rs = entries.executeQuery();
+				while (rs.next()) {
+					Date date = rs.getDate("DateTime");
+					if (date.compareTo(startDate) >= 0
+							&& date.compareTo(endDate) <= 0) {
+						studentLogin.add(date);
+					}
+				}
+			} else {
+				PreparedStatement entries = DBConnector.myConnection
+						.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
+								+ Knumber + "';");
+				ResultSet rs = entries.executeQuery();
+				while (rs.next()) {
+					Date date = rs.getDate("DateTime");
+					if (date.compareTo(startDate) >= 0
+							&& date.compareTo(endDate) <= 0) {
+						studentLogin.add(date);
+					}
 				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -164,8 +188,10 @@ public class LoginTable {
 	 */
 	public ArrayList<Date> getParticipation(int Knumber) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-		String date2 = ZonedDateTime.now().minusWeeks(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
+		String date = ZonedDateTime.now().format(
+				DateTimeFormatter.ISO_LOCAL_DATE);
+		String date2 = ZonedDateTime.now().minusWeeks(1)
+				.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
 		Date startDate = null;
 		Date endDate = null;
@@ -184,11 +210,13 @@ public class LoginTable {
 	 * 
 	 * @param Knumber
 	 * @throws ParseException
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	public void addUsingDates(int Knumber, Timestamp date) throws ParseException, SQLException {
+	public void addUsingDates(int Knumber, Timestamp date)
+			throws ParseException, SQLException {
 		PreparedStatement delete = DBConnector.myConnection
-				.prepareStatement("INSERT INTO Login VALUE(NULL, '" + Knumber + "', '" + date + "');");
+				.prepareStatement("INSERT INTO Login VALUE(NULL, '" + Knumber
+						+ "', '" + date + "');");
 		delete.executeUpdate();
 	}
 }
