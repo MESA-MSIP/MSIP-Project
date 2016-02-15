@@ -33,6 +33,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.Box;
 
 public class ReportPanel extends JPanel implements ActionListener, ItemListener {
@@ -49,7 +50,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JLabel lblEndDate;
 	private ArrayList<String> studentList = new ArrayList<String>();
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
-	private String[] reportTypes = { "Hour", "Day", "Week", "Month" };
+	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
 	private String student = "";
 	private String reportType = "";
 	private Date selectedStartDate = null;
@@ -62,6 +63,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JDatePickerImpl startDatePicker;
 	private JDatePanelImpl startDatePanel;
 	private int studentKnumber = 0;
+	private int graphType;
 	private boolean isOn;
 	private GeneralGraph graph;
 	private ReportPanel panel;
@@ -114,13 +116,18 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		p.put("text.today", "Today");
 		p.put("text.year", "Year");
 		startDatePanel = new JDatePanelImpl(startModel, p);
-		startDatePicker = new JDatePickerImpl(startDatePanel, new DateComponentFormatter());
+		startDatePicker = new JDatePickerImpl(startDatePanel,
+				new DateComponentFormatter());
 		actionPanel.add(startDatePicker);
-		// set current date by default
-		startModel.setDate(startModel.getYear(), startModel.getMonth() - 1, startModel.getDay());
+		// sets last months date by default.
+		startModel.setDate(startModel.getYear(), startModel.getMonth() - 1,
+				startModel.getDay());
 		startModel.setSelected(true);
 		startDatePicker.setBounds(341, 40, 137, 26);
 		startDatePicker.addActionListener(this);
+		// sets last months date to this global variable. If not we will get a
+		// null error.
+		selectedStartDate = startModel.getValue();
 		isOn = false;
 
 		UtilDateModel endModel = new UtilDateModel();
@@ -129,12 +136,16 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		p2.put("text.month", "Month");
 		p2.put("text.today", "Today");
 		endDatePanel = new JDatePanelImpl(endModel, p2);
-		endDatePicker = new JDatePickerImpl(endDatePanel, new DateComponentFormatter());
+		endDatePicker = new JDatePickerImpl(endDatePanel,
+				new DateComponentFormatter());
 		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
 		// set current date by default
 		endModel.setSelected(true);
 		endDatePicker.addActionListener(this);
+		// sets current date to this global variable. If not we will get a null
+		// error.
+		selectedEndDate = endModel.getValue();
 
 		saveReportButton = new JButton("Save Report");
 		saveReportButton.setBounds(648, 40, 137, 26);
@@ -164,7 +175,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		graph = new GeneralGraph("");
 		Date startDate = (Date) startDatePicker.getModel().getValue();
 		Date endDate = (Date) endDatePicker.getModel().getValue();
-		ArrayList<Date> dates = msipCore.getStudentDataRange(33333333, startDate, endDate);
+		ArrayList<Date> dates = msipCore.getStudentDataRange(33333333,
+				startDate, endDate);
 		int graphIndex = jCBoxReporTypeSearch.getSelectedIndex();
 		graph.createGraph(graphIndex, dates);
 		add(graph.getGraph(), BorderLayout.CENTER);
@@ -218,8 +230,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 			JFileChooser fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv", "Report Type");
-			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf", "Report Type");
+			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
+					".csv", "Report Type");
+			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
+					".pdf", "Report Type");
 			fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
 			fc.addChoosableFileFilter(csvFilter);
 			fc.addChoosableFileFilter(pdfFilter);
@@ -242,7 +256,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			File yourFolder = fc.getSelectedFile();
 			System.out.println(yourFolder);
 			String numOfLogins = "";
-			File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport_csv.csv");
+			File pathToCSV = new File(yourFolder.getAbsolutePath()
+					+ File.separator + "Fernando'sReport_csv.csv");
 
 			ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
 			SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
@@ -265,7 +280,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	public void saveToPDF(JFileChooser fc) {
 		File yourFolder = fc.getSelectedFile();
-		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport.pdf");
+		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
+				+ "Fernando'sReport.pdf");
 		try {
 
 			Date[] d2 = new Date[20];
@@ -300,7 +316,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				if (comboBoxIndex == 0) {
 					for (int i = 0; i < studentList.size(); i++) {
 						student = studentList.get(i);
-						studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
+						studentKnumber = listOfStudents.get(i).getkNumber();
 						System.out.println(student);
 						System.out.println(studentKnumber);
 
@@ -312,7 +328,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				} else {
 					studentListIndex = comboBoxIndex - 1;
 					student = studentList.get(studentListIndex);
-					studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
+					studentKnumber = listOfStudents.get(studentListIndex)
+							.getkNumber();
 					System.out.println(student);
 					System.out.println(studentKnumber);
 					updateGraph();
@@ -322,21 +339,63 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				int reportTypeIndex = jCBoxReporTypeSearch.getSelectedIndex();
 				// prints out users choice of report.
 				reportType = reportTypes[reportTypeIndex];
-				System.out.println(reportTypes[reportTypeIndex]);
+				System.out.println(reportType);
 				updateGraph();
 			}
 			break;
 		case ItemEvent.SELECTED:
-			// Do what ever you want when the item is selected
+			graphType = 0;
+			switch(reportType){
+			case "Days":
+				graphType = 1;
+				break;
+			case "Weeks":
+				graphType = 2;
+				break;
+			case "Months":
+				graphType = 3;
+				break;
+			default:
+				graphType = 0;
+				break;
+			}
+//			// If you choose hours then it will return a 0 to represent hours in
+//			// our graph.
+//			if (reportType.equals("Hours")) {
+//				graphType = 0;
+//				System.out.println(graphType);
+//
+//				// If you choose days then it will return a 1 to represent hours
+//				// in our graph.
+//			} else if (reportType.equals("Days")) {
+//				graphType = 1;
+//				System.out.println(graphType);
+//
+//				// If you choose weeks then it will return a 2 to represent
+//				// hours in our graph.
+//			} else if (reportType.equals("Weeks")) {
+//				graphType = 2;
+//				System.out.println(graphType);
+//
+//				// If you choose months then it will return a 3 to represent
+//				// hours in our graph.
+//			} else {
+//				graphType = 3;
+//				System.out.println(graphType);
+//
+//			}
+
 			break;
 		}
 	}
 
 	private void updateGraph() {
 
-		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate);
-		//TODO hard coded index for graph type
-		graph.createGraph(1, dates);
+		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
+				selectedStartDate, selectedEndDate);
+		// TODO hard coded index for graph type
+		System.out.println(graphType);
+		graph.createGraph(graphType, dates);
 		BorderLayout layout = (BorderLayout) panel.getLayout();
 		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 		add(graph.getGraph(), BorderLayout.CENTER);
@@ -344,3 +403,4 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		System.out.println("New Graph Added");
 	}
 }
+ 
