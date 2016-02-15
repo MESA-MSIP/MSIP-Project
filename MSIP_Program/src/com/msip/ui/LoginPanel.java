@@ -30,8 +30,7 @@ public class LoginPanel
   extends JPanel
   implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-private static JTextField txtKNumber;
+  private static JTextField txtKNumber;
   private JTextField txtAdminPass;
   private JLabel labelToast;
   private JLabel labelKNumber;
@@ -57,7 +56,7 @@ private static JTextField txtKNumber;
     txtKNumber = new JFormattedTextField(numberFormat);
     txtKNumber.setColumns(10);
     
-    txtKNumber.setBounds(298, 260, 211, 40);
+    txtKNumber.setBounds(297, 215, 211, 40);
     txtKNumber.addActionListener(this);
     setLayout(null);
     txtKNumber.setHorizontalAlignment(0);
@@ -66,7 +65,7 @@ private static JTextField txtKNumber;
     add(txtKNumber);
     
     this.txtAdminPass = new JPasswordField(10);
-    this.txtAdminPass.setBounds(297, 375, 212, 40);
+    this.txtAdminPass.setBounds(297, 297, 212, 40);
     this.txtAdminPass.addActionListener(this);
     this.txtAdminPass.setHorizontalAlignment(0);
     this.txtAdminPass.setFont(new Font("Segoe UI Light", 0, 16));
@@ -75,7 +74,7 @@ private static JTextField txtKNumber;
     add(this.txtAdminPass);
     
     this.labeladminPass = new JLabel("Password:");
-    this.labeladminPass.setBounds(321, 340, 166, 22);
+    this.labeladminPass.setBounds(318, 268, 166, 22);
     this.labeladminPass.setHorizontalAlignment(0);
     this.labeladminPass.setFont(new Font("Segoe UI", 0, 24));
     this.labeladminPass.setLabelFor(this.txtAdminPass);
@@ -83,43 +82,43 @@ private static JTextField txtKNumber;
     this.labeladminPass.setVisible(false);
     
     this.labelKNumber = new JLabel("Enter K# Here:");
-    this.labelKNumber.setBounds(282, 225, 227, 22);
+    this.labelKNumber.setBounds(287, 180, 227, 22);
     this.labelKNumber.setLabelFor(txtKNumber);
     this.labelKNumber.setHorizontalAlignment(0);
     this.labelKNumber.setFont(new Font("Segoe UI", 0, 24));
     add(this.labelKNumber);
     
     JLabel labelWelcome = new JLabel("Welcome!");
-    labelWelcome.setBounds(0, 116, 800, 84);
+    labelWelcome.setBounds(-6, 83, 806, 84);
     labelWelcome.setHorizontalAlignment(0);
     labelWelcome.setFont(new Font("Segoe UI", 1, 60));
     Utility.iterateWelcome(labelWelcome, 3000L);
     add(labelWelcome);
     
-    this.labelToast = new JLabel("You Have Logged In.");
-    this.labelToast.setBounds(531, 264, 215, 32);
-    this.labelToast.setVisible(false);
-    this.labelToast.setHorizontalAlignment(0);
-    this.labelToast.setFont(new Font("Segoe UI", 0, 17));
-    add(this.labelToast);
-    
     ImageIcon icon = CreateIcon("MESA.png", 315, 72);
     
     this.labeladminPassError = new JLabel("Password or K# is incorrect.");
-    this.labeladminPassError.setBounds(531, 384, 261, 22);
+    this.labeladminPassError.setBounds(502, 305, 261, 22);
     this.labeladminPassError.setHorizontalAlignment(0);
     this.labeladminPassError.setFont(new Font("Segoe UI", 0, 18));
     this.labeladminPassError.setVisible(false);
     
     this.labelHelp = new JLabel("K# is Incorrect.  Try Again.");
     this.labelHelp.setToolTipText("");
-    this.labelHelp.setBounds(521, 259, 271, 43);
+    this.labelHelp.setBounds(502, 215, 271, 43);
     this.labelHelp.setFont(new Font("Segoe UI", 0, 18));
     this.labelHelp.setHorizontalAlignment(0);
     this.labelHelp.setVisible(false);
     this.labelMESALOGO = new JLabel(icon);
     this.labelMESALOGO.setBounds(503, 3, 289, 77);
     add(this.labelMESALOGO);
+    
+    this.labelToast = new JLabel("You Have Logged In.");
+    this.labelToast.setBounds(502, 221, 215, 32);
+    this.labelToast.setVisible(false);
+    this.labelToast.setHorizontalAlignment(0);
+    this.labelToast.setFont(new Font("Segoe UI", 0, 17));
+    add(this.labelToast);
     add(this.labelHelp);
     add(this.labeladminPassError);
     
@@ -127,13 +126,13 @@ private static JTextField txtKNumber;
     this.txtErrorMessage.setToolTipText("");
     this.txtErrorMessage.setText("See a MESA Advisor to Sign In.");
     this.txtErrorMessage.setFont(new Font("Segoe UI", 0, 17));
-    this.txtErrorMessage.setBounds(529, 266, 271, 43);
+    this.txtErrorMessage.setBounds(529, 223, 259, 43);
     this.txtErrorMessage.setVisible(false);
     add(this.txtErrorMessage);
     
     this.labelInsertAdminPass = new JLabel("Enter your Password.");
     this.labelInsertAdminPass.setFont(new Font("Segoe UI", 0, 18));
-    this.labelInsertAdminPass.setBounds(521, 259, 225, 43);
+    this.labelInsertAdminPass.setBounds(520, 213, 225, 43);
     this.labelInsertAdminPass.setVisible(false);
     add(this.labelInsertAdminPass);
     
