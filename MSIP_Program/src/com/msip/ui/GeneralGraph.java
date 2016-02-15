@@ -68,7 +68,6 @@ public class GeneralGraph extends ApplicationFrame {
 		for (Date arrH : dataset) {
 			int hour = getHours(arrH);
 			arrayHours[hour] = arrayHours[hour] + 1;
-			System.out.println(hour);
 		}
 		return arrayHours;
 	}
@@ -111,7 +110,6 @@ public class GeneralGraph extends ApplicationFrame {
 		}
 		for (Date arrW : dataset) {
 			int week = getWeek(arrW);
-			System.out.println(week);
 			arrayWeeks[week] = arrayWeeks[week] + 1;
 		}
 		return arrayWeeks;
@@ -132,7 +130,6 @@ public class GeneralGraph extends ApplicationFrame {
 
 		for (Date arrD : dataset) {
 			int day = getDay(arrD);
-			System.out.println(day);
 			arrayDays[day] = arrayDays[day] + 1;
 
 		}
@@ -220,7 +217,6 @@ public class GeneralGraph extends ApplicationFrame {
 			int month = getMonth(arrM);
 
 			arrayMonths[month] = arrayMonths[month] + 1;
-			System.out.println(month);
 		}
 		return arrayMonths;
 	}

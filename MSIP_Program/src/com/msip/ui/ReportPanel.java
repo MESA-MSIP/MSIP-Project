@@ -63,9 +63,12 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JDatePanelImpl startDatePanel;
 	private int studentKnumber = 0;
 	private boolean isOn;
+	private GeneralGraph graph;
+	private ReportPanel panel;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
+		panel = this;
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 
@@ -77,8 +80,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxStudentSearch = new JComboBox<Object>();
 		jCBoxStudentSearch.setBounds(15, 40, 137, 26);
 		actionPanel.add(jCBoxStudentSearch);
-		
-		//Your able to choose all students. This sets All Students as the default.
+
+		// Your able to choose all students. This sets All Students as the
+		// default.
 		jCBoxStudentSearch.addItem("All Student's");
 
 		// Adds all students to combo box.
@@ -110,12 +114,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		p.put("text.today", "Today");
 		p.put("text.year", "Year");
 		startDatePanel = new JDatePanelImpl(startModel, p);
-		startDatePicker = new JDatePickerImpl(startDatePanel,
-				new DateComponentFormatter());
+		startDatePicker = new JDatePickerImpl(startDatePanel, new DateComponentFormatter());
 		actionPanel.add(startDatePicker);
 		// set current date by default
-		startModel.setDate(startModel.getYear(), startModel.getMonth() - 1,
-				startModel.getDay());
+		startModel.setDate(startModel.getYear(), startModel.getMonth() - 1, startModel.getDay());
 		startModel.setSelected(true);
 		startDatePicker.setBounds(341, 40, 137, 26);
 		startDatePicker.addActionListener(this);
@@ -127,8 +129,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		p2.put("text.month", "Month");
 		p2.put("text.today", "Today");
 		endDatePanel = new JDatePanelImpl(endModel, p2);
-		endDatePicker = new JDatePickerImpl(endDatePanel,
-				new DateComponentFormatter());
+		endDatePicker = new JDatePickerImpl(endDatePanel, new DateComponentFormatter());
 		endDatePicker.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDatePicker);
 		// set current date by default
@@ -160,11 +161,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		actionPanel.add(lblEndDate);
 
 		// TODO starting values generalPanel
-		GeneralGraph graph = new GeneralGraph("");
+		graph = new GeneralGraph("");
 		Date startDate = (Date) startDatePicker.getModel().getValue();
 		Date endDate = (Date) endDatePicker.getModel().getValue();
-		ArrayList<Date> dates = msipCore.getStudentDataRange(33333333,
-				startDate, endDate);
+		ArrayList<Date> dates = msipCore.getStudentDataRange(33333333, startDate, endDate);
 		int graphIndex = jCBoxReporTypeSearch.getSelectedIndex();
 		graph.createGraph(graphIndex, dates);
 		add(graph.getGraph(), BorderLayout.CENTER);
@@ -218,10 +218,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 			JFileChooser fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
-					".csv", "Report Type");
-			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
-					".pdf", "Report Type");
+			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv", "Report Type");
+			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf", "Report Type");
 			fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
 			fc.addChoosableFileFilter(csvFilter);
 			fc.addChoosableFileFilter(pdfFilter);
@@ -244,8 +242,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			File yourFolder = fc.getSelectedFile();
 			System.out.println(yourFolder);
 			String numOfLogins = "";
-			File pathToCSV = new File(yourFolder.getAbsolutePath()
-					+ File.separator + "Fernando'sReport_csv.csv");
+			File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport_csv.csv");
 
 			ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
 			SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
@@ -268,8 +265,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	public void saveToPDF(JFileChooser fc) {
 		File yourFolder = fc.getSelectedFile();
-		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
-				+ "Fernando'sReport.pdf");
+		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport.pdf");
 		try {
 
 			Date[] d2 = new Date[20];
@@ -292,39 +288,59 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 
-		if (e.getSource().equals(jCBoxStudentSearch)) {
-			// returns the users choice as an index based on the combo box
-			// list.
-			int comboBoxIndex = jCBoxStudentSearch.getSelectedIndex();
-			int studentListIndex = 0;
-			// When ever user chooses All students it prints out all of the
-			// students.
-			if (comboBoxIndex == 0) {
-				for (int i = 0; i < studentList.size(); i++) {
-					student = studentList.get(i);
+		switch (e.getStateChange()) {
+		case ItemEvent.DESELECTED:
+			if (e.getSource().equals(jCBoxStudentSearch)) {
+				// returns the users choice as an index based on the combo box
+				// list.
+				int comboBoxIndex = jCBoxStudentSearch.getSelectedIndex();
+				int studentListIndex = 0;
+				// When ever user chooses All students it prints out all of the
+				// students.
+				if (comboBoxIndex == 0) {
+					for (int i = 0; i < studentList.size(); i++) {
+						student = studentList.get(i);
+						studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
+						System.out.println(student);
+						System.out.println(studentKnumber);
+
+					}
+					// otherwise it gets the index of the combo box and
+					// subtracts it by one. To choose the same person from the
+					// student list.
+					updateGraph();
+				} else {
+					studentListIndex = comboBoxIndex - 1;
+					student = studentList.get(studentListIndex);
 					studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
 					System.out.println(student);
 					System.out.println(studentKnumber);
-
+					updateGraph();
 				}
-				// otherwise it gets the index of the combo box and
-				// subtracts it by one. To choose the same person from the
-				// student list.
-			} else {
-				studentListIndex = comboBoxIndex - 1;
-				student = studentList.get(studentListIndex);
-				studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
-				System.out.println(student);
-				System.out.println(studentKnumber);
-				
-			}
 
-		} else if (e.getSource().equals(jCBoxReporTypeSearch)) {
-			int reportTypeIndex = jCBoxReporTypeSearch.getSelectedIndex();
-			// prints out users choice of report.
-			reportType = reportTypes[reportTypeIndex];
-			System.out.println(reportTypes[reportTypeIndex]);
+			} else if (e.getSource().equals(jCBoxReporTypeSearch)) {
+				int reportTypeIndex = jCBoxReporTypeSearch.getSelectedIndex();
+				// prints out users choice of report.
+				reportType = reportTypes[reportTypeIndex];
+				System.out.println(reportTypes[reportTypeIndex]);
+				updateGraph();
+			}
+			break;
+		case ItemEvent.SELECTED:
+			// Do what ever you want when the item is selected
+			break;
 		}
 	}
 
+	private void updateGraph() {
+
+		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate);
+		//TODO hard coded index for graph type
+		graph.createGraph(1, dates);
+		BorderLayout layout = (BorderLayout) panel.getLayout();
+		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+		add(graph.getGraph(), BorderLayout.CENTER);
+		revalidate();
+		System.out.println("New Graph Added");
+	}
 }

@@ -3,8 +3,6 @@ package com.msip.ui;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.ComboBoxModel;
-
 public class GlobalUI {
 	// Strings for Card layout
 	public static final String LoginPanel = "LoginPanel";
