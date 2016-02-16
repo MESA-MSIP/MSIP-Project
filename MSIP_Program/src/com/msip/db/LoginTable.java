@@ -1,6 +1,9 @@
 package com.msip.db;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
@@ -155,7 +158,8 @@ public class LoginTable {
 						.prepareStatement("SELECT DateTime FROM Login;");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Date date = rs.getDate("DateTime");
+					Timestamp  timestamp  = rs.getTimestamp("DateTime");
+					Date date = new Date(timestamp.getTime());
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
 						studentLogin.add(date);
@@ -167,7 +171,8 @@ public class LoginTable {
 								+ Knumber + "';");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Date date = rs.getDate("DateTime");
+					Timestamp  timestamp  = rs.getTimestamp("DateTime");
+					Date date = new Date(timestamp.getTime());
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
 						studentLogin.add(date);
