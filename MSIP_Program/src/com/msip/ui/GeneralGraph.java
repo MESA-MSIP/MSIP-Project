@@ -3,6 +3,7 @@ package com.msip.ui;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
@@ -102,19 +103,6 @@ public class GeneralGraph extends ApplicationFrame {
 		return datasetHours;
 	}
 
-	private int[] analyzeWeekData(ArrayList<Date> dataset) {
-		int[] arrayWeeks = new int[54];
-		for (int w = 0; w < arrayWeeks.length; w++) {
-			arrayWeeks[w] = 0;
-
-		}
-		for (Date arrW : dataset) {
-			int week = getWeek(arrW);
-			arrayWeeks[week] = arrayWeeks[week] + 1;
-		}
-		return arrayWeeks;
-	}
-
 	// **********************************************************//
 	// **********************************************************//
 	// *** Days Functions ****//
@@ -156,7 +144,7 @@ public class GeneralGraph extends ApplicationFrame {
 		String[] Days = { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
 		final DefaultCategoryDataset datasetDays = new DefaultCategoryDataset();
-		for (int d = 0; d < arrayDays.length; d++) {
+		for (int d = 1; d < arrayDays.length; d++) {
 			datasetDays.addValue(arrayDays[d], "Student", Days[d]);
 		}
 		return datasetDays;
@@ -167,6 +155,20 @@ public class GeneralGraph extends ApplicationFrame {
 	// *** Week Functions ****//
 	// **********************************************************//
 	// **********************************************************//
+
+	private int[] analyzeWeekData(ArrayList<Date> dataset) {
+		int[] arrayWeeks = new int[54];
+		for (int w = 0; w < arrayWeeks.length; w++) {
+			arrayWeeks[w] = 0;
+
+		}
+		for (Date arrW : dataset) {
+			int week = getWeek(arrW);
+			arrayWeeks[week] = arrayWeeks[week] + 1;
+		}
+		return arrayWeeks;
+	}
+
 	/**
 	 * @param chartTitle
 	 * @return
@@ -194,7 +196,6 @@ public class GeneralGraph extends ApplicationFrame {
 
 		final DefaultCategoryDataset datasetWeeks = new DefaultCategoryDataset();
 		for (int w = 1; w < arrayWeeks.length; w++) {
-
 			datasetWeeks.addValue(arrayWeeks[w], "student", Weeks[w]);
 		}
 		return datasetWeeks;
@@ -234,7 +235,8 @@ public class GeneralGraph extends ApplicationFrame {
 		ChartPanel chartPanelMt = new ChartPanel(barChartMt);
 		chartPanelMt.setPreferredSize(new java.awt.Dimension(700, 250));
 		setContentPane(chartPanelMt);
-
+		CategoryAxis axis = barChartMt.getCategoryPlot().getDomainAxis();
+		axis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 		return chartPanelMt;
 	}
 
@@ -258,17 +260,16 @@ public class GeneralGraph extends ApplicationFrame {
 	// **********************************************************//
 	// **********************************************************//
 
-	private int getWeek(Date week) {
+	private int getWeek(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(week);
+		cal.setTime(date);
 
-		int month = cal.get(Calendar.WEEK_OF_YEAR);
-		return month;
+		int week = cal.get(Calendar.WEEK_OF_YEAR);
+		return week;
 	}
 
 	private int getMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
-
 		cal.setTime(date);
 
 		int month = cal.get(Calendar.MONTH);
@@ -276,10 +277,9 @@ public class GeneralGraph extends ApplicationFrame {
 
 	}
 
-	private int getHours(Date hour1) {
+	private int getHours(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(hour1);
-
+		cal.setTime(new Date(date.getTime()));
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		return hour;
 
