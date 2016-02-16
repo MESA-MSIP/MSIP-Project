@@ -9,13 +9,16 @@ import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+
+import com.msip.manager.MISPCore;
+
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.DropMode;
 import javax.swing.JTextPane;
 
 public class StudentSurveyPanel extends JPanel {
-	public StudentSurveyPanel()
+	public StudentSurveyPanel(final MISPCore manager)
 	{
 		setForeground(Color.BLACK);
 		setBackground(Color.GREEN);

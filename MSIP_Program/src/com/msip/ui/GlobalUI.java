@@ -7,7 +7,7 @@ public class GlobalUI {
 	// Strings for Card layout
 	public static final String LoginPanel = "LoginPanel";
 	public static final String AdminToolsPanel = "AdminToolsPanel";
-
+	public static final String StudentSurveyPanel = "StudentSurveyPanel";
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;

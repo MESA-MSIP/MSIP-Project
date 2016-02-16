@@ -25,6 +25,7 @@ import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
+import com.msip.ui.StudentSurveyPanel;
 
 import java.awt.Dimension;
 
@@ -61,11 +62,14 @@ public class MISPCore {
 		// Create the cards
 		JPanel loginPanel = new LoginPanel(this);
 		JPanel adminToolsPanel = new AdminToolsPanel(this);
+		JPanel StudentSurveyPanel = new StudentSurveyPanel(this);
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
 		cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
+		cards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
+		
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
