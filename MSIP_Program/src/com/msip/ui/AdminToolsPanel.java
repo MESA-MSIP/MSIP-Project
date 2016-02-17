@@ -15,6 +15,9 @@ import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.Component;
+import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class AdminToolsPanel extends JPanel implements ActionListener {
@@ -29,6 +32,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 0));
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFont(GlobalUI.GlobalFont);
 
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
@@ -45,12 +49,21 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 
 		btnLogOut = new JButton("Log Out");
+		btnLogOut.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		btnLogOut.setFont(GlobalUI.GlobalFont);
+		
 		btnLogOut.addActionListener(this);
 		panel.add(btnLogOut);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalStrut.setPreferredSize(new Dimension(5, 0));
+		panel.add(horizontalStrut);
 		
 		JPanel panelStatus = new JPanel();
 		FlowLayout fl_panelStatus = (FlowLayout) panelStatus.getLayout();

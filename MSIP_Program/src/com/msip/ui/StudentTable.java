@@ -14,6 +14,9 @@ public class StudentTable extends JTable {
 		this.setFillsViewportHeight(true);
 		this.getTableHeader().setReorderingAllowed(false);
 		this.getTableHeader().setResizingAllowed(false);
+		this.getTableHeader().setFont(GlobalUI.GlobalFont);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setFont(GlobalUI.GlobalFont);
+		this.setRowHeight(35);
 	}
 }

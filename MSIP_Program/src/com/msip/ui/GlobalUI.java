@@ -30,7 +30,7 @@ public class GlobalUI {
 
 	// Strings for Tab Layout
 	public static final String StudentTab = "Students";
-	public static final String AdminTab = "Admins";
+	public static final String AdminTab = "Administrators";
 	public static final String ReportTab = "Reports";
 	public static final String NotificationsPanel = "Notifications";
 	public static final String QuestionnairePanel = "Questionnaire";
@@ -63,6 +63,10 @@ public class GlobalUI {
 
 	// Magic Number
 	public static final int TWO_THOUSAND_MILLI_SECONDS = 2000;
+	public static final int TEXTBOXHEIGHT = 40;
+	public static final int LABELHEIGHT = 40;
+	public static final int BUTTONHEIGHT = 40;
+	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
 
 	public static String[] getListMajors() {
 		String[] majorList = { "Mechanical Engineer", "Electrical Engineer", "Computer Science", "Civil Engineer",

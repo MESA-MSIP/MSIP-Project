@@ -20,6 +20,7 @@ import com.msip.model.AdminTableModel;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import java.awt.Dimension;
 
 public class AdminPanel extends JPanel implements ActionListener {
 
@@ -50,7 +51,8 @@ public class AdminPanel extends JPanel implements ActionListener {
 		add(panel, BorderLayout.SOUTH);
 
 		btnAdd = new JButton("Add");
-		btnAdd.setPreferredSize(GlobalUI.ButtonDimenesions);
+		btnAdd.setFont(GlobalUI.GlobalFont);
+		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 		btnAdd.addActionListener(this);
 		panel.add(btnAdd);
 
@@ -59,12 +61,14 @@ public class AdminPanel extends JPanel implements ActionListener {
 
 		btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(this);
-		btnRemove.setPreferredSize(GlobalUI.ButtonDimenesions);
+		btnRemove.setFont(GlobalUI.GlobalFont);
+		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 		panel.add(btnRemove);
 
 		btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(this);
-		btnEdit.setPreferredSize(GlobalUI.ButtonDimenesions);
+		btnEdit.setFont(GlobalUI.GlobalFont);
+		btnEdit.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
