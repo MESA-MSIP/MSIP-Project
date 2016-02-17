@@ -1,8 +1,13 @@
 package com.msip.external;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,6 +15,8 @@ import java.util.TimerTask;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.msip.manager.MISPCore;
+import com.msip.model.Student;
 import com.msip.ui.GlobalUI;
 
 public class Utility {
@@ -107,6 +114,7 @@ public class Utility {
 
 	/**
 	 * Checks for a valid knumber length
+	 * 
 	 * @param tf
 	 * @return
 	 */
@@ -119,6 +127,7 @@ public class Utility {
 
 	/**
 	 * Checks to see if we have matching passwords
+	 * 
 	 * @param tf
 	 * @param tf2
 	 * @return
@@ -132,6 +141,7 @@ public class Utility {
 
 	/**
 	 * Checks for the password strength and validity
+	 * 
 	 * @param tf
 	 * @return
 	 */
@@ -152,5 +162,48 @@ public class Utility {
 		}
 		return containsDigit;
 
+	}
+
+	public static void ImportStudentsFromCSVFile(MISPCore mispCore, String absolutePath)
+			throws IOException, SQLException {
+		BufferedReader br = new BufferedReader(new FileReader(absolutePath));
+		String line = "";
+		try {
+
+			// Read Header of File, first line
+			br.readLine();
+
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] data = line.split(",");
+				String lastName = data[0];
+				String firstName = data[1];
+				String major = data[2];
+				int kNumber = removeKNumber(data[3]);
+				
+				mispCore.addStudent(new Student(firstName, lastName, kNumber, major));
+
+			}
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static int removeKNumber(String string) throws NumberFormatException {
+
+		int number = 0;
+		if (string.startsWith("k") || string.startsWith("K")) {
+			String knumber = string.substring(1);
+			number = Integer.parseInt(knumber);
+		}
+
+		return number;
 	}
 }

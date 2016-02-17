@@ -66,7 +66,7 @@ public class MISPCore {
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		cards.add(loginPanel, GlobalUI.LoginPanel);
+		//cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 		cards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
 		
@@ -196,7 +196,14 @@ public class MISPCore {
 	 * @param student
 	 */
 	public void addStudent(Student student) throws SQLException {
-		studentTable.add(student.getkNumber(), student.getFirstName(), student.getLastName(), student.getMajor());
+		int STUDENT_EXISTS = 1;
+		
+		if(isStudent(student.getkNumber()) == STUDENT_EXISTS){
+			//TODO update there name?
+			studentTable.modify(student.getkNumber(), student.getMajor());
+		}else{
+			studentTable.add(student.getkNumber(), student.getFirstName(), student.getLastName(), student.getMajor());
+		}
 	}
 
 	/**

@@ -13,7 +13,6 @@ import java.sql.SQLException;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import com.msip.manager.MISPCore;
 import com.msip.model.Admin;
 import com.msip.model.AdminTableModel;
@@ -34,7 +33,6 @@ public class AdminPanel extends JPanel implements ActionListener {
 	private AdminTable adminTable;
 	private AdminTableModel adminModel;
 	private AdminToolsPanel adminToolsPanel;
-
 	public AdminPanel(MISPCore mispCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(mispCore);
 		this.setAdminToolsPanel(adminToolsPanel);
@@ -83,6 +81,7 @@ public class AdminPanel extends JPanel implements ActionListener {
 			if (dialog.getResults() == JOptionPane.YES_OPTION) {
 				try {
 					getManager().addAdmin(dialog.getAdmin());
+					reloadAdminTable();
 				} catch (NumberFormatException | NoSuchAlgorithmException e1) {
 					getAdminToolsPanel().setStatusMsg(GlobalUI.PLEASE_SEE_DEVELOPER);
 					e1.printStackTrace();
@@ -90,7 +89,6 @@ public class AdminPanel extends JPanel implements ActionListener {
 					getAdminToolsPanel().setStatusMsg("Could not add Admin");
 					e1.printStackTrace();
 				}
-				reloadAdminTable();
 			}
 		}
 
@@ -108,11 +106,11 @@ public class AdminPanel extends JPanel implements ActionListener {
 				if (dialog.getResults() == JOptionPane.YES_OPTION) {
 					try {
 						getManager().modifyAdmin(dialog.getAdmin());
+						reloadAdminTable();
 					} catch (Exception e1) {
 						getAdminToolsPanel().setStatusMsg("Could not edit Admin");
 						System.out.println("AdminPanel.actionPerformed() " + e1.getMessage());
 					}
-					reloadAdminTable();
 				}
 			} else {
 				getAdminToolsPanel().setStatusMsg(GlobalUI.SELECTANADMIN);
@@ -135,12 +133,12 @@ public class AdminPanel extends JPanel implements ActionListener {
 				if (selectedValue == JOptionPane.YES_OPTION) {
 					try {
 						getManager().deleteAdmin(adminToDelete.getkNumber());
+						reloadAdminTable();
 					} catch (SQLException e1) {
 						getAdminToolsPanel().setStatusMsg("Could not edit Admin");
 						System.out.println("AdminPanel.actionPerformed() " + e1.getMessage());
 						e1.printStackTrace();
 					}
-					reloadAdminTable();
 				}
 			} else {
 				getAdminToolsPanel().setStatusMsg(GlobalUI.SELECTANADMIN);
