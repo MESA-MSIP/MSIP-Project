@@ -242,7 +242,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 					} else if ((response == 1) || (adminResponse == 1)) {
 						this.labelHelp.setVisible(false);
 						this.labelToast.setVisible(true);
-
+						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
 						this.manager.logStudent(kNum);
 
 						txtKNumber.setText("");

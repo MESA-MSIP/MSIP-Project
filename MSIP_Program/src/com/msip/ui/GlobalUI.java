@@ -6,6 +6,7 @@ import java.awt.Font;
 public class GlobalUI {
 	// Strings for Card layout
 	public static final String LoginPanel = "LoginPanel";
+	public static final String WelcomePanel = "WelcomePanel";
 	public static final String AdminToolsPanel = "AdminToolsPanel";
 	public static final String StudentSurveyPanel = "StudentSurveyPanel";
 	//
