@@ -240,15 +240,18 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.labelInsertAdminPass.setVisible(true);
 						turnOffInsertAdminPass();
 					} else if ((response == 1) || (adminResponse == 1)) {
+						txtKNumber.setText("");
 						this.labelHelp.setVisible(false);
 						this.labelToast.setVisible(true);
+						this.manager.logStudent(kNum);
+						turnOffToast();
 						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
-						this.manager.logStudent(kNum);
+						
 
-						txtKNumber.setText("");
+						
 
-						turnOffToast();
+						
 					} else {
 						this.labelHelp.setVisible(true);
 						this.labelToast.setVisible(false);
@@ -265,11 +268,14 @@ public class LoginPanel extends JPanel implements ActionListener {
 			String strAdminKNum = txtKNumber.getText();
 			int adminKNum = Integer.parseInt(strAdminKNum);
 			int response = this.manager.verifyAdmin(adminKNum, strAdminPass);
-			if (response == 1) {
+			if (response == GlobalUI.SUCCESS) {
 				if (this.manager.isStudent(adminKNum) == 1) {
 					popUpResponse popUp = new popUpResponse();
 					int decision = popUp.popUp();
 					if (decision == 0) {
+						
+						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
 						this.labelHelp.setVisible(false);
 						this.labelToast.setVisible(true);
 						txtKNumber.setText("");
