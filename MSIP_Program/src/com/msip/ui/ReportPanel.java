@@ -18,6 +18,7 @@ import com.msip.manager.MISPCore;
 import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -68,6 +69,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private boolean isOn;
 	private GeneralGraph graph = new GeneralGraph("");;
 	private ReportPanel panel;
+	private com.msip.ui.JDateChooser chooser1;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -113,23 +115,27 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxReporTypeSearch.addItemListener(this);
 
 		// Creates the date picker
-		UtilDateModel startModel = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.month", "Month");
-		p.put("text.today", "Today");
-		p.put("text.year", "Year");
-		startDatePanel = new JDatePanelImpl(startModel, p);
-		startDatePicker = new JDatePickerImpl(startDatePanel, new DateComponentFormatter());
-		actionPanel.add(startDatePicker);
-		// sets last months date by default.
-		startModel.setDate(startModel.getYear() - 1, startModel.getMonth(), startModel.getDay());
-		startModel.setSelected(true);
-		startDatePicker.setBounds(341, 40, 137, 26);
-		startDatePicker.addActionListener(this);
-		// sets last months date to this global variable. If not we will get a
-		// null error.
-		selectedStartDate = startModel.getValue();
-		isOn = false;
+		 chooser1 = new JDateChooser();
+		 chooser1.getCalendarButton().addActionListener(this);
+		chooser1.setBounds(81, 131, 174, 26);
+		panel.add(chooser1);
+//		UtilDateModel startModel = new UtilDateModel();
+//		Properties p = new Properties();
+//		p.put("text.year", "Year");
+//		p.put("text.month", "Month");
+//		p.put("text.today", "Today");
+//		startDatePanel = new JDatePanelImpl(startModel, p);
+//		startDatePicker = new JDatePickerImpl(startDatePanel, new DateComponentFormatter());
+//		startDatePicker.setBounds(341, 40, 137, 26);
+//		actionPanel.add(startDatePicker);
+//		// sets last months date by default.
+//		startModel.setDate(startModel.getYear() - 1, startModel.getMonth(), startModel.getDay());
+//		startModel.setSelected(true);
+//		startDatePicker.addActionListener(this);
+//		// sets last months date to this global variable. If not we will get a
+//		// null error.
+//		selectedStartDate = startModel.getValue();
+//		isOn = false;
 
 		UtilDateModel endModel = new UtilDateModel();
 		Properties p2 = new Properties();
@@ -222,21 +228,21 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	public void actionPerformed(ActionEvent e) {
 		// Lets you choose the start date with out the end date choosing the
 		// same date as the start date
-		if (isOn == false) {
+//		if (startDatePicker.getButtonFocusable()) {
 			// returns the chosen date.
-			selectedStartDate = (Date) startDatePicker.getModel().getValue();
-			System.out.println(selectedStartDate);
-			isOn = true;
-			updateGraph();
-
-		} else {
-
-			selectedEndDate = (Date) endDatePicker.getModel().getValue();
-			System.out.println(selectedEndDate);
-			isOn = false;
-			updateGraph();
-
-		}
+//			selectedStartDate = (Date) startDatePicker.getModel().getValue();
+//			System.out.println(selectedStartDate);
+//			isOn = true;
+//			updateGraph();
+//
+//		} else if(endDatePicker.getButtonFocusable()){
+//
+//			selectedEndDate = (Date) endDatePicker.getModel().getValue();
+//			System.out.println(selectedEndDate);
+//			isOn = false;
+//			updateGraph();
+//
+//		}
 		// saves data as a csv or pdf report.
 		if (e.getSource().equals(saveReportButton)) {
 
