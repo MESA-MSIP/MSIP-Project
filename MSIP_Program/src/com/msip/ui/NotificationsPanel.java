@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -19,10 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.DefaultTableModel;
 
-import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 import com.toedter.calendar.JDateChooser;
 
@@ -42,6 +39,8 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 	private JButton btnRemove;
 	private JButton btnAdd;
 	private JTable tableNotifications;
+	// private MISPCore manager;
+	private DefaultTableModel model;
 
 	public NotificationsPanel(MISPCore msipCore) {
 
@@ -52,19 +51,15 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
 
-		// tableNotifications = new JTable();
-		 tableNotifications = new JTable(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Notifications:", "Start Date:", "Expiration Date:"
-			}
-		));
-		
+		tableNotifications = new JTable(new DefaultTableModel(
+				new Object[][] {}, new String[] { "Notifications:",
+						"Start Date:", "Expiration Date:" }));
+
 		DefaultTableModel model = (DefaultTableModel) tableNotifications
 				.getModel();
 		model.addRow(new Object[] { "Column 1", "Column 2", "Column 3" });
-		//Adds the columns to your Table.
+		// Adds the columns to your Table.
+
 		JScrollPane notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
 
@@ -100,7 +95,7 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		textFieldNotifications.setBounds(6, 6, 289, 63);
 		panelNotificationInput.add(textFieldNotifications);
 		textFieldNotifications.setColumns(10);
-		
+
 		// Start Date
 		startDateChooser = new JDateChooser();
 		startDateChooser.setBounds(329, 6, 137, 26);
@@ -119,7 +114,7 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 						System.out.println(selectedStartDate);
 					}
 				});
-		
+
 		expirationDateChooser = new JDateChooser();
 		expirationDateChooser.setBounds(492, 6, 137, 26);
 		panelNotificationInput.add(expirationDateChooser);
@@ -140,18 +135,35 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 				});
 	}
 
-	private void addNotification() {
-		//This is were you add your notification to the table logic.
+	public void addRow(String firstName, String lastName, String custStatus,
+			String custAge, String custID) {
+		Object[] row = new Object[5];
+		row[0] = firstName;
+		row[1] = lastName;
+		row[2] = custStatus;
+		row[3] = custAge;
+		row[4] = custID;
+		model.addRow(row);
+	}
 
-//		if (e.getSource() == btnAdd) {
-//			NotificationTable tbl = new NotificationTable();
-//		}
+	private void addNotification() {
+		// This is where you I add a notification to the table logic.
+
+		// if ( dest+1 < tableNotifications.getRowCount()-1 )
+		// ( (DefaultTableModel) tableNotifications.getModel()
+		// ).insertRow(dest+1, addToNotificationTable());
+		// else
+		// ( (DefaultTableModel) tableNotifications.getModel()
+		// ).addRow(addToNotification());
 	}
 
 	// .tableNotifications()
 
 	// @Override
-	// public void actionPerformed(ActionEvent e) {
+	// public void actionPerformed(ActionEvent e)
+	// if (e.getSource() == btnAdd) {
+	// NotificationTable tbl = new NotificationTable();
+	// }
 	// // TODO Auto-generated method stub
 	//
 	// }
