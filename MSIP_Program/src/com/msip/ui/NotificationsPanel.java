@@ -18,23 +18,27 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 import com.toedter.calendar.JDateChooser;
 
 /**
- * @author juanz
+ * @author Celina
  *
  */
-public class NotificationsPanel extends JPanel {
+public class NotificationsPanel extends JPanel {// implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldNotifications;
-	private JTable tableNotifications;
+	// private JTable tableNotifications;
 	private JDateChooser startDateChooser;
 	private Date selectedStartDate;
 	private JDateChooser expirationDateChooser;
 	private Date selectedExpirationDate;
+	private JButton btnRemove;
+	private JButton btnAdd;
 
 	public NotificationsPanel(MISPCore msipCore) {
 
@@ -45,7 +49,14 @@ public class NotificationsPanel extends JPanel {
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
 
-		tableNotifications = new JTable();
+		// tableNotifications = new JTable();
+		JTable tableNotifications = new JTable(new DefaultTableModel(null,
+				new Object[] { "Notifications:", "Start Date:",
+						"Expiration Date:" }));
+		DefaultTableModel model = (DefaultTableModel) tableNotifications
+				.getModel();
+		model.addRow(new Object[] { "Column 1", "Column 2", "Column 3" });
+
 		add(tableNotifications, BorderLayout.CENTER);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -61,18 +72,18 @@ public class NotificationsPanel extends JPanel {
 		panelNotificationInput.setPreferredSize(new Dimension(10, 100));
 		add(panelNotificationInput, BorderLayout.SOUTH);
 
-		JButton btnAdd = new JButton("Add");
+		btnAdd = new JButton("Add");
 		btnAdd.setBounds(307, 65, 75, 29);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addNotification();
+				addNotification(e);
 			}
 
 		});
 		panelNotificationInput.setLayout(null);
 		panelNotificationInput.add(btnAdd);
 
-		JButton btnRemove = new JButton("Remove");
+		btnRemove = new JButton("Remove");
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
 
@@ -122,11 +133,20 @@ public class NotificationsPanel extends JPanel {
 				});
 	}
 
-	private void addNotification() {
+	private void addNotification(ActionEvent e) {
 
-		// TODO Auto-generated method stub
-
+		if (e.getSource() == btnAdd) {
+			NotificationTable tbl = new NotificationTable();
+		}
 	}
+
+	// .tableNotifications()
+
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	// TODO Auto-generated constructor stub
 

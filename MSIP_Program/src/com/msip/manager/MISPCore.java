@@ -30,7 +30,7 @@ import com.msip.ui.LoginPanel;
 import com.msip.ui.WelcomePanel;
 
 /**
- * @author Juan Zepeda, Christian Martinez, Fernando Estevez
+ * @author Juan Zepeda, Christian Martinez, Fernando Estevez, Celina Lazaro
  *
  */
 public class MISPCore {
@@ -328,14 +328,14 @@ public class MISPCore {
 	// **********************************************************//
 	// **********************************************************//
 	public void addNotification(String notification, Date startDate,
-			Date experationDate) {
+			Date expirationDate) {
 		notificationTable.addToNotificationTable(notification, startDate,
-				experationDate);
+				expirationDate);
 
 	}
 
-	public void removeNotification(Date experationDate) {
-		notificationTable.removeFromNotificationTable(experationDate);
+	public void removeNotification(Date expirationDate) {
+		notificationTable.removeFromNotificationTable(expirationDate);
 	}
 
 	/**
