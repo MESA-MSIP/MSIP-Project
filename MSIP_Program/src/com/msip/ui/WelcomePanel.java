@@ -58,8 +58,9 @@ public class WelcomePanel extends JPanel implements ActionListener
 		JPanel NotificationsPanel = new NotificationsPanel(manager);
 		
 		//Add the Cards to the JPanel
-		welcomeCards.add(NotificationsPanel, GlobalUI.NotificationsPanel);
+		
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
+		welcomeCards.add(NotificationsPanel, GlobalUI.NotificationsPanel);
 		
 		add(welcomeCards, BorderLayout.CENTER);
 		
@@ -72,7 +73,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-
+			
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
 		
