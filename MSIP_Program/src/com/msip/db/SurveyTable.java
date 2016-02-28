@@ -13,8 +13,8 @@ public class SurveyTable {
 	public SurveyTable(){
 		try {
 			PreparedStatement createTable = (PreparedStatement) 
-					DBConnector.myConnection.prepareStatement("CREATE TABLE IF NOT EXISTS Survey(ID INT AUTO_INCREMENT, Question VARCHAR(400), Date DATE NOT NULL, NOT NULL,"
-							+ " Response1 INT, Response2 INT, Response3 INT, Response4 INT, Response5 INT, PRIMARY KEY(ID)");
+					DBConnector.myConnection.prepareStatement("CREATE TABLE IF NOT EXISTS Survey(ID INT AUTO_INCREMENT, Question VARCHAR(400), StartDate DATE NOT NULL,"
+							+ " Response1 INT NUll, Response2 INT NUll, Response3 INT Null, Response4 INT NUll, Response5 INT Null, PRIMARY KEY(ID))");
 			createTable.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

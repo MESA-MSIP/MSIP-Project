@@ -64,7 +64,11 @@ public class DBConnector {
 		for (int i = 0; i < 500; i++) {
 			login.addUsingDates(77777777, getRandomDate());
 		}
+		
+		NotificationTable no = new NotificationTable();
+		
 	}
+	
 
 	private static Timestamp getRandomDate() {
 		long offset = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
