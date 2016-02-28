@@ -24,8 +24,8 @@ import com.msip.manager.MISPCore;
 public class NotificationsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTable table;
+	private JTextField textFieldNotifications;
+	private JTable tableNotifications;
 
 	public NotificationsPanel(MISPCore msipCore) {
 
@@ -36,8 +36,8 @@ public class NotificationsPanel extends JPanel {
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
 
-		table = new JTable();
-		add(table, BorderLayout.CENTER);
+		tableNotifications = new JTable();
+		add(tableNotifications, BorderLayout.CENTER);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		add(horizontalStrut, BorderLayout.WEST);
@@ -56,7 +56,9 @@ public class NotificationsPanel extends JPanel {
 		btnAdd.setBounds(307, 65, 75, 29);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				addNotification();
 			}
+
 		});
 		panelNotificationInput.setLayout(null);
 		panelNotificationInput.add(btnAdd);
@@ -65,10 +67,16 @@ public class NotificationsPanel extends JPanel {
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
 
-		textField = new JTextField();
-		textField.setBounds(6, 6, 289, 63);
-		panelNotificationInput.add(textField);
-		textField.setColumns(10);
+		textFieldNotifications = new JTextField();
+		textFieldNotifications.setBounds(6, 6, 289, 63);
+		panelNotificationInput.add(textFieldNotifications);
+		textFieldNotifications.setColumns(10);
+
+	}
+
+	private void addNotification() {
+
+		// TODO Auto-generated method stub
 
 	}
 

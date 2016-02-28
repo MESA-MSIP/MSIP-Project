@@ -3,6 +3,7 @@ package com.msip.manager;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import com.msip.db.AdminTable;
 import com.msip.db.DBConnector;
 import com.msip.db.Global;
 import com.msip.db.LoginTable;
+import com.msip.db.NotificationTable;
 import com.msip.db.StudentTable;
 import com.msip.external.SerialPort;
 import com.msip.external.Utility;
@@ -25,10 +27,7 @@ import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
-import com.msip.ui.StudentSurveyPanel;
 import com.msip.ui.WelcomePanel;
-
-import java.awt.Dimension;
 
 /**
  * @author Juan Zepeda, Christian Martinez, Fernando Estevez
@@ -43,6 +42,7 @@ public class MISPCore {
 	private StudentTable studentTable;
 	private LoginTable loginTable;
 	private static final int ACTIVE_STUDENT = 3;
+	private NotificationTable notificationTable;
 
 	public MISPCore() {
 
@@ -53,6 +53,7 @@ public class MISPCore {
 		adminTable = new AdminTable();
 		studentTable = new StudentTable();
 		loginTable = new LoginTable();
+		notificationTable = new NotificationTable();
 	}
 
 	/**
@@ -70,7 +71,6 @@ public class MISPCore {
 		cards.add(loginPanel, GlobalUI.LoginPanel);
 		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 		cards.add(welcomePanel, GlobalUI.WelcomePanel);
-		
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
@@ -129,17 +129,19 @@ public class MISPCore {
 	}
 
 	/**
-	 * Return the dates for student that has logged in within startDate and End Date
-	 * if knumber is null then it returns all the students
+	 * Return the dates for student that has logged in within startDate and End
+	 * Date if knumber is null then it returns all the students
+	 * 
 	 * @param Knumber
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
-	public ArrayList<Date> getStudentDataRange(int Knumber, Date startDate, Date endDate) {
+	public ArrayList<Date> getStudentDataRange(int Knumber, Date startDate,
+			Date endDate) {
 		return loginTable.getEntryRange(Knumber, startDate, endDate);
 	}
-	
+
 	/**
 	 * Called by External Interface to set the number that was scanned UI then
 	 * gets notified that a number was scanned
@@ -164,7 +166,7 @@ public class MISPCore {
 	 */
 	public int isStudent(int kNumber) {
 		try {
-			if(studentTable.getInfo(kNumber) == null){
+			if (studentTable.getInfo(kNumber) == null) {
 				return GlobalUI.FAIL;
 			}
 		} catch (SQLException e) {
@@ -198,12 +200,13 @@ public class MISPCore {
 	 */
 	public void addStudent(Student student) throws SQLException {
 		int STUDENT_EXISTS = 1;
-		
-		if(isStudent(student.getkNumber()) == STUDENT_EXISTS){
-			//TODO update there name?
+
+		if (isStudent(student.getkNumber()) == STUDENT_EXISTS) {
+			// TODO update there name?
 			studentTable.modify(student.getkNumber(), student.getMajor());
-		}else{
-			studentTable.add(student.getkNumber(), student.getFirstName(), student.getLastName(), student.getMajor());
+		} else {
+			studentTable.add(student.getkNumber(), student.getFirstName(),
+					student.getLastName(), student.getMajor());
 		}
 	}
 
@@ -211,7 +214,7 @@ public class MISPCore {
 	 * Modify Student in Database
 	 * 
 	 * @param student
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void modifyStudent(Student student) throws SQLException {
 		studentTable.modify(student.getkNumber(), student.getMajor());
@@ -242,7 +245,7 @@ public class MISPCore {
 	 */
 	public int isAdmin(int kNumber) {
 		try {
-			if(adminTable.getInfo(kNumber) == null){
+			if (adminTable.getInfo(kNumber) == null) {
 				return GlobalUI.FAIL;
 			}
 		} catch (SQLException e) {
@@ -250,7 +253,7 @@ public class MISPCore {
 		}
 		return GlobalUI.SUCCESS;
 	}
-	
+
 	/**
 	 * Called by UI to see if admin exists in the admin table and correct
 	 * password was entered.
@@ -260,7 +263,7 @@ public class MISPCore {
 	 * @return If Admin and password are correct return 1, if not 0.
 	 */
 	public int verifyAdmin(int kNumber, String pHash) {
-		
+
 		String hashedPasswordFromUser;
 		try {
 			hashedPasswordFromUser = Utility.getHashedPassword(pHash);
@@ -268,8 +271,8 @@ public class MISPCore {
 			e.printStackTrace();
 			return GlobalUI.FAIL;
 		}
-		
-		//If returns null.. knumber not in DB
+
+		// If returns null.. knumber not in DB
 		if (adminTable.getPhash(kNumber) == null) {
 			return GlobalUI.FAIL;
 		}
@@ -278,7 +281,7 @@ public class MISPCore {
 		if (hashedPasswordFromUser.compareTo(adminTable.getPhash(kNumber)) != 0) {
 			return GlobalUI.FAIL;
 		}
-		
+
 		return GlobalUI.SUCCESS;
 	}
 
@@ -291,32 +294,50 @@ public class MISPCore {
 		return adminTable.getAll();
 	}
 
-	public void addAdmin(Admin admin) throws SQLException  {
-		adminTable.add(admin.getkNumber(),admin.getFirstName(), admin.getLastName(), admin.getpHash());
-		
+	public void addAdmin(Admin admin) throws SQLException {
+		adminTable.add(admin.getkNumber(), admin.getFirstName(),
+				admin.getLastName(), admin.getpHash());
+
 	}
-	
+
 	/**
 	 * Modify Admin in Database
 	 * 
 	 * @param student
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void modifyAdmin(Admin admin) throws SQLException {
 		adminTable.modify(admin.getkNumber(), admin.getpHash());
-		//TODO can modify Names too.. 
+		// TODO can modify Names too..
 	}
-	
+
 	/**
 	 * Deletes the admin from the student table
 	 * 
 	 * @param kNumber
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void deleteAdmin(int kNumber) throws SQLException {
 		adminTable.remove(kNumber);
-		
+
 	}
+
+	// **********************************************************//
+	// **********************************************************//
+	// *** Notifications Functions ****//
+	// **********************************************************//
+	// **********************************************************//
+	public void addNotification(String notification, Date startDate,
+			Date experationDate) {
+		notificationTable.addToNotificationTable(notification, startDate,
+				experationDate);
+
+	}
+
+	public void removeNotification(Date experationDate) {
+		notificationTable.removeFromNotificationTable(experationDate);
+	}
+
 	/**
 	 * @param args
 	 */
