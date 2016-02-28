@@ -70,8 +70,10 @@ public class GlobalUI {
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
 
 	public static String[] getListMajors() {
-		String[] majorList = { "Mechanical Engineer", "Electrical Engineer", "Computer Science", "Civil Engineer",
-				"Chemical Engineer", "Information Technology", "Chemistry", "Biology", "Physics", "Other" };
+		String[] majorList = { "Mechanical Engineer", "Electrical Engineer",
+				"Computer Engineer", "Computer Science", "Civil Engineer",
+				"Chemical Engineer", "Information Technology", "Chemistry",
+				"Biology", "Physics", "Other" };
 
 		return majorList;
 	}

@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,14 +18,12 @@ import com.msip.manager.MISPCore;
 import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.jdatepicker.impl.DateComponentFormatter;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -35,6 +33,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
 
@@ -60,14 +60,11 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
 	private Component verticalStrut;
-	private JDatePickerImpl endDatePicker;
-	private JDatePanelImpl endDatePanel;
-	private JDatePickerImpl startDatePicker;
-	private JDatePanelImpl startDatePanel;
 	private int studentKnumber;
-	private boolean isOn;
 	private GeneralGraph graph = new GeneralGraph("");;
 	private ReportPanel panel;
+	private JDateChooser startDateChooser;
+	private JDateChooser endDateChooser;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -113,39 +110,46 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxReporTypeSearch.addItemListener(this);
 
 		// Creates the date picker
-		UtilDateModel startModel = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.month", "Month");
-		p.put("text.today", "Today");
-		p.put("text.year", "Year");
-		startDatePanel = new JDatePanelImpl(startModel, p);
-		startDatePicker = new JDatePickerImpl(startDatePanel, new DateComponentFormatter());
-		actionPanel.add(startDatePicker);
-		// sets last months date by default.
-		startModel.setDate(startModel.getYear() - 1, startModel.getMonth(), startModel.getDay());
-		startModel.setSelected(true);
-		startDatePicker.setBounds(341, 40, 137, 26);
-		startDatePicker.addActionListener(this);
-		// sets last months date to this global variable. If not we will get a
-		// null error.
-		selectedStartDate = startModel.getValue();
-		isOn = false;
+		startDateChooser = new JDateChooser();
+		startDateChooser.setBounds(341, 40, 137, 26);
+		actionPanel.add(startDateChooser);
+		// Sets last months date.
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.add(Calendar.DATE, -5);
+		Date date1 = cal.getTime();
 
-		UtilDateModel endModel = new UtilDateModel();
-		Properties p2 = new Properties();
-		p2.put("text.year", "Year");
-		p2.put("text.month", "Month");
-		p2.put("text.today", "Today");
-		endDatePanel = new JDatePanelImpl(endModel, p2);
-		endDatePicker = new JDatePickerImpl(endDatePanel, new DateComponentFormatter());
-		endDatePicker.setBounds(496, 40, 137, 26);
-		actionPanel.add(endDatePicker);
-		// set current date by default
-		endModel.setSelected(true);
-		endDatePicker.addActionListener(this);
-		// sets current date to this global variable. If not we will get a null
-		// error.
-		selectedEndDate = endModel.getValue();
+		startDateChooser.setDate(date1);
+		selectedStartDate = startDateChooser.getDate();
+		startDateChooser.getDateEditor().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					public void propertyChange(PropertyChangeEvent e) {
+						// When the user picks a date it sets it to the text box
+						// and retrieves that date.
+						selectedStartDate = startDateChooser.getDate();
+						updateGraph();
+						System.out.println(selectedStartDate);
+					}
+				});
+
+		// Creates a date picker
+		endDateChooser = new JDateChooser();
+		endDateChooser.setBounds(496, 40, 137, 26);
+		actionPanel.add(endDateChooser);
+		// sets current date
+		Date date = new Date();
+		endDateChooser.setDate(date);
+		selectedEndDate = endDateChooser.getDate();
+		endDateChooser.getDateEditor().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					public void propertyChange(PropertyChangeEvent e) {
+						// When the user picks a date it sets it to the text box
+						// and retrieves that date.
+						selectedEndDate = endDateChooser.getDate();
+						updateGraph();
+						System.out.println(selectedEndDate);
+					}
+				});
 
 		saveReportButton = new JButton("Save Report");
 		saveReportButton.setBounds(648, 40, 137, 26);
@@ -172,12 +176,13 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		actionPanel.add(lblEndDate);
 
 		// TODO starting values generalPanel
-		
-		//Date startDate = (Date) startDatePicker.getModel().getValue();
-		//Date endDate = (Date) endDatePicker.getModel().getValue();
-		//ArrayList<Date> dates = msipCore.getStudentDataRange(33333333, startDate, endDate);
-		//int graphIndex = jCBoxReporTypeSearch.getSelectedIndex();
-		//graph.createGraph(graphIndex, dates);
+
+		// Date startDate = (Date) startDatePicker.getModel().getValue();
+		// Date endDate = (Date) endDatePicker.getModel().getValue();
+		// ArrayList<Date> dates = msipCore.getStudentDataRange(33333333,
+		// startDate, endDate);
+		// int graphIndex = jCBoxReporTypeSearch.getSelectedIndex();
+		// graph.createGraph(graphIndex, dates);
 		// add(graph.getGraph(), BorderLayout.CENTER);
 		add(new JPanel(), BorderLayout.CENTER);
 
@@ -192,14 +197,13 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setPreferredSize(new Dimension(5, 5));
 		add(verticalStrut, BorderLayout.SOUTH);
-		
+
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e) {
 				updateGraph();
 			}
 		});
-
 
 	}
 
@@ -220,30 +224,16 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Lets you choose the start date with out the end date choosing the
-		// same date as the start date
-		if (isOn == false) {
-			// returns the chosen date.
-			selectedStartDate = (Date) startDatePicker.getModel().getValue();
-			System.out.println(selectedStartDate);
-			isOn = true;
-			updateGraph();
 
-		} else {
-
-			selectedEndDate = (Date) endDatePicker.getModel().getValue();
-			System.out.println(selectedEndDate);
-			isOn = false;
-			updateGraph();
-
-		}
 		// saves data as a csv or pdf report.
 		if (e.getSource().equals(saveReportButton)) {
 
 			JFileChooser fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv", "Report Type");
-			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf", "Report Type");
+			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
+					".csv", "Report Type");
+			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
+					".pdf", "Report Type");
 			fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
 			fc.addChoosableFileFilter(csvFilter);
 			fc.addChoosableFileFilter(pdfFilter);
@@ -269,13 +259,15 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		File yourFolder = fc.getSelectedFile();
 		System.out.println(yourFolder);
 		String numOfLogins = "";
-		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport_csv.csv");
+		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator
+				+ "Fernando'sReport_csv.csv");
 
 		ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
 		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
-		int size = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate).size();
-		Date[] d = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate)
-				.toArray(new Date[size]);
+		int size = manager.getStudentDataRange(studentKnumber,
+				selectedStartDate, selectedEndDate).size();
+		Date[] d = manager.getStudentDataRange(studentKnumber,
+				selectedStartDate, selectedEndDate).toArray(new Date[size]);
 		// for (int i = 0; i < d.length; i++) {
 		// d[i] = new Date();
 		// }
@@ -292,11 +284,13 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	public void saveToPDF(JFileChooser fc) {
 		File yourFolder = fc.getSelectedFile();
-		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator + "Fernando'sReport.pdf");
+		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
+				+ "Fernando'sReport.pdf");
 		try {
-			int size = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate).size();
-			Date[] d = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate)
-					.toArray(new Date[size]);
+			int size = manager.getStudentDataRange(studentKnumber,
+					selectedStartDate, selectedEndDate).size();
+			Date[] d = manager.getStudentDataRange(studentKnumber,
+					selectedStartDate, selectedEndDate).toArray(new Date[size]);
 
 			String timesPresent = Integer.toString(d.length);
 			String knumber = Integer.toString(studentKnumber);
@@ -340,7 +334,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					// student list.
 					studentListIndex = comboBoxIndex - 1;
 					student = studentList.get(studentListIndex);
-					studentKnumber = listOfStudents.get(studentListIndex).getkNumber();
+					studentKnumber = listOfStudents.get(studentListIndex)
+							.getkNumber();
 					System.out.println(student);
 					System.out.println(studentKnumber);
 					updateGraph();
@@ -360,7 +355,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	}
 
 	private void updateGraph() {
-		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber, selectedStartDate, selectedEndDate);
+		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
+				selectedStartDate, selectedEndDate);
 		graph.createGraph(jCBoxReporTypeSearch.getSelectedIndex(), dates);
 		BorderLayout layout = (BorderLayout) panel.getLayout();
 		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
