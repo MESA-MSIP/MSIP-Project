@@ -31,16 +31,16 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldNotifications;
-	// private JTable tableNotifications;
+	private JTable tableNotifications;
 	private JDateChooser startDateChooser;
 	private Date selectedStartDate;
 	private JDateChooser expirationDateChooser;
 	private Date selectedExpirationDate;
 	private JButton btnRemove;
 	private JButton btnAdd;
-	private JTable tableNotifications;
+
 	// private MISPCore manager;
-	private DefaultTableModel model;
+	// private DefaultTableModel model;
 
 	public NotificationsPanel(MISPCore msipCore) {
 
@@ -54,11 +54,11 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		tableNotifications = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
-
-		DefaultTableModel model = (DefaultTableModel) tableNotifications
-				.getModel();
-		model.addRow(new Object[] { "Column 1", "Column 2", "Column 3" });
-		// Adds the columns to your Table.
+		//
+		// DefaultTableModel model = (DefaultTableModel) tableNotifications
+		// .getModel();
+		// model.addRow(new Object[] { "Column 1", "Column 2", "Column 3" });
+		// Adds the columns to Table.
 
 		JScrollPane notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
@@ -80,7 +80,7 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		btnAdd.setBounds(307, 65, 75, 29);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addNotification();
+				addNotification(e);
 			}
 
 		});
@@ -88,10 +88,27 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		panelNotificationInput.add(btnAdd);
 
 		btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// DefaultTableModel model = (DefaultTableModel)
+				// tableNotifications
+				// .getModel();
+				// model.removeRow(tableNotifications.getSelectedRow());
+			}
+		});
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
 
 		textFieldNotifications = new JTextField();
+		textFieldNotifications.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// DefaultTableModel modelText = new DefaultTableModel();
+				// String nextRowId = Integer.toString(modelText.getRowCount());
+				// modelText.addRow(new Object[] { nextRowId,
+				//
+				// textFieldNotifications.getText() });
+			}
+		});
 		textFieldNotifications.setBounds(6, 6, 289, 63);
 		panelNotificationInput.add(textFieldNotifications);
 		textFieldNotifications.setColumns(10);
@@ -135,40 +152,16 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 				});
 	}
 
-	public void addRow(String firstName, String lastName, String custStatus,
-			String custAge, String custID) {
-		Object[] row = new Object[5];
-		row[0] = firstName;
-		row[1] = lastName;
-		row[2] = custStatus;
-		row[3] = custAge;
-		row[4] = custID;
-		model.addRow(row);
+	private void addNotification(ActionEvent e) {
+
+		DefaultTableModel model = (DefaultTableModel) tableNotifications
+				.getModel();
+		String note = textFieldNotifications.getText().trim();
+		String st[] = { note, null, null };
+		model.addRow(st);
 	}
 
-	private void addNotification() {
-		// This is where you I add a notification to the table logic.
-
-		// if ( dest+1 < tableNotifications.getRowCount()-1 )
-		// ( (DefaultTableModel) tableNotifications.getModel()
-		// ).insertRow(dest+1, addToNotificationTable());
-		// else
-		// ( (DefaultTableModel) tableNotifications.getModel()
-		// ).addRow(addToNotification());
-	}
-
-	// .tableNotifications()
-
-	// @Override
-	// public void actionPerformed(ActionEvent e)
-	// if (e.getSource() == btnAdd) {
-	// NotificationTable tbl = new NotificationTable();
-	// }
-	// // TODO Auto-generated method stub
-	//
-	// }
-
-	// TODO Auto-generated constructor stub
+	// This is where I add a notification to the table logic.
 
 	/**
 	 * @param args
@@ -178,4 +171,14 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 
 	}
 
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// // (e.getSource() == btnAdd) {
+	// DefaultTableModel model = (DefaultTableModel) tableNotifications
+	// .getModel();
+	// model.addRow(new Object[] {});
+	// // TODO Auto-generated method stub
+
+	// }
 }
+// }
