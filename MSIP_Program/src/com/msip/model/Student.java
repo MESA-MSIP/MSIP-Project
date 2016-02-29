@@ -32,7 +32,7 @@ public class Student extends Person {
 	}
 
 	public enum ParcipitationState {
-		INACTIVE, ACTIVE
+		LOW_ACTIVE_STUDENT, MEDIAN_ACTIVE_STUDENT, HIGH_ACTIVE_STUDENT
 	}
 
 }

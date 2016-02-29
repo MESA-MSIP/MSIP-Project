@@ -59,4 +59,17 @@ public class NotificationTable {
 
 	}
 
+	/**
+	 * Clears the notification Table.
+	 */
+	public void removeAll() {
+		try {
+			PreparedStatement removeAll = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("DELETE FROM Survey");
+			removeAll.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

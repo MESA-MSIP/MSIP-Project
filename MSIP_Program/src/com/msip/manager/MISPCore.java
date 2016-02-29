@@ -41,7 +41,8 @@ public class MISPCore {
 	private AdminTable adminTable;
 	private StudentTable studentTable;
 	private LoginTable loginTable;
-	private static final int ACTIVE_STUDENT = 3;
+	private static final int LOW_BOUNDARY = 3;
+	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
 
 	public MISPCore() {
@@ -224,10 +225,12 @@ public class MISPCore {
 	public ParcipitationState isStudentActive(Integer Knumber) {
 		LoginTable login = new LoginTable();
 
-		if (login.getParticipation(Knumber).size() >= ACTIVE_STUDENT) {
-			return ParcipitationState.ACTIVE;
-		} else {
-			return ParcipitationState.INACTIVE;
+		if ((0 <= login.getParticipation(Knumber).size()) && (login.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
+			return ParcipitationState.LOW_ACTIVE_STUDENT;
+		} else if((LOW_BOUNDARY <= login.getParticipation(Knumber).size()) && (login.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)){
+			return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
+		}else {
+			return ParcipitationState.HIGH_ACTIVE_STUDENT;
 		}
 	}
 
