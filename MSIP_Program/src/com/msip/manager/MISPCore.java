@@ -223,11 +223,10 @@ public class MISPCore {
 	}
 
 	public ParcipitationState isStudentActive(Integer Knumber) {
-		LoginTable login = new LoginTable();
-
-		if ((0 <= login.getParticipation(Knumber).size()) && (login.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
+		
+		if ((0 <= loginTable.getParticipation(Knumber).size()) && (loginTable.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
 			return ParcipitationState.LOW_ACTIVE_STUDENT;
-		} else if((LOW_BOUNDARY <= login.getParticipation(Knumber).size()) && (login.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)){
+		} else if((LOW_BOUNDARY <= loginTable.getParticipation(Knumber).size()) && (loginTable.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)){
 			return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
 		}else {
 			return ParcipitationState.HIGH_ACTIVE_STUDENT;
