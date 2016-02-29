@@ -90,6 +90,7 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				deleteNotification(e);
 				// DefaultTableModel model = (DefaultTableModel)
 				// tableNotifications
 				// .getModel();
@@ -159,6 +160,15 @@ public class NotificationsPanel extends JPanel {// implements ActionListener {
 		String note = textFieldNotifications.getText().trim();
 		String st[] = { note, null, null };
 		model.addRow(st);
+	}
+
+	private void deleteNotification(ActionEvent e) {
+		DefaultTableModel model2 = (DefaultTableModel) tableNotifications
+				.getModel();
+		if (tableNotifications.getSelectedRow() != -1) {
+			// remove selected row from the model
+			model2.removeRow(tableNotifications.getSelectedRow());
+		}
 	}
 
 	// This is where I add a notification to the table logic.
