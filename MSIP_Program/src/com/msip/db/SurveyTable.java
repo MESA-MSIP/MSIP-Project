@@ -1,14 +1,16 @@
 package com.msip.db;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.mysql.jdbc.PreparedStatement;
 
 public class SurveyTable {
 	private String dateString = null;
-	private int quesID = 0;
+
 	
 
 	/**
@@ -38,60 +40,67 @@ public class SurveyTable {
 			PreparedStatement addQuestion = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("INSERT INTO Survey VALUE(NULL, '"
 							+ question + "', '" + dateString
-							+ "' , NULL, NULL, NULL, NULL, NULL);");
-			addQuestion.executeUpdate();
-			//returns the ID of the current added question.
-			quesID = (int) addQuestion.getLastInsertID();
-			System.out.println(quesID);
+							+ "' , 0, 0, 0, 0, 0);");
+		addQuestion.executeUpdate();
+	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * returns the last inserted ID.
+	 * @return
+	 */
 	public int getID(){
-		System.out.println(quesID);
-		return quesID;
+		ArrayList<Integer> id = new ArrayList<Integer>();
+		try {
+			PreparedStatement myID = (PreparedStatement) DBConnector.myConnection.prepareStatement("SELECT ID FROM SURVEY;");
+			ResultSet rs = myID.executeQuery();
+			while(rs.next()){
+				id.add(rs.getInt("ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return id.get(id.size() -1);
 	}
 	
 	/**
-	 * Adds the question result to the survey table.
+	 * Adds the last question result to the survey table.
 	 */
-	public void addResults(int result , int ID) {
+	public void addResults(int result) {
 		// TODO get add results to work.
-		int resultCounter1 = 0;
-		int resultCounter2 = 0;
-		int resultCounter3 = 0;
-		int resultCounter4 = 0;
-		int resultCounter5 = 0;
 
 		
 		try {
 			
 			if (result == 1) {//when user chooses a rating of 1 it will update the response1 column
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("UPDATE Survey SET Response1='" + resultCounter1++ + "' WHERE ID='"+ID+"';");
+						.prepareStatement("UPDATE Survey SET Response1= Response1 + 1 WHERE ID='"+getID()+"';");
 				insert.executeUpdate();
 				
 			} else if (result == 2) { //when user chooses a rating of 2 it will update the response2 column
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("UPDATE Survey SET Response2='" + resultCounter2++ + "' WHERE ID='"+ID+"';");
+						.prepareStatement("UPDATE Survey SET Response2= Response2 + 1 WHERE ID='"+getID()+"';");
 				insert.executeUpdate();
 
 			} else if (result == 3) {//when user chooses a rating of 3 it will update the response3 column
 
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("UPDATE Survey SET Response3='" + resultCounter3++ + "' WHERE ID='"+ID+"';");
+						.prepareStatement("UPDATE Survey SET Response3= Response3 + 1 WHERE ID='"+getID()+"';");
 				insert.executeUpdate();
 			} else if (result == 4) {//when user chooses a rating of 4 it will update the response4 column
 
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("UPDATE Survey SET Response4='" + resultCounter4++ + "' WHERE ID='"+ID+"';");
+						.prepareStatement("UPDATE Survey SET Response4= Response4 + 1 WHERE ID='"+getID()+"';");
 				insert.executeUpdate();
 				
 			} else {//when user chooses a rating of 5 it will update the response5 column
 				PreparedStatement insert = (PreparedStatement) DBConnector.myConnection
-						.prepareStatement("UPDATE Survey SET Response5='" + resultCounter5++ + "' WHERE ID='"+ID+"';");
+						.prepareStatement("UPDATE Survey SET Response5= Response5 + 1 WHERE ID='"+getID()+"';");
 				insert.executeUpdate();
 
 			}

@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.msip.external.Utility;
@@ -54,7 +53,7 @@ public class DBConnector {
 
 		LoginTable login = new LoginTable();
 		login.deleteAll();
-		
+
 		 for (int i = 0; i < 500; i++) {
 		 login.addUsingDates(33333333, getRandomDate());
 		 }
@@ -75,12 +74,13 @@ public class DBConnector {
 		 }
 
 		NotificationTable no = new NotificationTable();
-		
+		no.addToNotificationTable("Exam on tuesday", new Date(), new Date());
+
 		SurveyTable s = new SurveyTable();
-		s.removeAll();
+		// s.removeAll();
 		Date date = new Date();
 		s.addQuestion("How usefull is the mesa center?", date);
-		s.addResults(s.getID(), 1);
+		// s.addResults(5);
 
 	}
 

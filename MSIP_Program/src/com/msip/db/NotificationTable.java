@@ -1,6 +1,7 @@
 package com.msip.db;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -29,11 +30,15 @@ public class NotificationTable {
 	 */
 	public void addToNotificationTable(String notification, Date startDate,
 			Date expirationDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String startDateString = formatter.format(startDate);
+		String expirationDateString = formatter.format(expirationDate);
+
 		try {
 			PreparedStatement addNotification = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("INSERT INTO Notification VALUE(NULL,'"
-							+ notification + "',  '" + startDate + "','"
-							+ expirationDate + "');");
+							+ notification + "',  '" + startDateString + "','"
+							+ expirationDateString + "');");
 			addNotification.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
