@@ -48,37 +48,33 @@ public class NotificationTable {
 		}
 
 	}
-	
+
 	/**
 	 * Returns an arraylist of active notifications.
+	 * 
 	 * @return
 	 */
-	public ArrayList<String> getAllNotification(){
+	public ArrayList<String> getAllNotification() {
 		// get all the notification sthat are within the startdate and enddate
 		// get all valid notifications that are not experied and have started
 		// Saves the notification to a string arraylist
 		ArrayList<String> myNotif = new ArrayList<String>();
-	Date StartDate = null;
-	Date EndDate = null;
-	Date now =  new Date();
-		try{
-			PreparedStatement notif = (PreparedStatement) DBConnector.myConnection.prepareStatement("SELECT * FROM Notification;");
+		Date StartDate = null;
+		Date EndDate = null;
+		Date now = new Date();
+		try {
+			PreparedStatement notif = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("SELECT * FROM Notification;");
 			ResultSet rs = notif.executeQuery();
-			while(rs.next()){
-				
-				StartDate = rs.getDate("StartDate");
-				EndDate =  rs.getDate("ExpirationDate");
-				//can Someone check my logic
-				if((StartDate.compareTo(now) <=0) && (EndDate.compareTo(now) <=0)){
-					myNotif.add(rs.getString("Notification"));
-				}
+			while (rs.next()) {
+				removeExpiredNotification();
+				myNotif.add(rs.getString("Notification"));
 			}
-		}catch(SQLException e){
-			
+		} catch (SQLException e) {
+
 		}
 		return myNotif;
 	}
-
 
 	/**
 	 * removes expired notification.
