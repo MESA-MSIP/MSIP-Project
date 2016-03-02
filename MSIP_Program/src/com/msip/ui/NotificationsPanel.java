@@ -163,6 +163,10 @@ public class NotificationsPanel extends JPanel {
 		}
 	}
 
+	private void expiredNotification() {
+
+	}
+
 	/**
 	 * @param args
 	 */
