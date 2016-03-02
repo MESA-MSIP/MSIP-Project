@@ -31,15 +31,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtKNumber;
 	private JTextField txtAdminPass;
-	private JLabel labelToast;
 	private JLabel labelKNumber;
 	private JLabel labeladminPass;
-	private JLabel labelHelp;
 	private JLabel labelMESALOGO;
-	private JLabel labeladminPassError;
-	private JTextArea txtErrorMessage;
 	private MISPCore manager;
-	private JLabel labelInsertAdminPass;
 	private boolean isTxtkNumberEnabled = true;
 	private WelcomePanel welcomePanel;
 
@@ -52,10 +47,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 		setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
-
-		NumberFormat numberFormat = NumberFormat.getNumberInstance();
-		numberFormat.setGroupingUsed(false);
-		txtKNumber = new JFormattedTextField(numberFormat);
+		
+		txtKNumber = new JTextField();
 		txtKNumber.setColumns(10);
 		txtKNumber.setBounds(297, 215, 211, GlobalUI.TEXTBOXHEIGHT);
 		txtKNumber.addActionListener(this);
@@ -98,45 +91,11 @@ public class LoginPanel extends JPanel implements ActionListener {
 		add(labelWelcome);
 
 		ImageIcon icon = CreateIcon("MESA.png", 315, 72);
-
-		this.labeladminPassError = new JLabel("Password or K# is incorrect.");
-		this.labeladminPassError.setBounds(502, 305, 261, 22);
-		this.labeladminPassError.setHorizontalAlignment(0);
-		this.labeladminPassError.setFont(new Font("Segoe UI", 0, 18));
-		this.labeladminPassError.setVisible(false);
-
-		this.labelHelp = new JLabel("K# is Incorrect.  Try Again.");
-		this.labelHelp.setToolTipText("");
-		this.labelHelp.setBounds(502, 215, 271, 43);
-		this.labelHelp.setFont(new Font("Segoe UI", 0, 18));
-		this.labelHelp.setHorizontalAlignment(0);
-		this.labelHelp.setVisible(false);
 		this.labelMESALOGO = new JLabel(icon);
 		this.labelMESALOGO.setBounds(502, 11, 289, 77);
 		add(this.labelMESALOGO);
 
-		this.labelToast = new JLabel("You Have Logged In.");
-		this.labelToast.setBounds(502, 221, 215, 32);
-		this.labelToast.setVisible(false);
-		this.labelToast.setHorizontalAlignment(0);
-		this.labelToast.setFont(new Font("Segoe UI", 0, 17));
-		add(this.labelToast);
-		add(this.labelHelp);
-		add(this.labeladminPassError);
-
-		this.txtErrorMessage = new JTextArea();
-		this.txtErrorMessage.setToolTipText("");
-		this.txtErrorMessage.setText("See a MESA Advisor to Sign In.");
-		this.txtErrorMessage.setFont(new Font("Segoe UI", 0, 17));
-		this.txtErrorMessage.setBounds(529, 223, 259, 43);
-		this.txtErrorMessage.setVisible(false);
-		add(this.txtErrorMessage);
-
-		this.labelInsertAdminPass = new JLabel("Enter your Password.");
-		this.labelInsertAdminPass.setFont(new Font("Segoe UI", 0, 18));
-		this.labelInsertAdminPass.setBounds(520, 213, 225, 43);
-		this.labelInsertAdminPass.setVisible(false);
-		add(this.labelInsertAdminPass);
+		
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -191,7 +150,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (txtKNumber == e.getSource()) {
 			if (txtKNumber.getText().length() < 8) {
-				this.labelHelp.setVisible(true);
 				txtKNumber.setText(GlobalUI.CLEAR);
 				this.welcomePanel.setMessage(GlobalUI.help);
 				showWelcomePanel();
@@ -203,7 +161,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					int adminResponse = this.manager.isAdmin(kNum);
 					if ((response == 0) && (adminResponse == 0)) {
 						//new Student not in either DB
-						txtKNumber.setText(GlobalUI.CLEAR);
+						clearTextField(this.txtKNumber);
 						this.welcomePanel.setMessage(GlobalUI.newStudentMessage);
 						showWelcomePanel();
 					} else if ((response == 0) && (adminResponse == 1)) {
@@ -284,7 +242,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 		cl.show(this.manager.getCards(), GlobalUI.AdminToolsPanel);
 	}
-	
+	public void clearTextField(JTextField textField)
+	{
+		textField.setText(GlobalUI.CLEAR);
+	}
 	
 	public  void setScannedNumber(int kNumber) {
 		txtKNumber.setText(String.valueOf(kNumber));

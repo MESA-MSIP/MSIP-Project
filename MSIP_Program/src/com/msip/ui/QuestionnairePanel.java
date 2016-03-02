@@ -128,10 +128,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		//
 		ArrayList<Integer> test = new ArrayList<Integer>();
 		test = getResult();
-		for (int i = 0; i < test.size(); i++)
-		{
-			System.out.println("Number " + i + ": " + test.get(i));
-		}
+		//
 		
 		
 		surveyTable = new SurveyTable();
