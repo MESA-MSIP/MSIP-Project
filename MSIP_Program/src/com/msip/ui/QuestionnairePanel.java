@@ -54,9 +54,13 @@ public class QuestionnairePanel extends JPanel {
 		panel.add(editQButton);
 		
 		textQuestion = new JTextField();
+		textQuestion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textQuestion.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(textQuestion);
 		textQuestion.setColumns(30);
+		
+		Component verticalStrut_4 = Box.createVerticalStrut(50);
+		panel.add(verticalStrut_4);
 		
 		JPanel valuePanel = new JPanel();
 		valuePanel.setBackground(Color.WHITE);
@@ -119,20 +123,26 @@ public class QuestionnairePanel extends JPanel {
 		valuePanel.add(textValue5);
 		textValue5.setColumns(15);
 		//
+		
+		
 		surveyTable = new SurveyTable();
-		//surveyTable.addQuestion("Rate the MESA Center.", startDate);
+		surveyTable.addQuestion("Rate the MESA Center.", startDate);
 		
 	}
-	public void getResults()
+
+	public ArrayList getResults()
 	{
 		//ArrayList<Integer> results = surveyTable.getResults();
 		//Hard coded results for now
+		
+		
 		results = new ArrayList<Integer>();
 		results.add(0, 12);
 		results.add(1, 13);
 		results.add(2, 7);
 		results.add(3, 10);
 		results.add(4, 8);
+		return results;
 		
 	}
 	
