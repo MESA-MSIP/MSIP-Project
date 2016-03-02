@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.msip.external.Utility;
@@ -54,33 +53,38 @@ public class DBConnector {
 
 		LoginTable login = new LoginTable();
 		login.deleteAll();
-		
-		 for (int i = 0; i < 500; i++) {
-		 login.addUsingDates(33333333, getRandomDate());
-		 }
-		
-		 for (int i = 0; i < 500; i++) {
-		 login.addUsingDates(44444444, getRandomDate());
-		 }
-		
-		 for (int i = 0; i < 5000; i++) {
-		 login.addUsingDates(55555555, getRandomDate());
-		 }
-		 for (int i = 0; i < 500; i++) {
-		 login.addUsingDates(66666666, getRandomDate());
-		 }
-		
-		 for (int i = 0; i < 500; i++) {
-		 login.addUsingDates(77777777, getRandomDate());
-		 }
+
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(33333333, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(44444444, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 5000; i++) {
+//		 login.addUsingDates(55555555, getRandomDate());
+//		 }
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(66666666, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(77777777, getRandomDate());
+//		 }
 
 		NotificationTable no = new NotificationTable();
-		
-		SurveyTable s = new SurveyTable();
-		s.removeAll();
+	//no.addToNotificationTable("Exam on sat", new Date(), getRandomDate());
+		//no.removeExpiredNotification();
+	System.out.println(no.getAllNotification());
+	//no.removeAll();
+
+	SurveyTable s = new SurveyTable();
+		// s.removeAll();
 		Date date = new Date();
-		s.addQuestion("How usefull is the mesa center?", date);
-		s.addResults(s.getID(), 1);
+		//s.addQuestion("How usefull is the mesa center?", date);
+		// s.addResults(1);
+	System.out.println(s.getResults());
 
 	}
 

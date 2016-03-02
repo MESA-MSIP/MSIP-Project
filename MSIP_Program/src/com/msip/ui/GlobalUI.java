@@ -12,6 +12,24 @@ public class GlobalUI {
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;
+	
+	//Messages for the WelcomePanel
+	public static final String adminPassError = "Password or K# is incorrect.";
+	public static final String help = "K# is Incorrect.  Try Again.";
+	public static final String loginSuccess = "You Have Logged In.";
+	public static final String newStudentMessage = "See a MESA Advisor to Sign In.";
+	public static final String InsertAdminPassMessage = "Enter your Password.";
+	
+	
+	// RadioButton Values for SurveyPanel
+	
+	public static final int valueOne = 1;
+	public static final int valueTwo = 2;
+	public static final int valueThree = 3;
+	public static final int valueFour = 4;
+	public static final int valueFive = 5;
+	//To Clear:
+	public static final String CLEAR = "";
 
 	// Integers for MSIP
 	public static final int kNumMax = 8;

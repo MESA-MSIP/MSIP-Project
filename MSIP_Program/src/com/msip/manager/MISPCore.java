@@ -44,6 +44,9 @@ public class MISPCore {
 	private static final int LOW_BOUNDARY = 3;
 	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
+	private LoginPanel loginPanel;
+	private WelcomePanel welcomePanel;
+	
 
 	public MISPCore() {
 
@@ -63,9 +66,10 @@ public class MISPCore {
 	private void addComponentToPane(Container contentPane) {
 
 		// Create the cards
-		JPanel loginPanel = new LoginPanel(this);
+		welcomePanel = new WelcomePanel(this);
+		loginPanel = new LoginPanel(this, welcomePanel);
 		JPanel adminToolsPanel = new AdminToolsPanel(this);
-		JPanel welcomePanel = new WelcomePanel(this);
+		
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
@@ -150,7 +154,7 @@ public class MISPCore {
 	 * @param kNumber
 	 */
 	public void setScannedNumber(int kNumber) {
-		LoginPanel.setScannedNumber(kNumber);
+		loginPanel.setScannedNumber(kNumber);
 	}
 
 	// **********************************************************//

@@ -1,6 +1,9 @@
 package com.msip.db;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -29,11 +32,15 @@ public class NotificationTable {
 	 */
 	public void addToNotificationTable(String notification, Date startDate,
 			Date expirationDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String startDateString = formatter.format(startDate);
+		String expirationDateString = formatter.format(expirationDate);
+
 		try {
 			PreparedStatement addNotification = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("INSERT INTO Notification VALUE(NULL,'"
-							+ notification + "',  '" + startDate + "','"
-							+ expirationDate + "');");
+							+ notification + "',  '" + startDateString + "','"
+							+ expirationDateString + "');");
 			addNotification.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -41,6 +48,37 @@ public class NotificationTable {
 		}
 
 	}
+	
+	/**
+	 * Returns an arraylist of active notifications.
+	 * @return
+	 */
+	public ArrayList<String> getAllNotification(){
+		// get all the notification sthat are within the startdate and enddate
+		// get all valid notifications that are not experied and have started
+		// Saves the notification to a string arraylist
+		ArrayList<String> myNotif = new ArrayList<String>();
+	Date StartDate = null;
+	Date EndDate = null;
+	Date now =  new Date();
+		try{
+			PreparedStatement notif = (PreparedStatement) DBConnector.myConnection.prepareStatement("SELECT * FROM Notification;");
+			ResultSet rs = notif.executeQuery();
+			while(rs.next()){
+				
+				StartDate = rs.getDate("StartDate");
+				EndDate =  rs.getDate("ExpirationDate");
+				//can Someone check my logic
+				if((StartDate.compareTo(now) <=0) && (EndDate.compareTo(now) <=0)){
+					myNotif.add(rs.getString("Notification"));
+				}
+			}
+		}catch(SQLException e){
+			
+		}
+		return myNotif;
+	}
+
 
 	/**
 	 * removes expired notification.
@@ -50,9 +88,36 @@ public class NotificationTable {
 	public void removeFromNotificationTable(Date expirationDate) {
 		try {
 			PreparedStatement delete = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("DELETE FROM Notification WHERE ExperationDate ='"
+					.prepareStatement("DELETE FROM Notification WHERE ExpirationDate ='"
 							+ expirationDate + "';");
 			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Removes all expired notifications.
+	 */
+	public void removeExpiredNotification() {
+		Date expiredDate = null;
+		Date todayDate = new Date();
+		try {
+			PreparedStatement getExpiredDate = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("SELECT ExpirationDate FROM Notification;");
+
+			ResultSet rs = getExpiredDate.executeQuery();
+			while (rs.next()) {
+				expiredDate = rs.getDate("ExpirationDate");
+
+				if (expiredDate.before(todayDate)) {
+					System.out.println(expiredDate);
+					removeFromNotificationTable(expiredDate);
+				}
+
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
