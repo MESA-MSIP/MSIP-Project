@@ -30,7 +30,6 @@ public class QuestionnairePanel extends JPanel {
 	private JTextField textQuestion;
 	private SurveyTable surveyTable;
 	private Date startDate;
-	private JTextField textField_1;
 	private JTextField textValue5;
 	private JTextField textValue1;
 	private JTextField textValue4;
@@ -123,14 +122,19 @@ public class QuestionnairePanel extends JPanel {
 		valuePanel.add(textValue5);
 		textValue5.setColumns(15);
 		//
+		ArrayList<Integer> test = new ArrayList<Integer>();
+		test = getResult();
+		for (int i = 0; i < test.size(); i++)
+		{
+			System.out.println("Number " + i + ": " + test.get(i));
+		}
 		
 		
 		surveyTable = new SurveyTable();
-		surveyTable.addQuestion("Rate the MESA Center.", startDate);
+		//surveyTable.addQuestion("Rate the MESA Center.", startDate);
 		
 	}
-
-	public ArrayList getResults()
+	public ArrayList<Integer> getResult()
 	{
 		//ArrayList<Integer> results = surveyTable.getResults();
 		//Hard coded results for now
