@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.BorderLayout;
@@ -20,23 +21,26 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class WelcomePanel extends JPanel implements ActionListener
 {
 	private MISPCore manager;
 	private JButton logOutbtn;
-	private Timer newTimer;
 	private JPanel panel;
 	private JLabel messageToast;
 	private JLabel animTimer;
 	private JPanel welcomeCards;
+	private StudentSurveyPanel StudentSurveyPanel;
+	private NotificationsPanel NotificationsPanel;
+	private Component horizontalStrut;
 	
 	
 	
 	public WelcomePanel(final MISPCore manager) 
 	{
 		
-		//TODO componentListener for timer
 		
 		setBackground(Color.WHITE);
 		this.manager = manager;
@@ -58,32 +62,40 @@ public class WelcomePanel extends JPanel implements ActionListener
 		messageToast.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(messageToast);
 		
+		horizontalStrut = Box.createHorizontalStrut(350);
+		panel.add(horizontalStrut);
+		
 		animTimer = new JLabel("Timer\r\n");
 		panel.add(animTimer);
+		
 		
 		welcomeCards = new JPanel();
 		welcomeCards.setLayout(new CardLayout(0, 0));
 		
-		//TODO Random # by Chance
-			//70% see notifications, 30% will see survey
-			//below .7 / .3
+	
 		
 		//Construct Cards
-		JPanel StudentSurveyPanel = new StudentSurveyPanel(manager);
-		JPanel NotificationsPanel = new NotificationsPanel(manager);
+		 StudentSurveyPanel = new StudentSurveyPanel(manager);
+		 NotificationsPanel = new NotificationsPanel(manager);
 		
 		//Add the Cards to the JPanel
-		
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
 		welcomeCards.add(NotificationsPanel, GlobalUI.NotificationsPanel);
-		
 		add(welcomeCards, BorderLayout.CENTER);
-		
 		
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			@Override
+			
 			public void componentShown(ComponentEvent e) {
+				
+				
+				//Set up Random Generator
+				Random randGen = new Random();
+				double randChance = randGen.nextDouble();
+				generateRandomPanel(randChance);
+				
+				
 				Timer timer = new Timer();
 				timer.schedule(new TimerTask() {
 
@@ -97,13 +109,35 @@ public class WelcomePanel extends JPanel implements ActionListener
 			}
 		});
 	}
+	
+	
 	public void setMessage(String message)
 	{
 		messageToast.setText(message);
-		return;
 	}
 	
-	
+	//TODO Random # by Chance
+	//70% see notifications, 30% will see survey
+	//below .7 / .3
+	public void generateRandomPanel(double rand)
+	{
+		if (rand < .3)
+		{
+			CardLayout cl = (CardLayout) welcomeCards.getLayout();
+			cl.show(this.getCards(),GlobalUI.StudentSurveyPanel);
+		}
+		else
+		{
+			CardLayout cl = (CardLayout) welcomeCards.getLayout();
+			cl.show(this.getCards(),GlobalUI.NotificationsPanel);
+		}
+		
+		
+	}
+	public JPanel getCards()
+	{
+		return welcomeCards;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
