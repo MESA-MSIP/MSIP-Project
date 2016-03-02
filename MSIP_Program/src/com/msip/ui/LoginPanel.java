@@ -41,14 +41,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private MISPCore manager;
 	private JLabel labelInsertAdminPass;
 	private boolean isTxtkNumberEnabled = true;
-	private JPanel welcomePanel;
+	private WelcomePanel welcomePanel;
 
-	public LoginPanel(final MISPCore manager, JPanel welcomePanel) {
+	public LoginPanel(final MISPCore manager, WelcomePanel welcomePanel) {
 		setBounds(new Rectangle(0, 0, 800, 480));
 
 		this.manager = manager;
 		this.welcomePanel = welcomePanel;
 
+		
 		setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
 
@@ -245,28 +246,23 @@ public class LoginPanel extends JPanel implements ActionListener {
 					int response = this.manager.isStudent(kNum);
 					int adminResponse = this.manager.isAdmin(kNum);
 					if ((response == 0) && (adminResponse == 0)) {
-						this.txtErrorMessage.setVisible(true);
+						//new Student not in either DB
 						txtKNumber.setText("");
-						turnOffErrorMessage();
+						this.welcomePanel.setMessage(GlobalUI.newStudentMessage);
+						showWelcomePanel();
 					} else if ((response == 0) && (adminResponse == 1)) {
-						this.labelInsertAdminPass.setVisible(true);
+						//Admin needs to Type in Admin Password
+						this.welcomePanel.setMessage(GlobalUI.InsertAdminPassMessage);
+						showWelcomePanel();
 						turnOffInsertAdminPass();
 					} else if ((response == 1) || (adminResponse == 1)) {
 						//TODO setText() BUG:
-						isTxtkNumberEnabled = false;
 						this.txtKNumber.setText("");
-						isTxtkNumberEnabled = true;
-						this.txtAdminPass.setVisible(false);
-						this.labeladminPass.setVisible(false);
 						this.manager.logStudent(kNum);						
-						//TODO setMessage will change Message;
-						//welcomePanel.setMessage();
-						
-						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);
+						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
+						showWelcomePanel();
 					} else {
-						this.labelHelp.setVisible(true);
-						this.labelToast.setVisible(false);
+						showWelcomePanel();
 					}
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
@@ -291,16 +287,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.txtAdminPass.setText("");
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
-
 						this.manager.logStudent(adminKNum);
-						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
-						
-
 						turnOffToast();
 					} else if (decision == 1) {
-						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-						cl.show(this.manager.getCards(), "AdminToolsPanel");
+						showAdminPanel();
 						txtKNumber.setText("");
 						this.txtAdminPass.setText("");
 						this.txtAdminPass.setVisible(false);
@@ -317,17 +307,32 @@ public class LoginPanel extends JPanel implements ActionListener {
 					this.txtAdminPass.setText("");
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
-					CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-					cl.show(this.manager.getCards(), "AdminToolsPanel");
+					showAdminPanel();
 					
 				}
 			} else {
-				this.labeladminPassError.setVisible(true);
-				turnOffAdminError();
+				//If AdminPassword is Incorrect, send Error
+				
+				this.welcomePanel.setMessage(GlobalUI.adminPassError);
+				showWelcomePanel();
+				
 			}
 		}
 	}
 
+	//show welcomePanel
+	public void showWelcomePanel()
+	{
+		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+		cl.show(this.manager.getCards(), GlobalUI.WelcomePanel);
+	}
+	public void showAdminPanel()
+	{
+		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+		cl.show(this.manager.getCards(), GlobalUI.AdminToolsPanel);
+	}
+	
+	
 	public  void setScannedNumber(int kNumber) {
 		txtKNumber.setText(String.valueOf(kNumber));
 	}

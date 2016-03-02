@@ -4,13 +4,15 @@ import javax.swing.JPanel;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 
 import com.msip.manager.MISPCore;
 
@@ -35,7 +37,6 @@ public class WelcomePanel extends JPanel implements ActionListener
 	{
 		
 		//TODO componentListener for timer
-		
 		
 		setBackground(Color.WHITE);
 		this.manager = manager;
@@ -79,14 +80,27 @@ public class WelcomePanel extends JPanel implements ActionListener
 		add(welcomeCards, BorderLayout.CENTER);
 		
 		
-		
-		
-		
-		
+		//Set up A Auto Time-Out for 6 Seconds
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
+
+					public void run() 
+					{
+						CardLayout cl = (CardLayout) WelcomePanel.this.manager.getCards().getLayout();
+						cl.show(WelcomePanel.this.manager.getCards(),GlobalUI.LoginPanel);
+					}
+				}, 6000L);
+				
+			}
+		});
 	}
 	public void setMessage(String message)
 	{
 		messageToast.setText(message);
+		return;
 	}
 	
 	

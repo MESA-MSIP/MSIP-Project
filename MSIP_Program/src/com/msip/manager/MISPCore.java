@@ -45,6 +45,7 @@ public class MISPCore {
 	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
 	private LoginPanel loginPanel;
+	private WelcomePanel welcomePanel;
 	
 
 	public MISPCore() {
@@ -65,7 +66,7 @@ public class MISPCore {
 	private void addComponentToPane(Container contentPane) {
 
 		// Create the cards
-		JPanel welcomePanel = new WelcomePanel(this);
+		welcomePanel = new WelcomePanel(this);
 		loginPanel = new LoginPanel(this, welcomePanel);
 		JPanel adminToolsPanel = new AdminToolsPanel(this);
 		

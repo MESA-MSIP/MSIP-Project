@@ -87,13 +87,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-		surveyQ.setText(" Rate the MESA Center Tutors between 1-5  on Availability.\r\n");
+		surveyQ.setText("Rate the MESA Center Tutors between 1-5  on Availability.\r\n");
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
 
 	}
-	
 	
 	public void actionPerformed(ActionEvent e)
 	{
