@@ -16,6 +16,7 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -162,10 +163,22 @@ public class NotificationsPanel extends JPanel {
 		}
 	}
 
+	private void expiredNotification() {
+
+	}
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		NotificationsPanel np = new NotificationsPanel(null);
+		JFrame frame = new JFrame();
+
+		frame.add(np);
+		frame.setPreferredSize(new Dimension(800, 480));
+		frame.pack();
+		frame.setVisible(true);
+
 		// TODO Auto-generated method stub
 
 	}
