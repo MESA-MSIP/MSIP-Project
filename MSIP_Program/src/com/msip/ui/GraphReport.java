@@ -29,6 +29,7 @@ import com.msip.manager.MISPCore;
 public class GraphReport extends ApplicationFrame {
 	static int[] arrayAnswers = new int[5];
 	static MISPCore manager;
+	int u = 0;
 
 	/**
 	 * Default constructor.
