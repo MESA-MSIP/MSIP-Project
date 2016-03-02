@@ -10,6 +10,13 @@ import com.mysql.jdbc.PreparedStatement;
 
 public class SurveyTable {
 	private String dateString = null;
+	private static final int RESULT1_INDEX = 0;
+	private static final int RESULT2_INDEX = 1;
+	private static final int RESULT3_INDEX = 2;
+	private static final int RESULT4_INDEX = 3;
+	private static final int RESULT5_INDEX = 4;
+
+	
 
 	
 
@@ -110,6 +117,34 @@ public class SurveyTable {
 		}
 	}
 
+	/**
+	 *  returns the results in an array.
+	 * the first index is set to response 1
+	 * second index is set to response 2
+	 * third index is set to response 3
+	 * fourth index is set to response 4
+	 * Fifth index is set to response 5.
+	 * @return
+	 */
+	public ArrayList<Integer> getResults(){
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		try{
+			PreparedStatement retrieveResults = (PreparedStatement) DBConnector.myConnection.prepareStatement("SELECT * FROM Survey;");
+			ResultSet rs = retrieveResults.executeQuery();
+			while(rs.next()){
+				results.add(RESULT1_INDEX , rs.getInt("Response1"));
+				results.add(RESULT2_INDEX , rs.getInt("Response2"));
+				results.add(RESULT3_INDEX , rs.getInt("Response3"));
+				results.add(RESULT4_INDEX , rs.getInt("Response4"));
+				results.add(RESULT5_INDEX , rs.getInt("Response5"));
+			}
+			
+		}catch(SQLException e){
+			
+		}
+		return results;
+	}
+	
 	/**
 	 * Removes the survey question based on the date.
 	 * 
