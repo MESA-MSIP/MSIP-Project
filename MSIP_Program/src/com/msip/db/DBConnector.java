@@ -74,17 +74,17 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
-	//no.addToNotificationTable("Exam on sat", new Date(), getRandomDate());
+	//no.addToNotificationTable("Exam on sAT", new Date(), getRandomDate());
 		//no.removeExpiredNotification();
 	System.out.println(no.getAllNotification());
 	//no.removeAll();
 
-	SurveyTable s = new SurveyTable();
+	//SurveyTable s = new SurveyTable();
 		// s.removeAll();
 		Date date = new Date();
 		//s.addQuestion("How usefull is the mesa center?", date);
 		// s.addResults(1);
-	System.out.println(s.getResults());
+	//System.out.println(s.getResults());
 
 	}
 
