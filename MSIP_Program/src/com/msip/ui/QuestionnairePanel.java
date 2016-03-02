@@ -18,7 +18,7 @@ import javax.swing.Box;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Date;
-import java.awt.FlowLayout;
+import java.awt.Font;
 
 /**
  * @author juanz
@@ -27,15 +27,15 @@ import java.awt.FlowLayout;
 public class QuestionnairePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField textQuestion;
 	private SurveyTable surveyTable;
 	private Date startDate;
 	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField textValue5;
+	private JTextField textValue1;
+	private JTextField textValue4;
+	private JTextField textValue2;
+	private JTextField textValue3;
 	private ArrayList<Integer> results;
 	
 
@@ -47,67 +47,86 @@ public class QuestionnairePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Edit Question");
-		panel.add(btnNewButton);
+		JButton editQButton = new JButton("Edit Question");
+		panel.add(editQButton);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(textField);
-		textField.setColumns(10);
+		textQuestion = new JTextField();
+		textQuestion.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(textQuestion);
+		textQuestion.setColumns(30);
 		
-		JPanel panel_1 = new JPanel();
-		add(panel_1, BorderLayout.WEST);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+		JPanel valuePanel = new JPanel();
+		valuePanel.setBackground(Color.WHITE);
+		add(valuePanel, BorderLayout.WEST);
+		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel = new JLabel("Value 1:");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel);
+		JLabel labelValue1 = new JLabel("Value 1:");
+		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
+		valuePanel.add(labelValue1);
 		
-		textField_3 = new JTextField();
-		panel_1.add(textField_3);
-		textField_3.setColumns(10);
+		textValue1 = new JTextField();
+		valuePanel.add(textValue1);
+		textValue1.setColumns(15);
 		
-		JLabel lblNewLabel_1 = new JLabel("Value 2");
-		panel_1.add(lblNewLabel_1);
+		Component verticalStrut_1 = Box.createVerticalStrut(50);
+		valuePanel.add(verticalStrut_1);
 		
-		textField_5 = new JTextField();
-		panel_1.add(textField_5);
-		textField_5.setColumns(10);
+		JLabel labelValue2 = new JLabel("Value 2:");
+		labelValue2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		valuePanel.add(labelValue2);
 		
-		JLabel lblNewLabel_2 = new JLabel("Vaue 3:");
-		panel_1.add(lblNewLabel_2);
+		textValue2 = new JTextField();
+		valuePanel.add(textValue2);
+		textValue2.setColumns(15);
 		
-		textField_6 = new JTextField();
-		panel_1.add(textField_6);
-		textField_6.setColumns(10);
+		Component verticalStrut = Box.createVerticalStrut(50);
+		valuePanel.add(verticalStrut);
 		
-		JLabel lblNewLabel_3 = new JLabel("Value 4");
-		panel_1.add(lblNewLabel_3);
+		JLabel labelValue3 = new JLabel("Value 3:");
+		labelValue3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		valuePanel.add(labelValue3);
 		
-		textField_4 = new JTextField();
-		panel_1.add(textField_4);
-		textField_4.setColumns(10);
+		textValue3 = new JTextField();
+		valuePanel.add(textValue3);
+		textValue3.setColumns(15);
 		
-		JLabel lblNewLabel_4 = new JLabel("Value 5");
-		panel_1.add(lblNewLabel_4);
+		Component verticalStrut_2 = Box.createVerticalStrut(50);
+		valuePanel.add(verticalStrut_2);
 		
-		textField_2 = new JTextField();
-		textField_2.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		textField_2.setBackground(new Color(255, 255, 255));
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(textField_2);
-		textField_2.setColumns(10);
+		JLabel labelValue4 = new JLabel("Value 4:");
+		labelValue4.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		valuePanel.add(labelValue4);
+		
+		textValue4 = new JTextField();
+		valuePanel.add(textValue4);
+		textValue4.setColumns(15);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(50);
+		valuePanel.add(verticalStrut_3);
+		
+		JLabel labelValue5 = new JLabel("Value 5:");
+		labelValue5.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		valuePanel.add(labelValue5);
+		
+		textValue5 = new JTextField();
+		textValue5.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		textValue5.setBackground(new Color(255, 255, 255));
+		textValue5.setHorizontalAlignment(SwingConstants.CENTER);
+		valuePanel.add(textValue5);
+		textValue5.setColumns(15);
 		//
 		surveyTable = new SurveyTable();
-		surveyTable.addQuestion("Rate the MESA Center.", startDate);
+		//surveyTable.addQuestion("Rate the MESA Center.", startDate);
 		
 	}
 	public void getResults()
 	{
 		//ArrayList<Integer> results = surveyTable.getResults();
-		//Harcoded results for now
+		//Hard coded results for now
 		results = new ArrayList<Integer>();
 		results.add(0, 12);
 		results.add(1, 13);
