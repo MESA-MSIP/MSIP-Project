@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JTextPane surveyQ;
 	private MISPCore manager;
 	private SurveyTable surveyTable;
+	private ButtonGroup groupChoices;
 	
 	public StudentSurveyPanel(final MISPCore manager)
 	{
@@ -91,6 +94,19 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
+		
+		
+		//Create a Button Group
+		
+		groupChoices = new ButtonGroup();
+		groupChoices.add(rbutton1);
+		groupChoices.add(rbutton2);
+		groupChoices.add(rbutton3);
+		groupChoices.add(rbutton4);
+		groupChoices.add(rbutton5);
+
+		
+		
 
 	}
 	
@@ -119,6 +135,14 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 						else
 							if (rbutton5.isSelected())
 								surveyTable.addResults(GlobalUI.valueFive);
+			
+			//Revert choice back to default
+			rbutton1.setSelected(false);
+			rbutton2.setSelected(false);
+			rbutton3.setSelected(false);
+			rbutton4.setSelected(false);
+			rbutton5.setSelected(false);
+			
 			
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);

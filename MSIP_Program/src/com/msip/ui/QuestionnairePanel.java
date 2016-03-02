@@ -19,12 +19,14 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author juanz
  *
  */
-public class QuestionnairePanel extends JPanel {
+public class QuestionnairePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textQuestion;
@@ -50,11 +52,13 @@ public class QuestionnairePanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 		
 		JButton editQButton = new JButton("Edit Question");
+		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panel.add(editQButton);
 		
 		textQuestion = new JTextField();
 		textQuestion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textQuestion.setHorizontalAlignment(SwingConstants.CENTER);
+		textQuestion.addActionListener(this);
 		panel.add(textQuestion);
 		textQuestion.setColumns(30);
 		
@@ -131,7 +135,8 @@ public class QuestionnairePanel extends JPanel {
 		
 		
 		surveyTable = new SurveyTable();
-		//surveyTable.addQuestion("Rate the MESA Center.", startDate);
+		startDate = new Date();
+		surveyTable.addQuestion("Rate the MESA Center.", startDate);
 		
 	}
 	public ArrayList<Integer> getResult()
@@ -154,6 +159,11 @@ public class QuestionnairePanel extends JPanel {
 	public void addQuestion()
 	{
 		surveyTable.addQuestion("Rate the Available Tutors", startDate);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		
 	}
 
 }
