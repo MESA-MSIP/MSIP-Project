@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JFrame;
@@ -46,7 +47,6 @@ public class MISPCore {
 	private NotificationTable notificationTable;
 	private LoginPanel loginPanel;
 	private WelcomePanel welcomePanel;
-	
 
 	public MISPCore() {
 
@@ -69,7 +69,6 @@ public class MISPCore {
 		welcomePanel = new WelcomePanel(this);
 		loginPanel = new LoginPanel(this, welcomePanel);
 		JPanel adminToolsPanel = new AdminToolsPanel(this);
-		
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
@@ -227,14 +226,30 @@ public class MISPCore {
 	}
 
 	public ParcipitationState isStudentActive(Integer Knumber) {
-		
-		if ((0 <= loginTable.getParticipation(Knumber).size()) && (loginTable.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
-			return ParcipitationState.LOW_ACTIVE_STUDENT;
-		} else if((LOW_BOUNDARY <= loginTable.getParticipation(Knumber).size()) && (loginTable.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)){
-			return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
-		}else {
-			return ParcipitationState.HIGH_ACTIVE_STUDENT;
-		}
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		Date lastWeek = c.getTime();
+
+		Calendar c2 = Calendar.getInstance();
+		c2.setTime(lastWeek);
+		c2.add(Calendar.DAY_OF_WEEK, -14);
+		Date twoWeeks = c2.getTime();
+		Date now = new Date();
+
+		if ((twoWeeks.before(now)) && (lastWeek.before(now))) {
+
+			if ((0 <= loginTable.getParticipation(Knumber).size())
+					&& (loginTable.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
+				return ParcipitationState.LOW_ACTIVE_STUDENT;
+			} else if ((LOW_BOUNDARY <= loginTable.getParticipation(Knumber)
+					.size())
+					&& (loginTable.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)) {
+				return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
+			} else {
+				return ParcipitationState.HIGH_ACTIVE_STUDENT;
+			}
+		} 
+		return null;
 	}
 
 	// **********************************************************//
