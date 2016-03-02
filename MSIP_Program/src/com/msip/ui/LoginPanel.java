@@ -176,51 +176,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 		});
 	}
 
-	private void turnOffInsertAdminPass() {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				LoginPanel.this.labelInsertAdminPass.setVisible(false);
-			}
-		}, 3000L);
-	}
-
-	private void turnOffAdminError() {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				LoginPanel.this.labeladminPassError.setVisible(false);
-			}
-		}, 3000L);
-	}
-
-	private void turnOffHelp() {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				LoginPanel.this.labelHelp.setVisible(false);
-			}
-		}, 3000L);
-	}
-
-	private void turnOffToast() {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				LoginPanel.this.labelToast.setVisible(false);
-			}
-		}, 3000L);
-	}
-
-	private void turnOffErrorMessage() {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				LoginPanel.this.txtErrorMessage.setVisible(false);
-			}
-		}, 3000L);
-	}
-
 	private ImageIcon CreateIcon(String filename, int width, int height) {
 		InputStream url = getClass().getResourceAsStream("/images/" + filename);
 		BufferedImage img = null;
@@ -237,8 +192,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 		if (txtKNumber == e.getSource()) {
 			if (txtKNumber.getText().length() < 8) {
 				this.labelHelp.setVisible(true);
-				txtKNumber.setText("");
-				turnOffHelp();
+				txtKNumber.setText(GlobalUI.CLEAR);
+				this.welcomePanel.setMessage(GlobalUI.help);
+				showWelcomePanel();
 			} else {
 				try {
 					String strKNumber = txtKNumber.getText();
@@ -247,17 +203,16 @@ public class LoginPanel extends JPanel implements ActionListener {
 					int adminResponse = this.manager.isAdmin(kNum);
 					if ((response == 0) && (adminResponse == 0)) {
 						//new Student not in either DB
-						txtKNumber.setText("");
+						txtKNumber.setText(GlobalUI.CLEAR);
 						this.welcomePanel.setMessage(GlobalUI.newStudentMessage);
 						showWelcomePanel();
 					} else if ((response == 0) && (adminResponse == 1)) {
 						//Admin needs to Type in Admin Password
 						this.welcomePanel.setMessage(GlobalUI.InsertAdminPassMessage);
 						showWelcomePanel();
-						turnOffInsertAdminPass();
 					} else if ((response == 1) || (adminResponse == 1)) {
 						//TODO setText() BUG:
-						this.txtKNumber.setText("");
+						this.txtKNumber.setText(GlobalUI.CLEAR);
 						this.manager.logStudent(kNum);						
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
 						showWelcomePanel();
@@ -281,26 +236,24 @@ public class LoginPanel extends JPanel implements ActionListener {
 					popUpResponse popUp = new popUpResponse();
 					int decision = popUp.popUp();
 					if (decision == 0) {
-						this.labelHelp.setVisible(false);
-						this.labelToast.setVisible(true);
-						txtKNumber.setText("");
-						this.txtAdminPass.setText("");
+						txtKNumber.setText(GlobalUI.CLEAR);
+						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
 						this.manager.logStudent(adminKNum);
-						turnOffToast();
+						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
+						showWelcomePanel();
 					} else if (decision == 1) {
+						txtKNumber.setText(GlobalUI.CLEAR);
+						this.txtAdminPass.setText(GlobalUI.CLEAR);
+						this.txtAdminPass.setVisible(false);
+						this.labeladminPass.setVisible(false);
 						showAdminPanel();
-						txtKNumber.setText("");
-						this.txtAdminPass.setText("");
-						this.txtAdminPass.setVisible(false);
-						this.labeladminPass.setVisible(false);
 					} else if (decision == 2) {
-						txtKNumber.setText("");
-						this.txtAdminPass.setText("");
+						txtKNumber.setText(GlobalUI.CLEAR);
+						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
-						this.labelToast.setVisible(false);
 					}
 				} else {
 					txtKNumber.setText("");
