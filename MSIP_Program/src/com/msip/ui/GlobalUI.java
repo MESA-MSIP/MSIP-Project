@@ -9,6 +9,7 @@ public class GlobalUI {
 	public static final String WelcomePanel = "WelcomePanel";
 	public static final String AdminToolsPanel = "AdminToolsPanel";
 	public static final String StudentSurveyPanel = "StudentSurveyPanel";
+	public static final String BlankPanel = "BlankPanel";
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;
