@@ -19,11 +19,17 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
+import com.msip.db.SurveyTable;
+import com.msip.manager.MISPCore;
+
 /**
  * @author Celina
  *
  */
 public class GraphReport extends ApplicationFrame {
+	static int[] arrayAnswers = new int[5];
+	static MISPCore manager;
+
 	/**
 	 * Default constructor.
 	 *
@@ -35,25 +41,55 @@ public class GraphReport extends ApplicationFrame {
 		setContentPane(createPiePanel());
 	}
 
+	//
+	// private int[] analyzeAnswerData(ArrayList<Integer> results) {
+	// int[] arrayAnswers = new int[5];
+	// for (int a = 0; a < arrayAnswers.length; a++) {
+	// arrayAnswers[a] = 0;
+	// }
+	// for (Integer arrA : results) {
+	// int answers = getAnswers(arrA.getResults());
+	// // arrayAnswers[answers] = arrayAnswers[answers] + 1;
+	// System.out.println(answers);
+	// }
+	// return arrayAnswers;
+	//
+	// }
+
+	// private int[] analyzeQuestionnData(ArrayList<Integer> results) {
+	// int[] arrayQuestions = new int[5];
+	// for (int a = 0; a < arrayQuestions.length; a++) {
+	// arrayQuestions[a] = 0;
+	// }
+	// for (Integer arrQ : results) {
+	// int questions = getQuestion(arrQ.getResults());
+	// // arrayQuestions[questions] = arrayQuestions[question] + 1;
+	// System.out.println(questions);
+	// }
+	// return arrayQuestions;
+
+	// }
+
 	/**
 	 * Creates a sample dataset for questionnaire (Hard-coded)
 	 * 
 	 * @return A sample dataset.
 	 */
-	private static PieDataset createDataset() {
+	private static PieDataset createDataset(int[] arrayAnswers) {
 		DefaultPieDataset datasetQ = new DefaultPieDataset();
-		// for (int q = 0; q < arrayQuest.length; q++) {
-		//
-		// datasetQ.addValue(arrayQuest[d], Days[q]);
-		StudentSurveyPanel ssp = new StudentSurveyPanel(null);
-		// ssp.get
-		datasetQ.setValue("Helpful", new Double(10.0));
-		datasetQ.setValue("Somewhat available", new Double(9.0));
-		datasetQ.setValue("Available ", new Double(11.0));
-		datasetQ.setValue("We have tutors?", new Double(1.0));
-		return datasetQ;
+		// QuestionnairePanel ssp = new QuestionnairePanel(null);
+		// QuestionnairePanel ansQ = new QuestionnairePanel(manager);
+		SurveyTable st = new SurveyTable();
+		String[] quest = { "Question" };
+		for (int a = 0; a < st.getResults().size(); a++) {
 
-		// }
+			datasetQ.setValue(quest[0], st.getResults().get(a));
+			// datasetQ.setValue("Somewhat available", new Double(9.0));
+			// datasetQ.setValue("Available ", new Double(11.0));
+			// datasetQ.setValue("We have tutors?", new Double(1.0));
+
+		}
+		return datasetQ;
 	}
 
 	/**
@@ -93,8 +129,19 @@ public class GraphReport extends ApplicationFrame {
 	 * @return A panel.
 	 */
 	public static JPanel createPiePanel() {
-		JFreeChart chart = createChart(createDataset());
+		JFreeChart chart = createChart(createDataset(arrayAnswers));
 		return new ChartPanel(chart);
+	}
+
+	private void getAnswers() {
+		QuestionnairePanel ansQ = new QuestionnairePanel(null);
+		// int[] arrayAnswers = new int[5];
+		for (int a = 0; a < arrayAnswers.length; a++) {
+			arrayAnswers[a] = ansQ.getResult().get(a);
+		}
+
+		// ansQ.getResult();
+
 	}
 
 	/**
@@ -108,7 +155,7 @@ public class GraphReport extends ApplicationFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// StudentSurveyPanel ssp = new StudentSurveyPanel(null);
+		// StudentSurveyPanel ssp = new StudentSurveyPanel(manager);
 
 		GraphReport pi = new GraphReport("Questionnaire");
 		pi.pack();
