@@ -14,6 +14,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
@@ -27,9 +28,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JRadioButton rbutton1, rbutton2, rbutton3, rbutton4, rbutton5;
 	private JTextPane surveyQ;
 	private MISPCore manager;
+	private SurveyTable surveyTable;
 	
 	public StudentSurveyPanel(final MISPCore manager)
 	{
+		surveyTable = new SurveyTable();
+		
 		setForeground(Color.BLACK);
 		setBackground(Color.WHITE);
 		setLayout(null);
@@ -90,6 +94,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 
 	}
 	
+	
 	public void actionPerformed(ActionEvent e)
 	{
 		if (skipButton == e.getSource())
@@ -100,6 +105,22 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		else if (submitButton == e.getSource())
 				{
 			//TODO log the information to the surveyTable
+			if (rbutton1.isSelected())
+				surveyTable.addResults(GlobalUI.valueOne);
+			
+			else
+				if (rbutton2.isSelected())
+					surveyTable.addResults(GlobalUI.valueTwo);
+				else
+					if (rbutton3.isSelected())
+						surveyTable.addResults(GlobalUI.valueThree);
+					else
+						if (rbutton4.isSelected())
+							surveyTable.addResults(GlobalUI.valueFour);
+						else
+							if (rbutton5.isSelected())
+								surveyTable.addResults(GlobalUI.valueFive);
+			
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
 				}

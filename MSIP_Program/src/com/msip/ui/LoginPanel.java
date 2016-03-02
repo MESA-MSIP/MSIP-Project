@@ -29,7 +29,7 @@ import javax.swing.border.MatteBorder;
 public class LoginPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private static JTextField txtKNumber;
+	private JTextField txtKNumber;
 	private JTextField txtAdminPass;
 	private JLabel labelToast;
 	private JLabel labelKNumber;
@@ -40,11 +40,14 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JTextArea txtErrorMessage;
 	private MISPCore manager;
 	private JLabel labelInsertAdminPass;
+	private boolean isTxtkNumberEnabled = true;
+	private JPanel welcomePanel;
 
-	public LoginPanel(final MISPCore manager) {
+	public LoginPanel(final MISPCore manager, JPanel welcomePanel) {
 		setBounds(new Rectangle(0, 0, 800, 480));
 
 		this.manager = manager;
+		this.welcomePanel = welcomePanel;
 
 		setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
@@ -53,13 +56,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 		numberFormat.setGroupingUsed(false);
 		txtKNumber = new JFormattedTextField(numberFormat);
 		txtKNumber.setColumns(10);
-
 		txtKNumber.setBounds(297, 215, 211, GlobalUI.TEXTBOXHEIGHT);
 		txtKNumber.addActionListener(this);
 		setLayout(null);
 		txtKNumber.setHorizontalAlignment(0);
 		txtKNumber.setFont(new Font("Segoe UI Light", 0, 16));
 		txtKNumber.setColumns(10);
+		txtKNumber.setVisible(true);
 		add(txtKNumber);
 
 		this.txtAdminPass = new JPasswordField(10);
@@ -136,17 +139,26 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
-				if (LoginPanel.txtKNumber.getText().length() >= 8) {
+				if (txtKNumber.getText().length() >= 8) {
 					e.consume();
 				}
-				char keychar = e.getKeyChar();
-				if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
+				
+				//TODO fix the setText() on txtKNumber
+				if (isTxtkNumberEnabled)
+				{
+					char keychar = e.getKeyChar();
+					if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
+						e.consume();
+					}
+				}
+				else
+				{
 					e.consume();
 				}
 			}
 
 			public void keyReleased(KeyEvent e) {
-				String strKNumber = LoginPanel.txtKNumber.getText();
+				String strKNumber = txtKNumber.getText();
 				if (strKNumber.length() < 8) {
 					LoginPanel.this.txtAdminPass.setText("");
 					LoginPanel.this.txtAdminPass.setVisible(false);
@@ -240,18 +252,18 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.labelInsertAdminPass.setVisible(true);
 						turnOffInsertAdminPass();
 					} else if ((response == 1) || (adminResponse == 1)) {
-						txtKNumber.setText("");
-						this.labelHelp.setVisible(false);
-						this.labelToast.setVisible(true);
-						this.manager.logStudent(kNum);
-						turnOffToast();
+						//TODO setText() BUG:
+						isTxtkNumberEnabled = false;
+						this.txtKNumber.setText("");
+						isTxtkNumberEnabled = true;
+						this.txtAdminPass.setVisible(false);
+						this.labeladminPass.setVisible(false);
+						this.manager.logStudent(kNum);						
+						//TODO setMessage will change Message;
+						//welcomePanel.setMessage();
+						
 						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
-						
-
-						
-
-						
+						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);
 					} else {
 						this.labelHelp.setVisible(true);
 						this.labelToast.setVisible(false);
@@ -273,9 +285,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 					popUpResponse popUp = new popUpResponse();
 					int decision = popUp.popUp();
 					if (decision == 0) {
-						
-						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
 						this.labelHelp.setVisible(false);
 						this.labelToast.setVisible(true);
 						txtKNumber.setText("");
@@ -284,6 +293,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.labeladminPass.setVisible(false);
 
 						this.manager.logStudent(adminKNum);
+						CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+						cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);	
+						
 
 						turnOffToast();
 					} else if (decision == 1) {
@@ -301,12 +313,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.labelToast.setVisible(false);
 					}
 				} else {
-					CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-					cl.show(this.manager.getCards(), "AdminToolsPanel");
 					txtKNumber.setText("");
 					this.txtAdminPass.setText("");
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
+					CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+					cl.show(this.manager.getCards(), "AdminToolsPanel");
+					
 				}
 			} else {
 				this.labeladminPassError.setVisible(true);
@@ -315,7 +328,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public static void setScannedNumber(int kNumber) {
+	public  void setScannedNumber(int kNumber) {
 		txtKNumber.setText(String.valueOf(kNumber));
 	}
 }

@@ -24,34 +24,48 @@ public class WelcomePanel extends JPanel implements ActionListener
 	private MISPCore manager;
 	private JButton logOutbtn;
 	private Timer newTimer;
+	private JPanel panel;
+	private JLabel messageToast;
+	private JLabel animTimer;
+	private JPanel welcomeCards;
+	
+	
+	
 	public WelcomePanel(final MISPCore manager) 
 	{
+		
+		//TODO componentListener for timer
+		
+		
 		setBackground(Color.WHITE);
 		this.manager = manager;
 		setBounds(new Rectangle(0, 0, 800, 480));
 		setLayout(new BorderLayout(0, 0));
 		
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 		
-		JButton logOutbtn = new JButton("New button");
+		logOutbtn = new JButton("New button");
 		logOutbtn.addActionListener(this);
 		panel.add(logOutbtn);
 		
-		JLabel messageToast = new JLabel("Message");
+		messageToast = new JLabel("Message");
 		messageToast.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		messageToast.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(messageToast);
 		
-		JLabel animTimer = new JLabel("Timer\r\n");
+		animTimer = new JLabel("Timer\r\n");
 		panel.add(animTimer);
 		
-		JPanel welcomeCards = new JPanel();
+		welcomeCards = new JPanel();
 		welcomeCards.setLayout(new CardLayout(0, 0));
 		
+		//TODO Random # by Chance
+			//70% see notifications, 30% will see survey
+			//below .7 / .3
 		
 		//Construct Cards
 		JPanel StudentSurveyPanel = new StudentSurveyPanel(manager);
@@ -70,6 +84,12 @@ public class WelcomePanel extends JPanel implements ActionListener
 		
 		
 	}
+	public void setMessage(String message)
+	{
+		messageToast.setText(message);
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
