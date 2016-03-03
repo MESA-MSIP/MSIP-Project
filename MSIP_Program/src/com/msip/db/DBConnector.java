@@ -82,15 +82,24 @@ public class DBConnector {
 
 		SurveyTable s = new SurveyTable();
 
-		s.addResults(5);
-		s.addResults(1);
-		s.addResults(2);
-		s.addResults(3);
-		s.addResults(4);
+		for(int i = 0; i < 7 ; i++){
+			s.addResults(5);
+		}
+		for(int n = 0; n < 3; n++){
+			s.addResults(1);
+		}
+		for(int j = 0; j < 18; j++){
+			s.addResults(2);
+		}
+		for(int k = 0; k < 2; k++){
+			s.addResults(3);
+		}
+		for(int c = 0; c < 1; c++){
+			s.addResults(4);
+		}
 		// s.removeAll();
-		Date date = new Date();
-		// s.addQuestion("How usefull is the mesa center?", date);
-		s.addResults(5);
+//		Date date = new Date();
+//		s.addResults(5);
 		// System.out.println(s.getResults());
 
 	}
