@@ -20,6 +20,7 @@ import com.msip.db.Global;
 import com.msip.db.LoginTable;
 import com.msip.db.NotificationTable;
 import com.msip.db.StudentTable;
+import com.msip.db.SurveyTable;
 import com.msip.external.SerialPort;
 import com.msip.external.Utility;
 import com.msip.model.Admin;
@@ -47,6 +48,7 @@ public class MISPCore {
 	private NotificationTable notificationTable;
 	private LoginPanel loginPanel;
 	private WelcomePanel welcomePanel;
+	private SurveyTable surveyTable;
 
 	public MISPCore() {
 
@@ -58,6 +60,7 @@ public class MISPCore {
 		studentTable = new StudentTable();
 		loginTable = new LoginTable();
 		notificationTable = new NotificationTable();
+		surveyTable = new SurveyTable();
 	}
 
 	/**
@@ -248,7 +251,7 @@ public class MISPCore {
 			} else {
 				return ParcipitationState.HIGH_ACTIVE_STUDENT;
 			}
-		} 
+		}
 		return null;
 	}
 
@@ -357,6 +360,10 @@ public class MISPCore {
 
 	public void removeNotification(Date expirationDate) {
 		notificationTable.removeFromNotificationTable(expirationDate);
+	}
+
+	public ArrayList<Integer> getResults() {
+		return surveyTable.getResults();
 	}
 
 	/**

@@ -54,37 +54,44 @@ public class DBConnector {
 		LoginTable login = new LoginTable();
 		login.deleteAll();
 
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(33333333, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(44444444, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 5000; i++) {
-//		 login.addUsingDates(55555555, getRandomDate());
-//		 }
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(66666666, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(77777777, getRandomDate());
-//		 }
+		// for (int i = 0; i < 500; i++) {
+		// login.addUsingDates(33333333, getRandomDate());
+		// }
+		//
+		// for (int i = 0; i < 500; i++) {
+		// login.addUsingDates(44444444, getRandomDate());
+		// }
+		//
+		// for (int i = 0; i < 5000; i++) {
+		// login.addUsingDates(55555555, getRandomDate());
+		// }
+		// for (int i = 0; i < 500; i++) {
+		// login.addUsingDates(66666666, getRandomDate());
+		// }
+		//
+		// for (int i = 0; i < 500; i++) {
+		// login.addUsingDates(77777777, getRandomDate());
+		// }
 
 		NotificationTable no = new NotificationTable();
-	//no.addToNotificationTable("Exam on mon", new Date(), getRandomDate());
-		//no.removeExpiredNotification();
-	//System.out.println(no.getAllNotification());
-	//no.removeAll();
+		// no.addToNotificationTable("Exam on mon", new Date(),
+		// getRandomDate());
+		// no.removeExpiredNotification();
+		// System.out.println(no.getAllNotification());
+		// no.removeAll();
 
-	SurveyTable s = new SurveyTable();
+		SurveyTable s = new SurveyTable();
+
+		s.addResults(5);
+		s.addResults(1);
+		s.addResults(2);
+		s.addResults(3);
+		s.addResults(4);
 		// s.removeAll();
 		Date date = new Date();
-		//s.addQuestion("How usefull is the mesa center?", date);
-		 s.addResults(5);
-	//System.out.println(s.getResults());
+		// s.addQuestion("How usefull is the mesa center?", date);
+		s.addResults(5);
+		// System.out.println(s.getResults());
 
 	}
 

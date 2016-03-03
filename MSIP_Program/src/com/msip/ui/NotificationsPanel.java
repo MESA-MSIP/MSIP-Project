@@ -142,19 +142,21 @@ public class NotificationsPanel extends JPanel {
 	}
 
 	private void addNotification(ActionEvent e) {
-
+		// clear
+		// call db function to clear
 		DefaultTableModel model = (DefaultTableModel) tableNotifications
 				.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		String reportDate = dateStart.format(startDateChooser);
-		String reportEndDate = dateEnd.format(expirationDateChooser);
+		String reportDate = dateStart.format(selectedStartDate);
+		String reportEndDate = dateEnd.format(selectedExpirationDate);
 		String note = textFieldNotifications.getText().trim();
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
 	}
 
 	private void deleteNotification(ActionEvent e) {
+		// call db function to clear expired to notifications
 		DefaultTableModel model2 = (DefaultTableModel) tableNotifications
 				.getModel();
 		if (tableNotifications.getSelectedRow() != -1) {

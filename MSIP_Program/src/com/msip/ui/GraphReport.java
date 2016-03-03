@@ -19,7 +19,6 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
 /**
@@ -27,6 +26,10 @@ import com.msip.manager.MISPCore;
  *
  */
 public class GraphReport extends ApplicationFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int[] arrayAnswers = new int[5];
 	static MISPCore manager;
 
@@ -75,15 +78,16 @@ public class GraphReport extends ApplicationFrame {
 	 * 
 	 * @return A sample dataset.
 	 */
-	private static PieDataset createDataset(int[] arrayAnswers) {
+	private static PieDataset createDataset() {
 		DefaultPieDataset datasetQ = new DefaultPieDataset();
 		// QuestionnairePanel ssp = new QuestionnairePanel(null);
 		// QuestionnairePanel ansQ = new QuestionnairePanel(manager);
-		SurveyTable st = new SurveyTable();
-		String[] quest = { "Question" };
-		for (int a = 0; a < st.getResults().size(); a++) {
+		manager = new MISPCore();
+		String[] quest = { "Result1", "Result2", "Result3", "Result4",
+				"Result5" };
+		for (int a = 0; a < 4; a++) {
 
-			datasetQ.setValue(quest[0], st.getResults().get(a));
+			datasetQ.setValue(quest[a], manager.getResults().get(a));
 			// datasetQ.setValue("Somewhat available", new Double(9.0));
 			// datasetQ.setValue("Available ", new Double(11.0));
 			// datasetQ.setValue("We have tutors?", new Double(1.0));
@@ -129,7 +133,7 @@ public class GraphReport extends ApplicationFrame {
 	 * @return A panel.
 	 */
 	public static JPanel createPiePanel() {
-		JFreeChart chart = createChart(createDataset(arrayAnswers));
+		JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
 	}
 
