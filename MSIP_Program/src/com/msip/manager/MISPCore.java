@@ -362,6 +362,16 @@ public class MISPCore {
 		notificationTable.removeFromNotificationTable(expirationDate);
 	}
 
+	public void removeExpiredNotifications() {
+		notificationTable.removeExpiredNotification();
+
+	}
+
+	// **********************************************************//
+	// **********************************************************//
+	// *** Survey Table Functions ****//
+	// **********************************************************//
+	// **********************************************************//
 	/** Getting results from survey table. **/
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();

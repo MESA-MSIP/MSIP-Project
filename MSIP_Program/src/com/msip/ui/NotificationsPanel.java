@@ -41,8 +41,11 @@ public class NotificationsPanel extends JPanel {
 	private Date selectedExpirationDate;
 	private JButton btnRemove;
 	private JButton btnAdd;
+	private MISPCore rem;
+	private DefaultTableModel model;
 
 	public NotificationsPanel(MISPCore msipCore) {
+		rem = new MISPCore();
 
 		/**
 		 * Create the panel.
@@ -75,7 +78,7 @@ public class NotificationsPanel extends JPanel {
 		btnAdd.setBounds(307, 65, 75, 29);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addNotification(e);
+				addNotification();
 			}
 
 		});
@@ -85,7 +88,7 @@ public class NotificationsPanel extends JPanel {
 		btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				deleteNotification(e);
+				deleteNotification();
 
 			}
 		});
@@ -117,7 +120,6 @@ public class NotificationsPanel extends JPanel {
 						// and retrieves that date.
 						selectedStartDate = startDateChooser.getDate();
 
-						System.out.println(selectedStartDate);
 					}
 				});
 
@@ -136,16 +138,18 @@ public class NotificationsPanel extends JPanel {
 						selectedExpirationDate = expirationDateChooser
 								.getDate();
 
-						System.out.println(selectedExpirationDate);
 					}
 				});
 	}
 
-	private void addNotification(ActionEvent e) {
-		// clear
-		// call db function to clear
-		DefaultTableModel model = (DefaultTableModel) tableNotifications
-				.getModel();
+	// **********************************************************//
+	// **********************************************************//
+	// *** Add Notification Functions ****//
+	// **********************************************************//
+	// **********************************************************//
+	private void addNotification() {
+
+		tableNotifications.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String reportDate = dateStart.format(selectedStartDate);
@@ -153,20 +157,23 @@ public class NotificationsPanel extends JPanel {
 		String note = textFieldNotifications.getText().trim();
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
+		rem.addNotification(note, selectedStartDate, selectedExpirationDate);
 	}
 
-	private void deleteNotification(ActionEvent e) {
-		// call db function to clear expired to notifications
-		DefaultTableModel model2 = (DefaultTableModel) tableNotifications
-				.getModel();
+	// **********************************************************//
+	// **********************************************************//
+	// *** Delete Notification Functions ****//
+	// **********************************************************//
+	// **********************************************************//
+
+	private void deleteNotification() {
+		rem.removeExpiredNotifications();
+		// clears expired notifications
+		tableNotifications.getModel();
 		if (tableNotifications.getSelectedRow() != -1) {
 			// remove selected row from the model
-			model2.removeRow(tableNotifications.getSelectedRow());
+			model.removeRow(tableNotifications.getSelectedRow());
 		}
-	}
-
-	private void expiredNotification() {
-
 	}
 
 	/**
