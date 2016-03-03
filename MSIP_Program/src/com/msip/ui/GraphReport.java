@@ -131,7 +131,7 @@ public class GraphReport extends ApplicationFrame {
 	 * Creates a panel
 	 * 
 	 * @return A panel.
-	 */
+	 **/
 	public static JPanel createPiePanel() {
 		JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
