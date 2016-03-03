@@ -44,11 +44,11 @@ public class GraphReport extends ApplicationFrame {
 		setContentPane(createPiePanel());
 	}
 
-	/**
-	 * Creates a sample dataset for questionnaire (Hard-coded)
-	 * 
-	 * @return A sample dataset.
-	 */
+	// **********************************************************//
+	// **********************************************************//
+	// *** Results Function ****//
+	// **********************************************************//
+	// **********************************************************//
 	private static PieDataset createDataset() {
 		DefaultPieDataset datasetQ = new DefaultPieDataset();
 
@@ -63,14 +63,11 @@ public class GraphReport extends ApplicationFrame {
 		return datasetQ;
 	}
 
-	/**
-	 * Creates a chart.
-	 * 
-	 * @param dataset
-	 *            the dataset.
-	 * 
-	 * @return A chart.
-	 */
+	// **********************************************************//
+	// **********************************************************//
+	// *** Chart ****//
+	// **********************************************************//
+	// **********************************************************//
 	private static JFreeChart createChart(PieDataset dataset) {
 
 		JFreeChart chart = ChartFactory.createPieChart("Questionnaire", // chart
