@@ -55,13 +55,8 @@ public class NotificationTable {
 	 * @return
 	 */
 	public ArrayList<String> getAllNotification() {
-		// get all the notification sthat are within the startdate and enddate
-		// get all valid notifications that are not experied and have started
-		// Saves the notification to a string arraylist
+		// get all valid notifications that are not expired and have started
 		ArrayList<String> myNotif = new ArrayList<String>();
-		Date StartDate = null;
-		Date EndDate = null;
-		Date now = new Date();
 		try {
 			PreparedStatement notif = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("SELECT * FROM Notification;");
@@ -71,7 +66,7 @@ public class NotificationTable {
 				myNotif.add(rs.getString("Notification"));
 			}
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 		return myNotif;
 	}
@@ -111,13 +106,10 @@ public class NotificationTable {
 					System.out.println(expiredDate);
 					removeFromNotificationTable(expiredDate);
 				}
-
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
