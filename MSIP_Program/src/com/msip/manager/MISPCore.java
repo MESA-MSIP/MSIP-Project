@@ -362,7 +362,7 @@ public class MISPCore {
 		notificationTable.removeFromNotificationTable(expirationDate);
 	}
 
-	/** Getting results from survey table **/
+	/** Getting results from survey table. **/
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}

@@ -73,7 +73,7 @@ public class DBConnector {
 		// login.addUsingDates(77777777, getRandomDate());
 		// }
 
-		NotificationTable notes = new NotificationTable();
+		NotificationTable no = new NotificationTable();
 		// no.addToNotificationTable("Exam on mon", new Date(),
 		// getRandomDate());
 		// no.removeExpiredNotification();

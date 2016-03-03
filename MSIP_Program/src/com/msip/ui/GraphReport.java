@@ -144,8 +144,6 @@ public class GraphReport extends ApplicationFrame {
 			arrayAnswers[a] = ansQ.getResult().get(a);
 		}
 
-		// ansQ.getResult();
-
 	}
 
 	/**
