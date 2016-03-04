@@ -52,7 +52,8 @@ public class DBConnector {
 		// student.getAll();
 
 		LoginTable login = new LoginTable();
-		login.deleteAll();
+		login.getParticipation(33333333);
+		//login.deleteAll();
 
 //		 for (int i = 0; i < 500; i++) {
 //		 login.addUsingDates(33333333, getRandomDate());
@@ -74,17 +75,17 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
-		 no.addToNotificationTable("Exam on mon", new Date(),
-		 getRandomDate());
-		 no.addToNotificationTable("Exam on tuesday", new Date(),
-				 getRandomDate()); 
-		 no.addToNotificationTable("Exam on wed", new Date(),
-						 getRandomDate());
-		 no.addToNotificationTable("Exam on thur", new Date(),
-				 getRandomDate());
-		 no.addToNotificationTable("Exam on friday", new Date(),
-				 getRandomDate());
-		 System.out.println(no.getAllNotification());
+//		 no.addToNotificationTable("Exam on mon", new Date(),
+//		 getRandomDate());
+//		 no.addToNotificationTable("Exam on tuesday", new Date(),
+//				 getRandomDate()); 
+//		 no.addToNotificationTable("Exam on wed", new Date(),
+//						 getRandomDate());
+//		 no.addToNotificationTable("Exam on thur", new Date(),
+//				 getRandomDate());
+//		 no.addToNotificationTable("Exam on friday", new Date(),
+//				 getRandomDate());
+//		 System.out.println(no.getAllNotification());
 
 		SurveyTable s = new SurveyTable();
 //

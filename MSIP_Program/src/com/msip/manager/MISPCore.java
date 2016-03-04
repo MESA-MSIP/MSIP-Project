@@ -228,20 +228,9 @@ public class MISPCore {
 		// TODO can modify Name of student too
 	}
 
-	public ParcipitationState isStudentActive(Integer Knumber) {
+	public ParcipitationState isStudentActive(int Knumber) {
 		int participation = loginTable.getParticipation(Knumber).size();
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		Date lastWeek = c.getTime();
-
-		Calendar c2 = Calendar.getInstance();
-		c2.setTime(lastWeek);
-		c2.add(Calendar.DAY_OF_WEEK, -14);
-		Date twoWeeks = c2.getTime();
-		Date now = new Date();
-
-		if ((twoWeeks.before(now)) && (lastWeek.before(now))) {
-
+		
 			if ((0 <= participation) && (participation <= LOW_BOUNDARY)) {
 				return ParcipitationState.LOW_ACTIVE_STUDENT;
 			} else if ((LOW_BOUNDARY <= participation) && (participation <= MEDIAN_BOUNDARY)) {
@@ -250,8 +239,7 @@ public class MISPCore {
 				return ParcipitationState.HIGH_ACTIVE_STUDENT;
 			}
 		}
-		return null;
-	}
+	
 
 	// **********************************************************//
 	// **********************************************************//
@@ -379,6 +367,8 @@ public class MISPCore {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		MISPCore m = new MISPCore();
+		System.out.println(m.isStudentActive(88888888));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -158,7 +158,7 @@ public class LoginTable {
 						.prepareStatement("SELECT DateTime FROM Login;");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Timestamp  timestamp  = rs.getTimestamp("DateTime");
+					Timestamp timestamp = rs.getTimestamp("DateTime");
 					Date date = new Date(timestamp.getTime());
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
@@ -171,7 +171,7 @@ public class LoginTable {
 								+ Knumber + "';");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Timestamp  timestamp  = rs.getTimestamp("DateTime");
+					Timestamp timestamp = rs.getTimestamp("DateTime");
 					Date date = new Date(timestamp.getTime());
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
@@ -186,18 +186,20 @@ public class LoginTable {
 	}
 
 	/**
-	 * gets an array of dates based, last weeks dates, based on students logins.
+	 * gets an array of dates based, last 2 weeks dates, based on students logins.
 	 * 
 	 * @param Knumber
 	 * @return
 	 */
 	public ArrayList<Date> getParticipation(int Knumber) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		// Todays Date
 		String date = ZonedDateTime.now().format(
 				DateTimeFormatter.ISO_LOCAL_DATE);
-		String date2 = ZonedDateTime.now().minusWeeks(1)
+		// last 2 weeks date
+		String date2 = ZonedDateTime.now().minusWeeks(2)
 				.format(DateTimeFormatter.ISO_LOCAL_DATE);
-
+		
 		Date startDate = null;
 		Date endDate = null;
 		try {
