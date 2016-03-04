@@ -37,7 +37,8 @@ public class WelcomePanel extends JPanel implements ActionListener
 	private NotificationsPanel NotificationsPanel;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
-	private JPanel noCard;
+	private Timer timer;
+	private NotificationCard NotificationCard;
 	
 	
 	
@@ -81,32 +82,30 @@ public class WelcomePanel extends JPanel implements ActionListener
 	
 		
 		//Construct Cards
-		 StudentSurveyPanel = new StudentSurveyPanel(manager);
+		 StudentSurveyPanel = new StudentSurveyPanel(manager, timer);
 		 NotificationsPanel = new NotificationsPanel(manager);
+		 NotificationCard = new NotificationCard();
 		 blankPanel = new JPanel();
 		 blankPanel.setBackground(Color.WHITE);
 		
 		//Add the Cards to the JPanel
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
 		welcomeCards.add(NotificationsPanel, GlobalUI.NotificationsPanel);
+		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
 		welcomeCards.add(blankPanel, GlobalUI.BlankPanel);
 		add(welcomeCards, BorderLayout.CENTER);
-		
-//		noCard = new JPanel();
-//		noCard.setLayout(new CardLayout(0,0));
-//		noCard.add(blankPanel, GlobalUI.BlankPanel);
-		
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
 			public void componentHidden(ComponentEvent e1)
 			{
-				
+				timer.cancel();
 			}
 			
 			public void componentShown(ComponentEvent e) 
 			{
 				//if Error Conditions only in LoginPanel
+				timer = new Timer();
 				String message = messageToast.getText();
 				if ((message == GlobalUI.adminPassError) || (message == GlobalUI.help)
 				|| (message == GlobalUI.newStudentMessage) || (message == GlobalUI.InsertAdminPassMessage))
@@ -132,10 +131,9 @@ public class WelcomePanel extends JPanel implements ActionListener
 	}
 	
 	
-	public void showNoPanel()
-	{
+	public void showNoPanel() {
 		CardLayout cl = (CardLayout) welcomeCards.getLayout();
-		cl.show(this.getCards(),GlobalUI.BlankPanel);
+		cl.show(this.getCards(), GlobalUI.BlankPanel);
 	}
 	public void setMessage(String message)
 	{
@@ -155,7 +153,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 		else
 		{
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
-			cl.show(this.getCards(),GlobalUI.NotificationsPanel);
+			cl.show(this.getCards(),GlobalUI.NotificationCard);
 		}
 		
 		

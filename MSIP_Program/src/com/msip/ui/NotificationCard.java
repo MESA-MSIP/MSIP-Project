@@ -67,8 +67,6 @@ public class NotificationCard extends JPanel {
 
 		JScrollPane notificationScrollPane = new JScrollPane(txtpnNotification);
 		add(notificationScrollPane, BorderLayout.CENTER);
-		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-		cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
 
 import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -32,8 +33,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private MISPCore manager;
 	private SurveyTable surveyTable;
 	private ButtonGroup groupChoices;
+	private Timer timer;
 	
-	public StudentSurveyPanel(final MISPCore manager)
+	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
 		surveyTable = new SurveyTable();
 		
@@ -41,6 +43,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		setBackground(Color.WHITE);
 		setLayout(null);
 		
+		this.timer = timer;
 		this.manager = manager;
 		
 		skipButton = new JButton("Skip Survey\r\n");
@@ -97,7 +100,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		
 		
 		//Create a Button Group
-		
 		groupChoices = new ButtonGroup();
 		groupChoices.add(rbutton1);
 		groupChoices.add(rbutton2);
@@ -112,29 +114,46 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if (skipButton == e.getSource())
-		{
+		//TODO Timer pass in instance, cancel the cur instance, and then set a new object to that same instance
+		
+		
+		
+		if (skipButton == e.getSource()) {
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
-		}
-		else if (submitButton == e.getSource())
-				{
-			//TODO log the information to the surveyTable
-			if (rbutton1.isSelected())
+			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
+		} else if (submitButton == e.getSource()) {
+			// TODO log the information to the surveyTable
+			if (rbutton1.isSelected()) {
 				surveyTable.addResults(GlobalUI.valueOne);
-			
-			else
-				if (rbutton2.isSelected())
+			}
+
+			else {
+				if (rbutton2.isSelected()) {
 					surveyTable.addResults(GlobalUI.valueTwo);
-				else
-					if (rbutton3.isSelected())
+				}
+
+				else {
+					if (rbutton3.isSelected()) {
 						surveyTable.addResults(GlobalUI.valueThree);
-					else
-						if (rbutton4.isSelected())
+					}
+
+					else {
+						if (rbutton4.isSelected()) {
 							surveyTable.addResults(GlobalUI.valueFour);
-						else
-							if (rbutton5.isSelected())
+						}
+
+						else {
+							if (rbutton5.isSelected()) {
 								surveyTable.addResults(GlobalUI.valueFive);
+							}
+
+						}
+
+					}
+
+				}
+
+			}
 			
 			//Revert choice back to default
 			rbutton1.setSelected(false);
@@ -142,8 +161,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 			rbutton3.setSelected(false);
 			rbutton4.setSelected(false);
 			rbutton5.setSelected(false);
-			
-			
+			//Show the LoginPanel
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
 				}
