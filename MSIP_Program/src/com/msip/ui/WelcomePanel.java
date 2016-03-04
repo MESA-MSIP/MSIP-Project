@@ -99,6 +99,10 @@ public class WelcomePanel extends JPanel implements ActionListener
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
+			public void componentHidden(ComponentEvent e1)
+			{
+				
+			}
 			
 			public void componentShown(ComponentEvent e) {
 				//if Error Conditions only in LoginPanel
@@ -122,7 +126,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 							cl.show(WelcomePanel.this.manager.getCards(),GlobalUI.LoginPanel);
 						}
 					}, 15000L);
-					}
+			}
 	}
 	
 	
