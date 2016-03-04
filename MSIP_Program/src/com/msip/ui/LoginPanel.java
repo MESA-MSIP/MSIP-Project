@@ -13,16 +13,11 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.NumberFormat;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
@@ -35,7 +30,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labeladminPass;
 	private JLabel labelMESALOGO;
 	private MISPCore manager;
-	private boolean isTxtkNumberEnabled = true;
 	private WelcomePanel welcomePanel;
 
 	public LoginPanel(final MISPCore manager, WelcomePanel welcomePanel) {
@@ -99,31 +93,29 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
+				/*
+				 * Restricts the textField to only 8 characters, and only numbers.
+				 */
 				if (txtKNumber.getText().length() >= 8) {
 					e.consume();
 				}
-				
-				//TODO fix the setText() on txtKNumber
-				if (isTxtkNumberEnabled)
-				{
 					char keychar = e.getKeyChar();
 					if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
 						e.consume();
 					}
-				}
-				else
-				{
-					e.consume();
-				}
 			}
 
 			public void keyReleased(KeyEvent e) {
+				/*
+				 * Once the textField is less than 8 characters, hides the password textField.
+				 */
 				String strKNumber = txtKNumber.getText();
 				if (strKNumber.length() < 8) {
 					LoginPanel.this.txtAdminPass.setText("");
 					LoginPanel.this.txtAdminPass.setVisible(false);
 					LoginPanel.this.labeladminPass.setVisible(false);
 				} else {
+					//Checks if the kNumber is an Admin kNumber. Sets the admin password Visible if true.
 					int adminKNum = Integer.parseInt(strKNumber.trim());
 					int adminResponse = manager.isAdmin(adminKNum);
 					if (adminResponse == 1) {
@@ -134,7 +126,14 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-
+	
+	/**
+	 * Grabs the MESA Logo from folder image and returns the image.
+	 * @param filename
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	private ImageIcon CreateIcon(String filename, int width, int height) {
 		InputStream url = getClass().getResourceAsStream("/images/" + filename);
 		BufferedImage img = null;
@@ -149,42 +148,43 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (txtKNumber == e.getSource()) {
+			//If the User inputs less than 8 characters, to show the help message.
 			if (txtKNumber.getText().length() < 8) {
 				txtKNumber.setText(GlobalUI.CLEAR);
 				this.welcomePanel.setMessage(GlobalUI.help);
 				showWelcomePanel();
 			} else {
 				try {
+					//Get the Text of txtKNumber, and parse it into an Integer.
 					String strKNumber = txtKNumber.getText();
 					int kNum = Integer.parseInt(strKNumber);
-					int response = this.manager.isStudent(kNum);
+					int studentResponse = this.manager.isStudent(kNum);
 					int adminResponse = this.manager.isAdmin(kNum);
-					if ((response == 0) && (adminResponse == 0)) {
-						//new Student not in either DB
+					
+					if ((studentResponse == GlobalUI.FAIL) && (adminResponse == GlobalUI.FAIL)) {
+						//if the student is not recognized in either the Admin or Student DB, to show the newStudentMessage.
 						clearTextField(this.txtKNumber);
 						this.welcomePanel.setMessage(GlobalUI.newStudentMessage);
 						showWelcomePanel();
-					} else if ((response == 0) && (adminResponse == 1)) {
+					} else if ((studentResponse == GlobalUI.FAIL) && (adminResponse == GlobalUI.SUCCESS)) {
 						//Admin needs to Type in Admin Password
 						this.welcomePanel.setMessage(GlobalUI.InsertAdminPassMessage);
 						showWelcomePanel();
-					} else if ((response == 1) || (adminResponse == 1)) {
-						//TODO setText() BUG:
+					} else if ((studentResponse == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
+						//If 
 						this.txtKNumber.setText(GlobalUI.CLEAR);
 						this.manager.logStudent(kNum);						
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
 						showWelcomePanel();
-					} else {
-						showWelcomePanel();
 					}
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
-
 					return;
 				}
 			}
 		}
 		if (this.txtAdminPass == e.getSource()) {
+			//
 			String strAdminPass = this.txtAdminPass.getText();
 			String strAdminKNum = txtKNumber.getText();
 			int adminKNum = Integer.parseInt(strAdminKNum);
@@ -194,6 +194,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					popUpResponse popUp = new popUpResponse();
 					int decision = popUp.popUp();
 					if (decision == 0) {
+						//If they decide to login as a student:
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
@@ -202,19 +203,21 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
 						showWelcomePanel();
 					} else if (decision == 1) {
+						//If they decide to login as an admin:
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
 						showAdminPanel();
 					} else if (decision == 2) {
+						//If they do not want to login:
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
 					}
 				} else {
-					txtKNumber.setText("");
+					txtKNumber.setText(GlobalUI.CLEAR);
 					this.txtAdminPass.setText("");
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
@@ -230,18 +233,26 @@ public class LoginPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-
-	//show welcomePanel
+	/**
+	 * 	Shows the ToastPanel.
+	 */
 	public void showWelcomePanel()
 	{
 		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 		cl.show(this.manager.getCards(), GlobalUI.WelcomePanel);
 	}
+	/**
+	 * Shows the AdminToolsPanel.
+	 */
 	public void showAdminPanel()
 	{
 		CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 		cl.show(this.manager.getCards(), GlobalUI.AdminToolsPanel);
 	}
+	/**
+	 * clears the TextField.
+	 * @param textField
+	 */
 	public void clearTextField(JTextField textField)
 	{
 		textField.setText(GlobalUI.CLEAR);
