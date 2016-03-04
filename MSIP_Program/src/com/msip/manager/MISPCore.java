@@ -367,8 +367,6 @@ public class MISPCore {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MISPCore m = new MISPCore();
-		System.out.println(m.isStudentActive(88888888));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

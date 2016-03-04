@@ -3,7 +3,10 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +25,8 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+
 
 
 
@@ -114,12 +119,17 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		startDateChooser.setBounds(341, 40, 137, 26);
 		actionPanel.add(startDateChooser);
 		// Sets last months date.
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		cal.add(Calendar.DATE, -5);
-		Date date1 = cal.getTime();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String lastMonthString = ZonedDateTime.now().minusMonths(1)
+				.format(DateTimeFormatter.ISO_LOCAL_DATE);
+		Date lastMonth = null;
+		try {
+			lastMonth = formatter.parse(lastMonthString);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 
-		startDateChooser.setDate(date1);
+		startDateChooser.setDate(lastMonth);
 		selectedStartDate = startDateChooser.getDate();
 		startDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -136,8 +146,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		endDateChooser.setBounds(496, 40, 137, 26);
 		actionPanel.add(endDateChooser);
 		// sets current date
-		Date date = new Date();
-		endDateChooser.setDate(date);
+		endDateChooser.setDate(new Date());
 		selectedEndDate = endDateChooser.getDate();
 		endDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
