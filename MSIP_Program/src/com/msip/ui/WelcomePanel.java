@@ -104,7 +104,8 @@ public class WelcomePanel extends JPanel implements ActionListener
 				
 			}
 			
-			public void componentShown(ComponentEvent e) {
+			public void componentShown(ComponentEvent e) 
+			{
 				//if Error Conditions only in LoginPanel
 				String message = messageToast.getText();
 				if ((message == GlobalUI.adminPassError) || (message == GlobalUI.help)
@@ -127,6 +128,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 						}
 					}, 15000L);
 			}
+	});
 	}
 	
 	
