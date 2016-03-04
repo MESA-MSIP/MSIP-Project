@@ -54,50 +54,56 @@ public class DBConnector {
 		LoginTable login = new LoginTable();
 		login.deleteAll();
 
-		// for (int i = 0; i < 500; i++) {
-		// login.addUsingDates(33333333, getRandomDate());
-		// }
-		//
-		// for (int i = 0; i < 500; i++) {
-		// login.addUsingDates(44444444, getRandomDate());
-		// }
-		//
-		// for (int i = 0; i < 5000; i++) {
-		// login.addUsingDates(55555555, getRandomDate());
-		// }
-		// for (int i = 0; i < 500; i++) {
-		// login.addUsingDates(66666666, getRandomDate());
-		// }
-		//
-		// for (int i = 0; i < 500; i++) {
-		// login.addUsingDates(77777777, getRandomDate());
-		// }
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(33333333, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(44444444, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 5000; i++) {
+//		 login.addUsingDates(55555555, getRandomDate());
+//		 }
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(66666666, getRandomDate());
+//		 }
+//		
+//		 for (int i = 0; i < 500; i++) {
+//		 login.addUsingDates(77777777, getRandomDate());
+//		 }
 
 		NotificationTable no = new NotificationTable();
-		// no.addToNotificationTable("Exam on mon", new Date(),
-		// getRandomDate());
-		// no.removeExpiredNotification();
-		// System.out.println(no.getAllNotification());
-		// no.removeAll();
+		 no.addToNotificationTable("Exam on mon", new Date(),
+		 getRandomDate());
+		 no.addToNotificationTable("Exam on tuesday", new Date(),
+				 getRandomDate()); 
+		 no.addToNotificationTable("Exam on wed", new Date(),
+						 getRandomDate());
+		 no.addToNotificationTable("Exam on thur", new Date(),
+				 getRandomDate());
+		 no.addToNotificationTable("Exam on friday", new Date(),
+				 getRandomDate());
+		 System.out.println(no.getAllNotification());
 
 		SurveyTable s = new SurveyTable();
-
-		for(int i = 0; i < 7 ; i++){
-			s.addResults(5);
-		}
-		for(int n = 0; n < 3; n++){
-			s.addResults(1);
-		}
-		for(int j = 0; j < 18; j++){
-			s.addResults(2);
-		}
-		for(int k = 0; k < 2; k++){
-			s.addResults(3);
-		}
-		for(int c = 0; c < 1; c++){
-			s.addResults(4);
-		}
-		// s.removeAll();
+//
+//		for(int i = 0; i < 7 ; i++){
+//			s.addResults(5);
+//		}
+//		for(int n = 0; n < 3; n++){
+//			s.addResults(1);
+//		}
+//		for(int j = 0; j < 18; j++){
+//			s.addResults(2);
+//		}
+//		for(int k = 0; k < 2; k++){
+//			s.addResults(3);
+//		}
+//		for(int c = 0; c < 1; c++){
+//			s.addResults(4);
+//		}
+		//s.removeAll();
 //		Date date = new Date();
 //		s.addResults(5);
 		// System.out.println(s.getResults());

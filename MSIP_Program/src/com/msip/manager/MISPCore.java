@@ -229,6 +229,7 @@ public class MISPCore {
 	}
 
 	public ParcipitationState isStudentActive(Integer Knumber) {
+		int participation = loginTable.getParticipation(Knumber).size();
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		Date lastWeek = c.getTime();
@@ -241,12 +242,9 @@ public class MISPCore {
 
 		if ((twoWeeks.before(now)) && (lastWeek.before(now))) {
 
-			if ((0 <= loginTable.getParticipation(Knumber).size())
-					&& (loginTable.getParticipation(Knumber).size() <= LOW_BOUNDARY)) {
+			if ((0 <= participation) && (participation <= LOW_BOUNDARY)) {
 				return ParcipitationState.LOW_ACTIVE_STUDENT;
-			} else if ((LOW_BOUNDARY <= loginTable.getParticipation(Knumber)
-					.size())
-					&& (loginTable.getParticipation(Knumber).size() <= MEDIAN_BOUNDARY)) {
+			} else if ((LOW_BOUNDARY <= participation) && (participation <= MEDIAN_BOUNDARY)) {
 				return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
 			} else {
 				return ParcipitationState.HIGH_ACTIVE_STUDENT;

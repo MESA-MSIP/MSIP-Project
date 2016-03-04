@@ -76,6 +76,17 @@ public class NotificationTable {
 	 * 
 	 * @param experationDate
 	 */
+	public void removeNotification(String notification) {
+		try {
+			PreparedStatement delete = (PreparedStatement) DBConnector.myConnection
+					.prepareStatement("DELETE FROM Notification WHERE  Notification='"
+							+ notification + "';");
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void removeFromNotificationTable(Date expirationDate) {
 		try {
 			PreparedStatement delete = (PreparedStatement) DBConnector.myConnection
@@ -118,7 +129,7 @@ public class NotificationTable {
 	public void removeAll() {
 		try {
 			PreparedStatement removeAll = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("DELETE FROM Survey");
+					.prepareStatement("DELETE FROM Notification;");
 			removeAll.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

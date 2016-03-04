@@ -128,7 +128,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 						// and retrieves that date.
 						selectedStartDate = startDateChooser.getDate();
 						updateGraph();
-						System.out.println(selectedStartDate);
 					}
 				});
 
@@ -147,7 +146,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 						// and retrieves that date.
 						selectedEndDate = endDateChooser.getDate();
 						updateGraph();
-						System.out.println(selectedEndDate);
 					}
 				});
 
@@ -322,9 +320,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					for (int i = 0; i < studentList.size(); i++) {
 						student = studentList.get(i);
 						studentKnumber = listOfStudents.get(i).getkNumber();
-						System.out.println(student);
-						System.out.println(studentKnumber);
-
 					}
 					studentKnumber = 0;
 					updateGraph();
@@ -336,8 +331,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					student = studentList.get(studentListIndex);
 					studentKnumber = listOfStudents.get(studentListIndex)
 							.getkNumber();
-					System.out.println(student);
-					System.out.println(studentKnumber);
 					updateGraph();
 				}
 
@@ -345,7 +338,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				int reportTypeIndex = jCBoxReporTypeSearch.getSelectedIndex();
 				// prints out users choice of report.
 				reportType = reportTypes[reportTypeIndex];
-				System.out.println(reportType);
 				updateGraph();
 			}
 			break;
