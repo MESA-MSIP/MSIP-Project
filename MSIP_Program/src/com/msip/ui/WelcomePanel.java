@@ -98,7 +98,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 		
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
-			@Override
+			Timer timer = new Timer();
 			
 			public void componentShown(ComponentEvent e) {
 				//if Error Conditions only in LoginPanel
@@ -113,7 +113,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 					double randChance = randGen.nextDouble();
 					generateRandomPanel(randChance);
 				}
-					Timer timer = new Timer();
+					
 					timer.schedule(new TimerTask() {
 
 						public void run() 
@@ -121,13 +121,8 @@ public class WelcomePanel extends JPanel implements ActionListener
 							CardLayout cl = (CardLayout) WelcomePanel.this.manager.getCards().getLayout();
 							cl.show(WelcomePanel.this.manager.getCards(),GlobalUI.LoginPanel);
 						}
-					}, 6000L);
-				
-				
-				
-				
-			}
-		});
+					}, 15000L);
+					}
 	}
 	
 	
