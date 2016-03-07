@@ -100,7 +100,7 @@ public class NotificationsPanel extends JPanel {
 
 			}
 		});
-		textFieldNotifications.setBounds(6, 6, 289, 63);
+		textFieldNotifications.setBounds(6, 6, 240, 44);
 		panelNotificationInput.add(textFieldNotifications);
 		textFieldNotifications.setColumns(10);
 

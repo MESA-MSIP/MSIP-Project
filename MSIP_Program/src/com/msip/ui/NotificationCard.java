@@ -1,7 +1,6 @@
 package com.msip.ui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 
 import javax.swing.Box;
@@ -47,6 +46,7 @@ public class NotificationCard extends JPanel {
 		add(horizontalStrut_1, BorderLayout.EAST);
 
 		JTextPane txtpnNotification = new JTextPane();
+		txtpnNotification.setEditable(false);
 		txtpnNotification.setText("Notification");
 		add(txtpnNotification, BorderLayout.CENTER);
 		DefaultStyledDocument document = (DefaultStyledDocument) txtpnNotification
