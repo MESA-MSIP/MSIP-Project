@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import com.msip.manager.MISPCore;
@@ -95,6 +96,9 @@ public class NotificationsPanel extends JPanel {
 		panelNotificationInput.add(btnRemove);
 
 		textFieldNotifications = new JTextField();
+		textFieldNotifications.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldNotifications.setCaretPosition(0);// cursor?
+		textFieldNotifications.setHorizontalAlignment(JTextField.LEFT); // cursor??
 		textFieldNotifications.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
