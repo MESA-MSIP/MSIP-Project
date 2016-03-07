@@ -39,15 +39,17 @@ public class GlobalUI {
 
 	// Student/Admin Table Constant
 	public static final int numOfColumnsInAdmin = 3;
-	public static final int numOfColumnsInStudent = 4;
-	public static final int columnIndexFirstName = 0;
-	public static final int columnIndexLastName = 1;
+	public static final int numOfColumnsInStudent = 5;
+	public static final int columnIndexLastName = 0;
+	public static final int columnIndexFirstName = 1;
 	public static final int columnIndexKNumber = 2;
 	public static final int columnIndexMajor = 3;
+	public static final int columnIndexParticipation = 4;
 	public static final String columnNameFirstName = "First Name";
 	public static final String columnNameLastName = "Last Name";
 	public static final String columnNameKNumber = "K-Number";
 	public static final String columnNameMajor = "Major";
+	public static final String columnNameParticipation = "Participation";
 
 	// Strings for Tab Layout
 	public static final String StudentTab = "Students";

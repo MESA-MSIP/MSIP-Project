@@ -28,14 +28,16 @@ public class StudentTableModel extends AbstractTableModel   {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 
 		switch (columnIndex) {
-		case GlobalUI.columnIndexFirstName:
-			return students.get(rowIndex).getFirstName();
 		case GlobalUI.columnIndexLastName:
 			return students.get(rowIndex).getLastName();
+		case GlobalUI.columnIndexFirstName:
+			return students.get(rowIndex).getFirstName();
 		case GlobalUI.columnIndexKNumber:
 			return students.get(rowIndex).getkNumber();
 		case GlobalUI.columnIndexMajor:
 			return students.get(rowIndex).getMajor();
+		case GlobalUI.columnIndexParticipation:
+			return 0; //TODO get Participation
 		default:
 			return null;
 		}
@@ -44,14 +46,16 @@ public class StudentTableModel extends AbstractTableModel   {
 	@Override
 	public String getColumnName(int column) {
 		switch (column) {
-		case GlobalUI.columnIndexFirstName:
-			return GlobalUI.columnNameFirstName;
 		case GlobalUI.columnIndexLastName:
 			return  GlobalUI.columnNameLastName;
+		case GlobalUI.columnIndexFirstName:
+			return GlobalUI.columnNameFirstName;
 		case GlobalUI.columnIndexKNumber:
 			return  GlobalUI.columnNameKNumber;
 		case GlobalUI.columnIndexMajor:
 			return  GlobalUI.columnNameMajor;
+		case GlobalUI.columnIndexParticipation:
+			return  GlobalUI.columnNameParticipation;
 		default:
 			return null;
 		}
