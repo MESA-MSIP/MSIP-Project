@@ -6,6 +6,7 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -57,6 +58,7 @@ public class NotificationsPanel extends JPanel {
 		tableNotifications = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
+		tableNotifications.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		JScrollPane notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
@@ -97,8 +99,9 @@ public class NotificationsPanel extends JPanel {
 
 		textFieldNotifications = new JTextField();
 		textFieldNotifications.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldNotifications.setCaretPosition(0);// cursor?
-		textFieldNotifications.setHorizontalAlignment(JTextField.LEFT); // cursor??
+		// textFieldNotifications.setCaretPosition(0);// cursor?
+		textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST); //
+		// cursor??
 		textFieldNotifications.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
