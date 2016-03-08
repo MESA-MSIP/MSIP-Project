@@ -98,9 +98,11 @@ public class NotificationsPanel extends JPanel {
 		panelNotificationInput.add(btnRemove);
 
 		textFieldNotifications = new JTextField();
-		textFieldNotifications.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldNotifications
+				.setHorizontalAlignment(SwingConstants.NORTH_WEST);
 		// textFieldNotifications.setCaretPosition(0);// cursor?
-		textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST); //
+		// textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST);
+		// //
 		// cursor??
 		textFieldNotifications.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
