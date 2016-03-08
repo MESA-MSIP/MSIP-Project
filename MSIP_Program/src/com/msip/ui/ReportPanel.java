@@ -264,40 +264,89 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	}
 
 	private void saveToCSV(JFileChooser fc) {
-		System.out.println(fc.getFileFilter().getDescription());
+		// Formats a date to Year-month-day
+		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
+		String fileName = "Report_" +reportType + "_" + student + "_" + str.format(selectedStartDate) + "_" + str.format(selectedEndDate) +".csv";
 		File yourFolder = fc.getSelectedFile();
-		System.out.println(yourFolder);
-		String numOfLogins = "";
 		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator
-				+ "Fernando'sReport_csv.csv");
+				+ fileName);
 
 		ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
-		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
-		int size = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate).size();
-		Date[] d = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate).toArray(new Date[size]);
-		// for (int i = 0; i < d.length; i++) {
-		// d[i] = new Date();
-		// }
 
-		String[] s = new String[size];
-		for (int i = 0; i < s.length; i++) {
-			s[i] = str.format(d[i]);
+		// stores the login entries for a specific student.
+		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(
+				studentKnumber, selectedStartDate, selectedEndDate);
+		// Sorts the dates
+		Collections.sort(datesInLoginTable);
+		int size = datesInLoginTable.size();
+		String numberOfLogins = Integer.toString(size);
+
+		
+		// converts a date array to a string array
+		String[] stringDate = new String[size];
+		for (int i = 0; i < datesInLoginTable.size(); i++) {
+			stringDate[i] = str.format(datesInLoginTable.get(i));
 		}
-		numOfLogins = Integer.toString(s.length);
-		csv.addHeader("Name,times Present,Dates present");
-		csv.CreateCSVFile(student, numOfLogins, s);
+
+		//when user choose all students if would skip the if and go to the else 
+		if (!student.equals("All Student's")) {
+			
+			//creates a csv file for a single student.
+			csv.addHeader("Name,times Present,Dates present");
+			csv.CreateCSVFile(student, numberOfLogins, stringDate);
+
+		} else {
+			//creates a csv file for more than one students.
+			csv.addHeader("Name,times Present,Dates present");
+
+			for (int i = 0; i < studentList.size(); i++) {
+				//new array with new login entries based on student knumber
+				datesInLoginTable = manager.getStudentDataRange(listOfStudents
+						.get(i).getkNumber(), selectedStartDate,
+						selectedEndDate);
+				
+				//If a student doesn't have login entries it skips them.
+				if (datesInLoginTable.size() >= 1) {
+					//sorts by dates
+					Collections.sort(datesInLoginTable);
+					size = datesInLoginTable.size();
+					numberOfLogins = Integer.toString(size);
+					stringDate = new String[size];
+					
+					//formats a date to a specific string date format.
+					for (int j = 0; j < datesInLoginTable.size(); j++) {
+						stringDate[j] = str.format(datesInLoginTable.get(j));
+					}
+					
+					//on the first iteration it creates the csv file.
+					if (i < 1) {
+						csv.CreateCSVFile(listOfStudents.get(i).getFullName(),
+								numberOfLogins, stringDate);
+					} else {
+					//after it just adds students to the existing file from above.
+						csv.addStudent(listOfStudents.get(i).getFullName(),
+								numberOfLogins, stringDate);
+					}
+
+				}
+			}
+		}
 
 	}
 
 	private void saveToPDF(JFileChooser fc) {
 		
+		//formats a date object
+		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
+		//default file name format.
+		String fileName = "Report_" +reportType + "_" + student + "_" + str.format(selectedStartDate) + "_" + str.format(selectedEndDate) +".pdf";
 		File yourFolder = fc.getSelectedFile();
+		
 		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
-				+ "Meas Student Report.pdf");
-		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate);
+				+ fileName);
+		
+		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(
+				studentKnumber, selectedStartDate, selectedEndDate);
 		try {
 			// size of student logins in the last two weeks
 			int size = manager.getStudentDataRange(studentKnumber,
@@ -310,33 +359,37 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			String knumber = Integer.toString(studentKnumber);
 			ReportMakerPDF pdf = new ReportMakerPDF(pathToPDF);
 
-			//When the user chose all students it would skip the if and go to the else.
+			// When the user chose all students it would skip the if and go to
+			// the else.
 			if (!student.equals("All Student's")) {
-				
+
 				pdf.addMettaData("Mesa Student Activity", "Report Subject","Virginia");
 				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,student);
 				pdf.addStudent(student, knumber, timesPresent, datesPresent);
 				pdf.closeReport();
-				
+
 			} else {
-				pdf.addMettaData("Mesa Student Activity", "Report Subject","Virginia");
+				pdf.addMettaData("Mesa Student Activity", "Report Subject", "Virginia");
 				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,"All Student's");
 
 				for (int i = 0; i < studentList.size(); i++) {
-					ArrayList<Date> loginDates = manager.getStudentDataRange(listOfStudents.get(i).getkNumber(),
+					ArrayList<Date> loginDates = manager.getStudentDataRange(
+							listOfStudents.get(i).getkNumber(),
 							selectedStartDate, selectedEndDate);
-					//sorts the dates .
+					// sorts the dates .
 					Collections.sort(loginDates);
-					//size of the student login entries
+					// size of the student login entries
 					int sizeOfStuList = loginDates.size();
-					//converts student int knumber to string	
-					String studentKnumber = Integer.toString(listOfStudents.get(i).getkNumber());
-					//Creates an array of student login dates
+					// converts student int knumber to string
+					String studentKnumber = Integer.toString(listOfStudents
+							.get(i).getkNumber());
+					// Creates an array of student login dates
 					Date[] date = loginDates.toArray(new Date[sizeOfStuList]);
-					//number of times a student signed in to the messa center.
+					// number of times a student signed in to the messa center.
 					String numOfTimesPressent = Integer.toString(sizeOfStuList);
-					
-					pdf.addStudent(listOfStudents.get(i).getFullName(),studentKnumber, numOfTimesPressent, date);
+
+					pdf.addStudent(listOfStudents.get(i).getFullName(),
+							studentKnumber, numOfTimesPressent, date);
 				}
 				pdf.closeReport();
 			}
