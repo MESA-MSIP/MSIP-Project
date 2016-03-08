@@ -75,8 +75,8 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
-//		 no.addToNotificationTable("Exam on mon", new Date(),
-//		 getRandomDate());
+//		 no.addToNotificationTable("Exam on mon 😇", new Date(),
+//	 getRandomDate());
 //		 no.addToNotificationTable("Exam on tuesday", new Date(),
 //				 getRandomDate()); 
 //		 no.addToNotificationTable("Exam on wed", new Date(),
@@ -86,6 +86,7 @@ public class DBConnector {
 //		 no.addToNotificationTable("Exam on friday", new Date(),
 //				 getRandomDate());
 //		 System.out.println(no.getAllNotification());
+		no.removeAll();
 
 		SurveyTable s = new SurveyTable();
 //
