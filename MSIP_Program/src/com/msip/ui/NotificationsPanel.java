@@ -99,7 +99,7 @@ public class NotificationsPanel extends JPanel {
 
 		textFieldNotifications = new JTextField();
 		textFieldNotifications
-				.setHorizontalAlignment(SwingConstants.NORTH_WEST);
+				.setHorizontalAlignment(SwingConstants.NORTH_EAST);
 		// textFieldNotifications.setCaretPosition(0);// cursor?
 		// textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST);
 		// //
@@ -183,7 +183,7 @@ public class NotificationsPanel extends JPanel {
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
 	}
-
+	//
 	// public static void main(String[] args) {
 	// NotificationsPanel np = new NotificationsPanel(null);
 	// JFrame frame = new JFrame();
@@ -192,8 +192,8 @@ public class NotificationsPanel extends JPanel {
 	// frame.setPreferredSize(new Dimension(800, 480));
 	// frame.pack();
 	// frame.setVisible(true);
-
-	// TODO Auto-generated method stub
+	//
+	// // TODO Auto-generated method stub
 
 	// }
 
