@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -25,10 +25,6 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
-
-
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -70,6 +66,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private ReportPanel panel;
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
+	private JFileChooser fc;
 
 	public ReportPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -78,12 +75,12 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		setBackground(Color.WHITE);
 
 		actionPanel = new JPanel();
-		actionPanel.setPreferredSize(new Dimension(100, 75));
+		actionPanel.setPreferredSize(new Dimension(100, 80));
 		add(actionPanel, BorderLayout.NORTH);
 		actionPanel.setLayout(null);
 
 		jCBoxStudentSearch = new JComboBox<Object>();
-		jCBoxStudentSearch.setBounds(15, 40, 137, 26);
+		jCBoxStudentSearch.setBounds(15, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(jCBoxStudentSearch);
 
 		// Your able to choose all students. This sets All Students as the
@@ -103,9 +100,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxStudentSearch.addItemListener(this);
 		// sets all students as default.
 		studentKnumber = 0;
+		student = "All Student's";
 
 		jCBoxReporTypeSearch = new JComboBox<Object>();
-		jCBoxReporTypeSearch.setBounds(179, 40, 137, 26);
+		jCBoxReporTypeSearch.setBounds(179, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(jCBoxReporTypeSearch);
 
 		// Adds different report types to combo box.
@@ -116,7 +114,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 		// Creates the date picker
 		startDateChooser = new JDateChooser();
-		startDateChooser.setBounds(341, 40, 137, 26);
+		startDateChooser.setBounds(341, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(startDateChooser);
 		// Sets last months date.
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -143,7 +141,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 		// Creates a date picker
 		endDateChooser = new JDateChooser();
-		endDateChooser.setBounds(496, 40, 137, 26);
+		endDateChooser.setBounds(496, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(endDateChooser);
 		// sets current date
 		endDateChooser.setDate(new Date());
@@ -159,27 +157,32 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				});
 
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(648, 40, 137, 26);
+		saveReportButton.setBounds(648, 40, 137, GlobalUI.BUTTONHEIGHT);
+		saveReportButton.setFont(GlobalUI.LableFont);
 		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
 
 		lblChooseAStudent = new JLabel("Choose a Student(s):");
 		lblChooseAStudent.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblChooseAStudent.setBounds(25, 16, 155, 20);
+		lblChooseAStudent.setBounds(20, 5, 155, GlobalUI.LABELHEIGHT);
+		lblChooseAStudent.setFont(GlobalUI.LableFont);
 		actionPanel.add(lblChooseAStudent);
 
 		lblReportType = new JLabel("Report Type:");
 		lblReportType.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblReportType.setBounds(208, 16, 93, 20);
+		lblReportType.setBounds(208, 5, 93, GlobalUI.LABELHEIGHT);
+		lblReportType.setFont(GlobalUI.LableFont);
 		actionPanel.add(lblReportType);
 
 		lblStartDate = new JLabel("Start Date:");
 		lblStartDate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblStartDate.setBounds(366, 16, 76, 20);
+		lblStartDate.setBounds(366, 5, 76, GlobalUI.LABELHEIGHT);
+		lblStartDate.setFont(GlobalUI.LableFont);
 		actionPanel.add(lblStartDate);
 
 		lblEndDate = new JLabel("End Date:");
-		lblEndDate.setBounds(520, 16, 76, 20);
+		lblEndDate.setBounds(520, 5, 76, GlobalUI.LABELHEIGHT);
+		lblEndDate.setFont(GlobalUI.LableFont);
 		actionPanel.add(lblEndDate);
 
 		// TODO starting values generalPanel
@@ -235,81 +238,163 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		// saves data as a csv or pdf report.
 		if (e.getSource().equals(saveReportButton)) {
 
-			JFileChooser fc = new JFileChooser();
+			fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
-					".csv", "Report Type");
 			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
 					".pdf", "Report Type");
+			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
+					".csv", "Report Type");
 			fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
-			fc.addChoosableFileFilter(csvFilter);
 			fc.addChoosableFileFilter(pdfFilter);
+			fc.addChoosableFileFilter(csvFilter);
+			fc.setFileFilter(pdfFilter);
 			int returnVal = fc.showOpenDialog(null);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				// When a user chooses to save to a csv file it will execute the
 				// saveToCSV method, otherwise it executes saveToPDF method.
-				if (fc.getFileFilter().getDescription().equals(".csv")) {
-
-					saveToCSV(fc);
-				} else {
+				if (fc.getFileFilter().getDescription().equals(".pdf")) {
 					saveToPDF(fc);
+				} else {
+					saveToCSV(fc);
 				}
 			}
 		}
 
 	}
 
-	public void saveToCSV(JFileChooser fc) {
-		System.out.println(fc.getFileFilter().getDescription());
-
+	private void saveToCSV(JFileChooser fc) {
+		// Formats a date to Year-month-day
+		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
+		String fileName = "Report_" +reportType + "_" + student + "_" + str.format(selectedStartDate) + "_" + str.format(selectedEndDate) +".csv";
 		File yourFolder = fc.getSelectedFile();
-		System.out.println(yourFolder);
-		String numOfLogins = "";
 		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator
-				+ "Fernando'sReport_csv.csv");
+				+ fileName);
 
 		ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
-		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
-		int size = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate).size();
-		Date[] d = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate).toArray(new Date[size]);
-		// for (int i = 0; i < d.length; i++) {
-		// d[i] = new Date();
-		// }
 
-		String[] s = new String[size];
-		for (int i = 0; i < s.length; i++) {
-			s[i] = str.format(d[i]);
+		// stores the login entries for a specific student.
+		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(
+				studentKnumber, selectedStartDate, selectedEndDate);
+		// Sorts the dates
+		Collections.sort(datesInLoginTable);
+		int size = datesInLoginTable.size();
+		String numberOfLogins = Integer.toString(size);
+
+		
+		// converts a date array to a string array
+		String[] stringDate = new String[size];
+		for (int i = 0; i < datesInLoginTable.size(); i++) {
+			stringDate[i] = str.format(datesInLoginTable.get(i));
 		}
-		numOfLogins = Integer.toString(s.length);
-		csv.addHeader("Name,times Present,Dates present");
-		csv.CreateCSVFile(student, numOfLogins, s);
+
+		//when user choose all students if would skip the if and go to the else 
+		if (!student.equals("All Student's")) {
+			
+			//creates a csv file for a single student.
+			csv.addHeader("Name,times Present,Dates present");
+			csv.CreateCSVFile(student, numberOfLogins, stringDate);
+
+		} else {
+			//creates a csv file for more than one students.
+			csv.addHeader("Name,times Present,Dates present");
+
+			for (int i = 0; i < studentList.size(); i++) {
+				//new array with new login entries based on student knumber
+				datesInLoginTable = manager.getStudentDataRange(listOfStudents
+						.get(i).getkNumber(), selectedStartDate,
+						selectedEndDate);
+				
+				//If a student doesn't have login entries it skips them.
+				if (datesInLoginTable.size() >= 1) {
+					//sorts by dates
+					Collections.sort(datesInLoginTable);
+					size = datesInLoginTable.size();
+					numberOfLogins = Integer.toString(size);
+					stringDate = new String[size];
+					
+					//formats a date to a specific string date format.
+					for (int j = 0; j < datesInLoginTable.size(); j++) {
+						stringDate[j] = str.format(datesInLoginTable.get(j));
+					}
+					
+					//on the first iteration it creates the csv file.
+					if (i < 1) {
+						csv.CreateCSVFile(listOfStudents.get(i).getFullName(),
+								numberOfLogins, stringDate);
+					} else {
+					//after it just adds students to the existing file from above.
+						csv.addStudent(listOfStudents.get(i).getFullName(),
+								numberOfLogins, stringDate);
+					}
+
+				}
+			}
+		}
 
 	}
 
-	public void saveToPDF(JFileChooser fc) {
+	private void saveToPDF(JFileChooser fc) {
+		
+		//formats a date object
+		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
+		//default file name format.
+		String fileName = "Report_" +reportType + "_" + student + "_" + str.format(selectedStartDate) + "_" + str.format(selectedEndDate) +".pdf";
 		File yourFolder = fc.getSelectedFile();
+		
 		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
-				+ "Fernando'sReport.pdf");
+				+ fileName);
+		
+		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(
+				studentKnumber, selectedStartDate, selectedEndDate);
 		try {
+			// size of student logins in the last two weeks
 			int size = manager.getStudentDataRange(studentKnumber,
 					selectedStartDate, selectedEndDate).size();
-			Date[] d = manager.getStudentDataRange(studentKnumber,
-					selectedStartDate, selectedEndDate).toArray(new Date[size]);
+			// Sorts the dates
+			Collections.sort(datesInLoginTable);
+			Date[] datesPresent = datesInLoginTable.toArray(new Date[size]);
 
-			String timesPresent = Integer.toString(d.length);
+			String timesPresent = Integer.toString(datesPresent.length);
 			String knumber = Integer.toString(studentKnumber);
-
 			ReportMakerPDF pdf = new ReportMakerPDF(pathToPDF);
-			pdf.addMettaData("Report Title", "Report Subject", "Juan Zepeda");
-			pdf.addHeader("Report Title", student, reportType, "John Smith");
-			pdf.addStudent(student, knumber, timesPresent, d);
-			pdf.closeReport();
-		} catch (DocumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+			// When the user chose all students it would skip the if and go to
+			// the else.
+			if (!student.equals("All Student's")) {
+
+				pdf.addMettaData("Mesa Student Activity", "Report Subject","Virginia");
+				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,student);
+				pdf.addStudent(student, knumber, timesPresent, datesPresent);
+				pdf.closeReport();
+
+			} else {
+				pdf.addMettaData("Mesa Student Activity", "Report Subject", "Virginia");
+				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,"All Student's");
+
+				for (int i = 0; i < studentList.size(); i++) {
+					ArrayList<Date> loginDates = manager.getStudentDataRange(
+							listOfStudents.get(i).getkNumber(),
+							selectedStartDate, selectedEndDate);
+					// sorts the dates .
+					Collections.sort(loginDates);
+					// size of the student login entries
+					int sizeOfStuList = loginDates.size();
+					// converts student int knumber to string
+					String studentKnumber = Integer.toString(listOfStudents
+							.get(i).getkNumber());
+					// Creates an array of student login dates
+					Date[] date = loginDates.toArray(new Date[sizeOfStuList]);
+					// number of times a student signed in to the messa center.
+					String numOfTimesPressent = Integer.toString(sizeOfStuList);
+
+					pdf.addStudent(listOfStudents.get(i).getFullName(),
+							studentKnumber, numOfTimesPressent, date);
+				}
+				pdf.closeReport();
+			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -326,10 +411,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				// When ever user chooses All students it prints out all of the
 				// students.
 				if (comboBoxIndex == 0) {
-					for (int i = 0; i < studentList.size(); i++) {
-						student = studentList.get(i);
-						studentKnumber = listOfStudents.get(i).getkNumber();
-					}
+					student = "All Student's";
 					studentKnumber = 0;
 					updateGraph();
 				} else {
