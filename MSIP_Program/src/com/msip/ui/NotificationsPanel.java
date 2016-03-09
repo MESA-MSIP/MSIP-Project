@@ -103,15 +103,15 @@ public class NotificationsPanel extends JPanel {
 		JTextArea textAreaNotifications = new JTextArea();
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
-		textAreaNotifications.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-			}
+		textAreaNotifications.addFocusListener(new FocusListener() {//
+					public void focusGained(FocusEvent e) {
+					}
 
-			public void focusLost(FocusEvent e) {
+					public void focusLost(FocusEvent e) {
 
-			}
+					}
 
-		});
+				});
 		textAreaNotifications.setBounds(21, 6, 210, 48);
 		panelNotificationInput.add(textAreaNotifications);
 
