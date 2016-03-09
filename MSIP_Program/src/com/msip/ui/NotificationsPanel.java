@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
@@ -101,8 +103,18 @@ public class NotificationsPanel extends JPanel {
 		JTextArea textAreaNotifications = new JTextArea();
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
+		textAreaNotifications.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+			}
+
+			public void focusLost(FocusEvent e) {
+
+			}
+
+		});
 		textAreaNotifications.setBounds(21, 6, 210, 48);
 		panelNotificationInput.add(textAreaNotifications);
+
 		// textFieldNotifications = new JTextField();
 		// textFieldNotifications
 		// .setHorizontalAlignment(SwingConstants.NORTH_EAST);
