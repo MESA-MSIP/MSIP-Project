@@ -17,10 +17,11 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,7 +35,8 @@ import com.toedter.calendar.JDateChooser;
 public class NotificationsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textFieldNotifications;
+	// private JTextField textFieldNotifications;
+	private JTextArea textAreaNotifications;
 	private JTable tableNotifications;
 	private JDateChooser startDateChooser;
 	private Date selectedStartDate;
@@ -96,22 +98,28 @@ public class NotificationsPanel extends JPanel {
 		});
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
-
-		textFieldNotifications = new JTextField();
-		textFieldNotifications
-				.setHorizontalAlignment(SwingConstants.NORTH_EAST);
-		// textFieldNotifications.setCaretPosition(0);// cursor?
-		// textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST);
+		JTextArea textAreaNotifications = new JTextArea();
+		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
+		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
+		textAreaNotifications.setBounds(21, 6, 210, 48);
+		panelNotificationInput.add(textAreaNotifications);
+		// textFieldNotifications = new JTextField();
+		// textFieldNotifications
+		// .setHorizontalAlignment(SwingConstants.NORTH_EAST);
+		// // textFieldNotifications.setVerticalAlignment(SwingConstants.NORTH);
+		// // textFieldNotifications.setCaretPosition(0);// cursor?
 		// //
-		// cursor??
-		textFieldNotifications.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		textFieldNotifications.setBounds(6, 6, 240, 44);
-		panelNotificationInput.add(textFieldNotifications);
-		textFieldNotifications.setColumns(10);
+		// textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST);
+		// // //
+		// // cursor??
+		// textFieldNotifications.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		//
+		// }
+		// });
+		// textFieldNotifications.setBounds(6, 6, 240, 44);
+		// panelNotificationInput.add(textFieldNotifications);
+		// textFieldNotifications.setColumns(10);
 
 		// Start Date
 		startDateChooser = new JDateChooser();
@@ -137,6 +145,7 @@ public class NotificationsPanel extends JPanel {
 		// sets current date
 		Date date = new Date();
 		expirationDateChooser.setDate(date);
+
 		selectedExpirationDate = expirationDateChooser.getDate();
 		expirationDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -162,7 +171,7 @@ public class NotificationsPanel extends JPanel {
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String reportDate = dateStart.format(selectedStartDate);
 		String reportEndDate = dateEnd.format(selectedExpirationDate);
-		String note = textFieldNotifications.getText().trim();
+		String note = textAreaNotifications.getText().trim();
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
 		rem.addNotification(note, selectedStartDate, selectedExpirationDate);
@@ -183,18 +192,18 @@ public class NotificationsPanel extends JPanel {
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
 	}
-	//
-	// public static void main(String[] args) {
-	// NotificationsPanel np = new NotificationsPanel(null);
-	// JFrame frame = new JFrame();
-	//
-	// frame.add(np);
-	// frame.setPreferredSize(new Dimension(800, 480));
-	// frame.pack();
-	// frame.setVisible(true);
-	//
-	// // TODO Auto-generated method stub
 
-	// }
+	public static void main(String[] args) {
+		NotificationsPanel np = new NotificationsPanel(null);
+		JFrame frame = new JFrame();
+
+		frame.add(np);
+		frame.setPreferredSize(new Dimension(800, 480));
+		frame.pack();
+		frame.setVisible(true);
+
+		// TODO Auto-generated method stub
+
+	}
 
 }
