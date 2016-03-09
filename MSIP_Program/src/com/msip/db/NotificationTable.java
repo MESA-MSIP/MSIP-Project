@@ -87,7 +87,7 @@ public class NotificationTable {
 		}
 	}
 
-	public void removeFromNotificationTable(Date expirationDate) {
+	private void removeFromNotificationTable(Date expirationDate) {
 		try {
 			PreparedStatement delete = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("DELETE FROM Notification WHERE ExpirationDate ='"

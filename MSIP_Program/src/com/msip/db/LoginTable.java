@@ -173,6 +173,9 @@ public class LoginTable {
 				while (rs.next()) {
 					Timestamp timestamp = rs.getTimestamp("DateTime");
 					Date date = new Date(timestamp.getTime());
+					System.out.println(date + " : " + startDate);
+					System.out.println(date + " : " + endDate);
+
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
 						studentLogin.add(date);
@@ -182,6 +185,7 @@ public class LoginTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("TOTAL: " + studentLogin.size());
 		return studentLogin;
 	}
 
@@ -204,7 +208,10 @@ public class LoginTable {
 		Date endDate = null;
 		try {
 			startDate = formatter.parse(date);
+			System.out.println(startDate);
 			endDate = formatter.parse(date2);
+			System.out.println(endDate);
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
