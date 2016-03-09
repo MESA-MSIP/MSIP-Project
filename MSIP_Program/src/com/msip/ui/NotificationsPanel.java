@@ -19,7 +19,6 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -100,7 +99,7 @@ public class NotificationsPanel extends JPanel {
 		});
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
-		JTextArea textAreaNotifications = new JTextArea();
+		textAreaNotifications = new JTextArea();
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
 		textAreaNotifications.addFocusListener(new FocusListener() {//
@@ -114,24 +113,6 @@ public class NotificationsPanel extends JPanel {
 				});
 		textAreaNotifications.setBounds(21, 6, 210, 48);
 		panelNotificationInput.add(textAreaNotifications);
-
-		// textFieldNotifications = new JTextField();
-		// textFieldNotifications
-		// .setHorizontalAlignment(SwingConstants.NORTH_EAST);
-		// // textFieldNotifications.setVerticalAlignment(SwingConstants.NORTH);
-		// // textFieldNotifications.setCaretPosition(0);// cursor?
-		// //
-		// textFieldNotifications.setHorizontalAlignment(JTextField.NORTH_WEST);
-		// // //
-		// // cursor??
-		// textFieldNotifications.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		//
-		// }
-		// });
-		// textFieldNotifications.setBounds(6, 6, 240, 44);
-		// panelNotificationInput.add(textFieldNotifications);
-		// textFieldNotifications.setColumns(10);
 
 		// Start Date
 		startDateChooser = new JDateChooser();
@@ -203,19 +184,20 @@ public class NotificationsPanel extends JPanel {
 			// remove selected row from the model
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
+
+		//
+		// public static void main(String[] args) {
+		// NotificationsPanel np = new NotificationsPanel(null);
+		// JFrame frame = new JFrame();
+		//
+		// frame.add(np);
+		// frame.setPreferredSize(new Dimension(800, 480));
+		// frame.pack();
+		// frame.setVisible(true);
+		//
+		// // TODO Auto-generated method stub
+		//
+		// }
+
 	}
-
-	public static void main(String[] args) {
-		NotificationsPanel np = new NotificationsPanel(null);
-		JFrame frame = new JFrame();
-
-		frame.add(np);
-		frame.setPreferredSize(new Dimension(800, 480));
-		frame.pack();
-		frame.setVisible(true);
-
-		// TODO Auto-generated method stub
-
-	}
-
 }
