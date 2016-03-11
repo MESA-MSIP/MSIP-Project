@@ -13,13 +13,19 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import javax.swing.SwingConstants;
 
 public class LoginPanel extends JPanel implements ActionListener {
 
@@ -31,6 +37,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labelMESALOGO;
 	private MISPCore manager;
 	private WelcomePanel welcomePanel;
+	private JLabel adminPassMessage;
 
 	public LoginPanel(final MISPCore manager, WelcomePanel welcomePanel) {
 		setBounds(new Rectangle(0, 0, 800, 480));
@@ -88,6 +95,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.labelMESALOGO = new JLabel(icon);
 		this.labelMESALOGO.setBounds(502, 11, 289, 77);
 		add(this.labelMESALOGO);
+		
+		adminPassMessage = new JLabel("Insert Your Password.");
+		adminPassMessage.setHorizontalAlignment(SwingConstants.CENTER);
+		adminPassMessage.setBounds(544, 217, 153, 40);
+		adminPassMessage.setVisible(false);
+		adminPassMessage.setForeground(GlobalUI.redColor);
+		add(adminPassMessage);
 
 		
 
@@ -168,8 +182,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 						showWelcomePanel();
 					} else if ((studentResponse == GlobalUI.FAIL) && (adminResponse == GlobalUI.SUCCESS)) {
 						//Admin needs to Type in Admin Password
-						this.welcomePanel.setMessage(GlobalUI.InsertAdminPassMessage);
-						showWelcomePanel();
+						//Border Red, Prompt to say they need to type in their password.
+						Border border = BorderFactory.createMatteBorder(2, 2, 2, 2, GlobalUI.redColor);
+						txtAdminPass.setBorder(border);
+						adminPassMessage.setVisible(true);
+						turnOffMessage(adminPassMessage);
+						
 					} else if ((studentResponse == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
 						//If 
 						this.txtKNumber.setText(GlobalUI.CLEAR);
@@ -217,19 +235,18 @@ public class LoginPanel extends JPanel implements ActionListener {
 						this.labeladminPass.setVisible(false);
 					}
 				} else {
+					//If it is not a Student and Admin
 					txtKNumber.setText(GlobalUI.CLEAR);
-					this.txtAdminPass.setText("");
+					this.txtKNumber.setText("");
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
-					showAdminPanel();
 					
 				}
 			} else {
 				//If AdminPassword is Incorrect, send Error
-				
-				this.welcomePanel.setMessage(GlobalUI.adminPassError);
-				showWelcomePanel();
-				
+				adminPassMessage.setVisible(true);
+				adminPassMessage.setBorder(GlobalUI.redBorder);
+				turnOffMessage(adminPassMessage);				
 			}
 		}
 	}
@@ -260,5 +277,18 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	public  void setScannedNumber(int kNumber) {
 		txtKNumber.setText(String.valueOf(kNumber));
+	}
+	/**
+	 * Turns off the message after 3 seconds.
+	 * @param label
+	 */
+	public void turnOffMessage(JLabel label){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask(){
+			public void run() {
+				label.setVisible(false);
+			}
+			
+		}, 3000L);
 	}
 }

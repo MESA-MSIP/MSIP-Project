@@ -38,6 +38,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JTextField textValue2;
 	private JTextField textValue3;
 	private ArrayList<Integer> results;
+	private GeneralGraph generalGraph;
 	
 
 	public QuestionnairePanel(MISPCore msipCore) 
@@ -131,9 +132,14 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		//
 		
 		
+		
 		surveyTable = new SurveyTable();
 		startDate = new Date();
 		surveyTable.addQuestion("Rate the MESA Center.", startDate);
+		
+		//TODO: Add General Graph Correctly
+//		generalGraph = new GeneralGraph("Questionnaire");
+//		add(generalGraph, BorderLayout.CENTER);
 		
 	}
 	public ArrayList<Integer> getResult()
@@ -151,6 +157,8 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		return results;
 		
 	}
+	
+	
 	
 	
 	public void addQuestion()
