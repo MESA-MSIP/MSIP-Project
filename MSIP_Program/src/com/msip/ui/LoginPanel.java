@@ -183,13 +183,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 					} else if ((studentResponse == GlobalUI.FAIL) && (adminResponse == GlobalUI.SUCCESS)) {
 						//Admin needs to Type in Admin Password
 						//Border Red, Prompt to say they need to type in their password.
-						Border border = BorderFactory.createMatteBorder(2, 2, 2, 2, GlobalUI.redColor);
-						txtAdminPass.setBorder(border);
+						txtAdminPass.setBorder(GlobalUI.redBorder);
 						adminPassMessage.setVisible(true);
 						turnOffMessage(adminPassMessage);
 						
 					} else if ((studentResponse == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
-						//If 
+						
 						this.txtKNumber.setText(GlobalUI.CLEAR);
 						this.manager.logStudent(kNum);						
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
@@ -240,12 +239,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 					this.txtKNumber.setText("");
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
+					showAdminPanel();
 					
 				}
 			} else {
 				//If AdminPassword is Incorrect, send Error
 				adminPassMessage.setVisible(true);
-				adminPassMessage.setBorder(GlobalUI.redBorder);
+				txtAdminPass.setBorder(GlobalUI.redBorder);
 				turnOffMessage(adminPassMessage);				
 			}
 		}

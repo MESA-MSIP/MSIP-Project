@@ -28,6 +28,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 {
 	private MISPCore manager;
 	private JButton logOutbtn;
+	private WelcomePanel welcomePanel;
 	private JPanel panel;
 	private JLabel messageToast;
 	private JLabel animTimer;
@@ -44,7 +45,6 @@ public class WelcomePanel extends JPanel implements ActionListener
 	
 	public WelcomePanel(final MISPCore manager) 
 	{
-		
 		
 		setBackground(Color.WHITE);
 		this.manager = manager;
@@ -97,6 +97,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
+			private WelcomePanel WelcomePanel;
 			public void componentHidden(ComponentEvent e1)
 			{
 				timer.cancel();
@@ -106,6 +107,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 			{
 				//if Error Conditions only in LoginPanel
 				timer = new Timer();
+				welcomePanel = this.WelcomePanel;
 				String message = messageToast.getText();
 				if ((message == GlobalUI.adminPassError) || (message == GlobalUI.help)
 				|| (message == GlobalUI.newStudentMessage) || (message == GlobalUI.InsertAdminPassMessage))
@@ -132,6 +134,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 	
 	
 	public void showNoPanel() {
+		//Do not show blankPanel
 		CardLayout cl = (CardLayout) welcomeCards.getLayout();
 		cl.show(this.getCards(), GlobalUI.BlankPanel);
 	}
@@ -158,6 +161,12 @@ public class WelcomePanel extends JPanel implements ActionListener
 		
 		
 	}
+//	public void showCenterMessage(WelcomePanel panel, JLabel label){
+//		panel = this.welcomePanel;
+//		panel.remove(label);
+//		panel.remove(welcomeCards);
+//		panel.add(label, BorderLayout.CENTER);
+//	}
 	public JPanel getCards()
 	{
 		return welcomeCards;
@@ -165,9 +174,11 @@ public class WelcomePanel extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+			if (logOutbtn == e.getSource()){
+				CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+				cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
+			}
 			
-			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
 		
 	}
 }
