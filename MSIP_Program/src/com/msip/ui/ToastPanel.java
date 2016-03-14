@@ -24,11 +24,11 @@ import javax.swing.border.MatteBorder;
 import java.awt.Component;
 import javax.swing.Box;
 
-public class WelcomePanel extends JPanel implements ActionListener
+public class ToastPanel extends JPanel implements ActionListener
 {
 	private MISPCore manager;
 	private JButton logOutbtn;
-	private WelcomePanel welcomePanel;
+	private ToastPanel welcomePanel;
 	private JPanel panel;
 	private JLabel messageToast;
 	private JLabel animTimer;
@@ -43,7 +43,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 	
 	
 	
-	public WelcomePanel(final MISPCore manager) 
+	public ToastPanel(final MISPCore manager) 
 	{
 		
 		setBackground(Color.WHITE);
@@ -97,7 +97,7 @@ public class WelcomePanel extends JPanel implements ActionListener
 		//Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
-			private WelcomePanel WelcomePanel;
+			private ToastPanel WelcomePanel;
 			public void componentHidden(ComponentEvent e1)
 			{
 				timer.cancel();
@@ -124,8 +124,8 @@ public class WelcomePanel extends JPanel implements ActionListener
 
 						public void run() 
 						{
-							CardLayout cl = (CardLayout) WelcomePanel.this.manager.getCards().getLayout();
-							cl.show(WelcomePanel.this.manager.getCards(),GlobalUI.LoginPanel);
+							CardLayout cl = (CardLayout) ToastPanel.this.manager.getCards().getLayout();
+							cl.show(ToastPanel.this.manager.getCards(),GlobalUI.LoginPanel);
 						}
 					}, 15000L);
 			}

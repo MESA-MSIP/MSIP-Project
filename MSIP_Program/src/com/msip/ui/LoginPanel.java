@@ -17,13 +17,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
 
@@ -36,10 +34,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labeladminPass;
 	private JLabel labelMESALOGO;
 	private MISPCore manager;
-	private WelcomePanel welcomePanel;
+	private ToastPanel welcomePanel;
 	private JLabel adminPassMessage;
 
-	public LoginPanel(final MISPCore manager, WelcomePanel welcomePanel) {
+	public LoginPanel(final MISPCore manager, ToastPanel welcomePanel) {
 		setBounds(new Rectangle(0, 0, 800, 480));
 
 		this.manager = manager;
