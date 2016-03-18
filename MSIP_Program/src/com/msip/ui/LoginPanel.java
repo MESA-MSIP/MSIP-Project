@@ -48,6 +48,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		setBackground(Color.WHITE);
 		
 		txtKNumber = new JTextField();
+		txtKNumber.setBorder(GlobalUI.blackBorder);
 		txtKNumber.setColumns(10);
 		txtKNumber.setBounds(297, 215, 211, GlobalUI.TEXTBOXHEIGHT);
 		txtKNumber.addActionListener(this);
@@ -59,6 +60,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		add(txtKNumber);
 
 		this.txtAdminPass = new JPasswordField(10);
+		this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 		this.txtAdminPass.setBounds(297, 297, 212, GlobalUI.TEXTBOXHEIGHT);
 		this.txtAdminPass.addActionListener(this);
 		this.txtAdminPass.setHorizontalAlignment(0);
@@ -188,6 +190,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 					} else if ((studentResponse == GlobalUI.SUCCESS) || (adminResponse == GlobalUI.SUCCESS)) {
 						
 						this.txtKNumber.setText(GlobalUI.CLEAR);
+						this.txtKNumber.setBorder(GlobalUI.blackBorder);
 						this.manager.logStudent(kNum);						
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
 						showWelcomePanel();
@@ -213,6 +216,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
+						this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 						this.labeladminPass.setVisible(false);
 						this.manager.logStudent(adminKNum);
 						this.welcomePanel.setMessage(GlobalUI.loginSuccess);
@@ -222,19 +226,22 @@ public class LoginPanel extends JPanel implements ActionListener {
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
+						this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 						this.labeladminPass.setVisible(false);
 						showAdminPanel();
 					} else if (decision == 2) {
 						//If they do not want to login:
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
+						this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
 					}
 				} else {
 					//If it is not a Student and Admin
-					txtKNumber.setText(GlobalUI.CLEAR);
-					this.txtKNumber.setText("");
+					this.txtKNumber.setText(GlobalUI.CLEAR);
+					this.txtAdminPass.setText(GlobalUI.CLEAR);
+					this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
 					showAdminPanel();

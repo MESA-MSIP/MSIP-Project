@@ -24,161 +24,139 @@ import javax.swing.border.MatteBorder;
 import java.awt.Component;
 import javax.swing.Box;
 
-public class ToastPanel extends JPanel implements ActionListener
-{
+public class ToastPanel extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7045096990489164680L;
+
 	private MISPCore manager;
-	private JButton logOutbtn;
-	private ToastPanel welcomePanel;
+	private JButton exitButton;
 	private JPanel panel;
 	private JLabel messageToast;
-	private JLabel animTimer;
 	private JPanel welcomeCards;
-	private JPanel blankPanel;
 	private StudentSurveyPanel StudentSurveyPanel;
-	private NotificationsPanel NotificationsPanel;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
 	private Timer timer;
 	private NotificationCard NotificationCard;
-	
-	
-	
-	public ToastPanel(final MISPCore manager) 
-	{
-		
+	private NewStudentMessagePanel newStudentMessagePanel;
+	private ToastPanel toastPanel;
+
+	private JPanel layoutPanel;
+
+	public ToastPanel(final MISPCore manager) {
 		setBackground(Color.WHITE);
 		this.manager = manager;
+		this.toastPanel = this;
 		setBounds(new Rectangle(0, 0, 800, 480));
-		setLayout(new BorderLayout(0, 0));
-		
-		
+		// Construct ConditionCards
+		newStudentMessagePanel = new NewStudentMessagePanel(this.manager);
+		setLayout(new CardLayout(0, 0));
+
+		layoutPanel = new JPanel();
+		add(layoutPanel, "name_82242697984345");
+		layoutPanel.setLayout(new BorderLayout(0, 0));
+
 		panel = new JPanel();
+		layoutPanel.add(panel, BorderLayout.NORTH);
 		panel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		panel.setBackground(Color.WHITE);
-		add(panel, BorderLayout.NORTH);
-		
-		animTimer = new JLabel("Timer\r\n");
-		panel.add(animTimer);
-		
+
 		horizontalStrut_1 = Box.createHorizontalStrut(50);
 		panel.add(horizontalStrut_1);
-		
+
 		messageToast = new JLabel("Message");
 		messageToast.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		messageToast.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(messageToast);
-		
+
 		horizontalStrut = Box.createHorizontalStrut(50);
 		panel.add(horizontalStrut);
-		
-		logOutbtn = new JButton("Log Out");
-		logOutbtn.addActionListener(this);
-		panel.add(logOutbtn);
-		
-		
+
+		exitButton = new JButton("Exit");
+		exitButton.addActionListener(this);
+		panel.add(exitButton);
+
 		welcomeCards = new JPanel();
+		layoutPanel.add(welcomeCards, BorderLayout.CENTER);
 		welcomeCards.setLayout(new CardLayout(0, 0));
+		// Construct welcomeCards
+		StudentSurveyPanel = new StudentSurveyPanel(this.manager, timer);
+		NotificationCard = new NotificationCard();
 		
-	
-		
-		//Construct Cards
-		 StudentSurveyPanel = new StudentSurveyPanel(manager, timer);
-		 NotificationsPanel = new NotificationsPanel(manager);
-		 NotificationCard = new NotificationCard();
-		 blankPanel = new JPanel();
-		 blankPanel.setBackground(Color.WHITE);
-		
-		//Add the Cards to the JPanel
+		//Construct conditionalCards
+		newStudentMessagePanel = new NewStudentMessagePanel(this.manager);
+		this.add(newStudentMessagePanel, GlobalUI.newStudentMessagePanel);
+
+		// Add the Cards to the JPanel
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
-		welcomeCards.add(NotificationsPanel, GlobalUI.NotificationsPanel);
 		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
-		welcomeCards.add(blankPanel, GlobalUI.BlankPanel);
-		add(welcomeCards, BorderLayout.CENTER);
-		//Set up A Auto Time-Out for 6 Seconds
+		// Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
-			private ToastPanel WelcomePanel;
-			public void componentHidden(ComponentEvent e1)
-			{
+
+			public void componentHidden(ComponentEvent e1) {
 				timer.cancel();
 			}
-			
-			public void componentShown(ComponentEvent e) 
-			{
-				//if Error Conditions only in LoginPanel
+
+			public void componentShown(ComponentEvent e) {
+				// if Error Conditions only in LoginPanel
 				timer = new Timer();
-				welcomePanel = this.WelcomePanel;
-				String message = messageToast.getText();
-				if ((message == GlobalUI.adminPassError) || (message == GlobalUI.help)
-				|| (message == GlobalUI.newStudentMessage) || (message == GlobalUI.InsertAdminPassMessage))
-					showNoPanel();
-				else
-				{
-					//Set up Random Generator
+
+				if (messageToast.getText() == GlobalUI.newStudentMessage) {
+					//
+					CardLayout cl = (CardLayout) toastPanel.getLayout();
+					cl.show(toastPanel, GlobalUI.newStudentMessagePanel);
+				} else {
+					// Set up Random Generator
 					Random randGen = new Random();
 					double randChance = randGen.nextDouble();
 					generateRandomPanel(randChance);
 				}
-					
-					timer.schedule(new TimerTask() {
 
-						public void run() 
-						{
-							CardLayout cl = (CardLayout) ToastPanel.this.manager.getCards().getLayout();
-							cl.show(ToastPanel.this.manager.getCards(),GlobalUI.LoginPanel);
-						}
-					}, 15000L);
+				timer.schedule(new TimerTask() {
+
+					public void run() {
+						CardLayout cl = (CardLayout) ToastPanel.this.manager.getCards().getLayout();
+						cl.show(ToastPanel.this.manager.getCards(), GlobalUI.LoginPanel);
+					}
+				}, 15000L);
 			}
-	});
+		});
 	}
-	
-	
-	public void showNoPanel() {
-		//Do not show blankPanel
-		CardLayout cl = (CardLayout) welcomeCards.getLayout();
-		cl.show(this.getCards(), GlobalUI.BlankPanel);
-	}
-	public void setMessage(String message)
-	{
+
+	public void setMessage(String message) {
 		messageToast.setText(message);
 	}
-	
-	//TODO Random # by Chance
-	//70% see notifications, 30% will see survey
-	//below .7 / .3
-	public void generateRandomPanel(double rand)
-	{
-		if (rand < .3)
-		{
+
+	// TODO Random # by Chance
+	// 70% see notifications, 30% will see survey
+	// below .7 / .3
+	public void generateRandomPanel(double rand) {
+		if (rand < .3) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
-			cl.show(this.getCards(),GlobalUI.StudentSurveyPanel);
-		}
-		else
-		{
+			cl.show(this.getCards(), GlobalUI.StudentSurveyPanel);
+		} else {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
-			cl.show(this.getCards(),GlobalUI.NotificationCard);
+			cl.show(this.getCards(), GlobalUI.NotificationCard);
 		}
+
+	}
+	public void showPanel(String panel){
 		
 		
 	}
-//	public void showCenterMessage(WelcomePanel panel, JLabel label){
-//		panel = this.welcomePanel;
-//		panel.remove(label);
-//		panel.remove(welcomeCards);
-//		panel.add(label, BorderLayout.CENTER);
-//	}
-	public JPanel getCards()
-	{
+	public JPanel getCards() {
 		return welcomeCards;
 	}
+
 	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
-			if (logOutbtn == e.getSource()){
-				CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-				cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
-			}
-			
-		
+	public void actionPerformed(ActionEvent e) {
+		if (exitButton == e.getSource()) {
+			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
+			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
+		}
+
 	}
 }
