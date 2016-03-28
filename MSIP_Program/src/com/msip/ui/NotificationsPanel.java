@@ -92,9 +92,11 @@ public class NotificationsPanel extends JPanel {
 																		// area
 																		// into
 																		// 'data'
-				if (!data.equals("")) {
+				if (data.equals("")) {
+					btnAdd.setEnabled(false);
+				} else {
+					btnAdd.setEnabled(true);
 				}
-
 			}
 
 		});
