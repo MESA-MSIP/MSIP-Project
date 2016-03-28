@@ -84,6 +84,17 @@ public class NotificationsPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addNotification();
+				textAreaNotifications.setText(null);
+				String data = textAreaNotifications.getText().trim();// read
+																		// contents
+																		// of
+																		// text
+																		// area
+																		// into
+																		// 'data'
+				if (!data.equals("")) {
+				}
+
 			}
 
 		});
@@ -102,8 +113,10 @@ public class NotificationsPanel extends JPanel {
 		textAreaNotifications = new JTextArea();
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
+
 		textAreaNotifications.addFocusListener(new FocusListener() {//
 					public void focusGained(FocusEvent e) {
+
 					}
 
 					public void focusLost(FocusEvent e) {
