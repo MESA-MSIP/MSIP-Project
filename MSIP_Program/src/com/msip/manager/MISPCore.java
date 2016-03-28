@@ -29,7 +29,7 @@ import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
-import com.msip.ui.WelcomePanel;
+import com.msip.ui.ToastPanel;
 
 /**
  * @author Juan Zepeda, Christian Martinez, Fernando Estevez, Celina Lazaro
@@ -47,7 +47,7 @@ public class MISPCore {
 	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
 	private LoginPanel loginPanel;
-	private WelcomePanel welcomePanel;
+	private ToastPanel welcomePanel;
 	private SurveyTable surveyTable;
 
 	public MISPCore() {
@@ -69,7 +69,7 @@ public class MISPCore {
 	private void addComponentToPane(Container contentPane) {
 
 		// Create the cards
-		welcomePanel = new WelcomePanel(this);
+		welcomePanel = new ToastPanel(this);
 		loginPanel = new LoginPanel(this, welcomePanel);
 		JPanel adminToolsPanel = new AdminToolsPanel(this);
 

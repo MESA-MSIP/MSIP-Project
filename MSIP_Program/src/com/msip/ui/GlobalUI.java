@@ -1,7 +1,11 @@
 package com.msip.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 public class GlobalUI {
 	// Strings for Card layout
@@ -11,6 +15,14 @@ public class GlobalUI {
 	public static final String StudentSurveyPanel = "StudentSurveyPanel";
 	public static final String BlankPanel = "BlankPanel";
 	public static final String NotificationCard = "NotificationCard";
+	public static final String newStudentMessagePanel = "newStudentMessagePanel";
+	
+	// Colors and Borders for LoginPanel
+	public static final Color redColor = new Color(244,67,54);
+	public static final Border redBorder = BorderFactory.createMatteBorder(2, 2, 2, 2, redColor);
+	public static final Color blackColor = Color.BLACK;
+	public static final Border blackBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, blackColor);
+	
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;

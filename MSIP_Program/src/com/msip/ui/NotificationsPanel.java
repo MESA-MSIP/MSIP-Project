@@ -177,7 +177,11 @@ public class NotificationsPanel extends JPanel {
 	// **********************************************************//
 
 	private void deleteNotification() {
+
 		// rem.removeNotification(selectedExpirationDate);
+
+		// rem.removeNotification(selectedExpirationDate);
+
 		// clears expired notifications
 		model = (DefaultTableModel) tableNotifications.getModel();
 		if (tableNotifications.getSelectedRow() != -1) {
