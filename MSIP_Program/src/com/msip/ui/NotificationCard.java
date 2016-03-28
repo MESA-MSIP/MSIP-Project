@@ -60,7 +60,7 @@ public class NotificationCard extends JPanel {
 		try {
 			for (int i = 0; i < nt.getAllNotification().size(); i++) {
 				document.insertString(document.getEndPosition().getOffset(), nt
-						.getAllNotification().get(i), null);
+						.getAllNotification().get(i) + "\n\n", null);
 			}
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
