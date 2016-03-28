@@ -11,10 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -47,9 +50,11 @@ public class NotificationsPanel extends JPanel {
 	private JButton btnAdd;
 	private MISPCore rem;
 	private DefaultTableModel model;
+	private ArrayList<String> notiArray = new ArrayList<String>();
+	private int rowIndex;
 
 	public NotificationsPanel(MISPCore msipCore) {
-		rem = new MISPCore();
+		rem = msipCore;
 
 		/**
 		 * Create the panel.
@@ -62,6 +67,14 @@ public class NotificationsPanel extends JPanel {
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
 		tableNotifications.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		tableNotifications.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				//returns the index of a selected notification.
+				rowIndex = tableNotifications.getSelectedRow();
+				//TODO
+				System.out.println(rowIndex);
+			}
+		});
 
 		JScrollPane notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
@@ -183,6 +196,8 @@ public class NotificationsPanel extends JPanel {
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
 		rem.addNotification(note, selectedStartDate, selectedExpirationDate);
+		//adds the notification to an array list.
+		notiArray.add(note);
 	}
 
 	// **********************************************************//
@@ -192,10 +207,11 @@ public class NotificationsPanel extends JPanel {
 	// **********************************************************//
 
 	private void deleteNotification() {
-
-		// rem.removeNotification(selectedExpirationDate);
-
-		// rem.removeNotification(selectedExpirationDate);
+		
+		//removes the specific notification from the DB table.
+		rem.removeNotification(notiArray.get(rowIndex));
+		//removes the specific notification from the arraylist to match the size of the table.
+		notiArray.remove(rowIndex);
 
 		// clears expired notifications
 		model = (DefaultTableModel) tableNotifications.getModel();
