@@ -150,6 +150,7 @@ public class LoginTable {
 	 */
 	public ArrayList<Date> getEntryRange(int Knumber, Date startDate,
 			Date endDate) {
+		//timestamp instead of date.
 		ArrayList<Date> studentLogin = new ArrayList<Date>();
 		try {
 			if (Knumber == 0) {// When Knumber is null, we will select all
@@ -171,10 +172,9 @@ public class LoginTable {
 								+ Knumber + "';");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Timestamp timestamp = rs.getTimestamp("DateTime");
-					Date date = new Date(timestamp.getTime());
-					System.out.println(date + " : " + startDate);
-					System.out.println(date + " : " + endDate);
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					String entryDate = formatter.format(rs.getDate("DateTime"));
+					Date date = formatter.parse(entryDate);
 
 					if (date.compareTo(startDate) >= 0
 							&& date.compareTo(endDate) <= 0) {
@@ -182,10 +182,9 @@ public class LoginTable {
 					}
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println("TOTAL: " + studentLogin.size());
 		return studentLogin;
 	}
 
@@ -196,6 +195,7 @@ public class LoginTable {
 	 * @return
 	 */
 	public ArrayList<Date> getParticipation(int Knumber) {
+		//start date should always be smaller than end date.
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		// Todays Date
 		String date = ZonedDateTime.now().format(
@@ -207,11 +207,8 @@ public class LoginTable {
 		Date startDate = null;
 		Date endDate = null;
 		try {
-			startDate = formatter.parse(date);
-			System.out.println(startDate);
-			endDate = formatter.parse(date2);
-			System.out.println(endDate);
-
+			startDate = formatter.parse(date2);
+			endDate = formatter.parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

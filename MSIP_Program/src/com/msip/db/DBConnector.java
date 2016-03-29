@@ -52,27 +52,27 @@ public class DBConnector {
 		// student.getAll();
 
 		LoginTable login = new LoginTable();
-		login.getParticipation(33333333);
+		//login.getParticipation(33333333);
 		//login.deleteAll();
 
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(33333333, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(44444444, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 5000; i++) {
-//		 login.addUsingDates(55555555, getRandomDate());
-//		 }
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(66666666, getRandomDate());
-//		 }
-//		
-//		 for (int i = 0; i < 500; i++) {
-//		 login.addUsingDates(77777777, getRandomDate());
-//		 }
+		 for (int i = 0; i < 500; i++) {
+		 login.addUsingDates(33333333, getRandomDate());
+		 }
+		
+		 for (int i = 0; i < 500; i++) {
+		 login.addUsingDates(44444444, getRandomDate());
+		 }
+		
+		 for (int i = 0; i < 5000; i++) {
+		 login.addUsingDates(55555555, getRandomDate());
+		 }
+		 for (int i = 0; i < 500; i++) {
+		 login.addUsingDates(66666666, getRandomDate());
+		 }
+		
+		 for (int i = 0; i < 500; i++) {
+		 login.addUsingDates(77777777, getRandomDate());
+		 }
 
 		NotificationTable no = new NotificationTable();
 //		 no.addToNotificationTable("Exam on mon 😇", new Date(),
