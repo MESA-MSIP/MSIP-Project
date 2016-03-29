@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
 
 public class LoginPanel extends JPanel implements ActionListener {
@@ -44,15 +43,17 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.welcomePanel = welcomePanel;
 
 		
-		setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
+		setBorder(GlobalUI.blackBorder);
 		setBackground(Color.WHITE);
+		setLayout(null);
 		
 		txtKNumber = new JTextField();
 		txtKNumber.setBorder(GlobalUI.blackBorder);
 		txtKNumber.setColumns(10);
 		txtKNumber.setBounds(297, 215, 211, GlobalUI.TEXTBOXHEIGHT);
 		txtKNumber.addActionListener(this);
-		setLayout(null);
+		
+		
 		txtKNumber.setHorizontalAlignment(0);
 		txtKNumber.setFont(new Font("Segoe UI Light", 0, 16));
 		txtKNumber.setColumns(10);

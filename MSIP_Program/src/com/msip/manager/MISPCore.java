@@ -49,6 +49,7 @@ public class MISPCore {
 	private LoginPanel loginPanel;
 	private ToastPanel welcomePanel;
 	private SurveyTable surveyTable;
+	private AdminToolsPanel adminToolsPanel;
 
 	public MISPCore() {
 
@@ -71,7 +72,7 @@ public class MISPCore {
 		// Create the cards
 		welcomePanel = new ToastPanel(this);
 		loginPanel = new LoginPanel(this, welcomePanel);
-		JPanel adminToolsPanel = new AdminToolsPanel(this);
+		adminToolsPanel = new AdminToolsPanel(this);
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());

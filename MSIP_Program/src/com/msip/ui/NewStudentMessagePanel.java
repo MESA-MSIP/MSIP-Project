@@ -17,6 +17,10 @@ import javax.swing.border.MatteBorder;
 import com.msip.manager.MISPCore;
 
 public class NewStudentMessagePanel extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3443885170442642668L;
 	private JPanel northPanel;
 	private JButton exitButton;
 	private JLabel newStudentMessage;

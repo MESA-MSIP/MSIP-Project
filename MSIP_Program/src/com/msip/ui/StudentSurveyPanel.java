@@ -33,7 +33,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private MISPCore manager;
 	private SurveyTable surveyTable;
 	private ButtonGroup groupChoices;
-	private Timer timer;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
@@ -43,7 +42,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		setBackground(Color.WHITE);
 		setLayout(null);
 		
-		this.timer = timer;
 		this.manager = manager;
 		
 		skipButton = new JButton("Skip Survey\r\n");
@@ -93,7 +91,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-		surveyQ.setText("Rate the MESA Center Tutors between 1-5  on Availability.\r\n");
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
@@ -169,5 +166,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		{
 			return;
 		}
+	}
+	public void setSurveyQ(String q){
+		surveyQ.setText(q);
+	
 	}
 }

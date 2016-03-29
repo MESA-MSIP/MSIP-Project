@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
@@ -41,18 +42,34 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private ArrayList<Integer> results;
 	private GraphReport pieGraph = new GraphReport("");
 	private JPanel graphPanel;
+	private JPanel questionPanel;
+	private JButton editQButton;
+	private JPanel valuePanel;
+	private JLabel labelValue1;
+	private JLabel labelValue2;
+	private JLabel labelValue3;
+	private JComponent labelValue4;
+	private JLabel labelValue5;
+	private StudentSurveyPanel studentSurveyPanel;
+	private MISPCore manager;
+	private ToastPanel toastPanel;
 
-	public QuestionnairePanel(MISPCore msipCore) {
-
+	public QuestionnairePanel(MISPCore manager, ToastPanel toastPanel) {
+		this.manager = manager;
+		this.toastPanel = toastPanel;
+		
+		
+		
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
-		JPanel questionPanel = new JPanel();
+		questionPanel = new JPanel();
 		questionPanel.setBackground(Color.WHITE);
 		add(questionPanel, BorderLayout.NORTH);
 
-		JButton editQButton = new JButton("Edit Question");
+		editQButton = new JButton("Edit Question");
 		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		editQButton.addActionListener(this);
 		questionPanel.add(editQButton);
 
 		textQuestion = new JTextField();
@@ -65,12 +82,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		Component verticalStrut_4 = Box.createVerticalStrut(50);
 		questionPanel.add(verticalStrut_4);
 
-		JPanel valuePanel = new JPanel();
+		 valuePanel = new JPanel();
 		valuePanel.setBackground(Color.WHITE);
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 
-		JLabel labelValue1 = new JLabel("Value 1:");
+		 labelValue1 = new JLabel("Value 1:");
 		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
 		valuePanel.add(labelValue1);
@@ -83,7 +100,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_1);
 
-		JLabel labelValue2 = new JLabel("Value 2:");
+		 labelValue2 = new JLabel("Value 2:");
 		labelValue2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue2);
 
@@ -95,7 +112,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut);
 
-		JLabel labelValue3 = new JLabel("Value 3:");
+		 labelValue3 = new JLabel("Value 3:");
 		labelValue3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue3);
 
@@ -107,7 +124,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_2);
 
-		JLabel labelValue4 = new JLabel("Value 4:");
+		 labelValue4 = new JLabel("Value 4:");
 		labelValue4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue4);
 
@@ -119,7 +136,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_3);
 
-		JLabel labelValue5 = new JLabel("Value 5:");
+		 labelValue5 = new JLabel("Value 5:");
 		labelValue5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue5);
 
@@ -133,44 +150,36 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		graphPanel = new JPanel();
 		graphPanel.setBackground(Color.WHITE);
 		add(graphPanel, BorderLayout.CENTER);
-		//
-		ArrayList<Integer> test = new ArrayList<Integer>();
-		test = getResult();
 
 		// create The graph, put it in the center
-
-		graphPanel.add(pieGraph.createPiePanel());
-
+		this.add(pieGraph.createPiePanel(), BorderLayout.CENTER);
+		
+		
 		surveyTable = new SurveyTable();
 		startDate = new Date();
-		surveyTable.addQuestion("Rate the MESA Center.", startDate);
 
 	}
 
 	public ArrayList<Integer> getResult() {
-		// ArrayList<Integer> results = surveyTable.getResults();
-		// Hard coded results for now
-
-		results = new ArrayList<Integer>();
-		results.add(0, 12);
-		results.add(1, 13);
-		results.add(2, 7);
-		results.add(3, 10);
-		results.add(4, 8);
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		results = surveyTable.getResults();
 		return results;
 
 	}
-
-	public void updateGraph() {
-		
-	}
-
-	public void addQuestion() {
-		surveyTable.addQuestion("Rate the Available Tutors", startDate);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(editQButton == e.getSource()){
+			textQuestion.setText(GlobalUI.CLEAR);
+			textQuestion.setEditable(true);
+		}
+		if(textQuestion == e.getSource()){
+			String question  = textQuestion.getText();
+			surveyTable.addQuestion(question, startDate);
+			textQuestion.setText(question);
+			textQuestion.setEditable(false);
+			//this.toastPanel.setSurveyMessage(question);
+			
+		}
 
 	}
 

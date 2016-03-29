@@ -125,6 +125,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
+	public void setSurveyMessage(String question){
+		this.StudentSurveyPanel.setSurveyQ(question);
+	}
 
 	public void setMessage(String message) {
 		messageToast.setText(message);
@@ -143,10 +146,6 @@ public class ToastPanel extends JPanel implements ActionListener {
 		}
 
 	}
-	public void showPanel(String panel){
-		
-		
-	}
 	public JPanel getCards() {
 		return welcomeCards;
 	}
@@ -158,5 +157,8 @@ public class ToastPanel extends JPanel implements ActionListener {
 			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 		}
 
+	}
+	public StudentSurveyPanel getSurveyPanel(){
+		return StudentSurveyPanel;
 	}
 }

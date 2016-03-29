@@ -25,6 +25,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	private MISPCore manager;
 	private JButton btnLogOut;
 	private JLabel lblStatusMsg;
+	private StudentSurveyPanel studentSurveyPanel;
+	private ToastPanel toastPanel;
 
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -38,7 +40,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
 		ReportPanel reportPanel = new ReportPanel(msipCore);
 		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
-		QuestionnairePanel questionnairePanel = new QuestionnairePanel(msipCore);
+		QuestionnairePanel questionnairePanel = new QuestionnairePanel(msipCore, toastPanel);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
 		tabbedPane.add(adminPanel, GlobalUI.AdminTab);

@@ -102,8 +102,8 @@ public class GraphReport extends ApplicationFrame {
 	}
 
 	private void getAnswers() {
-		QuestionnairePanel ansQ = new QuestionnairePanel(null);
-		// int[] arrayAnswers = new int[5];
+		QuestionnairePanel ansQ = new QuestionnairePanel(null, null);
+		int[] arrayAnswers = new int[5];
 		for (int a = 0; a < arrayAnswers.length; a++) {
 			arrayAnswers[a] = ansQ.getResult().get(a);
 		}
