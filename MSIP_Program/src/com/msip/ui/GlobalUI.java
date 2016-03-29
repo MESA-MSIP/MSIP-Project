@@ -17,6 +17,9 @@ public class GlobalUI {
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	
+	//Size Bounds
+	
+	
 	// Colors and Borders for LoginPanel
 	public static final Color redColor = new Color(244,67,54);
 	public static final Border redBorder = BorderFactory.createMatteBorder(2, 2, 2, 2, redColor);
@@ -31,7 +34,7 @@ public class GlobalUI {
 	public static final String adminPassError = "Password or K# is incorrect.";
 	public static final String help = "K# is Incorrect.  Try Again.";
 	public static final String loginSuccess = "You Have Logged In.";
-	public static final String newStudentMessage = "See a MESA Advisor to Sign In.";
+	public static final String errorMessage = "KNumber is Incorrect." + '\n' + "See a MESA Advisor to Register.";
 	public static final String InsertAdminPassMessage = "Enter your Password.";
 	
 	
@@ -82,10 +85,12 @@ public class GlobalUI {
 	public static final Dimension ButtonDimenesions = new Dimension(100, 30);
 
 	// Label Properties
-	public static final Font LableFont = new Font("Tahoma", Font.BOLD, 13);
+	public static final Font LableFont = new Font("Segoe UI Light", 0, 16);
+	public static final Font welcomeLabelFont = new Font("Segoe UI", 1, 60);
 
 	// Label Text Field
-	public static final Font TextFieldFont = new Font("Tahoma", Font.BOLD, 13);
+	public static final Font TextFieldFont = new Font("Segoe UI Light", 0, 16);
+	public static final Font TextFieldLabelFont = new Font("Segoe UI", 0, 24);
 
 	// General Strings
 	public static final String ADDSTUDENT = "Add Student to Database";

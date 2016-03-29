@@ -19,9 +19,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
 
 import com.msip.external.Utility;
 import com.msip.manager.MISPCore;
@@ -36,7 +36,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JLabel labelMESALOGO;
 	private MISPCore manager;
 	private ToastPanel welcomePanel;
-	private JLabel adminPassMessage;
+	private JTextArea errorMessage;
 
 	public LoginPanel(final MISPCore manager, ToastPanel welcomePanel) {
 		setBounds(new Rectangle(0, 0, 800, 480));
@@ -46,7 +46,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 		
 		setBorder(GlobalUI.blackBorder);
-		setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
 		setLayout(null);
 		
@@ -59,7 +58,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 		
 		txtKNumber.setHorizontalAlignment(0);
-		txtKNumber.setFont(new Font("Segoe UI Light", 0, 16));
+		txtKNumber.setFont(GlobalUI.TextFieldFont);
 		txtKNumber.setColumns(10);
 		txtKNumber.setVisible(true);
 		add(txtKNumber);
@@ -69,7 +68,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.txtAdminPass.setBounds(297, 297, 212, GlobalUI.TEXTBOXHEIGHT);
 		this.txtAdminPass.addActionListener(this);
 		this.txtAdminPass.setHorizontalAlignment(0);
-		this.txtAdminPass.setFont(new Font("Segoe UI Light", 0, 16));
+		this.txtAdminPass.setFont(GlobalUI.TextFieldFont);
 		this.txtAdminPass.setColumns(10);
 		this.txtAdminPass.setVisible(false);
 		add(this.txtAdminPass);
@@ -77,7 +76,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.labeladminPass = new JLabel("Password:");
 		this.labeladminPass.setBounds(318, 268, 166, 22);
 		this.labeladminPass.setHorizontalAlignment(0);
-		this.labeladminPass.setFont(new Font("Segoe UI", 0, 24));
+		this.labeladminPass.setFont(GlobalUI.TextFieldLabelFont);
 		this.labeladminPass.setLabelFor(this.txtAdminPass);
 		add(this.labeladminPass);
 		this.labeladminPass.setVisible(false);
@@ -86,13 +85,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.labelKNumber.setBounds(287, 180, 227, 22);
 		this.labelKNumber.setLabelFor(txtKNumber);
 		this.labelKNumber.setHorizontalAlignment(0);
-		this.labelKNumber.setFont(new Font("Segoe UI", 0, 24));
+		this.labelKNumber.setFont(GlobalUI.TextFieldLabelFont);
 		add(this.labelKNumber);
 
 		JLabel labelWelcome = new JLabel("Welcome!");
 		labelWelcome.setBounds(0, 83, 800, 84);
 		labelWelcome.setHorizontalAlignment(0);
-		labelWelcome.setFont(new Font("Segoe UI", 1, 60));
+		labelWelcome.setFont(GlobalUI.welcomeLabelFont);
 		Utility.iterateWelcome(labelWelcome, 3000L);
 		add(labelWelcome);
 
@@ -101,12 +100,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.labelMESALOGO.setBounds(502, 11, 289, 77);
 		add(this.labelMESALOGO);
 
-		adminPassMessage = new JLabel("Insert Your Password.");
-		adminPassMessage.setHorizontalAlignment(SwingConstants.CENTER);
-		adminPassMessage.setBounds(544, 217, 153, 40);
-		adminPassMessage.setVisible(false);
-		adminPassMessage.setForeground(GlobalUI.redColor);
-		add(adminPassMessage);
+		errorMessage = new JTextArea("Insert Your Password.");
+		errorMessage.setFont(GlobalUI.LableFont);
+		errorMessage.setBounds(525, 215, 266, 62);
+		errorMessage.setVisible(false);
+		errorMessage.setForeground(GlobalUI.redColor);
+		add(errorMessage);
 
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -131,7 +130,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 				 */
 				String strKNumber = txtKNumber.getText();
 				if (strKNumber.length() < 8) {
-					LoginPanel.this.txtAdminPass.setText("");
+					LoginPanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
 					LoginPanel.this.txtAdminPass.setVisible(false);
 					LoginPanel.this.labeladminPass.setVisible(false);
 				} else {
@@ -174,8 +173,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 			// message.
 			if (txtKNumber.getText().length() < 8) {
 				txtKNumber.setText(GlobalUI.CLEAR);
-				this.welcomePanel.setMessage(GlobalUI.help);
-				showWelcomePanel();
+				txtKNumber.setBorder(GlobalUI.redBorder);
+				errorMessage.setVisible(true);
+				errorMessage.setText(GlobalUI.errorMessage);
+				turnOffMessage(errorMessage);
 			} else {
 				try {
 					// Get the Text of txtKNumber, and parse it into an Integer.
@@ -189,17 +190,20 @@ public class LoginPanel extends JPanel implements ActionListener {
 						// if the student is not recognized in either the Admin
 						// or Student DB, to show the newStudentMessage.
 						clearTextField(this.txtKNumber);
-						this.welcomePanel
-								.setMessage(GlobalUI.newStudentMessage);
-						showWelcomePanel();
+						this.txtKNumber.setBorder(GlobalUI.redBorder);
+						errorMessage.setVisible(true);
+						errorMessage.setText(GlobalUI.errorMessage);
+						turnOffMessage(errorMessage);
+						
 					} else if ((studentResponse == GlobalUI.FAIL)
 							&& (adminResponse == GlobalUI.SUCCESS)) {
 						// Admin needs to Type in Admin Password
 						// Border Red, Prompt to say they need to type in their
 						// password.
 						txtAdminPass.setBorder(GlobalUI.redBorder);
-						adminPassMessage.setVisible(true);
-						turnOffMessage(adminPassMessage);
+						errorMessage.setText(GlobalUI.InsertAdminPassMessage);
+						errorMessage.setVisible(true);
+						turnOffMessage(errorMessage);
 
 					} else if ((studentResponse == GlobalUI.SUCCESS)
 							|| (adminResponse == GlobalUI.SUCCESS)) {
@@ -264,9 +268,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 				}
 			} else {
 				// If AdminPassword is Incorrect, send Error
-				adminPassMessage.setVisible(true);
+				errorMessage.setText(GlobalUI.adminPassError);
+				errorMessage.setVisible(true);
 				txtAdminPass.setBorder(GlobalUI.redBorder);
-				turnOffMessage(adminPassMessage);
+				turnOffMessage(errorMessage);
 			}
 		}
 	}
@@ -305,13 +310,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 	 * 
 	 * @param label
 	 */
-	public void turnOffMessage(JLabel label) {
+	public void turnOffMessage(JTextArea label) {
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			public void run() {
 				label.setVisible(false);
 			}
 
-		}, 3000L);
+		}, 4000L);
 	}
 }
