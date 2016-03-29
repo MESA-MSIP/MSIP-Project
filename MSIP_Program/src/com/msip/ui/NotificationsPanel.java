@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -36,7 +38,7 @@ import com.toedter.calendar.JDateChooser;
  * @author Celina
  *
  */
-public class NotificationsPanel extends JPanel {
+public class NotificationsPanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	// private JTextField textFieldNotifications;
@@ -69,9 +71,9 @@ public class NotificationsPanel extends JPanel {
 		tableNotifications.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		tableNotifications.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
-				//returns the index of a selected notification.
+				// returns the index of a selected notification.
 				rowIndex = tableNotifications.getSelectedRow();
-				//TODO
+				// TODO
 				System.out.println(rowIndex);
 			}
 		});
@@ -126,6 +128,9 @@ public class NotificationsPanel extends JPanel {
 		btnRemove.setBounds(394, 65, 93, 29);
 		panelNotificationInput.add(btnRemove);
 		textAreaNotifications = new JTextArea();
+		textAreaNotifications.setWrapStyleWord(true);
+		textAreaNotifications.setLineWrap(true);
+
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
 
@@ -140,7 +145,9 @@ public class NotificationsPanel extends JPanel {
 
 				});
 		textAreaNotifications.setBounds(21, 6, 210, 48);
-		panelNotificationInput.add(textAreaNotifications);
+		JScrollPane noteScrollPane = new JScrollPane(textAreaNotifications);
+		noteScrollPane.setBounds(21, 6, 210, 48);
+		panelNotificationInput.add(noteScrollPane);
 
 		// Start Date
 		startDateChooser = new JDateChooser();
@@ -196,7 +203,7 @@ public class NotificationsPanel extends JPanel {
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
 		rem.addNotification(note, selectedStartDate, selectedExpirationDate);
-		//adds the notification to an array list.
+		// adds the notification to an array list.
 		notiArray.add(note);
 	}
 
@@ -207,10 +214,11 @@ public class NotificationsPanel extends JPanel {
 	// **********************************************************//
 
 	private void deleteNotification() {
-		
-		//removes the specific notification from the DB table.
+
+		// removes the specific notification from the DB table.
 		rem.removeNotification(notiArray.get(rowIndex));
-		//removes the specific notification from the arraylist to match the size of the table.
+		// removes the specific notification from the arraylist to match the
+		// size of the table.
 		notiArray.remove(rowIndex);
 
 		// clears expired notifications
@@ -233,6 +241,21 @@ public class NotificationsPanel extends JPanel {
 		// // TODO Auto-generated method stub
 		//
 		// }
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 
 	}
 }
