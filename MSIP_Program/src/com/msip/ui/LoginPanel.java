@@ -103,6 +103,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		errorMessage = new JTextArea("Insert Your Password.");
 		errorMessage.setFont(GlobalUI.LableFont);
 		errorMessage.setBounds(525, 215, 266, 62);
+		errorMessage.setEditable(false);
 		errorMessage.setVisible(false);
 		errorMessage.setForeground(GlobalUI.redColor);
 		add(errorMessage);
@@ -245,6 +246,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setVisible(false);
+						this.txtKNumber.setBorder(GlobalUI.blackBorder);
 						this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 						this.labeladminPass.setVisible(false);
 						showAdminPanel();
@@ -252,14 +254,16 @@ public class LoginPanel extends JPanel implements ActionListener {
 						// If they do not want to login:
 						txtKNumber.setText(GlobalUI.CLEAR);
 						this.txtAdminPass.setText(GlobalUI.CLEAR);
+						this.txtKNumber.setBorder(GlobalUI.blackBorder);
 						this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 						this.txtAdminPass.setVisible(false);
 						this.labeladminPass.setVisible(false);
 					}
 				} else {
-					// If it is not a Student and Admin
+					// If it is not a Student, But an Admin
 					this.txtKNumber.setText(GlobalUI.CLEAR);
 					this.txtAdminPass.setText(GlobalUI.CLEAR);
+					this.txtKNumber.setBorder(GlobalUI.blackBorder);
 					this.txtAdminPass.setBorder(GlobalUI.blackBorder);
 					this.txtAdminPass.setVisible(false);
 					this.labeladminPass.setVisible(false);
