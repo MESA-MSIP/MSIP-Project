@@ -40,7 +40,6 @@ public class ToastPanel extends JPanel implements ActionListener {
 	private Component horizontalStrut_1;
 	private Timer timer;
 	private NotificationCard NotificationCard;
-	private NewStudentMessagePanel newStudentMessagePanel;
 	private ToastPanel toastPanel;
 
 	private JPanel layoutPanel;
@@ -51,7 +50,6 @@ public class ToastPanel extends JPanel implements ActionListener {
 		this.toastPanel = this;
 		setBounds(new Rectangle(0, 0, 800, 480));
 		// Construct ConditionCards
-		newStudentMessagePanel = new NewStudentMessagePanel(this.manager);
 		setLayout(new CardLayout(0, 0));
 
 		layoutPanel = new JPanel();
@@ -85,9 +83,6 @@ public class ToastPanel extends JPanel implements ActionListener {
 		StudentSurveyPanel = new StudentSurveyPanel(this.manager, timer);
 		NotificationCard = new NotificationCard();
 		
-		//Construct conditionalCards
-		newStudentMessagePanel = new NewStudentMessagePanel(this.manager);
-		this.add(newStudentMessagePanel, GlobalUI.newStudentMessagePanel);
 
 		// Add the Cards to the JPanel
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
@@ -104,7 +99,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 				// if Error Conditions only in LoginPanel
 				timer = new Timer();
 
-				if (messageToast.getText() == GlobalUI.newStudentMessage) {
+				if (messageToast.getText() == GlobalUI.errorMessage) {
 					//
 					CardLayout cl = (CardLayout) toastPanel.getLayout();
 					cl.show(toastPanel, GlobalUI.newStudentMessagePanel);
