@@ -116,7 +116,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 						CardLayout cl = (CardLayout) ToastPanel.this.manager.getCards().getLayout();
 						cl.show(ToastPanel.this.manager.getCards(), GlobalUI.LoginPanel);
 					}
-				}, 15000L);
+				}, 60000L);
 			}
 		});
 	}
