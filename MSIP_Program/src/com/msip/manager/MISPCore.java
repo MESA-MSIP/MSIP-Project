@@ -353,7 +353,11 @@ public class MISPCore {
 		notificationTable.removeExpiredNotification();
 
 	}
-
+	
+	public ArrayList<String> getAllNotifications(){
+		return notificationTable.getAllNotification();
+		
+	}
 	// **********************************************************//
 	// **********************************************************//
 	// *** Survey Table Functions ****//

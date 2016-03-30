@@ -14,19 +14,16 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 
 public class NotificationCard extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private MISPCore manager;
 
 	/**
 	 * Create the panel.
 	 */
 
-	public NotificationCard() {
-		NotificationTable nt = new NotificationTable();
+	public NotificationCard(MISPCore manager) {
 
 		/**
 		 * Create the panel.
@@ -58,9 +55,13 @@ public class NotificationCard extends JPanel {
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		try {
-			for (int i = 0; i < nt.getAllNotification().size(); i++) {
-				document.insertString(document.getEndPosition().getOffset(), nt
-						.getAllNotification().get(i) + "\n\n", null);
+			if (manager.getAllNotifications().size() > 0) {
+				for (int i = 0; i < manager.getAllNotifications().size(); i++) {
+					document.insertString(
+							document.getEndPosition().getOffset(), manager
+									.getAllNotifications().get(i) + "\n\n",
+							null);
+				}
 			}
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block

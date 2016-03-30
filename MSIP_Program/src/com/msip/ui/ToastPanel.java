@@ -81,7 +81,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		welcomeCards.setLayout(new CardLayout(0, 0));
 		// Construct welcomeCards
 		StudentSurveyPanel = new StudentSurveyPanel(this.manager, timer);
-		NotificationCard = new NotificationCard();
+		NotificationCard = new NotificationCard(this.manager);
 		
 
 		// Add the Cards to the JPanel
