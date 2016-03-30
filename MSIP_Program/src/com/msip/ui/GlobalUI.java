@@ -41,11 +41,11 @@ public class GlobalUI {
 
 	// RadioButton Values for SurveyPanel
 
-	public static final int valueOne = 1;
-	public static final int valueTwo = 2;
-	public static final int valueThree = 3;
-	public static final int valueFour = 4;
-	public static final int valueFive = 5;
+	public static final int responseOne = 1;
+	public static final int responseTwo = 2;
+	public static final int responseThree = 3;
+	public static final int responseFour = 4;
+	public static final int responseFive = 5;
 	// To Clear:
 	public static final String CLEAR = "";
 

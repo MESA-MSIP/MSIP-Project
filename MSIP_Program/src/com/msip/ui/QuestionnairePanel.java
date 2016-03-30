@@ -32,7 +32,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textQuestion;
-	private SurveyTable surveyTable;
 	private Date startDate;
 	private JTextField textValue5;
 	private JTextField textValue1;
@@ -40,7 +39,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JTextField textValue2;
 	private JTextField textValue3;
 	private ArrayList<Integer> results;
-	private GraphReport pieGraph = new GraphReport("");
+	//private GraphReport pieGraph = new GraphReport("");
 	private JPanel graphPanel;
 	private JPanel questionPanel;
 	private JButton editQButton;
@@ -50,14 +49,11 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JLabel labelValue3;
 	private JComponent labelValue4;
 	private JLabel labelValue5;
-	private StudentSurveyPanel studentSurveyPanel;
 	private MISPCore manager;
-	private ToastPanel toastPanel;
 
-	public QuestionnairePanel(MISPCore manager, ToastPanel toastPanel) {
-		this.manager = manager;
-		this.toastPanel = toastPanel;
+	public QuestionnairePanel(MISPCore manager) {
 		
+		this.manager = manager;
 		
 		
 		setBackground(Color.WHITE);
@@ -79,7 +75,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		questionPanel.add(textQuestion);
 		textQuestion.setColumns(30);
 
-		Component verticalStrut_4 = Box.createVerticalStrut(50);
+		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		questionPanel.add(verticalStrut_4);
 
 		 valuePanel = new JPanel();
@@ -96,11 +92,11 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue1);
 		textValue1.setColumns(15);
 
-		Component verticalStrut_1 = Box.createVerticalStrut(50);
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_1);
 
-		 labelValue2 = new JLabel("Value 2:");
+		labelValue2 = new JLabel("Value 2:");
 		labelValue2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue2);
 
@@ -108,7 +104,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue2);
 		textValue2.setColumns(15);
 
-		Component verticalStrut = Box.createVerticalStrut(50);
+		Component verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut);
 
@@ -120,7 +116,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
 
-		Component verticalStrut_2 = Box.createVerticalStrut(50);
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_2);
 
@@ -132,7 +128,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue4);
 		textValue4.setColumns(15);
 
-		Component verticalStrut_3 = Box.createVerticalStrut(25);
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_3);
 
@@ -151,18 +147,17 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		graphPanel.setBackground(Color.WHITE);
 		add(graphPanel, BorderLayout.CENTER);
 
-		// create The graph, put it in the center
-		this.add(pieGraph.createPiePanel(), BorderLayout.CENTER);
-		
-		
-		surveyTable = new SurveyTable();
+		//TODO fix the graph to make it like reportPanel
 		startDate = new Date();
 
+	}
+	public void updateGraph(){
+		
 	}
 
 	public ArrayList<Integer> getResult() {
 		ArrayList<Integer> results = new ArrayList<Integer>();
-		results = surveyTable.getResults();
+		results = this.manager.getResults();
 		return results;
 
 	}
@@ -173,14 +168,19 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			textQuestion.setEditable(true);
 		}
 		if(textQuestion == e.getSource()){
-			String question  = textQuestion.getText();
-			surveyTable.addQuestion(question, startDate);
-			textQuestion.setText(question);
-			textQuestion.setEditable(false);
-			//this.toastPanel.setSurveyMessage(question);
+			addQuestion();
 			
 		}
 
 	}
+	public void addQuestion(){
+		
+		manager.removeAll();
+		String question  = textQuestion.getText();
+		manager.addQuestion(question, startDate);
+		textQuestion.setText(question);
+		textQuestion.setEditable(false);
+	}
+	
 
 }

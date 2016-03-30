@@ -10,7 +10,11 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.Random;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -31,13 +35,11 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JRadioButton rbutton1, rbutton2, rbutton3, rbutton4, rbutton5;
 	private JTextPane surveyQ;
 	private MISPCore manager;
-	private SurveyTable surveyTable;
 	private ButtonGroup groupChoices;
+	private ComponentAdapter componentAdapter;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
-		surveyTable = new SurveyTable();
-		
 		setForeground(Color.BLACK);
 		setBackground(Color.WHITE);
 		setLayout(null);
@@ -87,6 +89,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ = new JTextPane();
 		surveyQ.setBackground(new Color(255, 255, 255));
 		surveyQ.setContentType("text/plain/");
+		//TODO should not add a question if their is no question
+		//surveyQ.setText(this.manager.getQuestion());
+	
 		StyledDocument doc = surveyQ.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -94,8 +99,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
-		
-		
+	
 		//Create a Button Group
 		groupChoices = new ButtonGroup();
 		groupChoices.add(rbutton1);
@@ -104,44 +108,41 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		groupChoices.add(rbutton4);
 		groupChoices.add(rbutton5);
 
-		
-		
-
-	}
+		addComponentListener(new ComponentAdapter() {
 	
+			public void componentShown(ComponentEvent e) {
+			}
+		});
+	}
 	public void actionPerformed(ActionEvent e)
 	{
-		//TODO Timer pass in instance, cancel the cur instance, and then set a new object to that same instance
-		
-		
-		
 		if (skipButton == e.getSource()) {
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 		} else if (submitButton == e.getSource()) {
 			// TODO log the information to the surveyTable
 			if (rbutton1.isSelected()) {
-				surveyTable.addResults(GlobalUI.valueOne);
+				this.manager.addResults(GlobalUI.responseOne);
 			}
 
 			else {
 				if (rbutton2.isSelected()) {
-					surveyTable.addResults(GlobalUI.valueTwo);
+					manager.addResults(GlobalUI.responseTwo);
 				}
 
 				else {
 					if (rbutton3.isSelected()) {
-						surveyTable.addResults(GlobalUI.valueThree);
+						manager.addResults(GlobalUI.responseThree);
 					}
 
 					else {
 						if (rbutton4.isSelected()) {
-							surveyTable.addResults(GlobalUI.valueFour);
+							manager.addResults(GlobalUI.responseFour);
 						}
 
 						else {
 							if (rbutton5.isSelected()) {
-								surveyTable.addResults(GlobalUI.valueFive);
+								manager.addResults(GlobalUI.responseFive);
 							}
 
 						}
@@ -151,7 +152,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 				}
 
 			}
-			
 			//Revert choice back to default
 			rbutton1.setSelected(false);
 			rbutton2.setSelected(false);
@@ -166,9 +166,5 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		{
 			return;
 		}
-	}
-	public void setSurveyQ(String q){
-		surveyQ.setText(q);
-	
 	}
 }

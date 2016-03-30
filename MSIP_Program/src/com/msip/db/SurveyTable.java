@@ -132,6 +132,10 @@ public class SurveyTable {
 		return results;
 	}
 	
+	/**
+	 * Returns The question.
+	 * @return
+	 */
 	public String getQuestion(){
 		String question = "";
 		try{

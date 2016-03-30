@@ -55,7 +55,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private int rowIndex;
 
 	public NotificationsPanel(MISPCore msipCore) {
-		manager = msipCore;
+		this.manager = msipCore;
 
 		/**
 		 * Create the panel.

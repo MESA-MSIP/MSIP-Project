@@ -353,7 +353,11 @@ public class MISPCore {
 		notificationTable.removeExpiredNotification();
 
 	}
-
+	
+	public ArrayList<String> getAllNotifications(){
+		return notificationTable.getAllNotification();
+		
+	}
 	// **********************************************************//
 	// **********************************************************//
 	// *** Survey Table Functions ****//
@@ -363,7 +367,19 @@ public class MISPCore {
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}
-
+	
+	public void removeAll(){
+		surveyTable.removeAll();
+	}
+	public void addQuestion(String question, Date StartDate){
+		surveyTable.addQuestion(question, StartDate);
+	}
+	public void addResults(int result){
+		surveyTable.addResults(result);
+	}
+	public String getQuestion(){
+		return surveyTable.getQuestion();
+	}
 	/**
 	 * @param args
 	 */

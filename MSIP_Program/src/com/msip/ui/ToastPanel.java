@@ -81,7 +81,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		welcomeCards.setLayout(new CardLayout(0, 0));
 		// Construct welcomeCards
 		StudentSurveyPanel = new StudentSurveyPanel(this.manager, timer);
-		NotificationCard = new NotificationCard();
+		NotificationCard = new NotificationCard(this.manager);
 		
 
 		// Add the Cards to the JPanel
@@ -120,15 +120,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-	public void setSurveyMessage(String question){
-		this.StudentSurveyPanel.setSurveyQ(question);
-	}
-
 	public void setMessage(String message) {
 		messageToast.setText(message);
 	}
-
-	// TODO Random # by Chance
 	// 70% see notifications, 30% will see survey
 	// below .7 / .3
 	public void generateRandomPanel(double rand) {

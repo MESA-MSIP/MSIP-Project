@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
 @SuppressWarnings("serial")
@@ -30,8 +31,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	private MISPCore manager;
 	private JButton btnLogOut;
 	private JLabel lblStatusMsg;
-	private StudentSurveyPanel studentSurveyPanel;
-	private ToastPanel toastPanel;
+	private SurveyTable surveyTable;
 
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -46,7 +46,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		ReportPanel reportPanel = new ReportPanel(msipCore);
 		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
 		QuestionnairePanel questionnairePanel = new QuestionnairePanel(
-				msipCore, toastPanel);
+				msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
 		tabbedPane.add(adminPanel, GlobalUI.AdminTab);
