@@ -41,7 +41,6 @@ import com.toedter.calendar.JDateChooser;
 public class NotificationsPanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	// private JTextField textFieldNotifications;
 	private JTextArea textAreaNotifications;
 	private JTable tableNotifications;
 	private JDateChooser startDateChooser;
@@ -50,13 +49,13 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private Date selectedExpirationDate;
 	private JButton btnRemove;
 	private JButton btnAdd;
-	private MISPCore rem;
+	private MISPCore manager;
 	private DefaultTableModel model;
 	private ArrayList<String> notiArray = new ArrayList<String>();
 	private int rowIndex;
 
 	public NotificationsPanel(MISPCore msipCore) {
-		rem = msipCore;
+		manager = msipCore;
 
 		/**
 		 * Create the panel.
@@ -69,6 +68,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
 		tableNotifications.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
 		tableNotifications.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				// returns the index of a selected notification.
@@ -100,18 +100,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent e) {
 				addNotification();
 				textAreaNotifications.setText(null);
-				String data = textAreaNotifications.getText().trim();// read
-																		// contents
-																		// of
-																		// text
-																		// area
-																		// into
-																		// 'data'
-				if (data.equals("")) {
-					btnAdd.setEnabled(false);
-				} else {
-					btnAdd.setEnabled(true);
-				}
+
 			}
 
 		});
@@ -130,6 +119,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		textAreaNotifications = new JTextArea();
 		textAreaNotifications.setWrapStyleWord(true);
 		textAreaNotifications.setLineWrap(true);
+		textAreaNotifications.addKeyListener(this);
 
 		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
 		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
@@ -202,7 +192,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		String note = textAreaNotifications.getText().trim();
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
-		rem.addNotification(note, selectedStartDate, selectedExpirationDate);
+		manager.addNotification(note, selectedStartDate, selectedExpirationDate);
 		// adds the notification to an array list.
 		notiArray.add(note);
 	}
@@ -216,7 +206,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private void deleteNotification() {
 
 		// removes the specific notification from the DB table.
-		rem.removeNotification(notiArray.get(rowIndex));
+		manager.removeNotification(notiArray.get(rowIndex));
 		// removes the specific notification from the arraylist to match the
 		// size of the table.
 		notiArray.remove(rowIndex);
@@ -228,20 +218,16 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
 
-		//
-		// public static void main(String[] args) {
-		// NotificationsPanel np = new NotificationsPanel(null);
-		// JFrame frame = new JFrame();
-		//
-		// frame.add(np);
-		// frame.setPreferredSize(new Dimension(800, 480));
-		// frame.pack();
-		// frame.setVisible(true);
-		//
-		// // TODO Auto-generated method stub
-		//
-		// }
+	}
 
+	@Override
+	public void keyReleased(KeyEvent e) {
+		String data = textAreaNotifications.getText();
+		if (data.isEmpty()) {
+			btnAdd.setEnabled(false);
+		} else {
+			btnAdd.setEnabled(true);
+		}
 	}
 
 	@Override
@@ -254,8 +240,4 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-	}
 }

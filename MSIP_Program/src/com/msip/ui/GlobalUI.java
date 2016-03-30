@@ -16,36 +16,37 @@ public class GlobalUI {
 	public static final String BlankPanel = "BlankPanel";
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
-	
-	//Size Bounds
-	
-	
+
+	// Size Bounds
+
 	// Colors and Borders for LoginPanel
-	public static final Color redColor = new Color(244,67,54);
-	public static final Border redBorder = BorderFactory.createMatteBorder(2, 2, 2, 2, redColor);
+	public static final Color redColor = new Color(244, 67, 54);
+	public static final Border redBorder = BorderFactory.createMatteBorder(2,
+			2, 2, 2, redColor);
 	public static final Color blackColor = Color.BLACK;
-	public static final Border blackBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, blackColor);
-	
+	public static final Border blackBorder = BorderFactory.createMatteBorder(1,
+			1, 1, 1, blackColor);
+
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;
-	
-	//Messages for the WelcomePanel
+
+	// Messages for the WelcomePanel
 	public static final String adminPassError = "Password or K# is incorrect.";
 	public static final String help = "K# is Incorrect.  Try Again.";
 	public static final String loginSuccess = "You Have Logged In.";
-	public static final String errorMessage = "KNumber is Incorrect." + '\n' + "See a MESA Advisor to Register.";
+	public static final String errorMessage = "KNumber is Incorrect." + '\n'
+			+ "See a MESA Advisor to Register.";
 	public static final String InsertAdminPassMessage = "Enter your Password.";
-	
-	
+
 	// RadioButton Values for SurveyPanel
-	
+
 	public static final int valueOne = 1;
 	public static final int valueTwo = 2;
 	public static final int valueThree = 3;
 	public static final int valueFour = 4;
 	public static final int valueFive = 5;
-	//To Clear:
+	// To Clear:
 	public static final String CLEAR = "";
 
 	// Integers for MSIP
@@ -109,10 +110,23 @@ public class GlobalUI {
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
 
 	public static String[] getListMajors() {
-		String[] majorList = { "Mechanical Engineer", "Electrical Engineer",
-				"Computer Engineer", "Computer Science", "Civil Engineer",
-				"Chemical Engineer", "Information Technology", "Chemistry",
-				"Biology", "Physics", "Other" };
+		String[] majorList = { "Aerospace Engineering",
+				"Agricultural Engineering", "Architectural Engineering",
+				"Aerospace Engineering/Aviation", "Biology", "Biochemistry",
+				"Bioengineering", "Biological Sciences",
+				"Biomedical Engineering", "Chemical Engineering", "Chemistry",
+				"Civil Engineering", "Computer Engineering",
+				"Computer Science", "Electrical Engineering", "Engineering",
+				"Environmental Engineering", "Environmental Science",
+				"Food Science", "Geology", "Information Technology",
+				"Industrial Engineering", "Marine Biology",
+				"Materials Engineering", "Mathematics", "Mathematics Teaching",
+				"Mechanical Engineering", "Pharmacy", "Physics", "PreDental",
+				"PreMed", "Veterinary", "Zoology", "Other" };
+		// "Mechanical Engineer", "Electrical Engineer",
+		// "Computer Engineer", "Computer Science", "Civil Engineer",
+		// "Chemical Engineer", "Information Technology", "Chemistry",
+		// "Biology", "Physics", "Other" };
 
 		return majorList;
 	}
