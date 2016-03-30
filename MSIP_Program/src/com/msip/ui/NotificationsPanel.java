@@ -95,6 +95,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		add(panelNotificationInput, BorderLayout.SOUTH);
 
 		btnAdd = new JButton("Add");
+		btnAdd.setEnabled(false);
 		btnAdd.setBounds(307, 65, 75, 29);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -41,7 +41,7 @@ public class GraphReport extends ApplicationFrame {
 	 */
 	public GraphReport(String title) {
 		super(title);
-		setContentPane(createPiePanel());
+
 	}
 
 	// **********************************************************//
@@ -53,13 +53,13 @@ public class GraphReport extends ApplicationFrame {
 		DefaultPieDataset datasetQ = new DefaultPieDataset();
 
 		manager = new MISPCore();
-		String[] quest = { "Result1", "Result2", "Result3", "Result4",
-				"Result5" };
-		for (int a = 0; a < 4; a++) {
 
-			datasetQ.setValue(quest[a], manager.getResults().get(a));
+		datasetQ.setValue("Results1", manager.getResults().get(0));
+		datasetQ.setValue("Results2", manager.getResults().get(1));
+		datasetQ.setValue("Results3", manager.getResults().get(2));
+		datasetQ.setValue("Results4", manager.getResults().get(3));
+		datasetQ.setValue("Results5", manager.getResults().get(4));
 
-		}
 		return datasetQ;
 	}
 
@@ -96,7 +96,7 @@ public class GraphReport extends ApplicationFrame {
 	 * 
 	 * @return A panel.
 	 **/
-	public static JPanel createPiePanel() {
+	public JPanel createPiePanel() {
 		JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
 	}
