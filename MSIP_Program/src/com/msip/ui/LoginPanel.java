@@ -314,7 +314,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	 * 
 	 * @param label
 	 */
-	public void turnOffMessage(JTextArea label) {
+	public void turnOffMessage(final JTextArea label) {
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			public void run() {

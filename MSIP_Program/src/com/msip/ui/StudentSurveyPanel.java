@@ -37,6 +37,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private MISPCore manager;
 	private SurveyTable surveyTable;
 	private ButtonGroup groupChoices;
+	private ComponentAdapter componentAdapter;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
@@ -106,16 +107,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		groupChoices.add(rbutton4);
 		groupChoices.add(rbutton5);
 
-		
 		addComponentListener(new ComponentAdapter() {
-
-			public void componentShown(ComponentEvent e) {
-
-				
-		}});
-
-	}
 	
+			public void componentShown(ComponentEvent e) {
+			}
+		});
+	}
 	public void actionPerformed(ActionEvent e)
 	{
 		if (skipButton == e.getSource()) {

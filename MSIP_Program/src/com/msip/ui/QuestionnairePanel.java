@@ -76,7 +76,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		questionPanel.add(textQuestion);
 		textQuestion.setColumns(30);
 
-		Component verticalStrut_4 = Box.createVerticalStrut(50);
+		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		questionPanel.add(verticalStrut_4);
 
 		 valuePanel = new JPanel();
@@ -93,7 +93,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue1);
 		textValue1.setColumns(15);
 
-		Component verticalStrut_1 = Box.createVerticalStrut(50);
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_1);
 
@@ -105,7 +105,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue2);
 		textValue2.setColumns(15);
 
-		Component verticalStrut = Box.createVerticalStrut(50);
+		Component verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut);
 
@@ -117,7 +117,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
 
-		Component verticalStrut_2 = Box.createVerticalStrut(50);
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_2);
 
@@ -129,7 +129,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue4);
 		textValue4.setColumns(15);
 
-		Component verticalStrut_3 = Box.createVerticalStrut(25);
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_3);
 
@@ -148,14 +148,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		graphPanel.setBackground(Color.WHITE);
 		add(graphPanel, BorderLayout.CENTER);
 
-		// create The graph, put it in the center
-		this.add(pieGraph.createPiePanel(), BorderLayout.CENTER);
-		
-		
-		
-		surveyTable = new SurveyTable();
+		//TODO fix the graph to make it like reportPanel
 		startDate = new Date();
 
+	}
+	public void updateGraph(){
+		
 	}
 
 	public ArrayList<Integer> getResult() {
