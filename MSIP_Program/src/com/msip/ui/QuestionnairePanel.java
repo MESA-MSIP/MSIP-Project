@@ -157,7 +157,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 	public ArrayList<Integer> getResult() {
 		ArrayList<Integer> results = new ArrayList<Integer>();
-		results = this.manager.getSurveyTable().getResults();
+		results = this.manager.getResults();
 		return results;
 
 	}

@@ -89,7 +89,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ = new JTextPane();
 		surveyQ.setBackground(new Color(255, 255, 255));
 		surveyQ.setContentType("text/plain/");
-	surveyQ.setText(this.manager.getQuestion());
+		//TODO should not add a question if their is no question
+		//surveyQ.setText(this.manager.getQuestion());
+	
 		StyledDocument doc = surveyQ.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);

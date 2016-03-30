@@ -367,9 +367,7 @@ public class MISPCore {
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}
-	public SurveyTable getSurveyTable(){
-		return surveyTable;
-	}
+	
 	public void removeAll(){
 		surveyTable.removeAll();
 	}
@@ -381,7 +379,6 @@ public class MISPCore {
 	}
 	public String getQuestion(){
 		return surveyTable.getQuestion();
-		
 	}
 	/**
 	 * @param args
