@@ -52,9 +52,9 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JLabel labelValue5;
 	private MISPCore manager;
 
-	public QuestionnairePanel(MISPCore manager, SurveyTable surveyTable) {
+	public QuestionnairePanel(MISPCore manager) {
 		
-		this.surveyTable = surveyTable;
+		this.manager = manager;
 		
 		
 		setBackground(Color.WHITE);
@@ -160,7 +160,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 	public ArrayList<Integer> getResult() {
 		ArrayList<Integer> results = new ArrayList<Integer>();
-		results = surveyTable.getResults();
+		results = this.manager.getSurveyTable().getResults();
 		return results;
 
 	}

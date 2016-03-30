@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Random;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -38,8 +40,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
-		surveyTable = new SurveyTable();
-		
 		setForeground(Color.BLACK);
 		setBackground(Color.WHITE);
 		setLayout(null);
@@ -89,6 +89,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ = new JTextPane();
 		surveyQ.setBackground(new Color(255, 255, 255));
 		surveyQ.setContentType("text/plain/");
+		surveyQ.setText(this.manager.getSurveyTable().getQuestion());
 		StyledDocument doc = surveyQ.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -96,14 +97,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
-		
-		addComponentListener(new ComponentAdapter() {
-			public void componentShown(ComponentEvent e) {
-				//update the card on every component shown
-				String question = surveyTable.getQuestion();
-				surveyQ.setText(question);
-			}
-		});
+	
 		//Create a Button Group
 		groupChoices = new ButtonGroup();
 		groupChoices.add(rbutton1);
@@ -113,7 +107,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		groupChoices.add(rbutton5);
 
 		
-		
+		addComponentListener(new ComponentAdapter() {
+
+			public void componentShown(ComponentEvent e) {
+
+				
+		}});
 
 	}
 	
@@ -125,27 +124,27 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		} else if (submitButton == e.getSource()) {
 			// TODO log the information to the surveyTable
 			if (rbutton1.isSelected()) {
-				surveyTable.addResults(GlobalUI.valueOne);
+				surveyTable.addResults(GlobalUI.responseOne);
 			}
 
 			else {
 				if (rbutton2.isSelected()) {
-					surveyTable.addResults(GlobalUI.valueTwo);
+					surveyTable.addResults(GlobalUI.responseTwo);
 				}
 
 				else {
 					if (rbutton3.isSelected()) {
-						surveyTable.addResults(GlobalUI.valueThree);
+						surveyTable.addResults(GlobalUI.responseThree);
 					}
 
 					else {
 						if (rbutton4.isSelected()) {
-							surveyTable.addResults(GlobalUI.valueFour);
+							surveyTable.addResults(GlobalUI.responseFour);
 						}
 
 						else {
 							if (rbutton5.isSelected()) {
-								surveyTable.addResults(GlobalUI.valueFive);
+								surveyTable.addResults(GlobalUI.responseFive);
 							}
 
 						}

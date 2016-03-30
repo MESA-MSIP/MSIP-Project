@@ -363,7 +363,9 @@ public class MISPCore {
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}
-
+	public SurveyTable getSurveyTable(){
+		return surveyTable;
+	}
 	/**
 	 * @param args
 	 */
