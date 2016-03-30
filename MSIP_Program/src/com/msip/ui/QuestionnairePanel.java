@@ -50,14 +50,11 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JLabel labelValue3;
 	private JComponent labelValue4;
 	private JLabel labelValue5;
-	private StudentSurveyPanel studentSurveyPanel;
 	private MISPCore manager;
-	private ToastPanel toastPanel;
 
-	public QuestionnairePanel(MISPCore manager, ToastPanel toastPanel) {
-		this.manager = manager;
-		this.toastPanel = toastPanel;
+	public QuestionnairePanel(MISPCore manager, SurveyTable surveyTable) {
 		
+		this.surveyTable = surveyTable;
 		
 		
 		setBackground(Color.WHITE);
@@ -100,7 +97,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_1);
 
-		 labelValue2 = new JLabel("Value 2:");
+		labelValue2 = new JLabel("Value 2:");
 		labelValue2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue2);
 
@@ -155,6 +152,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		this.add(pieGraph.createPiePanel(), BorderLayout.CENTER);
 		
 		
+		
 		surveyTable = new SurveyTable();
 		startDate = new Date();
 
@@ -173,14 +171,19 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			textQuestion.setEditable(true);
 		}
 		if(textQuestion == e.getSource()){
-			String question  = textQuestion.getText();
-			surveyTable.addQuestion(question, startDate);
-			textQuestion.setText(question);
-			textQuestion.setEditable(false);
-			//this.toastPanel.setSurveyMessage(question);
+			addQuestion();
 			
 		}
 
 	}
+	public void addQuestion(){
+		
+		surveyTable.removeAll();
+		String question  = textQuestion.getText();
+		surveyTable.addQuestion(question, startDate);
+		textQuestion.setText(question);
+		textQuestion.setEditable(false);
+	}
+	
 
 }

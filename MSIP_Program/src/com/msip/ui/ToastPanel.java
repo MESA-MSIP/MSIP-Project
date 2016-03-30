@@ -120,15 +120,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-	public void setSurveyMessage(String question){
-		this.StudentSurveyPanel.setSurveyQ(question);
-	}
-
 	public void setMessage(String message) {
 		messageToast.setText(message);
 	}
-
-	// TODO Random # by Chance
 	// 70% see notifications, 30% will see survey
 	// below .7 / .3
 	public void generateRandomPanel(double rand) {
