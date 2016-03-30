@@ -226,7 +226,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		if (data.isEmpty()) {
 			btnAdd.setEnabled(false);
 		} else {
-			btnAdd.setEnabled(true);
+			btnAdd.setEnabled(true); // doesnt work when first starting, still
+										// accepts empty string**S
 		}
 	}
 

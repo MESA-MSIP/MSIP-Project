@@ -126,7 +126,7 @@ public class GlobalUI {
 		// "Mechanical Engineer", "Electrical Engineer",
 		// "Computer Engineer", "Computer Science", "Civil Engineer",
 		// "Chemical Engineer", "Information Technology", "Chemistry",
-		// "Biology", "Physics", "Other" };
+		// "Biology", "Physics","Other" };
 
 		return majorList;
 	}
