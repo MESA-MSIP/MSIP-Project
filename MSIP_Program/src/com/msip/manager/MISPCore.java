@@ -370,6 +370,19 @@ public class MISPCore {
 	public SurveyTable getSurveyTable(){
 		return surveyTable;
 	}
+	public void removeAll(){
+		surveyTable.removeAll();
+	}
+	public void addQuestion(String question, Date StartDate){
+		surveyTable.addQuestion(question, StartDate);
+	}
+	public void addResults(int result){
+		surveyTable.addResults(result);
+	}
+	public String getQuestion(){
+		return surveyTable.getQuestion();
+		
+	}
 	/**
 	 * @param args
 	 */

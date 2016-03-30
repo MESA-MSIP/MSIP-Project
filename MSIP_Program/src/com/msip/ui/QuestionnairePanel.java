@@ -32,7 +32,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textQuestion;
-	private SurveyTable surveyTable;
 	private Date startDate;
 	private JTextField textValue5;
 	private JTextField textValue1;
@@ -40,7 +39,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JTextField textValue2;
 	private JTextField textValue3;
 	private ArrayList<Integer> results;
-	private GraphReport pieGraph = new GraphReport("");
+	//private GraphReport pieGraph = new GraphReport("");
 	private JPanel graphPanel;
 	private JPanel questionPanel;
 	private JButton editQButton;
@@ -176,9 +175,9 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	}
 	public void addQuestion(){
 		
-		surveyTable.removeAll();
+		manager.removeAll();
 		String question  = textQuestion.getText();
-		surveyTable.addQuestion(question, startDate);
+		manager.addQuestion(question, startDate);
 		textQuestion.setText(question);
 		textQuestion.setEditable(false);
 	}

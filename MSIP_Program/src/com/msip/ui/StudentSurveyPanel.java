@@ -35,7 +35,6 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JRadioButton rbutton1, rbutton2, rbutton3, rbutton4, rbutton5;
 	private JTextPane surveyQ;
 	private MISPCore manager;
-	private SurveyTable surveyTable;
 	private ButtonGroup groupChoices;
 	private ComponentAdapter componentAdapter;
 	
@@ -90,7 +89,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		surveyQ = new JTextPane();
 		surveyQ.setBackground(new Color(255, 255, 255));
 		surveyQ.setContentType("text/plain/");
-		surveyQ.setText(this.manager.getSurveyTable().getQuestion());
+	surveyQ.setText(this.manager.getQuestion());
 		StyledDocument doc = surveyQ.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -121,27 +120,27 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		} else if (submitButton == e.getSource()) {
 			// TODO log the information to the surveyTable
 			if (rbutton1.isSelected()) {
-				surveyTable.addResults(GlobalUI.responseOne);
+				this.manager.addResults(GlobalUI.responseOne);
 			}
 
 			else {
 				if (rbutton2.isSelected()) {
-					surveyTable.addResults(GlobalUI.responseTwo);
+					manager.addResults(GlobalUI.responseTwo);
 				}
 
 				else {
 					if (rbutton3.isSelected()) {
-						surveyTable.addResults(GlobalUI.responseThree);
+						manager.addResults(GlobalUI.responseThree);
 					}
 
 					else {
 						if (rbutton4.isSelected()) {
-							surveyTable.addResults(GlobalUI.responseFour);
+							manager.addResults(GlobalUI.responseFour);
 						}
 
 						else {
 							if (rbutton5.isSelected()) {
-								surveyTable.addResults(GlobalUI.responseFive);
+								manager.addResults(GlobalUI.responseFive);
 							}
 
 						}
