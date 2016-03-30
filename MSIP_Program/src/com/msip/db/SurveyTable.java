@@ -132,6 +132,22 @@ public class SurveyTable {
 		return results;
 	}
 	
+	public String getQuestion(){
+		String question = "";
+		try{
+			PreparedStatement retrieveQues = (PreparedStatement) DBConnector.myConnection.prepareStatement
+					("SELECT * FROM Survey WHERE ID=" + getID() + ";");
+			ResultSet rs = retrieveQues.executeQuery();
+			while(rs.next()){
+				question = rs.getString("Question");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return question;
+		
+	}
+	
 	/**
 	 * Removes the survey question based on the date.
 	 * 
