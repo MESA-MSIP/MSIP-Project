@@ -40,7 +40,6 @@ public class DBConnector {
 				Utility.getHashedPassword("2"));
 		admin.add(33333333, "Fernando", "Estevez",
 				Utility.getHashedPassword("3"));
-		// admin.getAll();
 
 		StudentTable student = new StudentTable();
 		student.deleteAll();
@@ -49,11 +48,11 @@ public class DBConnector {
 		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
 		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
 		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
-		// student.getAll();
+		
 
 		LoginTable login = new LoginTable();
 		//login.getParticipation(33333333);
-		//login.deleteAll();
+	login.deleteAll();
 
 //		 for (int i = 0; i < 500; i++) {
 //		 login.addUsingDates(33333333, getRandomDate());
@@ -75,8 +74,6 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
-//		 no.addToNotificationTable("Exam on mon 😇", new Date(),
-//	 getRandomDate());
 //		 no.addToNotificationTable("Exam on tuesday", new Date(),
 //				 getRandomDate()); 
 //		 no.addToNotificationTable("Exam on wed", new Date(),
@@ -86,7 +83,7 @@ public class DBConnector {
 //		 no.addToNotificationTable("Exam on friday", new Date(),
 //				 getRandomDate());
 //		 System.out.println(no.getAllNotification());
-		no.removeAll();
+	//	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
 //
@@ -106,9 +103,7 @@ public class DBConnector {
 //			s.addResults(4);
 //		}
 		//s.removeAll();
-//		Date date = new Date();
-//		s.addResults(5);
-		// System.out.println(s.getResults());
+
 
 	}
 

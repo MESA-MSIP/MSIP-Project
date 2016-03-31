@@ -150,7 +150,7 @@ public class LoginTable {
 	 */
 	public ArrayList<Date> getEntryRange(int Knumber, Date startDate,
 			Date endDate) {
-		//timestamp instead of date.
+		// timestamp instead of date.
 		ArrayList<Date> studentLogin = new ArrayList<Date>();
 		try {
 			if (Knumber == 0) {// When Knumber is null, we will select all
@@ -159,10 +159,14 @@ public class LoginTable {
 						.prepareStatement("SELECT DateTime FROM Login;");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					Timestamp timestamp = rs.getTimestamp("DateTime");
-					Date date = new Date(timestamp.getTime());
-					if (date.compareTo(startDate) >= 0
-							&& date.compareTo(endDate) <= 0) {
+					
+					//comparing dates with no time.
+					Date loginDate = rs.getDate("DateTime");
+					if (loginDate.compareTo(startDate) >= 0
+							&& loginDate.compareTo(endDate) <= 0) {
+						//if it's within a given range we will add the specific login with its date and time to an Array List.
+						Timestamp timestamp = rs.getTimestamp("DateTime");
+						Date date = new Date(timestamp.getTime());
 						studentLogin.add(date);
 					}
 				}
@@ -172,30 +176,68 @@ public class LoginTable {
 								+ Knumber + "';");
 				ResultSet rs = entries.executeQuery();
 				while (rs.next()) {
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					String entryDate = formatter.format(rs.getDate("DateTime"));
-					Date date = formatter.parse(entryDate);
-
-					if (date.compareTo(startDate) >= 0
-							&& date.compareTo(endDate) <= 0) {
+					
+					//comparing dates with no time.
+					Date loginDate = rs.getDate("DateTime");
+					if (loginDate.compareTo(startDate) >= 0
+							&& loginDate.compareTo(endDate) <= 0) {
+						//if it's within a given range we will add the specific login with its date and time to an Array List.
+						Timestamp timestamp = rs.getTimestamp("DateTime");
+						Date date = new Date(timestamp.getTime());
 						studentLogin.add(date);
 					}
 				}
 			}
-		} catch (SQLException | ParseException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return studentLogin;
 	}
 
 	/**
-	 * gets an array of dates based, last 2 weeks dates, based on students logins.
+	 * Retrieves a list of all student login entries.
+	 * 
+	 * @param Knumber
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<Date> getStudentLogins(int Knumber, Date startDate, Date endDate) {
+		ArrayList<Date> studentLogins = new ArrayList<Date>();
+		try {
+			PreparedStatement entries = DBConnector.myConnection
+					.prepareStatement("SELECT DateTime FROM Login WHERE Knumber='"
+							+ Knumber + "';");
+			ResultSet rs = entries.executeQuery();
+			while (rs.next()) {
+				// makes sure to compare only the date and not the time
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String entryDate = formatter.format(rs.getDate("DateTime"));
+				Date date = formatter.parse(entryDate);
+
+				if (date.compareTo(startDate) >= 0
+						&& date.compareTo(endDate) <= 0) {
+					studentLogins.add(date);
+				}
+			}
+
+		} catch (SQLException | ParseException e) {
+			e.printStackTrace();
+		}
+
+		return studentLogins;
+
+	}
+
+	/**
+	 * gets an array of dates based, last 2 weeks dates, based on students
+	 * logins.
 	 * 
 	 * @param Knumber
 	 * @return
 	 */
 	public ArrayList<Date> getParticipation(int Knumber) {
-		//start date should always be smaller than end date.
+		// start date should always be smaller than end date.
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		// Todays Date
 		String date = ZonedDateTime.now().format(
@@ -203,7 +245,7 @@ public class LoginTable {
 		// last 2 weeks date
 		String date2 = ZonedDateTime.now().minusWeeks(2)
 				.format(DateTimeFormatter.ISO_LOCAL_DATE);
-		
+
 		Date startDate = null;
 		Date endDate = null;
 		try {
@@ -213,7 +255,7 @@ public class LoginTable {
 			e.printStackTrace();
 		}
 
-		return getEntryRange(Knumber, startDate, endDate);
+		return getStudentLogins(Knumber, startDate, endDate);
 	}
 
 	/**
