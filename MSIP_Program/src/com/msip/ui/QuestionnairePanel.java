@@ -9,6 +9,8 @@ import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -19,9 +21,14 @@ import javax.swing.Box;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.Dimension;
 
 /**
@@ -50,10 +57,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JComponent labelValue4;
 	private JLabel labelValue5;
 	private MISPCore manager;
+	private SurveyTable surveyTable;
 
 	public QuestionnairePanel(MISPCore manager) {
 		
 		this.manager = manager;
+		surveyTable = this.manager.getSurveyTable();
 		
 		
 		setBackground(Color.WHITE);
@@ -149,6 +158,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 		//TODO fix the graph to make it like reportPanel
 		startDate = new Date();
+		
+		//Update the Question when the QuestionnairePanel is shown
+		addComponentListener(new ComponentAdapter() {
+
+			public void componentShown(ComponentEvent e) {
+				String question  = surveyTable.getQuestion();
+				textQuestion.setText(question);
+			}
+		});
 
 	}
 	public void updateGraph(){

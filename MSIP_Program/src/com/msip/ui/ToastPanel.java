@@ -15,6 +15,7 @@ import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
 import java.awt.Font;
@@ -41,6 +42,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	private Timer timer;
 	private NotificationCard NotificationCard;
 	private ToastPanel toastPanel;
+	private SurveyTable surveyTable;
 
 	private JPanel layoutPanel;
 
@@ -48,17 +50,19 @@ public class ToastPanel extends JPanel implements ActionListener {
 		setBackground(Color.WHITE);
 		this.manager = manager;
 		this.toastPanel = this;
+		surveyTable = this.manager.getSurveyTable();
+		
 		setBounds(new Rectangle(0, 0, 800, 480));
 		// Construct ConditionCards
 		setLayout(new CardLayout(0, 0));
 
 		layoutPanel = new JPanel();
-		add(layoutPanel, "name_82242697984345");
+		add(layoutPanel, "n");
 		layoutPanel.setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
 		layoutPanel.add(panel, BorderLayout.NORTH);
-		panel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		panel.setBorder(new MatteBorder(0, 0, 1, 0, GlobalUI.blackColor));
 		panel.setBackground(Color.WHITE);
 
 		horizontalStrut_1 = Box.createHorizontalStrut(50);
@@ -96,6 +100,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 
 			public void componentShown(ComponentEvent e) {
+				//Set the Text of the StudentSurveyPanel to the Question
+				String question  = surveyTable.getQuestion();
+				StudentSurveyPanel.setQuestion(question);
 				// if Error Conditions only in LoginPanel
 				timer = new Timer();
 
@@ -126,7 +133,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	// 70% see notifications, 30% will see survey
 	// below .7 / .3
 	public void generateRandomPanel(double rand) {
-		if (rand < .3) {
+		if (rand < .9) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.StudentSurveyPanel);
 		} else {

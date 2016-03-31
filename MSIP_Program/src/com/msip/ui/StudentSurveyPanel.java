@@ -37,6 +37,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private MISPCore manager;
 	private ButtonGroup groupChoices;
 	private ComponentAdapter componentAdapter;
+	private SurveyTable surveyTable;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
@@ -45,6 +46,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		setLayout(null);
 		
 		this.manager = manager;
+		surveyTable = this.manager.getSurveyTable();
 		
 		skipButton = new JButton("Skip Survey\r\n");
 		skipButton.setBounds(235, 339, 145, 46);
@@ -57,30 +59,35 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		add(submitButton);
 
 		rbutton1 = new JRadioButton("\r\nValue 1:");
+		rbutton1.setBackground(Color.WHITE);
 		rbutton1.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		rbutton1.setBounds(8, 197, 132, 85);
 		add(rbutton1);
 
 		rbutton2 = new JRadioButton("Value 2:");
+		rbutton2.setBackground(Color.WHITE);
 		rbutton2.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton2.setBounds(176, 197, 132, 85);
 		add(rbutton2);
 
 		rbutton3 = new JRadioButton("Value 3:");
+		rbutton3.setBackground(Color.WHITE);
 		rbutton3.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton3.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton3.setBounds(339, 197, 132, 85);
 		add(rbutton3);
 
 		rbutton4 = new JRadioButton("Value 4:");
+		rbutton4.setBackground(Color.WHITE);
 		rbutton4.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton4.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton4.setBounds(498, 197, 132, 85);
 		add(rbutton4);
 
 		rbutton5 = new JRadioButton("Value 5:");
+		rbutton5.setBackground(Color.WHITE);
 		rbutton5.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton5.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton5.setBounds(658, 197, 132, 85);
@@ -97,6 +104,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
+		surveyQ.setEditable(false);
 		surveyQ.setBounds(8, 25, 780, 150);
 		add(surveyQ);
 	
@@ -111,8 +119,13 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		addComponentListener(new ComponentAdapter() {
 	
 			public void componentShown(ComponentEvent e) {
+				String question = surveyTable.getQuestion();
+				surveyQ.setText(question);
 			}
 		});
+	}
+	public void setQuestion(String question){
+		surveyQ.setText(question);
 	}
 	public void actionPerformed(ActionEvent e)
 	{

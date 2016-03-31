@@ -364,6 +364,9 @@ public class MISPCore {
 	// **********************************************************//
 	// **********************************************************//
 	/** Getting results from survey table **/
+	public SurveyTable getSurveyTable(){
+		return surveyTable;
+	}
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}
