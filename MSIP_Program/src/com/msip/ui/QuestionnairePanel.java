@@ -173,7 +173,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 				String question  = surveyTable.getQuestion();
 				textQuestion.setText(question);
 				
-				if (surveyTable.getID() == -2){
+				if (surveyTable.getID() != -2){
 					updateGraph();
 				}
 				
