@@ -73,7 +73,6 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		btnLogOut.setBorder(GlobalUI.blackBorder);
 		btnLogOut.setIcon(icon);
 		// btnLogOut.setPreferredSize(new Dimension(60, 60));
-		// btnLogOut.setFont(GlobalUI.GlobalFont);
 
 		btnLogOut.addActionListener(this);
 		panel.add(btnLogOut);

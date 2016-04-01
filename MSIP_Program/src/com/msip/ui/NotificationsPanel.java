@@ -223,11 +223,6 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	}
 
-	public boolean isCellEditable(int row, int column) {
-		// make read only fields except column 0,13,14
-		return column == 0 || column == 2 || column == 3;
-	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		String data = textAreaNotifications.getText();
