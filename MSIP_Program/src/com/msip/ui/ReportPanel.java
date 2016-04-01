@@ -434,7 +434,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 	}
 
-	private void updateGraph() {
+	public void updateGraph() {
 		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
 				selectedStartDate, selectedEndDate);
 		graph.createGraph(jCBoxReporTypeSearch.getSelectedIndex(), dates);
