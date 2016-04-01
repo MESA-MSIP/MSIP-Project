@@ -26,6 +26,7 @@ import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
+import javax.swing.JLabel;
 
 public class StudentSurveyPanel extends JPanel implements ActionListener{
 
@@ -36,7 +37,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JTextPane surveyQ;
 	private MISPCore manager;
 	private ButtonGroup groupChoices;
-	private ComponentAdapter componentAdapter;
+	private SurveyTable surveyTable;
+	private JLabel labelValue2;
+	private JLabel labelValue3;
+	private JLabel labelValue4;
+	private JLabel labelValue5;
+	private JLabel labelValue1;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
@@ -45,6 +51,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		setLayout(null);
 		
 		this.manager = manager;
+		surveyTable = this.manager.getSurveyTable();
 		
 		skipButton = new JButton("Skip Survey\r\n");
 		skipButton.setBounds(235, 339, 145, 46);
@@ -56,31 +63,36 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		submitButton.addActionListener(this);
 		add(submitButton);
 
-		rbutton1 = new JRadioButton("\r\nValue 1:");
+		rbutton1 = new JRadioButton("");
+		rbutton1.setBackground(Color.WHITE);
 		rbutton1.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		rbutton1.setBounds(8, 197, 132, 85);
 		add(rbutton1);
 
-		rbutton2 = new JRadioButton("Value 2:");
+		rbutton2 = new JRadioButton("");
+		rbutton2.setBackground(Color.WHITE);
 		rbutton2.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton2.setBounds(176, 197, 132, 85);
 		add(rbutton2);
 
-		rbutton3 = new JRadioButton("Value 3:");
+		rbutton3 = new JRadioButton("");
+		rbutton3.setBackground(Color.WHITE);
 		rbutton3.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton3.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton3.setBounds(339, 197, 132, 85);
 		add(rbutton3);
 
-		rbutton4 = new JRadioButton("Value 4:");
+		rbutton4 = new JRadioButton("");
+		rbutton4.setBackground(Color.WHITE);
 		rbutton4.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton4.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton4.setBounds(498, 197, 132, 85);
 		add(rbutton4);
 
-		rbutton5 = new JRadioButton("Value 5:");
+		rbutton5 = new JRadioButton("");
+		rbutton5.setBackground(Color.WHITE);
 		rbutton5.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton5.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rbutton5.setBounds(658, 197, 132, 85);
@@ -97,7 +109,8 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
-		surveyQ.setBounds(8, 25, 780, 150);
+		surveyQ.setEditable(false);
+		surveyQ.setBounds(10, 0, 780, 150);
 		add(surveyQ);
 	
 		//Create a Button Group
@@ -107,12 +120,68 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		groupChoices.add(rbutton3);
 		groupChoices.add(rbutton4);
 		groupChoices.add(rbutton5);
-
-		addComponentListener(new ComponentAdapter() {
-	
-			public void componentShown(ComponentEvent e) {
-			}
-		});
+		
+		labelValue1 = new JLabel("Value1");
+		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
+		labelValue1.setLabelFor(rbutton1);
+		labelValue1.setBounds(47, 172, 56, 16);
+		add(labelValue1);
+		
+		labelValue2 = new JLabel("Value2");
+		labelValue2.setLabelFor(rbutton2);
+		labelValue2.setHorizontalAlignment(SwingConstants.CENTER);
+		labelValue2.setBounds(217, 172, 56, 16);
+		add(labelValue2);
+		
+		labelValue3 = new JLabel("Value3");
+		labelValue3.setLabelFor(rbutton3);
+		labelValue3.setHorizontalAlignment(SwingConstants.CENTER);
+		labelValue3.setBounds(380, 172, 56, 16);
+		add(labelValue3);
+		
+		labelValue4 = new JLabel("Value4");
+		labelValue4.setLabelFor(rbutton4);
+		labelValue4.setHorizontalAlignment(SwingConstants.CENTER);
+		labelValue4.setBounds(535, 172, 56, 16);
+		add(labelValue4);
+		
+		labelValue5 = new JLabel("Value5");
+		labelValue5.setLabelFor(rbutton5);
+		labelValue5.setHorizontalAlignment(SwingConstants.CENTER);
+		labelValue5.setBounds(693, 172, 56, 16);
+		add(labelValue5);
+	}
+		
+	public void setButtonValue(int choice, String buttonValue){
+		switch(choice){
+		case 1:{
+			labelValue1.setText(buttonValue);
+			break;
+		}
+		case 2:{
+			labelValue2.setText(buttonValue);
+			break;
+		}
+		case 3:{
+			labelValue3.setText(buttonValue);
+			break;
+		}
+		case 4:{
+			labelValue4.setText(buttonValue);
+			break;
+		}
+		case 5:{
+			labelValue5.setText(buttonValue);
+			break;
+		}
+		default: break;
+		}
+	}
+	public void clearRButtons(){
+		groupChoices.clearSelection();
+	}
+	public void setQuestion(String question){
+		surveyQ.setText(question);
 	}
 	public void actionPerformed(ActionEvent e)
 	{
@@ -153,11 +222,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 
 			}
 			//Revert choice back to default
-			rbutton1.setSelected(false);
-			rbutton2.setSelected(false);
-			rbutton3.setSelected(false);
-			rbutton4.setSelected(false);
-			rbutton5.setSelected(false);
+			clearRButtons();
 			//Show the LoginPanel
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);

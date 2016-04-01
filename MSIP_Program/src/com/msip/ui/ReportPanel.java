@@ -116,10 +116,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		startDateChooser = new JDateChooser();
 		startDateChooser.setBounds(341, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(startDateChooser);
-		// Sets last months date.
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String lastMonthString = ZonedDateTime.now().minusMonths(1)
-				.format(DateTimeFormatter.ISO_LOCAL_DATE);
+		// Sets last months date in the format of Day of week, month, day and year without any time.
+		SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd yyyy");
+		String lastMonthString = ZonedDateTime.now().minusMonths(1).format(DateTimeFormatter.ofPattern("E MMM dd yyyy"));
 		Date lastMonth = null;
 		try {
 			lastMonth = formatter.parse(lastMonthString);
@@ -133,7 +132,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
-						// and retrieves that date.
+						// and retrieves that date not time included.
 						selectedStartDate = startDateChooser.getDate();
 						updateGraph();
 					}
@@ -143,8 +142,15 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		endDateChooser = new JDateChooser();
 		endDateChooser.setBounds(496, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(endDateChooser);
-		// sets current date
-		endDateChooser.setDate(new Date());
+		// sets current date in the format of Day of week, month, day and year without any time.
+		String todaysDateString = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("E MMM dd yyyy"));
+		Date todaysDate = null;
+		try {
+			todaysDate = formatter.parse(todaysDateString);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		endDateChooser.setDate(todaysDate);
 		selectedEndDate = endDateChooser.getDate();
 		endDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -185,15 +191,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		lblEndDate.setFont(GlobalUI.LableFont);
 		actionPanel.add(lblEndDate);
 
-		// TODO starting values generalPanel
-
-		// Date startDate = (Date) startDatePicker.getModel().getValue();
-		// Date endDate = (Date) endDatePicker.getModel().getValue();
-		// ArrayList<Date> dates = msipCore.getStudentDataRange(33333333,
-		// startDate, endDate);
-		// int graphIndex = jCBoxReporTypeSearch.getSelectedIndex();
-		// graph.createGraph(graphIndex, dates);
-		// add(graph.getGraph(), BorderLayout.CENTER);
 		add(new JPanel(), BorderLayout.CENTER);
 
 		horizontalStrut = Box.createHorizontalStrut(20);
@@ -214,7 +211,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				updateGraph();
 			}
 		});
-
+		updateGraph();
 	}
 
 	/**

@@ -82,6 +82,9 @@ public class MISPCore {
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
+	public ToastPanel getToastPanel(){
+		return welcomePanel;
+	}
 
 	/**
 	 * @return cards
@@ -364,6 +367,9 @@ public class MISPCore {
 	// **********************************************************//
 	// **********************************************************//
 	/** Getting results from survey table **/
+	public SurveyTable getSurveyTable(){
+		return surveyTable;
+	}
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}

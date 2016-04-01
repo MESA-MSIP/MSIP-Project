@@ -19,7 +19,8 @@ public class GlobalUI {
 
 	// Size Bounds
 
-	// Colors and Borders for LoginPanel
+	// Colors and Borders
+	public static final Color whiteColor = new Color(255,255,255);
 	public static final Color redColor = new Color(244, 67, 54);
 	public static final Border redBorder = BorderFactory.createMatteBorder(2,
 			2, 2, 2, redColor);
