@@ -22,6 +22,8 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import javax.swing.text.BadLocationException;
+
 import java.awt.Component;
 import javax.swing.Box;
 
@@ -91,9 +93,17 @@ public class ToastPanel extends JPanel implements ActionListener {
 		// Add the Cards to the JPanel
 		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
 		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
+		
+		//
+		if (this.manager.getQuestion() == null) {
+			CardLayout cl = (CardLayout) welcomeCards.getLayout();
+			cl.show(this.getCards(), GlobalUI.NotificationCard);
+		}
+		
 		// Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
 			Timer timer = new Timer();
+			
 
 			public void componentHidden(ComponentEvent e1) {
 				timer.cancel();

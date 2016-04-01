@@ -151,7 +151,58 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		labelValue5.setBounds(693, 172, 56, 16);
 		add(labelValue5);
 	}
-		
+	
+	
+	public JLabel getLabelValue2() {
+		return labelValue2;
+	}
+
+
+	public void setLabelValue2(JLabel labelValue2) {
+		this.labelValue2 = labelValue2;
+	}
+
+
+	public JLabel getLabelValue3() {
+		return labelValue3;
+	}
+
+
+	public void setLabelValue3(JLabel labelValue3) {
+		this.labelValue3 = labelValue3;
+	}
+
+
+	public JLabel getLabelValue4() {
+		return labelValue4;
+	}
+
+
+	public void setLabelValue4(JLabel labelValue4) {
+		this.labelValue4 = labelValue4;
+	}
+
+
+	public JLabel getLabelValue5() {
+		return labelValue5;
+	}
+
+
+	public void setLabelValue5(JLabel labelValue5) {
+		this.labelValue5 = labelValue5;
+	}
+
+
+	public JLabel getLabelValue1() {
+		return labelValue1;
+	}
+
+
+	public void setLabelValue1(JLabel labelValue1) {
+		this.labelValue1 = labelValue1;
+	}
+
+
 	public void setButtonValue(int choice, String buttonValue){
 		switch(choice){
 		case 1:{

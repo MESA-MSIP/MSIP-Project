@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
@@ -77,7 +78,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		questionPanel.setBackground(Color.WHITE);
 		add(questionPanel, BorderLayout.NORTH);
 
-		editQButton = new JButton("Edit Question");
+		editQButton = new JButton("New Question");
 		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		editQButton.addActionListener(this);
 		questionPanel.add(editQButton);
@@ -97,7 +98,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 
-		labelValue1 = new JLabel("Value 1:");
+		labelValue1 = new JLabel("Response 1:");
 		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
 		valuePanel.add(labelValue1);
@@ -111,7 +112,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_1);
 
-		labelValue2 = new JLabel("Value 2:");
+		labelValue2 = new JLabel("Response 2:");
 		labelValue2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue2);
 
@@ -124,7 +125,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut);
 
-		labelValue3 = new JLabel("Value 3:");
+		labelValue3 = new JLabel("Response 3:");
 		labelValue3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue3);
 
@@ -137,7 +138,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_2);
 
-		 labelValue4 = new JLabel("Value 4:");
+		 labelValue4 = new JLabel("Response 4:");
 		labelValue4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue4);
 
@@ -150,7 +151,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_3);
 
-		 labelValue5 = new JLabel("Value 5:");
+		 labelValue5 = new JLabel("Response 5:");
 		labelValue5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue5);
 
@@ -204,6 +205,18 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			addQuestion();
 			setEditableValueChoices(false);
 		}
+		
+
+	}
+	public void setSurveyLabel(){
+//		ArrayList<String> labels = new ArrayList<String>();
+//		
+//		labels.add(textValue1.getText());
+//		labels.add(textValue2.getText());
+//		labels.add(textValue3.getText());
+//		labels.add(textValue4.getText());
+//		labels.add(textValue5.getText());
+//		return labels;
 		
 
 	}
