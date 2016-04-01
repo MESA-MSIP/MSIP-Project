@@ -216,21 +216,29 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			setEditableValueChoices(true);
 		}
 		if(textQuestion == e.getSource()){
+			ArrayList<String> Labels = setSurveyLabel();
+			studentSurveyPanel.setButtonValue(GlobalUI.responseOne, Labels.get(0) );
+			studentSurveyPanel.setButtonValue(GlobalUI.responseTwo, Labels.get(1));
+			studentSurveyPanel.setButtonValue(GlobalUI.responseThree, Labels.get(2));
+			studentSurveyPanel.setButtonValue(GlobalUI.responseFour, Labels.get(3));
+			studentSurveyPanel.setButtonValue(GlobalUI.responseFive, Labels.get(4));
+			
 			addQuestion();
 			setEditableValueChoices(false);
+			
 		}
 		
 
 	}
-	public void setSurveyLabel(){
-//		ArrayList<String> labels = new ArrayList<String>();
-//		
-//		labels.add(textValue1.getText());
-//		labels.add(textValue2.getText());
-//		labels.add(textValue3.getText());
-//		labels.add(textValue4.getText());
-//		labels.add(textValue5.getText());
-//		return labels;
+	public ArrayList<String> setSurveyLabel(){
+		ArrayList<String> labels = new ArrayList<String>();
+		
+		labels.add(textValue1.getText());
+		labels.add(textValue2.getText());
+		labels.add(textValue3.getText());
+		labels.add(textValue4.getText());
+		labels.add(textValue5.getText());
+		return labels;
 		
 
 	}
