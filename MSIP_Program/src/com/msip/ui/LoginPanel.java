@@ -206,7 +206,15 @@ public class LoginPanel extends JPanel implements ActionListener {
 						errorMessage.setVisible(true);
 						turnOffMessage(errorMessage);
 
-					} else if ((studentResponse == GlobalUI.SUCCESS)
+					} 
+					else if((studentResponse == GlobalUI.SUCCESS) && (adminResponse == GlobalUI.SUCCESS))
+					{
+						txtAdminPass.setBorder(GlobalUI.redBorder);
+						errorMessage.setText(GlobalUI.InsertAdminPassMessage);
+						errorMessage.setVisible(true);
+						turnOffMessage(errorMessage);			
+					}
+					else if ((studentResponse == GlobalUI.SUCCESS)
 							|| (adminResponse == GlobalUI.SUCCESS)) {
 
 						this.txtKNumber.setText(GlobalUI.CLEAR);
