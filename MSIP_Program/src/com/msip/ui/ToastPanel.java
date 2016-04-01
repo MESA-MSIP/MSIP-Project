@@ -112,10 +112,8 @@ public class ToastPanel extends JPanel implements ActionListener {
 
 			public void componentShown(ComponentEvent e) {
 				
+			
 
-				//Set the Text of the StudentSurveyPanel to the Question
-				String question  = surveyTable.getQuestion();
-				StudentSurveyPanel.setQuestion(question);
 				// if Error Conditions only in LoginPanel
 				timer = new Timer();
 
@@ -132,6 +130,11 @@ public class ToastPanel extends JPanel implements ActionListener {
 				if (surveyTable.getID() == -2) {
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
+				}
+				else{
+					//Set the Text of the StudentSurveyPanel to the Question
+					String question  = surveyTable.getQuestion();
+					StudentSurveyPanel.setQuestion(question);
 				}
 
 				timer.schedule(new TimerTask() {
