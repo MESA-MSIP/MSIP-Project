@@ -92,13 +92,18 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		panelStatus.add(lblStatusMsg);
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
-				if(manager.getID()!= -2)
+				if(manager.getID()!= -2){
 				questionnairePanel.updateGraph();
+				}
+				reportPanel.updateGraph();
 			}
+
 			public void componentHidden(ComponentEvent e){
 				if(manager.getID() != -2){
 					questionnairePanel.updateGraph();					
 				}
+				reportPanel.updateGraph();
+
 
 		}});
 
