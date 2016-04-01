@@ -48,10 +48,9 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
-		 reportPanel = new ReportPanel(msipCore);
+		reportPanel = new ReportPanel(msipCore);
 		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
-		 questionnairePanel = new QuestionnairePanel(
-				msipCore);
+		questionnairePanel = new QuestionnairePanel(msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
 		tabbedPane.add(adminPanel, GlobalUI.AdminTab);
@@ -66,14 +65,14 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
-
 		btnLogOut = new JButton();
-		ImageIcon icon = CreateIcon("ExitWhite.png", 60, 60);
-		// Image scaleImage = icon.getImage().getScaledInstance(60, 60,
-		// Image.SCALE_DEFAULT);
+		btnLogOut.setBorderPainted(false);
+
+		ImageIcon icon = CreateIcon("ExitWhite1.png", 60, 60);
+
 		btnLogOut.setBorder(GlobalUI.blackBorder);
 		btnLogOut.setIcon(icon);
-		btnLogOut.setPreferredSize(new Dimension(60, 60));
+		// btnLogOut.setPreferredSize(new Dimension(60, 60));
 		// btnLogOut.setFont(GlobalUI.GlobalFont);
 
 		btnLogOut.addActionListener(this);
@@ -92,20 +91,20 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		panelStatus.add(lblStatusMsg);
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
-				if(manager.getID()!= -2){
-				questionnairePanel.updateGraph();
+				if (manager.getID() != -2) {
+					questionnairePanel.updateGraph();
 				}
 				reportPanel.updateGraph();
 			}
 
-			public void componentHidden(ComponentEvent e){
-				if(manager.getID() != -2){
-					questionnairePanel.updateGraph();					
+			public void componentHidden(ComponentEvent e) {
+				if (manager.getID() != -2) {
+					questionnairePanel.updateGraph();
 				}
 				reportPanel.updateGraph();
 
-
-		}});
+			}
+		});
 
 	}
 

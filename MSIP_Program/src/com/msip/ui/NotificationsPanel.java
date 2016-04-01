@@ -67,13 +67,14 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		tableNotifications = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
+		tableNotifications.setColumnSelectionAllowed(true);
 		tableNotifications.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		tableNotifications.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				// returns the index of a selected notification.
 				rowIndex = tableNotifications.getSelectedRow();
-				// TODO
+
 				System.out.println(rowIndex);
 			}
 		});
@@ -193,6 +194,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		String note = textAreaNotifications.getText().trim();
 		String st[] = { note, reportDate, reportEndDate };
 		model.addRow(st);
+
 		manager.addNotification(note, selectedStartDate, selectedExpirationDate);
 		// adds the notification to an array list.
 		notiArray.add(note);
@@ -219,6 +221,11 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
 
+	}
+
+	public boolean isCellEditable(int row, int column) {
+		// make read only fields except column 0,13,14
+		return column == 0 || column == 2 || column == 3;
 	}
 
 	@Override
