@@ -61,6 +61,7 @@ public class SurveyTable {
 					.prepareStatement("SELECT ID FROM SURVEY;");
 			ResultSet rs = myID.executeQuery();
 			if (rs.next() == true) {
+				rs.previous();
 				while (rs.next()) {
 					id.add(rs.getInt("ID"));
 				}
