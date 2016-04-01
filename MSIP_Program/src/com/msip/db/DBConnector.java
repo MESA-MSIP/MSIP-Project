@@ -19,7 +19,7 @@ public class DBConnector {
 	 */
 	public DBConnector() {
 		try {
-			myConnection = (Connection) DriverManager.getConnection(Global.URL,
+			myConnection = DriverManager.getConnection(Global.URL,
 					Global.USERNAME, Global.PASSWORD);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,6 +86,7 @@ public class DBConnector {
 	//	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
+		s.addQuestion("What day is today", new Date());
 //
 //		for(int i = 0; i < 7 ; i++){
 //			s.addResults(5);
