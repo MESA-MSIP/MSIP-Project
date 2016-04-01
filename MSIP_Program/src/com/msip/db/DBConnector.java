@@ -86,7 +86,6 @@ public class DBConnector {
 	//	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
-		s.addQuestion("What day is today", new Date());
 //
 //		for(int i = 0; i < 7 ; i++){
 //			s.addResults(5);
@@ -103,7 +102,7 @@ public class DBConnector {
 //		for(int c = 0; c < 1; c++){
 //			s.addResults(4);
 //		}
-		//s.removeAll();
+		s.removeAll();
 
 
 	}

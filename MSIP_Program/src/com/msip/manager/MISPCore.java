@@ -386,6 +386,9 @@ public class MISPCore {
 	public String getQuestion(){
 		return surveyTable.getQuestion();
 	}
+	public int getID(){
+		return surveyTable.getID();
+	}
 	/**
 	 * @param args
 	 */

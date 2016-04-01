@@ -103,7 +103,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 			
 
 			public void componentHidden(ComponentEvent e1) {
-				if (surveyTable.getID() == -1) {
+				if (manager.getID() == -2) {
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
 				}
@@ -112,10 +112,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 
 			public void componentShown(ComponentEvent e) {
 				
-				if (surveyTable.getID() == -1) {
-					CardLayout cl = (CardLayout) welcomeCards.getLayout();
-					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
-				}
+
 				//Set the Text of the StudentSurveyPanel to the Question
 				String question  = surveyTable.getQuestion();
 				StudentSurveyPanel.setQuestion(question);
@@ -131,6 +128,10 @@ public class ToastPanel extends JPanel implements ActionListener {
 					Random randGen = new Random();
 					double randChance = randGen.nextDouble();
 					generateRandomPanel(randChance);
+				}
+				if (surveyTable.getID() == -2) {
+					CardLayout cl = (CardLayout) welcomeCards.getLayout();
+					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
 				}
 
 				timer.schedule(new TimerTask() {

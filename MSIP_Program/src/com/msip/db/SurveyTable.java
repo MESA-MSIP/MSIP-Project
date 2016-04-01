@@ -65,7 +65,7 @@ public class SurveyTable {
 					id.add(rs.getInt("ID"));
 				}
 			} else {
-				return -1;
+				return -2;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
