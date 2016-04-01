@@ -103,6 +103,10 @@ public class ToastPanel extends JPanel implements ActionListener {
 			
 
 			public void componentHidden(ComponentEvent e1) {
+				if (surveyTable.getID() == -1) {
+					CardLayout cl = (CardLayout) welcomeCards.getLayout();
+					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
+				}
 				timer.cancel();
 			}
 
