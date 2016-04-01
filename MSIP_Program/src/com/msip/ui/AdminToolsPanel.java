@@ -68,7 +68,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		btnLogOut = new JButton();
 		btnLogOut.setBorderPainted(false);
 
-		ImageIcon icon = CreateIcon("ExitWhite1.png", 60, 60);
+		ImageIcon icon = CreateIcon("Exit2.png", 60, 60);
 
 		btnLogOut.setBorder(GlobalUI.blackBorder);
 		btnLogOut.setIcon(icon);
