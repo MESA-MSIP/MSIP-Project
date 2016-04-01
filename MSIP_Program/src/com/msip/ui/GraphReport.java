@@ -54,11 +54,11 @@ public class GraphReport extends ApplicationFrame {
 
 		manager = new MISPCore();
 
-		datasetQ.setValue("Results1", manager.getResults().get(0));
-		datasetQ.setValue("Results2", manager.getResults().get(1));
-		datasetQ.setValue("Results3", manager.getResults().get(2));
-		datasetQ.setValue("Results4", manager.getResults().get(3));
-		datasetQ.setValue("Results5", manager.getResults().get(4));
+		datasetQ.setValue("Response 1", manager.getResults().get(0));
+		datasetQ.setValue("Response 2", manager.getResults().get(1));
+		datasetQ.setValue("Response 3", manager.getResults().get(2));
+		datasetQ.setValue("Response 4", manager.getResults().get(3));
+		datasetQ.setValue("Response 5", manager.getResults().get(4));
 
 		return datasetQ;
 	}
