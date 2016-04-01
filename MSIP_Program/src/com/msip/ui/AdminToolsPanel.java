@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	private JButton btnLogOut;
 	private JLabel lblStatusMsg;
 	private SurveyTable surveyTable;
+	private ReportPanel reportPanel;
+	private QuestionnairePanel questionnairePanel;
 
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -43,9 +47,9 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
-		ReportPanel reportPanel = new ReportPanel(msipCore);
+		 reportPanel = new ReportPanel(msipCore);
 		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
-		QuestionnairePanel questionnairePanel = new QuestionnairePanel(
+		 questionnairePanel = new QuestionnairePanel(
 				msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
@@ -85,6 +89,14 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		lblStatusMsg = new JLabel("Welcome to the Admin panel");
 		panelStatus.add(lblStatusMsg);
+		addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				questionnairePanel.updateGraph();
+			}
+			public void componentHidden(ComponentEvent e){
+				questionnairePanel.updateGraph();
+		}});
+
 	}
 
 	public void setStatusMsg(final String msg) {
