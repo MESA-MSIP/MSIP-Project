@@ -95,7 +95,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
 		
 		//
-		if (this.manager.getQuestion() == null) {
+		if (surveyTable.getID() == -1) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.NotificationCard);
 			

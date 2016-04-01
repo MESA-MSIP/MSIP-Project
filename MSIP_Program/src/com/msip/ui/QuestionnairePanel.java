@@ -168,12 +168,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		
 		//Update the Question when the QuestionnairePanel is shown
 		addComponentListener(new ComponentAdapter() {
-
 			public void componentShown(ComponentEvent e) {
+				
 				String question  = surveyTable.getQuestion();
 				textQuestion.setText(question);
 				
-				if (manager.getQuestion() != null){
+				if (surveyTable.getID() == -1){
 					updateGraph();
 				}
 				
