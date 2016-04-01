@@ -172,7 +172,11 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			public void componentShown(ComponentEvent e) {
 				String question  = surveyTable.getQuestion();
 				textQuestion.setText(question);
-				updateGraph();
+				
+				if (manager.getQuestion() != null){
+					updateGraph();
+				}
+				
 			}
 
 		});

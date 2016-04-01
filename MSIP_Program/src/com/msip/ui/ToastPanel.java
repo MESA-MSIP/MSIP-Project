@@ -98,6 +98,8 @@ public class ToastPanel extends JPanel implements ActionListener {
 		if (this.manager.getQuestion() == null) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.NotificationCard);
+			
+			
 		}
 		
 		// Set up A Auto Time-Out for 6 Seconds
