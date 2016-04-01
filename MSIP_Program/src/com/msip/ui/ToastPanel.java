@@ -95,12 +95,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
 		
 		//
-		if (surveyTable.getID() == -1) {
-			CardLayout cl = (CardLayout) welcomeCards.getLayout();
-			cl.show(this.getCards(), GlobalUI.NotificationCard);
-			
-			
-		}
+
 		
 		// Set up A Auto Time-Out for 6 Seconds
 		addComponentListener(new ComponentAdapter() {
@@ -112,6 +107,11 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 
 			public void componentShown(ComponentEvent e) {
+				
+				if (surveyTable.getID() == -1) {
+					CardLayout cl = (CardLayout) welcomeCards.getLayout();
+					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
+				}
 				//Set the Text of the StudentSurveyPanel to the Question
 				String question  = surveyTable.getQuestion();
 				StudentSurveyPanel.setQuestion(question);
