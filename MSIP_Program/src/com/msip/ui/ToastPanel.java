@@ -127,6 +127,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
+	public StudentSurveyPanel getStudentSurveyPanel(){
+		return StudentSurveyPanel;
+	}
 	public void setMessage(String message) {
 		messageToast.setText(message);
 	}

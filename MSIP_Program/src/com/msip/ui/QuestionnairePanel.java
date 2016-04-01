@@ -46,8 +46,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JTextField textValue2;
 	private JTextField textValue3;
 	private ArrayList<Integer> results;
-	//private GraphReport pieGraph = new GraphReport("");
-	private JPanel graphPanel;
+	private GraphReport pieGraph = new GraphReport("");
 	private JPanel questionPanel;
 	private JButton editQButton;
 	private JPanel valuePanel;
@@ -58,11 +57,17 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JLabel labelValue5;
 	private MISPCore manager;
 	private SurveyTable surveyTable;
+	private QuestionnairePanel panel;
+	private JPanel graphPanel;
+	private StudentSurveyPanel studentSurveyPanel;
 
 	public QuestionnairePanel(MISPCore manager) {
 		
 		this.manager = manager;
 		surveyTable = this.manager.getSurveyTable();
+		panel = this;
+		studentSurveyPanel = this.manager.getToastPanel().getStudentSurveyPanel();
+		
 		
 		
 		setBackground(Color.WHITE);
@@ -92,7 +97,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 
-		 labelValue1 = new JLabel("Value 1:");
+		labelValue1 = new JLabel("Value 1:");
 		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
 		valuePanel.add(labelValue1);
@@ -100,6 +105,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textValue1 = new JTextField();
 		valuePanel.add(textValue1);
 		textValue1.setColumns(15);
+		textValue1.addActionListener(this);
 
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
@@ -112,18 +118,20 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textValue2 = new JTextField();
 		valuePanel.add(textValue2);
 		textValue2.setColumns(15);
+		textValue2.addActionListener(this);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut);
 
-		 labelValue3 = new JLabel("Value 3:");
+		labelValue3 = new JLabel("Value 3:");
 		labelValue3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue3);
 
 		textValue3 = new JTextField();
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
+		textValue3.addActionListener(this);
 
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
@@ -136,6 +144,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textValue4 = new JTextField();
 		valuePanel.add(textValue4);
 		textValue4.setColumns(15);
+		textValue4.addActionListener(this);
 
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
@@ -146,18 +155,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue5);
 
 		textValue5 = new JTextField();
-		textValue5.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		textValue5.setBackground(new Color(255, 255, 255));
-		textValue5.setHorizontalAlignment(SwingConstants.CENTER);
 		valuePanel.add(textValue5);
 		textValue5.setColumns(15);
-
-		graphPanel = new JPanel();
-		graphPanel.setBackground(Color.WHITE);
-		add(graphPanel, BorderLayout.CENTER);
+		textValue5.addActionListener(this);
 
 		//TODO fix the graph to make it like reportPanel
 		startDate = new Date();
+		graphPanel = new JPanel();
+		add(graphPanel, BorderLayout.CENTER);
+		panel.add(graphPanel, BorderLayout.CENTER);
 		
 		//Update the Question when the QuestionnairePanel is shown
 		addComponentListener(new ComponentAdapter() {
@@ -165,12 +171,19 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			public void componentShown(ComponentEvent e) {
 				String question  = surveyTable.getQuestion();
 				textQuestion.setText(question);
+				updateGraph();
 			}
+
 		});
 
 	}
 	public void updateGraph(){
-		
+		GraphReport newGraph = new GraphReport(textQuestion.getText());
+		JPanel newGraphPanel = newGraph.createPiePanel();
+		BorderLayout bl = (BorderLayout) panel.getLayout();
+		panel.remove(bl.getLayoutComponent(BorderLayout.CENTER));
+		panel.add(newGraphPanel);
+		revalidate();
 	}
 
 	public ArrayList<Integer> getResult() {
@@ -184,12 +197,29 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		if(editQButton == e.getSource()){
 			textQuestion.setText(GlobalUI.CLEAR);
 			textQuestion.setEditable(true);
+			clearValueChoices();
+			setEditableValueChoices(true);
 		}
 		if(textQuestion == e.getSource()){
 			addQuestion();
-			
+			setEditableValueChoices(false);
 		}
+		
 
+	}
+	public void clearValueChoices(){
+		textValue1.setText(GlobalUI.CLEAR);
+		textValue2.setText(GlobalUI.CLEAR);
+		textValue3.setText(GlobalUI.CLEAR);
+		textValue4.setText(GlobalUI.CLEAR);
+		textValue5.setText(GlobalUI.CLEAR);
+	}
+	public void setEditableValueChoices(boolean flag){
+		textValue1.setEditable(flag);
+		textValue2.setEditable(flag);
+		textValue3.setEditable(flag);
+		textValue4.setEditable(flag);
+		textValue5.setEditable(flag);
 	}
 	public void addQuestion(){
 		
@@ -199,6 +229,4 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textQuestion.setText(question);
 		textQuestion.setEditable(false);
 	}
-	
-
 }

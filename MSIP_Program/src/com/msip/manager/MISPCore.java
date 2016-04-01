@@ -82,6 +82,9 @@ public class MISPCore {
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
+	public ToastPanel getToastPanel(){
+		return welcomePanel;
+	}
 
 	/**
 	 * @return cards
