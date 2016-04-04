@@ -28,6 +28,9 @@ public class GlobalUI {
 	public static final Border blackBorder = BorderFactory.createMatteBorder(1,
 			1, 1, 1, blackColor);
 
+	//Minimum Value for the Question
+	public static final int minQuestionLength = 4;
+	
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;
