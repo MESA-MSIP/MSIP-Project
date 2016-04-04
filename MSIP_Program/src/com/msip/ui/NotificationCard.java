@@ -18,6 +18,7 @@ import com.msip.manager.MISPCore;
 
 public class NotificationCard extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private JTextPane txtpnNotification;
 
 	/**
 	 * Create the panel.
@@ -43,7 +44,7 @@ public class NotificationCard extends JPanel {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		add(horizontalStrut_1, BorderLayout.EAST);
 
-		JTextPane txtpnNotification = new JTextPane();
+		 txtpnNotification = new JTextPane();
 		txtpnNotification.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtpnNotification.setEditable(false);
 		txtpnNotification.setText("Notification");
@@ -71,5 +72,7 @@ public class NotificationCard extends JPanel {
 		JScrollPane notificationScrollPane = new JScrollPane(txtpnNotification);
 		add(notificationScrollPane, BorderLayout.CENTER);
 	}
-
+	public void setNoNotifications(){
+		txtpnNotification.setText("No Notifications.");
+	}
 }

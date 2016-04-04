@@ -58,7 +58,7 @@ public class SurveyTable {
 		ArrayList<Integer> id = new ArrayList<Integer>();
 		try {
 			PreparedStatement myID = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("SELECT ID FROM SURVEY;");
+					.prepareStatement("SELECT ID FROM Survey;");
 			ResultSet rs = myID.executeQuery();
 			if (rs.next() == true) {
 				rs.previous();

@@ -3,7 +3,6 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,6 +34,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	private SurveyTable surveyTable;
 	private ReportPanel reportPanel;
 	private QuestionnairePanel questionnairePanel;
+	private JButton shutDownButton;
 
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
@@ -61,11 +60,16 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
+		// removed the flow lay out.
+		// FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		// flowLayout.setAlignment(FlowLayout.RIGHT);
+		panel.setPreferredSize(new Dimension(100, 73));
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 		btnLogOut = new JButton();
+
+		btnLogOut.setBounds(720, 5, 63, 63);
+		btnLogOut.setBorderPainted(false);
 
 		ImageIcon icon = CreateIcon("Exit2.png", 60, 60);
 
@@ -74,11 +78,20 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		// btnLogOut.setPreferredSize(new Dimension(60, 60));
 
 		btnLogOut.addActionListener(this);
+		panel.setLayout(null);
 		panel.add(btnLogOut);
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		horizontalStrut.setPreferredSize(new Dimension(5, 0));
-		panel.add(horizontalStrut);
+		// Component horizontalStrut = Box.createHorizontalStrut(20);
+		// horizontalStrut.setBounds(440, 36, 5, 12);
+		// horizontalStrut.setPreferredSize(new Dimension(5, 0));
+		// panel.add(horizontalStrut);
+
+		// added a shut down button.
+		shutDownButton = new JButton("Shut Down");
+		shutDownButton.setBounds(15, 19, 115, 38);
+		shutDownButton.setBorder(GlobalUI.blackBorder);
+		shutDownButton.addActionListener(this);
+		panel.add(shutDownButton);
 
 		JPanel panelStatus = new JPanel();
 		FlowLayout fl_panelStatus = (FlowLayout) panelStatus.getLayout();
@@ -126,7 +139,17 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 			CardLayout cl = (CardLayout) manager.getCards().getLayout();
 			cl.show(manager.getCards(), GlobalUI.LoginPanel);
 
+		} else if (e.getSource() == shutDownButton) {
+			try {
+				// Shuts down the pi
+				Process p = Runtime.getRuntime().exec("sudo shutdown -h now");
+				p.waitFor();
+			} catch (IOException | InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
 		}
+
 	}
 
 	/**
@@ -163,5 +186,4 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
 	}
-
 }

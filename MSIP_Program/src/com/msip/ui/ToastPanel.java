@@ -88,11 +88,13 @@ public class ToastPanel extends JPanel implements ActionListener {
 		// Construct welcomeCards
 		StudentSurveyPanel = new StudentSurveyPanel(this.manager, timer);
 		NotificationCard = new NotificationCard(this.manager);
+		NotificationCard.setVisible(false);
 		
 
 		// Add the Cards to the JPanel
-		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
 		welcomeCards.add(NotificationCard, GlobalUI.NotificationCard);
+		welcomeCards.add(StudentSurveyPanel, GlobalUI.StudentSurveyPanel);
+		
 		
 		//
 
@@ -103,10 +105,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 			
 
 			public void componentHidden(ComponentEvent e1) {
-				if (manager.getID() == -2) {
-					CardLayout cl = (CardLayout) welcomeCards.getLayout();
-					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
-				}
+
 				timer.cancel();
 			}
 
@@ -125,13 +124,21 @@ public class ToastPanel extends JPanel implements ActionListener {
 					// Set up Random Generator
 					Random randGen = new Random();
 					double randChance = randGen.nextDouble();
+					checkForNotifications();
 					generateRandomPanel(randChance);
 				}
 				if (surveyTable.getID() == -2) {
+					//If there is no Question, Show the Notification Card
+					checkForNotifications();
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
 				}
 				else{
+					if(surveyTable.getQuestion().length() < GlobalUI.minQuestionLength){
+						checkForNotifications();
+						CardLayout cl = (CardLayout) welcomeCards.getLayout();
+						cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);						
+					}
 					//Set the Text of the StudentSurveyPanel to the Question
 					String question  = surveyTable.getQuestion();
 					StudentSurveyPanel.setQuestion(question);
@@ -156,7 +163,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	// 70% see notifications, 30% will see survey
 	// below .7 / .3
 	public void generateRandomPanel(double rand) {
-		if (rand < .9) {
+		if (rand < .7) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.StudentSurveyPanel);
 		} else {
@@ -176,6 +183,13 @@ public class ToastPanel extends JPanel implements ActionListener {
 			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 		}
 
+	}
+	public void checkForNotifications(){
+		//if the arrayList is empty
+		if (this.manager.getAllNotifications().isEmpty() == true){
+			NotificationCard.setNoNotifications();
+		}
+			
 	}
 	public StudentSurveyPanel getSurveyPanel(){
 		return StudentSurveyPanel;
