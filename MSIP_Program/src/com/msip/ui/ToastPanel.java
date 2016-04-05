@@ -163,10 +163,11 @@ public class ToastPanel extends JPanel implements ActionListener {
 	// 70% see notifications, 30% will see survey
 	// below .7 / .3
 	public void generateRandomPanel(double rand) {
-		if (rand < .7) {
+		if (rand < .3) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.StudentSurveyPanel);
 		} else {
+			checkForNotifications();
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.NotificationCard);
 		}
@@ -186,7 +187,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	}
 	public void checkForNotifications(){
 		//if the arrayList is empty
-		if (this.manager.getAllNotifications().isEmpty() == true){
+		if (this.manager.getAllNotifications().size() == 0){
 			NotificationCard.setNoNotifications();
 		}
 			
