@@ -114,10 +114,11 @@ public class StudentPanel extends JPanel implements ActionListener {
 		if (e.getSource() == btnEdit) {
 			
 			int rowIndex = studentTable.getSelectedRow();
-
+			
+			
 			// Make sure they made a selection on the table
 			if (rowIndex >= 0) {
-
+				rowIndex = studentTable.convertRowIndexToModel(rowIndex);
 				// Get the student they selected
 				Student studentToEdit = studentModel.getStudents().get(rowIndex);
 
@@ -141,7 +142,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 
 			// Make sure they made a selection on the table
 			if (rowIndex >= 0) {
-
+				rowIndex = studentTable.convertRowIndexToModel(rowIndex);
 				// Get the student they selected
 				Student studentToDelete = studentModel.getStudents().get(rowIndex);
 				int selectedValue = JOptionPane.showConfirmDialog(this,

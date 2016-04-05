@@ -95,10 +95,11 @@ public class AdminPanel extends JPanel implements ActionListener {
 		if (e.getSource() == btnEdit) {
 
 			int rowIndex = adminTable.getSelectedRow();
-
+			
+			
 			// Make sure they made a selection on the table
 			if (rowIndex >= 0) {
-
+				rowIndex = adminTable.convertRowIndexToModel(rowIndex);
 				// Get the admin they selected
 				Admin adminToEdit = adminModel.getAdmins().get(rowIndex);
 
@@ -119,10 +120,11 @@ public class AdminPanel extends JPanel implements ActionListener {
 
 		if (e.getSource() == btnRemove) {
 			int rowIndex = adminTable.getSelectedRow();
+			
 
 			// Make sure they made a selection on the table
 			if (rowIndex >= 0) {
-
+				rowIndex = adminTable.convertRowIndexToModel(rowIndex);
 				// Get the admin they selected
 				Admin adminToDelete = adminModel.getAdmins().get(rowIndex);
 				int selectedValue = JOptionPane.showConfirmDialog(this,
