@@ -77,7 +77,7 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 		textFieldFirstName = new JTextField();
 		textFieldFirstName.setFont(GlobalUI.TextFieldFont);
-		textFieldFirstName.setBounds(105, 11, 319, 25);
+		textFieldFirstName.setBounds(115, 11, 309, 25);
 		textFieldFirstName.addKeyListener(this);
 		contentPanel.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
@@ -89,14 +89,14 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 		textFieldLastName = new JTextField();
 		textFieldLastName.setFont(GlobalUI.TextFieldFont);
-		textFieldLastName.setBounds(105, 49, 319, 25);
+		textFieldLastName.setBounds(115, 49, 309, 25);
 		textFieldLastName.addKeyListener(this);
 		contentPanel.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
 
 		JLabel lblKnumber = new JLabel("K - Number:");
 		lblKnumber.setFont(GlobalUI.LableFont);
-		lblKnumber.setBounds(25, 94, 80, 14);
+		lblKnumber.setBounds(25, 94, 89, 14);
 		contentPanel.add(lblKnumber);
 
 		JLabel lblPassword = new JLabel("Password:");
@@ -106,13 +106,13 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 		textFieldPassword = new JTextField();
 		textFieldPassword.setFont(GlobalUI.TextFieldFont);
-		textFieldPassword.setBounds(105, 131, 319, 25);
+		textFieldPassword.setBounds(115, 131, 309, 25);
 		textFieldPassword.addKeyListener(this);
 		contentPanel.add(textFieldPassword);
 
 		textFieldKNumber = new JTextField();
 		textFieldKNumber.setFont(GlobalUI.TextFieldFont);
-		textFieldKNumber.setBounds(105, 91, 319, 25);
+		textFieldKNumber.setBounds(115, 91, 309, 25);
 		textFieldKNumber.addKeyListener(this);
 		contentPanel.add(textFieldKNumber);
 		textFieldKNumber.setColumns(10);
@@ -124,7 +124,7 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 		textFieldPassword2 = new JTextField();
 		textFieldPassword2.setFont(GlobalUI.TextFieldFont);
-		textFieldPassword2.setBounds(105, 169, 319, 25);
+		textFieldPassword2.setBounds(115, 169, 309, 25);
 		textFieldPassword2.addKeyListener(this);
 		contentPanel.add(textFieldPassword2);
 
