@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,6 +16,7 @@ import java.util.TimerTask;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.msip.db.LoginTable;
 import com.msip.manager.MISPCore;
 import com.msip.model.Student;
 import com.msip.ui.GlobalUI;
@@ -183,6 +185,37 @@ public class Utility {
 				int kNumber = removeKNumber(data[3]);
 				
 				mispCore.addStudent(new Student(firstName, lastName, kNumber, major));
+
+			}
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void importLoginsFromCSVFile(String absolutePath, LoginTable table)
+			throws IOException, SQLException {
+		
+		BufferedReader br = new BufferedReader(new FileReader(absolutePath));
+		String line = "";
+		try {
+
+			// Read Header of File, first line
+			br.readLine();
+
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] data = line.split(",");
+				int Knumber = Integer.parseInt(data[0]);
+				//Timestamp date = data[1]; //TODO get date and convert to timestamp
+				
+				//table.addUsingDates(Knumber, date);
 
 			}
 		} finally {
