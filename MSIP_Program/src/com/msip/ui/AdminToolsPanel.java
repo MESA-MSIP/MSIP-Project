@@ -69,7 +69,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		btnLogOut = new JButton();
 
 		btnLogOut.setBounds(720, 5, 63, 63);
-		btnLogOut.setBorderPainted(false);
+		// btnLogOut.setBorderPainted(false);
 
 		ImageIcon icon = CreateIcon("Exit2.png", 60, 60);
 
@@ -87,9 +87,12 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		// panel.add(horizontalStrut);
 
 		// added a shut down button.
-		shutDownButton = new JButton("Shut Down");
-		shutDownButton.setBounds(15, 19, 115, 38);
-		shutDownButton.setBorder(GlobalUI.blackBorder);
+		shutDownButton = new JButton();
+		ImageIcon shutDown = CreateIcon("shutdown3.png", 55, 55);
+		shutDownButton.setIcon(shutDown);
+		shutDownButton.setBounds(15, 5, 63, 63);
+
+		// shutDownButton.setBorder(GlobalUI.blackBorder);
 		shutDownButton.addActionListener(this);
 		panel.add(shutDownButton);
 

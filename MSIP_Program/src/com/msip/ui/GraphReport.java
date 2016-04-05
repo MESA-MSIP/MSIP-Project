@@ -17,7 +17,6 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 import com.msip.manager.MISPCore;
 
@@ -70,8 +69,8 @@ public class GraphReport extends ApplicationFrame {
 	// **********************************************************//
 	private static JFreeChart createChart(PieDataset dataset) {
 
-		JFreeChart chart = ChartFactory.createPieChart("Questionnaire", // chart
-																		// title
+		JFreeChart chart = ChartFactory.createPieChart(manager.getQuestion(), // chart
+				// title
 				dataset, // data
 				true, // include legend
 				true, false);
@@ -101,14 +100,14 @@ public class GraphReport extends ApplicationFrame {
 		return new ChartPanel(chart);
 	}
 
-	private void getAnswers() {
-		QuestionnairePanel ansQ = new QuestionnairePanel(null);
-		int[] arrayAnswers = new int[5];
-		for (int a = 0; a < arrayAnswers.length; a++) {
-			arrayAnswers[a] = ansQ.getResult().get(a);
-		}
-
-	}
+	// private void getAnswers() {
+	// QuestionnairePanel ansQ = new QuestionnairePanel(null);
+	// int[] arrayAnswers = new int[5];
+	// for (int a = 0; a < arrayAnswers.length; a++) {
+	// arrayAnswers[a] = ansQ.getResult().get(a);
+	// }
+	//
+	// }
 
 	/**
 	 * Starting point for the demonstration application.
@@ -120,13 +119,13 @@ public class GraphReport extends ApplicationFrame {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	// public static void main(String[] args) {
+	//
+	// GraphReport pi = new GraphReport("Q?");
+	// pi.pack();
+	// RefineryUtilities.centerFrameOnScreen(pi);
+	// pi.setVisible(true);
 
-		GraphReport pi = new GraphReport("Questionnaire");
-		pi.pack();
-		RefineryUtilities.centerFrameOnScreen(pi);
-		pi.setVisible(true);
-
-	}
+	// }
 
 }
