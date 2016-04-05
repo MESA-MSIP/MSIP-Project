@@ -49,7 +49,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 		
-		studentModel = new StudentTableModel(msipCore.getStudents());
+		studentModel = new StudentTableModel(msipCore.getStudents(), msipCore);
 		studentTable = new StudentTable(studentModel);
 		JScrollPane studentScrollPane = new JScrollPane(studentTable);
 		add(studentScrollPane, BorderLayout.CENTER);

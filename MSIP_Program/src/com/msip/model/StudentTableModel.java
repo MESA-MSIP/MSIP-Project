@@ -3,15 +3,20 @@ package com.msip.model;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+
+import com.msip.manager.MISPCore;
+import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.GlobalUI;
 
-public class StudentTableModel extends AbstractTableModel   {
+public class StudentTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Student> students;
+	private MISPCore manager;
 
-	public StudentTableModel(ArrayList<Student> students) {
+	public StudentTableModel(ArrayList<Student> students, MISPCore manager) {
 		this.students = students;
+		this.manager = manager;
 	}
 
 	@Override
@@ -37,7 +42,19 @@ public class StudentTableModel extends AbstractTableModel   {
 		case GlobalUI.columnIndexMajor:
 			return students.get(rowIndex).getMajor();
 		case GlobalUI.columnIndexParticipation:
-			return 0; //TODO get Participation
+
+			int number = students.get(rowIndex).getkNumber();
+			ParcipitationState participation = manager.isStudentActive(number);
+
+			if (ParcipitationState.LOW_ACTIVE_STUDENT == participation) {
+				return "Low";
+			} else if (ParcipitationState.MEDIAN_ACTIVE_STUDENT == participation) {
+				return "Medium";
+			} else if (ParcipitationState.HIGH_ACTIVE_STUDENT == participation) {
+				return "High";
+			} else {
+				return "";
+			}
 		default:
 			return null;
 		}
@@ -47,15 +64,15 @@ public class StudentTableModel extends AbstractTableModel   {
 	public String getColumnName(int column) {
 		switch (column) {
 		case GlobalUI.columnIndexLastName:
-			return  GlobalUI.columnNameLastName;
+			return GlobalUI.columnNameLastName;
 		case GlobalUI.columnIndexFirstName:
 			return GlobalUI.columnNameFirstName;
 		case GlobalUI.columnIndexKNumber:
-			return  GlobalUI.columnNameKNumber;
+			return GlobalUI.columnNameKNumber;
 		case GlobalUI.columnIndexMajor:
-			return  GlobalUI.columnNameMajor;
+			return GlobalUI.columnNameMajor;
 		case GlobalUI.columnIndexParticipation:
-			return  GlobalUI.columnNameParticipation;
+			return GlobalUI.columnNameParticipation;
 		default:
 			return null;
 		}
@@ -74,7 +91,8 @@ public class StudentTableModel extends AbstractTableModel   {
 	}
 
 	/**
-	 * @param students the students to set
+	 * @param students
+	 *            the students to set
 	 */
 	public void setStudents(ArrayList<Student> students) {
 		this.students = students;
