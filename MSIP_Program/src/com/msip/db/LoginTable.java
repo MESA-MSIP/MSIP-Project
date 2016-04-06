@@ -31,9 +31,9 @@ public class LoginTable {
 							+ "Knumber INT NOT NULL, "
 							+ "DateTime DATETIME NOT NULL, PRIMARY KEY(ID))");
 			createLoginTable.executeUpdate();
-			System.out.println("Successfully creating Login Table");
+			System.out.println("Successfully created Login Table");
 		} catch (SQLException e) {
-			System.out.println("Failed to create a login table" + "\n");
+			System.out.println("Failed to create a Login table" + "\n");
 
 			e.printStackTrace();
 		}

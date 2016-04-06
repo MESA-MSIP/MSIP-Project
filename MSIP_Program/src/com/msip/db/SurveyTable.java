@@ -25,7 +25,7 @@ public class SurveyTable {
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Survey(ID INT AUTO_INCREMENT, Question VARCHAR(400), StartDate DATE NOT NULL,"
 							+ " Response1 INT, Response2 INT, Response3 INT, Response4 INT, Response5 INT, PRIMARY KEY(ID))");
 			createTable.executeUpdate();
-			System.out.println("Successfully created the survey table");
+			System.out.println("Successfully created the Survey table");
 		} catch (SQLException e) {
 			System.out.println("Failed to create the survey tabel" + "\n");
 			e.printStackTrace();

@@ -280,22 +280,22 @@ public class MISPCore {
 	public int verifyAdmin(int kNumber, String pHash) {
 
 		String hashedPasswordFromUser;
-//		try {
-//			hashedPasswordFromUser = Utility.getHashedPassword(pHash);
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//			return GlobalUI.FAIL;
-//		}
-//
-//		// If returns null.. knumber not in DB
-//		if (adminTable.getPhash(kNumber) == null) {
-//			return GlobalUI.FAIL;
-//		}
-//
-//		// hash's don't match so fail
-//		if (hashedPasswordFromUser.compareTo(adminTable.getPhash(kNumber)) != 0) {
-//			return GlobalUI.FAIL;
-//		}
+		try {
+			hashedPasswordFromUser = Utility.getHashedPassword(pHash);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return GlobalUI.FAIL;
+		}
+
+		// If returns null.. knumber not in DB
+		if (adminTable.getPhash(kNumber) == null) {
+			return GlobalUI.FAIL;
+		}
+
+		// hash's don't match so fail
+		if (hashedPasswordFromUser.compareTo(adminTable.getPhash(kNumber)) != 0) {
+			return GlobalUI.FAIL;
+		}
 
 		return GlobalUI.SUCCESS;
 	}
