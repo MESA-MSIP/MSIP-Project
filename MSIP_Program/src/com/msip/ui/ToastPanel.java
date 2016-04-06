@@ -110,43 +110,37 @@ public class ToastPanel extends JPanel implements ActionListener {
 			}
 
 			public void componentShown(ComponentEvent e) {
-				
-			
-
-				// if Error Conditions only in LoginPanel
-				timer = new Timer();
-
-				if (messageToast.getText() == GlobalUI.errorMessage) {
-					//
-					CardLayout cl = (CardLayout) toastPanel.getLayout();
-					cl.show(toastPanel, GlobalUI.newStudentMessagePanel);
-				} else {
+					timer = new Timer();
 					// Set up Random Generator
 					Random randGen = new Random();
 					double randChance = randGen.nextDouble();
 					checkForNotifications();
 					generateRandomPanel(randChance);
-				}
+				//If there is no Question, Show the Notification Card
 				if (surveyTable.getID() == -2) {
-					//If there is no Question, Show the Notification Card
 					checkForNotifications();
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
 				}
 				else{
+					//If The Question Length does not meet the questionLength, show NotificationCard.
 					if(surveyTable.getQuestion().length() < GlobalUI.minQuestionLength){
 						checkForNotifications();
 						CardLayout cl = (CardLayout) welcomeCards.getLayout();
 						cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);						
 					}
-					//Set the Text of the StudentSurveyPanel to the Question
-					String question  = surveyTable.getQuestion();
-					StudentSurveyPanel.setQuestion(question);
+					else{
+						//Set the Text of the StudentSurveyPanel to the Question
+						String question  = surveyTable.getQuestion();
+						StudentSurveyPanel.setQuestion(question);
+					}
+
 				}
 
 				timer.schedule(new TimerTask() {
 
 					public void run() {
+						//Auto Exits after 60 Seconds.
 						CardLayout cl = (CardLayout) ToastPanel.this.manager.getCards().getLayout();
 						cl.show(ToastPanel.this.manager.getCards(), GlobalUI.LoginPanel);
 					}
@@ -160,8 +154,11 @@ public class ToastPanel extends JPanel implements ActionListener {
 	public void setMessage(String message) {
 		messageToast.setText(message);
 	}
-	// 70% see notifications, 30% will see survey
-	// below .7 / .3
+
+	/**
+	 * Generates a Random Chance to see either the StudentSurveyPanel or NotificationCard.
+	 * @param rand
+	 */
 	public void generateRandomPanel(double rand) {
 		if (rand < .3) {
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
@@ -179,12 +176,16 @@ public class ToastPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Exit from the ToastPanel
 		if (exitButton == e.getSource()) {
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 		}
 
 	}
+	/**
+	 * Checks If there is any Notifications in the DB.
+	 */
 	public void checkForNotifications(){
 		//if the arrayList is empty
 		if (this.manager.getAllNotifications().size() == 0){

@@ -78,7 +78,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		questionPanel.setBackground(Color.WHITE);
 		add(questionPanel, BorderLayout.NORTH);
 
-		editQButton = new JButton("New Question");
+		editQButton = new JButton("Submit Question");
 		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		editQButton.addActionListener(this);
 		questionPanel.add(editQButton);
