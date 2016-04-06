@@ -18,8 +18,11 @@ public class StudentTable {
 					"CREATE TABLE IF NOT EXISTS Student(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
 							+ "LastName VARCHAR(35) NOT NULL, Major VARCHAR(35) NOT NULL, PRIMARY KEY(Knumber))");
 			createTable.executeUpdate();
+			System.out.println("Successfully created Student Table");
 
 		} catch (SQLException e) {
+			System.out.println("Failed to create Student Table" + "\n");
+
 			e.printStackTrace();
 		}
 	}

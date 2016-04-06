@@ -25,12 +25,16 @@ public class LoginTable {
 	public LoginTable() {
 		PreparedStatement createLoginTable;
 		try {
+
 			createLoginTable = DBConnector.myConnection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Login(ID INT NOT NULL AUTO_INCREMENT, "
 							+ "Knumber INT NOT NULL, "
 							+ "DateTime DATETIME NOT NULL, PRIMARY KEY(ID))");
 			createLoginTable.executeUpdate();
+			System.out.println("Successfully creating Login Table");
 		} catch (SQLException e) {
+			System.out.println("Failed to create a login table" + "\n");
+
 			e.printStackTrace();
 		}
 	}

@@ -2,7 +2,9 @@ package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -34,10 +37,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
+
+import org.jfree.chart.ChartUtilities;
 
 public class ReportPanel extends JPanel implements ActionListener, ItemListener {
 
@@ -211,7 +218,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				updateGraph();
 			}
 		});
-		updateGraph();
 	}
 
 	/**
@@ -363,6 +369,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				pdf.addMettaData("Mesa Student Activity", "Report Subject","Virginia");
 				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,student);
 				pdf.addStudent(student, knumber, timesPresent, datesPresent);
+				File imageFile = new File("BarGraph.jpg");
+				saveImage(imageFile);
+				pdf.addImage(imageFile.getAbsolutePath());
 				pdf.closeReport();
 
 			} else {
@@ -384,13 +393,28 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					Date[] date = loginDates.toArray(new Date[sizeOfStuList]);
 					// number of times a student signed in to the messa center.
 					String numOfTimesPressent = Integer.toString(sizeOfStuList);
-
+					
+					if(date.length == 0){
+//						SimpleDateFormat str1 = new SimpleDateFormat("yyyy/dd/MM");
+//
+//						String nullDate = "0000/00/00";
+//						Date emptyDate = str1.parse(nullDate);
+//						Date[] noLogins = {emptyDate};
+//						
+					
+						pdf.addStudent(listOfStudents.get(i).getFullName(),
+								studentKnumber, numOfTimesPressent, date);
+					} else {
 					pdf.addStudent(listOfStudents.get(i).getFullName(),
 							studentKnumber, numOfTimesPressent, date);
+					}
 				}
+				File imageFile = new File("BarGraph.jpg");
+				saveImage(imageFile);
+				pdf.addImage(imageFile.getAbsolutePath());
 				pdf.closeReport();
 			}
-		} catch (DocumentException e) {
+		} catch (DocumentException  e) {
 			e.printStackTrace();
 		}
 	}
@@ -442,5 +466,17 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 		add(graph.getGraph(), BorderLayout.CENTER);
 		revalidate();
+	}
+	
+	public void saveImage(File imageFile){
+        Dimension size = graph.getGraph().getSize();
+	    BufferedImage img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+	    graph.getGraph().paint(img.getGraphics());
+	    try {
+	        ImageIO.write(img, "JPEG",imageFile );
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+
 	}
 }

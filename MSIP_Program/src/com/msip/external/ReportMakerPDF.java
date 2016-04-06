@@ -123,11 +123,12 @@ public class ReportMakerPDF {
 			image = Image.getInstance(path);
 
 			// Fixed Positioning
+			image.setAlignment(Image.ALIGN_CENTER);
 
-			image.setAbsolutePosition(100f, 550f); // TODO figure out where to
+			//image.setAbsolutePosition(100f, 700f); // TODO figure out where to
 													// postion
 			// Scale to new height and new width of image
-			image.scaleAbsolute(200, 200); // TODO figure out height
+			image.scaleAbsolute(525, 275); // TODO figure out height
 
 			// Add to document
 			document.add(image);
@@ -189,9 +190,11 @@ public class ReportMakerPDF {
 				contentCell2.setBorder(0);
 				table.addCell(contentCell2);
 
+			
 				PdfPCell contentCell3 = new PdfPCell(new Phrase(dates[i].toString()));
 				contentCell3.setBorder(0);
 				table.addCell(contentCell3);
+				
 			} else if (i == 1) {
 				// Second row should have name and start listing dates
 				PdfPCell contentCell1 = new PdfPCell(new Phrase(kNumber));
@@ -219,6 +222,21 @@ public class ReportMakerPDF {
 				contentCell3.setBorder(0);
 				table.addCell(contentCell3);
 			}
+		}
+		//When student has no login dates it still adds student to the pdf file.
+		if(dates.length == 0){
+			PdfPCell contentCell1 = new PdfPCell(new Phrase(nameOfStudent));
+			contentCell1.setBorder(0);
+			table.addCell(contentCell1);
+
+			PdfPCell contentCell2 = new PdfPCell(new Phrase(numOfTimes));
+			contentCell2.setBorder(0);
+			table.addCell(contentCell2);
+
+		
+			PdfPCell contentCell3 = new PdfPCell(new Phrase("0"));
+			contentCell3.setBorder(0);
+			table.addCell(contentCell3);
 		}
 
 		document.add(table);

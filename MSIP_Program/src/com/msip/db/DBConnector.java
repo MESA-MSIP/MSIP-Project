@@ -19,12 +19,16 @@ public class DBConnector {
 	 */
 	public DBConnector() {
 		try {
+			System.out.println("Connecting to MySQL...");
 			myConnection = DriverManager.getConnection(Global.URL,
 					Global.USERNAME, Global.PASSWORD);
+			System.out.println("Successfully connected to MySQL");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out
-					.println("\n"
+			System.out.println("\n"+"Failed to connected to MySQL" +"\n");
+
+			System.out.println("\n"
 							+ "You did not Sign in correctly or you aren't using 'MesaDB' database"
 							+ "\n");
 		}
@@ -86,6 +90,8 @@ public class DBConnector {
 	//	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
+		//s.addQuestion("No new question", new Date());
+		
 //
 //		for(int i = 0; i < 7 ; i++){
 //			s.addResults(5);

@@ -18,7 +18,11 @@ public class NotificationTable {
 			PreparedStatement createTable = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS Notification(ID INT AUTO_INCREMENT, Notification VARCHAR(400), StartDate DATE NOT NULL, ExpirationDate DATE NOT NULL, PRIMARY KEY(ID))");
 			createTable.executeUpdate();
+			System.out.println("Successfully created Notification Table");
+
 		} catch (SQLException e) {
+			System.out.println("Failed to create Notification table" + "\n");
+
 			e.printStackTrace();
 		}
 	}

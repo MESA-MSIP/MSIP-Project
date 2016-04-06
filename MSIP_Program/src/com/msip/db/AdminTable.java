@@ -18,8 +18,10 @@ public class AdminTable {
 					"CREATE TABLE IF NOT EXISTS Admin(Knumber INT NOT NULL, FirstName VARCHAR(35) NOT NULL,"
 							+ "LastName VARCHAR(35) NOT NULL, pHash VARCHAR(512) NOT NULL, PRIMARY KEY(Knumber))");
 			createTable.executeUpdate();
+			System.out.println("Successfully created Admin table");
 
 		} catch (SQLException e) {
+			System.out.println("Failed to create admin table" + "\n");
 			e.printStackTrace();
 		}
 	}
