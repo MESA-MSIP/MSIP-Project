@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.msip.manager.MISPCore;
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JLabel;
 
 /**
@@ -50,9 +51,11 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private DefaultTableModel model;
 	private ArrayList<String> notiArray = new ArrayList<String>();
 	private int rowIndex;
+	private AdminToolsPanel adminToolsPanel;
 
-	public NotificationsPanel(MISPCore msipCore) {
-		this.manager = msipCore;
+	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+		this.setManager(msipCore);
+		this.setAdminToolsPanel(adminToolsPanel);
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
@@ -153,7 +156,9 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
 						selectedStartDate = startDateChooser.getDate();
-
+						if(selectedStartDate == null){
+							getAdminToolsPanel().setStatusMsg("Please set a correct start date.");
+							}
 					}
 				});
 
@@ -187,9 +192,42 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 						// and retrieves that date.
 						selectedExpirationDate = expirationDateChooser
 								.getDate();
+						if(selectedExpirationDate == null){
+							getAdminToolsPanel().setStatusMsg("Please set a correct expiration date.");
+							}
 
 					}
 				});
+	}
+	/**
+	 * @return the manager
+	 */
+	public MISPCore getManager() {
+		return manager;
+	}
+
+	/**
+	 * @param manager
+	 *            the manager to set
+	 */
+	public void setManager(MISPCore manager) {
+		this.manager = manager;
+	}
+	
+	
+	/**
+	 * @param adminToolsPanel
+	 *            the adminToolsPanel to set
+	 */
+	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
+		this.adminToolsPanel = adminToolsPanel;
+	}
+	
+	/**
+	 * @return the adminToolsPanel
+	 */
+	public AdminToolsPanel getAdminToolsPanel() {
+		return adminToolsPanel;
 	}
 
 	// **********************************************************//

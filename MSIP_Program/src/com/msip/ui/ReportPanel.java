@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.SelectableChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
@@ -17,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.itextpdf.text.DocumentException;
@@ -74,9 +76,11 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
 	private JFileChooser fc;
+	private AdminToolsPanel adminToolsPanel;
 
-	public ReportPanel(MISPCore msipCore) {
+	public ReportPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
+		this.setAdminToolsPanel(adminToolsPanel);
 		panel = this;
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
@@ -141,6 +145,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date not time included.
 						selectedStartDate = startDateChooser.getDate();
+						if(selectedStartDate == null){
+						getAdminToolsPanel().setStatusMsg("Please set a correct start date.");
+						}
 						updateGraph();
 					}
 				});
@@ -165,6 +172,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
 						selectedEndDate = endDateChooser.getDate();
+						if(selectedEndDate == null){
+							getAdminToolsPanel().setStatusMsg("Please set a correct end date.");
+							}
 						updateGraph();
 					}
 				});
@@ -233,6 +243,21 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	 */
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
+	}
+	
+	/**
+	 * @param adminToolsPanel
+	 *            the adminToolsPanel to set
+	 */
+	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
+		this.adminToolsPanel = adminToolsPanel;
+	}
+	
+	/**
+	 * @return the adminToolsPanel
+	 */
+	public AdminToolsPanel getAdminToolsPanel() {
+		return adminToolsPanel;
 	}
 
 	@Override
@@ -409,7 +434,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 							studentKnumber, numOfTimesPressent, date);
 					}
 				}
-				File imageFile = new File("BarGraph.jpg");
+				File imageFile = new File("ReportGraph.jpg");
 				saveImage(imageFile);
 				pdf.addImage(imageFile.getAbsolutePath());
 				pdf.closeReport();

@@ -47,8 +47,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
-		reportPanel = new ReportPanel(msipCore);
-		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore);
+		reportPanel = new ReportPanel(msipCore, this);
+		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore,this);
 		questionnairePanel = new QuestionnairePanel(msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
