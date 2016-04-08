@@ -195,7 +195,6 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 						if(selectedExpirationDate == null){
 							getAdminToolsPanel().setStatusMsg("Please set a correct expiration date.");
 							}
-
 					}
 				});
 	}
