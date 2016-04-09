@@ -144,13 +144,18 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date not time included.
+						 Date prevStartDate = selectedStartDate;
 						selectedStartDate = startDateChooser.getDate();
+						
 						if(selectedStartDate == null){
 						getAdminToolsPanel().setStatusMsg("Please set a correct start date.");
+						selectedStartDate = prevStartDate;
+						} else {
+							updateGraph();
 						}
-						updateGraph();
 					}
 				});
+		
 
 		// Creates a date picker
 		endDateChooser = new JDateChooser();
@@ -171,11 +176,15 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
+						Date prevEndDate = selectedEndDate;
 						selectedEndDate = endDateChooser.getDate();
+						
 						if(selectedEndDate == null){
 							getAdminToolsPanel().setStatusMsg("Please set a correct end date.");
-							}
+							selectedEndDate = prevEndDate;
+							} else{
 						updateGraph();
+							}
 					}
 				});
 
@@ -266,8 +275,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		// saves data as a csv or pdf report.
 		if (e.getSource().equals(saveReportButton)) {
 
-			fc = new JFileChooser();
+			//Set to MesaReport directory
+			fc = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")+ "MesaReports");
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fc.setApproveButtonText("Save");
 			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
 					".pdf", "Report Type");
 			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
@@ -394,7 +405,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				pdf.addMettaData("Mesa Student Activity", "Report Subject","Virginia");
 				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,student);
 				pdf.addStudent(student, knumber, timesPresent, datesPresent);
-				File imageFile = new File("BarGraph.jpg");
+				File imageFile = new File("ReportGraph.jpg");
 				saveImage(imageFile);
 				pdf.addImage(imageFile.getAbsolutePath());
 				pdf.closeReport();
@@ -483,6 +494,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 	}
 
+	private void initalizeFileChooser(){
+		
+	}
 	public void updateGraph() {
 		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
 				selectedStartDate, selectedEndDate);
@@ -493,7 +507,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		revalidate();
 	}
 	
-	public void saveImage(File imageFile){
+	private void saveImage(File imageFile){
         Dimension size = graph.getGraph().getSize();
 	    BufferedImage img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 	    graph.getGraph().paint(img.getGraphics());

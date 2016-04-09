@@ -155,10 +155,13 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
+						Date prevStartDate = selectedStartDate;
 						selectedStartDate = startDateChooser.getDate();
-						if(selectedStartDate == null){
+
+						if (selectedStartDate == null) {
 							getAdminToolsPanel().setStatusMsg("Please set a correct start date.");
-							}
+							selectedStartDate = prevStartDate;
+						}
 					}
 				});
 
@@ -168,17 +171,17 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		// sets current date
 		Date date = new Date();
 		expirationDateChooser.setDate(date);
-		
+
 		JLabel lblEnterANew = new JLabel("Enter a new notification:");
 		lblEnterANew.setBounds(21, 0, 355, 39);
 		lblEnterANew.setFont(GlobalUI.LableFont);
 		panelNotificationInput.add(lblEnterANew);
-		
+
 		JLabel lblStartDate = new JLabel("Start Date:");
 		lblStartDate.setBounds(386, 0, 137, 39);
 		lblStartDate.setFont(GlobalUI.LableFont);
 		panelNotificationInput.add(lblStartDate);
-		
+
 		JLabel lblEndDate = new JLabel("End Date:");
 		lblEndDate.setBounds(538, 0, 137, 39);
 		lblEndDate.setFont(GlobalUI.LableFont);
@@ -190,14 +193,17 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
-						selectedExpirationDate = expirationDateChooser
-								.getDate();
-						if(selectedExpirationDate == null){
+						Date prevExpirationDate = selectedExpirationDate;
+						selectedExpirationDate = expirationDateChooser.getDate();
+
+						if (selectedExpirationDate == null) {
 							getAdminToolsPanel().setStatusMsg("Please set a correct expiration date.");
-							}
+							selectedExpirationDate = prevExpirationDate;
+						}
 					}
 				});
 	}
+
 	/**
 	 * @return the manager
 	 */
@@ -212,8 +218,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
 	}
-	
-	
+
 	/**
 	 * @param adminToolsPanel
 	 *            the adminToolsPanel to set
@@ -221,7 +226,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
 		this.adminToolsPanel = adminToolsPanel;
 	}
-	
+
 	/**
 	 * @return the adminToolsPanel
 	 */
