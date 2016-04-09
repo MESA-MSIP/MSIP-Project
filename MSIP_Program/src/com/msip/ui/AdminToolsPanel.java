@@ -48,7 +48,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
 		reportPanel = new ReportPanel(msipCore, this);
-		NotificationsPanel notificationsPanel = new NotificationsPanel(msipCore,this);
+		NotificationsPanel notificationsPanel = new NotificationsPanel(
+				msipCore, this);
 		questionnairePanel = new QuestionnairePanel(msipCore);
 
 		tabbedPane.add(studentPanel, GlobalUI.StudentTab);
@@ -143,14 +144,18 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 			cl.show(manager.getCards(), GlobalUI.LoginPanel);
 
 		} else if (e.getSource() == shutDownButton) {
-			try {
-				// Shuts down the pi
-				Process p = Runtime.getRuntime().exec("sudo shutdown -h now");
-				p.waitFor();
-			} catch (IOException | InterruptedException e1) {
-				e1.printStackTrace();
+			popUpResponse popUp = new popUpResponse();
+			int decision = popUp.shutDownPopUp();
+			if (decision == 0) {
+				try {
+					// Shuts down the pi
+					Process p = Runtime.getRuntime().exec(
+							"sudo shutdown -h now");
+					p.waitFor();
+				} catch (IOException | InterruptedException e1) {
+					e1.printStackTrace();
+				}
 			}
-
 		}
 
 	}

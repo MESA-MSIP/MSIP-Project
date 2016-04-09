@@ -15,4 +15,16 @@ public class popUpResponse extends JFrame {
 				options[2]);
 		return n;
 	}
+	
+	public int shutDownPopUp(){
+		String message = "Are you sure you want to shutdown?" 
+	     + "\n" + "This action will shutdown your system so you can safly switch off power.";
+		JFrame frame = new JFrame();
+		frame.setSize(400, 240);
+		Object[] options = { "Ok", "Cancel" };
+		int n = JOptionPane.showOptionDialog(frame, message,
+				"Shut Down", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+				options[1]);
+		return n;
+	}
 }
