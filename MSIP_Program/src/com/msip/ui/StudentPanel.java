@@ -5,6 +5,7 @@ package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -179,7 +180,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 					+ "...\n\n"
 					+ "Duplicate K-Numbers will update Students information");
 			
-			final JFileChooser fc = new JFileChooser();
+			final JFileChooser fc = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")+ "MesaReports");
 			fc.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
 			int returnVal = fc.showOpenDialog(this);
 

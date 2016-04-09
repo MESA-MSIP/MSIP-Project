@@ -30,6 +30,7 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.FileChooserUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -277,16 +278,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 			//Set to MesaReport directory
 			fc = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")+ "MesaReports");
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fc.setApproveButtonText("Save");
-			FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
-					".pdf", "Report Type");
-			FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
-					".csv", "Report Type");
-			fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
-			fc.addChoosableFileFilter(pdfFilter);
-			fc.addChoosableFileFilter(csvFilter);
-			fc.setFileFilter(pdfFilter);
+			initalizeFileChooser(fc);
 			int returnVal = fc.showOpenDialog(null);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -494,9 +486,31 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 	}
 
-	private void initalizeFileChooser(){
+	private void initalizeFileChooser(JFileChooser fileChooser){
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setApproveButtonText("Save");
+		FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(
+				".pdf", "Report Type");
+		FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(
+				".csv", "Report Type");
+		fileChooser.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
+		fileChooser.addChoosableFileFilter(pdfFilter);
+		fileChooser.addChoosableFileFilter(csvFilter);
+		fileChooser.setFileFilter(pdfFilter);
+	}
+	
+	private void saveImage(File imageFile){
+		Dimension size = graph.getGraph().getSize();
+		BufferedImage img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+		graph.getGraph().paint(img.getGraphics());
+		try {
+			ImageIO.write(img, "JPEG",imageFile );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
+	
 	public void updateGraph() {
 		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
 				selectedStartDate, selectedEndDate);
@@ -507,15 +521,4 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		revalidate();
 	}
 	
-	private void saveImage(File imageFile){
-        Dimension size = graph.getGraph().getSize();
-	    BufferedImage img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-	    graph.getGraph().paint(img.getGraphics());
-	    try {
-	        ImageIO.write(img, "JPEG",imageFile );
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-
-	}
 }
