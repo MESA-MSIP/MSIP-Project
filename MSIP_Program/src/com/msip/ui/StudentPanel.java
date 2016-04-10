@@ -180,7 +180,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 					+ "...\n\n"
 					+ "Duplicate K-Numbers will update Students information");
 			
-			final JFileChooser fc = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")+ "MesaReports");
+			final JFileChooser fc = new JFileChooser(System.getProperty("file.separator")+ "MesaReports");
 			fc.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
 			int returnVal = fc.showOpenDialog(this);
 

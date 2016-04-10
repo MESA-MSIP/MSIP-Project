@@ -277,7 +277,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		if (e.getSource().equals(saveReportButton)) {
 
 			//Set to MesaReport directory
-			fc = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")+ "MesaReports");
+			fc = new JFileChooser(System.getProperty("file.separator")+ "MesaReports");
 			initalizeFileChooser(fc);
 			int returnVal = fc.showOpenDialog(null);
 
