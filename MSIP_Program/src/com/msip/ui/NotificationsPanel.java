@@ -302,8 +302,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	}
 	public void updateNotifications(String notficationText, Date startDate, Date endDate){
 		model = (DefaultTableModel) tableNotifications.getModel();
-		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
+		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
 		String reportDate = dateStart.format(startDate);
 		String reportEndDate = dateEnd.format(endDate);
 		String st[] = {notficationText, reportDate, reportEndDate };
@@ -326,6 +326,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	 */
 	public void updateTable(){
 		ArrayList<Notification> notifications = notificationTable.getAllNotification();
+		DefaultTableModel dm = (DefaultTableModel) tableNotifications.getModel();
+		dm.getDataVector().removeAllElements();
 		for(int i = 0; i < notifications.size(); i++){
 			Notification n = notifications.get(i);
 			updateNotifications(n.getNotification(), n.getStartDate(), n.getExpirationDate());
