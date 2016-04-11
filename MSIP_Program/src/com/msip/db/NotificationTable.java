@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.msip.model.Notification;
 import com.mysql.jdbc.PreparedStatement;
 
 public class NotificationTable {
@@ -58,16 +59,18 @@ public class NotificationTable {
 	 * 
 	 * @return
 	 */
-	public ArrayList<String> getAllNotification() {
+	public ArrayList<Notification> getAllNotification() {
 		// get all valid notifications that are not expired and have started
-		ArrayList<String> myNotif = new ArrayList<String>();
+		ArrayList<Notification> myNotif = new ArrayList<Notification>();
+		Notification notifications = null;
 		try {
 			PreparedStatement notif = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("SELECT * FROM Notification;");
 			ResultSet rs = notif.executeQuery();
 			while (rs.next()) {
 				removeExpiredNotification();
-				myNotif.add(rs.getString("Notification"));
+				notifications = new Notification(rs.getString("Notification"), rs.getDate("StartDate"), rs.getDate("ExpirationDate"));
+				myNotif.add(notifications);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

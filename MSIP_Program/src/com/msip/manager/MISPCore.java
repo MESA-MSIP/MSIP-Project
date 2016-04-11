@@ -24,6 +24,7 @@ import com.msip.db.SurveyTable;
 import com.msip.external.SerialPort;
 import com.msip.external.Utility;
 import com.msip.model.Admin;
+import com.msip.model.Notification;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
@@ -361,7 +362,7 @@ public class MISPCore {
 		return notificationTable;
 	}
 	
-	public ArrayList<String> getAllNotifications(){
+	public ArrayList<Notification> getAllNotifications(){
 		return notificationTable.getAllNotification();
 		
 	}
