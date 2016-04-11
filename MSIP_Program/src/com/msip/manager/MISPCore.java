@@ -357,6 +357,9 @@ public class MISPCore {
 		notificationTable.removeExpiredNotification();
 
 	}
+	public NotificationTable getNotificationTable(){
+		return notificationTable;
+	}
 	
 	public ArrayList<String> getAllNotifications(){
 		return notificationTable.getAllNotification();

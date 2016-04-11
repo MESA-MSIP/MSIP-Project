@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 import com.toedter.calendar.JDateChooser;
 
@@ -52,22 +53,18 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private ArrayList<String> notiArray = new ArrayList<String>();
 	private int rowIndex;
 	private AdminToolsPanel adminToolsPanel;
+	private NotificationTable notificationTable;
+	private JScrollPane notificationScrollPane;
 
 	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
+		notificationTable = this.manager.getNotificationTable();
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
-
-		tableNotifications = new JTable(new DefaultTableModel(
-				new Object[][] {}, new String[] { "Notifications:",
-						"Start Date:", "Expiration Date:" }));
-		tableNotifications.setColumnSelectionAllowed(true);
-		tableNotifications.getTableHeader().setFont(GlobalUI.GlobalFont);
-		tableNotifications.setFont(GlobalUI.GlobalFont);
-		tableNotifications.setRowHeight(35);
-
+		
+		tableNotifications = createJTable();
 		tableNotifications.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				// returns the index of a selected notification.
@@ -76,9 +73,9 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 				System.out.println(rowIndex);
 			}
 		});
-
-		JScrollPane notificationScrollPane = new JScrollPane(tableNotifications);
-		add(notificationScrollPane, BorderLayout.CENTER);
+		
+				 notificationScrollPane = new JScrollPane(tableNotifications);
+				add(notificationScrollPane, BorderLayout.CENTER);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		add(horizontalStrut, BorderLayout.WEST);
@@ -287,6 +284,41 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			btnAdd.setEnabled(true); // doesnt work when first starting, still
 										// accepts empty string**S
 		}
+	}
+	public void addNotification(String notficationText){
+		model = (DefaultTableModel) tableNotifications.getModel();
+		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		String reportDate = dateStart.format(selectedStartDate);
+		String reportEndDate = dateEnd.format(selectedExpirationDate);
+		String st[] = {notficationText, reportDate, reportEndDate };
+		model.addRow(st);
+		
+	}
+	public JTable createJTable(){
+		JTable newTable = new JTable(new DefaultTableModel(
+				new Object[][] {}, new String[] { "Notifications:",
+						"Start Date:", "Expiration Date:" }));
+		newTable.setColumnSelectionAllowed(true);
+		newTable.getTableHeader().setFont(GlobalUI.GlobalFont);
+		newTable.setFont(GlobalUI.GlobalFont);
+		newTable.setRowHeight(35);
+		return newTable;
+
+	}
+	/**
+	 * Updates the notification Table in the NotificationPanel.
+	 */
+	public void updateTable(){
+		ArrayList<String> notifications = notificationTable.getAllNotification();
+		JTable newTable = createJTable();
+		
+		
+		for(int i = 0; i < notifications.size(); i++){
+			addNotification(notifications.get(i));
+			revalidate();
+		}
+		
 	}
 
 	@Override

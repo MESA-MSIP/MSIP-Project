@@ -9,22 +9,17 @@ import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
-import javax.swing.text.BadLocationException;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,8 +41,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private JTextField textValue4;
 	private JTextField textValue2;
 	private JTextField textValue3;
-	private ArrayList<Integer> results;
-	private GraphReport pieGraph = new GraphReport("");
 	private JPanel questionPanel;
 	private JButton editQButton;
 	private JPanel valuePanel;
@@ -84,6 +77,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		questionPanel.add(editQButton);
 
 		textQuestion = new JTextField();
+		textQuestion.setToolTipText("Example: Rate the MESA Tutors From 1 - 5, on Availability.");
 		textQuestion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textQuestion.setHorizontalAlignment(SwingConstants.CENTER);
 		textQuestion.addActionListener(this);
@@ -92,6 +86,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		questionPanel.add(verticalStrut_4);
+		
 
 		 valuePanel = new JPanel();
 		valuePanel.setBackground(Color.WHITE);
@@ -104,6 +99,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue1);
 
 		textValue1 = new JTextField();
+		textValue1.setToolTipText("Example: Never Available");
 		valuePanel.add(textValue1);
 		textValue1.setColumns(15);
 		textValue1.addActionListener(this);
@@ -117,6 +113,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue2);
 
 		textValue2 = new JTextField();
+		textValue2.setToolTipText("Example: Rarely Available");
 		valuePanel.add(textValue2);
 		textValue2.setColumns(15);
 		textValue2.addActionListener(this);
@@ -130,6 +127,8 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue3);
 
 		textValue3 = new JTextField();
+		textValue3.setToolTipText("Example: Available");
+		
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
 		textValue3.addActionListener(this);
@@ -143,6 +142,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue4);
 
 		textValue4 = new JTextField();
+		textValue4.setToolTipText("Example: Very Available");
 		valuePanel.add(textValue4);
 		textValue4.setColumns(15);
 		textValue4.addActionListener(this);
@@ -156,6 +156,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(labelValue5);
 
 		textValue5 = new JTextField();
+		textValue5.setToolTipText("Example: Always Available");
 		valuePanel.add(textValue5);
 		textValue5.setColumns(15);
 		textValue5.addActionListener(this);
