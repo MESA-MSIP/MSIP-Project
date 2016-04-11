@@ -69,15 +69,9 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
 		
+		
+		
 		tableNotifications = createJTable();
-		tableNotifications.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent arg0) {
-				// returns the index of a selected notification.
-				rowIndex = tableNotifications.getSelectedRow();
-
-				System.out.println(rowIndex);
-			}
-		});
 		
 		notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
@@ -300,6 +294,17 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 										// accepts empty string**S
 		}
 	}
+	public void removeUpdatedNotification(String notificationText){
+		manager.removeNotification(notificationText);
+		// clears expired notifications
+		model = (DefaultTableModel) tableNotifications.getModel();
+		if (tableNotifications.getSelectedRow() != -1) {
+			// remove selected row from the model
+			model.removeRow(tableNotifications.getSelectedRow());
+		}
+ 
+		
+	}
 	public void updateNotifications(String notficationText, Date startDate, Date endDate){
 		model = (DefaultTableModel) tableNotifications.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
@@ -314,10 +319,19 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		JTable newTable = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
-		newTable.setColumnSelectionAllowed(true);
+		newTable.setColumnSelectionAllowed(false);
 		newTable.getTableHeader().setFont(GlobalUI.GlobalFont);
 		newTable.setFont(GlobalUI.GlobalFont);
+		newTable.setRowSelectionAllowed(true);
 		newTable.setRowHeight(35);
+		newTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				// returns the index of a selected notification.
+				rowIndex = newTable.getSelectedRow();
+
+				System.out.println(rowIndex);
+			}
+		});
 		return newTable;
 
 	}
@@ -326,12 +340,15 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	 */
 	public void updateTable(){
 		ArrayList<Notification> notifications = notificationTable.getAllNotification();
+		ArrayList<String> notificationText = new ArrayList<String>();
 		DefaultTableModel dm = (DefaultTableModel) tableNotifications.getModel();
 		dm.getDataVector().removeAllElements();
 		for(int i = 0; i < notifications.size(); i++){
 			Notification n = notifications.get(i);
 			updateNotifications(n.getNotification(), n.getStartDate(), n.getExpirationDate());
+			notificationText.add(n.getNotification());
 		}
+		notiArray = notificationText;
 		tableNotifications.revalidate();
 	}
 
