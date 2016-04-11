@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -29,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
+import com.msip.model.Notification;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
@@ -55,11 +58,13 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private AdminToolsPanel adminToolsPanel;
 	private NotificationTable notificationTable;
 	private JScrollPane notificationScrollPane;
+	private NotificationsPanel notificationsPanel;
 
 	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 		notificationTable = this.manager.getNotificationTable();
+		notificationsPanel = this;
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
@@ -74,8 +79,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			}
 		});
 		
-				 notificationScrollPane = new JScrollPane(tableNotifications);
-				add(notificationScrollPane, BorderLayout.CENTER);
+		notificationScrollPane = new JScrollPane(tableNotifications);
+		add(notificationScrollPane, BorderLayout.CENTER);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		add(horizontalStrut, BorderLayout.WEST);
@@ -183,8 +188,18 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		lblEndDate.setBounds(538, 0, 137, 39);
 		lblEndDate.setFont(GlobalUI.LableFont);
 		panelNotificationInput.add(lblEndDate);
+		
 
 		selectedExpirationDate = expirationDateChooser.getDate();
+		addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				updateTable();
+			}
+			public void componentHidden(ComponentEvent e){
+				updateTable();
+			}
+		});
+	
 		expirationDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent e) {
@@ -285,12 +300,12 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 										// accepts empty string**S
 		}
 	}
-	public void addNotification(String notficationText){
+	public void updateNotifications(String notficationText, Date startDate, Date endDate){
 		model = (DefaultTableModel) tableNotifications.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		String reportDate = dateStart.format(selectedStartDate);
-		String reportEndDate = dateEnd.format(selectedExpirationDate);
+		String reportDate = dateStart.format(startDate);
+		String reportEndDate = dateEnd.format(endDate);
 		String st[] = {notficationText, reportDate, reportEndDate };
 		model.addRow(st);
 		
@@ -310,15 +325,12 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	 * Updates the notification Table in the NotificationPanel.
 	 */
 	public void updateTable(){
-		ArrayList<String> notifications = notificationTable.getAllNotification();
-		JTable newTable = createJTable();
-		
-		
+		ArrayList<Notification> notifications = notificationTable.getAllNotification();
 		for(int i = 0; i < notifications.size(); i++){
-			addNotification(notifications.get(i));
-			revalidate();
+			Notification n = notifications.get(i);
+			updateNotifications(n.getNotification(), n.getStartDate(), n.getExpirationDate());
 		}
-		
+		tableNotifications.revalidate();
 	}
 
 	@Override
