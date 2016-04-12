@@ -1,6 +1,7 @@
 package com.msip.ui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -16,6 +17,7 @@ public class GlobalUI {
 	public static final String BlankPanel = "BlankPanel";
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
+	public static final String SettingsPanel = "Settings";
 
 	// Size Bounds
 
@@ -112,6 +114,7 @@ public class GlobalUI {
 	public static final int LABELHEIGHT = 40;
 	public static final int BUTTONHEIGHT = 40;
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
+
 
 	public static String[] getListMajors() {
 		String[] majorList = { "Aerospace Engineering",
