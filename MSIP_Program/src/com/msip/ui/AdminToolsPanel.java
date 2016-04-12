@@ -89,10 +89,10 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		// added a shut down button.
 		shutDownButton = new JButton();
-		ImageIcon shutDown = CreateIcon("PowerOff.png", 55, 55);
+		ImageIcon shutDown = CreateIcon("PowerDown.png", 55, 55);
 		shutDownButton.setIcon(shutDown);
-		shutDownButton.setBounds(15, 5, 63, 63);
-
+		shutDownButton.setBounds(15, 5, 60, 60);
+		shutDownButton.setBorder(GlobalUI.blackBorder);
 		// shutDownButton.setBorder(GlobalUI.blackBorder);
 		shutDownButton.addActionListener(this);
 		panel.add(shutDownButton);
