@@ -16,7 +16,10 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -191,7 +194,16 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 				updateTable();
 			}
 		});
-
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
+		String tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
+		Date tomorrowsDate = null;
+		try {
+			tomorrowsDate = formatter.parse(tomorrowsDateString);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		expirationDateChooser.setDate(tomorrowsDate);
 		expirationDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent e) {
