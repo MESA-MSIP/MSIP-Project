@@ -22,6 +22,7 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,8 +34,6 @@ import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 import com.msip.model.Notification;
 import com.toedter.calendar.JDateChooser;
-
-import javax.swing.JLabel;
 
 /**
  * @author Celina
@@ -68,11 +67,9 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
-		
-		
-		
+
 		tableNotifications = createJTable();
-		
+
 		notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
 
@@ -155,7 +152,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 						selectedStartDate = startDateChooser.getDate();
 
 						if (selectedStartDate == null) {
-							getAdminToolsPanel().setStatusMsg("Please set a correct start date.");
+							getAdminToolsPanel().setStatusMsg(
+									"Please set a correct start date.");
 							selectedStartDate = prevStartDate;
 						}
 					}
@@ -182,28 +180,30 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		lblEndDate.setBounds(538, 0, 137, 39);
 		lblEndDate.setFont(GlobalUI.LableFont);
 		panelNotificationInput.add(lblEndDate);
-		
 
 		selectedExpirationDate = expirationDateChooser.getDate();
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
 				updateTable();
 			}
-			public void componentHidden(ComponentEvent e){
+
+			public void componentHidden(ComponentEvent e) {
 				updateTable();
 			}
 		});
-	
+
 		expirationDateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent e) {
 						// When the user picks a date it sets it to the text box
 						// and retrieves that date.
 						Date prevExpirationDate = selectedExpirationDate;
-						selectedExpirationDate = expirationDateChooser.getDate();
+						selectedExpirationDate = expirationDateChooser
+								.getDate();
 
 						if (selectedExpirationDate == null) {
-							getAdminToolsPanel().setStatusMsg("Please set a correct expiration date.");
+							getAdminToolsPanel().setStatusMsg(
+									"Please set a correct expiration date.");
 							selectedExpirationDate = prevExpirationDate;
 						}
 					}
@@ -294,7 +294,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 										// accepts empty string**S
 		}
 	}
-	public void removeUpdatedNotification(String notificationText){
+
+	public void removeUpdatedNotification(String notificationText) {
 		manager.removeNotification(notificationText);
 		// clears expired notifications
 		model = (DefaultTableModel) tableNotifications.getModel();
@@ -302,21 +303,23 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			// remove selected row from the model
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
- 
-		
+
 	}
-	public void updateNotifications(String notficationText, Date startDate, Date endDate){
+
+	public void updateNotifications(String notficationText, Date startDate,
+			Date endDate) {
 		model = (DefaultTableModel) tableNotifications.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
 		String reportDate = dateStart.format(startDate);
 		String reportEndDate = dateEnd.format(endDate);
-		String st[] = {notficationText, reportDate, reportEndDate };
+		String st[] = { notficationText, reportDate, reportEndDate };
 		model.addRow(st);
-		
+
 	}
-	public JTable createJTable(){
-		JTable newTable = new JTable(new DefaultTableModel(
+
+	public JTable createJTable() {
+		final JTable newTable = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
 						"Start Date:", "Expiration Date:" }));
 		newTable.setColumnSelectionAllowed(false);
@@ -335,17 +338,21 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		return newTable;
 
 	}
+
 	/**
 	 * Updates the notification Table in the NotificationPanel.
 	 */
-	public void updateTable(){
-		ArrayList<Notification> notifications = notificationTable.getAllNotification();
+	public void updateTable() {
+		ArrayList<Notification> notifications = notificationTable
+				.getAllNotification();
 		ArrayList<String> notificationText = new ArrayList<String>();
-		DefaultTableModel dm = (DefaultTableModel) tableNotifications.getModel();
+		DefaultTableModel dm = (DefaultTableModel) tableNotifications
+				.getModel();
 		dm.getDataVector().removeAllElements();
-		for(int i = 0; i < notifications.size(); i++){
+		for (int i = 0; i < notifications.size(); i++) {
 			Notification n = notifications.get(i);
-			updateNotifications(n.getNotification(), n.getStartDate(), n.getExpirationDate());
+			updateNotifications(n.getNotification(), n.getStartDate(),
+					n.getExpirationDate());
 			notificationText.add(n.getNotification());
 		}
 		notiArray = notificationText;
