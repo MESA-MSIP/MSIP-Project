@@ -93,7 +93,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		shutDownButton.setIcon(shutDown);
 		shutDownButton.setBounds(15, 5, 60, 60);
 		shutDownButton.setBorder(GlobalUI.blackBorder);
-		// shutDownButton.setBorder(GlobalUI.blackBorder);
+		// shutDownButton.setBorder(GlobalUI.blackBorder);.
 		shutDownButton.addActionListener(this);
 		panel.add(shutDownButton);
 
