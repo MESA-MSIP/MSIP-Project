@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -108,6 +110,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 		errorMessage.setForeground(GlobalUI.redColor);
 		add(errorMessage);
 
+		
+		addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				txtKNumber.requestFocusInWindow();
+			}
+		});
 		txtKNumber.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				/*

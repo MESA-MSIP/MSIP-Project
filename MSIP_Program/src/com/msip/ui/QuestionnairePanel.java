@@ -161,7 +161,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textValue5.setColumns(15);
 		textValue5.addActionListener(this);
 
-		//TODO fix the graph to make it like reportPanel
 		startDate = new Date();
 		graphPanel = new JPanel();
 		add(graphPanel, BorderLayout.CENTER);
@@ -217,6 +216,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			setEditableValueChoices(true);
 		}
 		if(textQuestion == e.getSource()){
+			
+			ArrayList<String> labelValues = new ArrayList<String>();
+			labelValues.add(textValue1.getText());
+			labelValues.add(textValue2.getText());
+			labelValues.add(textValue3.getText());
+			
 			ArrayList<String> Labels = setSurveyLabel();
 			studentSurveyPanel.setButtonValue(GlobalUI.responseOne, Labels.get(0) );
 			studentSurveyPanel.setButtonValue(GlobalUI.responseTwo, Labels.get(1));
