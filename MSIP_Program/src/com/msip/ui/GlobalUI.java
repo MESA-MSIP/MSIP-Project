@@ -17,7 +17,7 @@ public class GlobalUI {
 	public static final String BlankPanel = "BlankPanel";
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
-	public static final String SettingsPanel = "Settings";
+	public static final String TimePanel = "Time/Date";
 
 	// Size Bounds
 
