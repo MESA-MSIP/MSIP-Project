@@ -27,4 +27,12 @@ public class popUpResponse extends JFrame {
 				options[1]);
 		return n;
 	}
+	public void questionnairePopUp(){
+		String message  = "Please Complete the Fields.";
+		JFrame frame = new JFrame();
+		frame.setSize(400, 240);
+		Object[] option = {"Ok"};
+		JOptionPane.showMessageDialog(frame, message);
+		
+	}
 }

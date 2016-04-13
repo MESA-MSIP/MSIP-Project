@@ -21,6 +21,7 @@ import com.msip.db.LoginTable;
 import com.msip.db.NotificationTable;
 import com.msip.db.StudentTable;
 import com.msip.db.SurveyTable;
+import com.msip.db.SurveyTableLables;
 import com.msip.external.SerialPort;
 import com.msip.external.Utility;
 import com.msip.model.Admin;
@@ -51,6 +52,7 @@ public class MISPCore {
 	private ToastPanel welcomePanel;
 	private SurveyTable surveyTable;
 	private AdminToolsPanel adminToolsPanel;
+	private SurveyTableLables surveyTableLables;
 
 	public MISPCore() {
 
@@ -64,6 +66,7 @@ public class MISPCore {
 		loginTable = new LoginTable();
 		notificationTable = new NotificationTable();
 		surveyTable = new SurveyTable();
+		surveyTableLables = new SurveyTableLables();
 	}
 
 	/**
@@ -393,6 +396,9 @@ public class MISPCore {
 	}
 	public int getID(){
 		return surveyTable.getID();
+	}
+	public SurveyTableLables getSurveyTableLables(){
+		return surveyTableLables;
 	}
 	/**
 	 * @param args

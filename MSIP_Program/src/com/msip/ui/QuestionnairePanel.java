@@ -6,6 +6,7 @@ package com.msip.ui;
 import javax.swing.JPanel;
 
 import com.msip.db.SurveyTable;
+import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
 import java.awt.Color;
 import java.awt.BorderLayout;
@@ -54,27 +55,25 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	private QuestionnairePanel panel;
 	private JPanel graphPanel;
 	private StudentSurveyPanel studentSurveyPanel;
+	private SurveyTableLables surveyTableLables;
+	private popUpResponse popUp;
 
 	public QuestionnairePanel(MISPCore manager) {
-		
+
 		this.manager = manager;
 		surveyTable = this.manager.getSurveyTable();
 		panel = this;
 		studentSurveyPanel = this.manager.getToastPanel().getStudentSurveyPanel();
-		
-		
-		
+		surveyTableLables = this.manager.getSurveyTableLables();
+
+
+
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
 		questionPanel = new JPanel();
 		questionPanel.setBackground(Color.WHITE);
 		add(questionPanel, BorderLayout.NORTH);
-
-		editQButton = new JButton("Submit Question");
-		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		editQButton.addActionListener(this);
-		questionPanel.add(editQButton);
 
 		textQuestion = new JTextField();
 		textQuestion.setToolTipText("Example: Rate the MESA Tutors From 1 - 5, on Availability.");
@@ -86,9 +85,14 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		questionPanel.add(verticalStrut_4);
-		
 
-		 valuePanel = new JPanel();
+		editQButton = new JButton();
+		toggleButton();
+		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		editQButton.addActionListener(this);
+		questionPanel.add(editQButton);
+
+		valuePanel = new JPanel();
 		valuePanel.setBackground(Color.WHITE);
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
@@ -128,7 +132,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 		textValue3 = new JTextField();
 		textValue3.setToolTipText("Example: Available");
-		
+
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
 		textValue3.addActionListener(this);
@@ -137,7 +141,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_2);
 
-		 labelValue4 = new JLabel("Response 4:");
+		labelValue4 = new JLabel("Response 4:");
 		labelValue4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue4);
 
@@ -151,7 +155,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
 		valuePanel.add(verticalStrut_3);
 
-		 labelValue5 = new JLabel("Response 5:");
+		labelValue5 = new JLabel("Response 5:");
 		labelValue5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		valuePanel.add(labelValue5);
 
@@ -165,34 +169,68 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		graphPanel = new JPanel();
 		add(graphPanel, BorderLayout.CENTER);
 		panel.add(graphPanel, BorderLayout.CENTER);
-		
-		//Update the Question when the QuestionnairePanel is shown
+
+		// Update the Question when the QuestionnairePanel is shown
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
-				
-				String question  = surveyTable.getQuestion();
+				String question = surveyTable.getQuestion();
 				textQuestion.setText(question);
-				
-				if (surveyTable.getID() != -2){
+				if (surveyTable.getID() != -2) {
 					updateGraph();
 				}
 				
+				//setText of the Labels
+				setResponseLabels();
+				checkForText();
 			}
-			public void componentHidden(ComponentEvent e){
-				
-				String question  = surveyTable.getQuestion();
+
+			public void componentHidden(ComponentEvent e) {
+				//setText of the labels
+		
+				String question = surveyTable.getQuestion();
 				textQuestion.setText(question);
-				
-				if (surveyTable.getID() != -2){
+
+				if (surveyTable.getID() != -2) {
 					updateGraph();
 				}
+				setResponseLabels();
+				checkForText();
+				
 				
 			}
 
 		});
 
 	}
-	public void updateGraph(){
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (editQButton == e.getSource()) {
+			if (editQButton.getText() == GlobalUI.clearButtonText) {
+				setEditableValueChoices(true);
+				clearValueChoices();
+				clearQAndLabels();
+				toggleButton();
+			} else {
+				if (editQButton.getText() == GlobalUI.submitButtonText) {
+					if(getSurveyLabelsFromTextField().size() != 5){
+						popUp = new popUpResponse();
+						//TODO If All the Fields are not Filled, Send up a PopUp.
+					}
+					addQuestion();
+					addLabelsToTable();
+					setEditableValueChoices(false);
+					toggleButton();
+				}
+			}
+		}
+	
+	}
+
+	/**
+	 * Updates the Graph with updated Values.
+	 */
+	public void updateGraph() {
 		GraphReport newGraph = new GraphReport(textQuestion.getText());
 		JPanel newGraphPanel = newGraph.createPiePanel();
 		BorderLayout bl = (BorderLayout) panel.getLayout();
@@ -201,73 +239,153 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		revalidate();
 	}
 
-	public ArrayList<Integer> getResult() {
-		ArrayList<Integer> results = new ArrayList<Integer>();
-		results = this.manager.getResults();
-		return results;
-
+	/**
+	 * Toggles and switches the Text from Submit to Clear.
+	 */
+	public void toggleButton() {
+		if(checkTables() == true){
+			editQButton.setText(GlobalUI.clearButtonText);
+		}
+		else{
+			editQButton.setText(GlobalUI.submitButtonText);
+		}
 	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(editQButton == e.getSource()){
-			textQuestion.setText(GlobalUI.CLEAR);
-			textQuestion.setEditable(true);
-			clearValueChoices();
+	
+	public void checkForText(){
+		if(checkTables() == false){
 			setEditableValueChoices(true);
 		}
-		if(textQuestion == e.getSource()){
-			
-			ArrayList<String> labelValues = new ArrayList<String>();
-			labelValues.add(textValue1.getText());
-			labelValues.add(textValue2.getText());
-			labelValues.add(textValue3.getText());
-			
-			ArrayList<String> Labels = setSurveyLabel();
-			studentSurveyPanel.setButtonValue(GlobalUI.responseOne, Labels.get(0) );
-			studentSurveyPanel.setButtonValue(GlobalUI.responseTwo, Labels.get(1));
-			studentSurveyPanel.setButtonValue(GlobalUI.responseThree, Labels.get(2));
-			studentSurveyPanel.setButtonValue(GlobalUI.responseFour, Labels.get(3));
-			studentSurveyPanel.setButtonValue(GlobalUI.responseFive, Labels.get(4));
-			
-			addQuestion();
+		else{
 			setEditableValueChoices(false);
-			
 		}
 		
-
 	}
-	public ArrayList<String> setSurveyLabel(){
-		ArrayList<String> labels = new ArrayList<String>();
-		
-		labels.add(textValue1.getText());
-		labels.add(textValue2.getText());
-		labels.add(textValue3.getText());
-		labels.add(textValue4.getText());
-		labels.add(textValue5.getText());
-		return labels;
-		
 
+	/**
+	 * Checks if there is anything in both Tables.
+	 * @return
+	 */
+	public boolean checkTables(){
+		if(surveyTable.getQuestion() == null){
+			return false;
+		}
+		else{
+			if(surveyTableLables.getValueLables().size() == 0){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
 	}
-	public void clearValueChoices(){
+
+
+	/**
+	 * Clears all of the TextFields.
+	 */
+	public void clearValueChoices() {
+		textQuestion.setText(GlobalUI.CLEAR);
 		textValue1.setText(GlobalUI.CLEAR);
 		textValue2.setText(GlobalUI.CLEAR);
 		textValue3.setText(GlobalUI.CLEAR);
 		textValue4.setText(GlobalUI.CLEAR);
 		textValue5.setText(GlobalUI.CLEAR);
 	}
-	public void setEditableValueChoices(boolean flag){
+
+	/**
+	 * Clears the Question and Labels from their respective Tables.
+	 */
+	public void clearQAndLabels(){
+		surveyTable.removeAll();
+		surveyTableLables.clear();
+		
+	}
+
+	/**
+	 * Adds the Question into the DB.
+	 */
+	public void addQuestion() {
+		manager.removeAll();
+		String question = textQuestion.getText();
+		manager.addQuestion(question, startDate);
+		textQuestion.setText(question);
+	}
+	/**
+	 * Adds the Labels from the TextFields into the DB.
+	 */
+	public void addLabelsToTable(){
+		surveyTableLables.clear();
+		surveyTableLables.addResults(getSurveyLabelsFromTextField());
+	}
+	/**
+	 * Sets the TextFields to be either noneditable or editable.
+	 * @param flag
+	 */
+	public void setEditableValueChoices(boolean flag) {
+		textQuestion.setEditable(flag);
 		textValue1.setEditable(flag);
 		textValue2.setEditable(flag);
 		textValue3.setEditable(flag);
 		textValue4.setEditable(flag);
 		textValue5.setEditable(flag);
 	}
-	public void addQuestion(){
-		
-		manager.removeAll();
-		String question  = textQuestion.getText();
-		manager.addQuestion(question, startDate);
-		textQuestion.setText(question);
-		textQuestion.setEditable(false);
+
+	/**
+	 * Sets the Labels from the QuestionnairePanel's TextField to the RadioButtons
+	 * in the StudentSurveyPanel.
+	 */
+	public void setLabelsToSurvey(){
+		ArrayList<String> Labels = getSurveyLabelsFromTextField();
+		studentSurveyPanel.setButtonValue(GlobalUI.responseOne, Labels.get(0));
+		studentSurveyPanel.setButtonValue(GlobalUI.responseTwo, Labels.get(1));
+		studentSurveyPanel.setButtonValue(GlobalUI.responseThree, Labels.get(2));
+		studentSurveyPanel.setButtonValue(GlobalUI.responseFour, Labels.get(3));
+		studentSurveyPanel.setButtonValue(GlobalUI.responseFive, Labels.get(4));
 	}
+
+	/**
+	 * Gets the Response Labels stored in the surveyTableLabels and sets them
+	 * to their respective TextField.
+	 */
+	public void setResponseLabels(){
+		//if there is nothing stored, dont do anything
+		if((surveyTableLables.getValueLables().size() == 0) || (surveyTableLables.getValueLables() == null)){
+			
+		}
+		else{
+			ArrayList<String> surveyLabels = surveyTableLables.getValueLables();
+			textValue1.setText(surveyLabels.get(0));
+			textValue2.setText(surveyLabels.get(1));
+			textValue3.setText(surveyLabels.get(2));
+			textValue4.setText(surveyLabels.get(3));
+			textValue5.setText(surveyLabels.get(4));
+		}
+	
+	}
+
+	/**
+	 * Gets the Survey Response Labels from their respective TextFields.
+	 * @return
+	 */
+	public ArrayList<String> getSurveyLabelsFromTextField() {
+		ArrayList<String> labels = new ArrayList<String>();
+		labels.add(textValue1.getText());
+		labels.add(textValue2.getText());
+		labels.add(textValue3.getText());
+		labels.add(textValue4.getText());
+		labels.add(textValue5.getText());
+		return labels;
+
+	}
+	/**
+	 * Gets the Results from the DB.
+	 * @return
+	 */
+	public ArrayList<Integer> getResult() {
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		results = this.manager.getResults();
+		return results;
+	
+	}
+
 }
