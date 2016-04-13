@@ -87,7 +87,7 @@ public class DBConnector {
 //		 no.addToNotificationTable("Exam on friday", new Date(),
 //				 getRandomDate());
 //		 System.out.println(no.getAllNotification());
-	//	no.removeAll();
+	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
 		//s.addQuestion("No new question", new Date());
