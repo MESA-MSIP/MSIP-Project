@@ -221,6 +221,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 					else{
 						addQuestion();
 						addLabelsToTable();
+						setLabelsToSurvey();
 						setEditableValueChoices(false);
 						toggleButton();						
 					}
@@ -376,7 +377,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			return false;
 		}
 		else{
-			System.out.println("Value of TextValue1:A" + textValue1.getText() + "ABABAB");	
 			return true;
 		}
 
