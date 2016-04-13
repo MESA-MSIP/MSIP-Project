@@ -19,7 +19,9 @@ public class GlobalUI {
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	public static final String TimePanel = "Time/Date";
 
-	// Size Bounds
+	// Strings for the QuestionnairePanel
+	public static final String submitButtonText = "Submit Question";
+	public static final String clearButtonText = "Clear Question";
 
 	// Colors and Borders
 	public static final Color whiteColor = new Color(255,255,255);
