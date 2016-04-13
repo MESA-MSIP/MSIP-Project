@@ -213,14 +213,18 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 				toggleButton();
 			} else {
 				if (editQButton.getText() == GlobalUI.submitButtonText) {
-					if(getSurveyLabelsFromTextField().size() != 5){
+					if(checkForCompleteFields() == false){
 						popUp = new popUpResponse();
+						popUp.questionnairePopUp();
 						//TODO If All the Fields are not Filled, Send up a PopUp.
 					}
-					addQuestion();
-					addLabelsToTable();
-					setEditableValueChoices(false);
-					toggleButton();
+					else{
+						addQuestion();
+						addLabelsToTable();
+						setEditableValueChoices(false);
+						toggleButton();						
+					}
+
 				}
 			}
 		}
@@ -361,6 +365,21 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 			textValue5.setText(surveyLabels.get(4));
 		}
 	
+	}
+	public boolean checkForCompleteFields(){
+		int a = textValue1.getText().length();
+		int b = textValue2.getText().length();
+		int c = textValue3.getText().length();
+		int d = textValue4.getText().length();
+		int e = textValue5.getText().length();
+		if((a == 0) || (b == 0) || (c == 0) || (d == 0) || (e == 0)){
+			return false;
+		}
+		else{
+			System.out.println("Value of TextValue1:A" + textValue1.getText() + "ABABAB");	
+			return true;
+		}
+
 	}
 
 	/**
