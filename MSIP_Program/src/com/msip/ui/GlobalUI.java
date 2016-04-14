@@ -22,6 +22,8 @@ public class GlobalUI {
 	// Strings for the QuestionnairePanel
 	public static final String submitButtonText = "Submit Question";
 	public static final String clearButtonText = "Clear Question";
+	public static final String completeFields = "Please Complete all the Fields.";
+	public static final String questionLength = "The Question Has to be At Least 4 Characters or More.";
 
 	// Colors and Borders
 	public static final Color whiteColor = new Color(255,255,255);

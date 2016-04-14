@@ -215,7 +215,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 				if (editQButton.getText() == GlobalUI.submitButtonText) {
 					if(checkForCompleteFields() == false){
 						popUp = new popUpResponse();
-						popUp.questionnairePopUp();
+						//TODO: Fix this logic
+						if(textQuestion.getText().length() < 3){
+							popUp.questionnairePopUp(GlobalUI.questionLength);
+						}
+						else{
+							popUp.questionnairePopUp(GlobalUI.completeFields);
+						}
+						
+						
 						//TODO If All the Fields are not Filled, Send up a PopUp.
 					}
 					else{
@@ -257,6 +265,24 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		}
 	}
 	
+	public boolean checkForCompleteFields(){
+		if (textQuestion.getText().length() <=  4){
+			return false;
+		}
+		int a = textValue1.getText().length();
+		int b = textValue2.getText().length();
+		int c = textValue3.getText().length();
+		int d = textValue4.getText().length();
+		int e = textValue5.getText().length();
+		if((a == 0) || (b == 0) || (c == 0) || (d == 0) || (e == 0)){
+			return false;
+		}
+		else{
+			return true;
+		}
+	
+	}
+
 	public void checkForText(){
 		if(checkTables() == false){
 			setEditableValueChoices(true);
@@ -368,21 +394,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		}
 	
 	}
-	public boolean checkForCompleteFields(){
-		int a = textValue1.getText().length();
-		int b = textValue2.getText().length();
-		int c = textValue3.getText().length();
-		int d = textValue4.getText().length();
-		int e = textValue5.getText().length();
-		if((a == 0) || (b == 0) || (c == 0) || (d == 0) || (e == 0)){
-			return false;
-		}
-		else{
-			return true;
-		}
-
-	}
-
 	/**
 	 * Gets the Survey Response Labels from their respective TextFields.
 	 * @return
