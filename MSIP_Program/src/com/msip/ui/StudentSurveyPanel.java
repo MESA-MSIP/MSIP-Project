@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.swing.SwingConstants;
@@ -18,6 +19,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import com.msip.db.SurveyTable;
+import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
@@ -42,6 +44,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JLabel labelValue1;
 	private ImageIcon yellowStarIcon;
 	private ImageIcon clearStarIcon;
+	private SurveyTableLables surveyTableLables;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
@@ -51,6 +54,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		
 		this.manager = manager;
 		surveyTable = this.manager.getSurveyTable();
+		surveyTableLables = this.manager.getSurveyTableLables();
 		
 		skipButton = new JButton("Skip Survey\r\n");
 		skipButton.setBounds(218, 312, 145, 46);
@@ -164,6 +168,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		labelValue5.setHorizontalAlignment(SwingConstants.CENTER);
 		labelValue5.setBounds(680, 170, 56, 16);
 		add(labelValue5);
+		//
+		if(surveyTableLables.getValueLables().size() != 0){
+			setTextFromLabelTables();
+		}
+		
+	
 	}
 	
 	public void setClearIcon(JRadioButton button){
@@ -246,6 +256,16 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		}
 		default: break;
 		}
+	}
+	public void setTextFromLabelTables(){
+		ArrayList<String> labels = new ArrayList<String>();
+		labels = surveyTableLables.getValueLables();
+		labelValue1.setText(labels.get(0));
+		labelValue2.setText(labels.get(1));
+		labelValue3.setText(labels.get(2));
+		labelValue4.setText(labels.get(3));
+		labelValue5.setText(labels.get(4));
+		
 	}
 	public void clearRButtons(){
 		groupChoices.clearSelection();
