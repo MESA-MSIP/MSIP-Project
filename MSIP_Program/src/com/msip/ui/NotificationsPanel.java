@@ -65,6 +65,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
+
 		notificationTable = this.manager.getNotificationTable();
 		notificationsPanel = this;
 
@@ -72,6 +73,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		setLayout(new BorderLayout(0, 0));
 
 		tableNotifications = createJTable();
+
+		tableNotifications.getTableHeader().setReorderingAllowed(false);
 
 		notificationScrollPane = new JScrollPane(tableNotifications);
 		add(notificationScrollPane, BorderLayout.CENTER);
@@ -194,9 +197,10 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 				updateTable();
 			}
 		});
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
-		String tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
+		String tomorrowsDateString = ZonedDateTime.now().plusDays(1)
+				.format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
 		Date tomorrowsDate = null;
 		try {
 			tomorrowsDate = formatter.parse(tomorrowsDateString);
@@ -258,19 +262,24 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	// **********************************************************//
 	// **********************************************************//
 	private void addNotification() {
+		if (textAreaNotifications.getText().length() == 0) {
 
-		model = (DefaultTableModel) tableNotifications.getModel();
-		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		String reportDate = dateStart.format(selectedStartDate);
-		String reportEndDate = dateEnd.format(selectedExpirationDate);
-		String note = textAreaNotifications.getText().trim();
-		String st[] = { note, reportDate, reportEndDate };
-		model.addRow(st);
+		} else {
+			model = (DefaultTableModel) tableNotifications.getModel();
 
-		manager.addNotification(note, selectedStartDate, selectedExpirationDate);
-		// adds the notification to an array list.
-		notiArray.add(note);
+			DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			String reportDate = dateStart.format(selectedStartDate);
+			String reportEndDate = dateEnd.format(selectedExpirationDate);
+			String note = textAreaNotifications.getText().trim();
+			String st[] = { note, reportDate, reportEndDate };
+			model.addRow(st);
+
+			manager.addNotification(note, selectedStartDate,
+					selectedExpirationDate);
+			// adds the notification to an array list.
+			notiArray.add(note);
+		}
 	}
 
 	// **********************************************************//
@@ -302,8 +311,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		if (data.isEmpty()) {
 			btnAdd.setEnabled(false);
 		} else {
-			btnAdd.setEnabled(true); // doesnt work when first starting, still
-										// accepts empty string**S
+			btnAdd.setEnabled(true);
 		}
 	}
 
@@ -333,7 +341,13 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	public JTable createJTable() {
 		final JTable newTable = new JTable(new DefaultTableModel(
 				new Object[][] {}, new String[] { "Notifications:",
-						"Start Date:", "Expiration Date:" }));
+						"Start Date:", "Expiration Date:" }) {
+			@Override
+			public boolean isCellEditable(int r, int c) {
+				return false;
+			}
+
+		});
 		newTable.setColumnSelectionAllowed(false);
 		newTable.getTableHeader().setFont(GlobalUI.GlobalFont);
 		newTable.setFont(GlobalUI.GlobalFont);
@@ -346,7 +360,9 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 				System.out.println(rowIndex);
 			}
+
 		});
+
 		return newTable;
 
 	}

@@ -1,7 +1,6 @@
 package com.msip.ui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -18,8 +17,6 @@ public class GlobalUI {
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	public static final String TimePanel = "Time/Date";
-	
-	
 
 	// Strings for the QuestionnairePanel
 	public static final String submitButtonText = "Submit Question";
@@ -28,7 +25,7 @@ public class GlobalUI {
 	public static final String questionLength = "The Question Has to be At Least 4 Characters or More.";
 
 	// Colors and Borders
-	public static final Color whiteColor = new Color(255,255,255);
+	public static final Color whiteColor = new Color(255, 255, 255);
 	public static final Color redColor = new Color(244, 67, 54);
 	public static final Border redBorder = BorderFactory.createMatteBorder(2,
 			2, 2, 2, redColor);
@@ -36,9 +33,9 @@ public class GlobalUI {
 	public static final Border blackBorder = BorderFactory.createMatteBorder(1,
 			1, 1, 1, blackColor);
 
-	//Minimum Value for the Question
+	// Minimum Value for the Question
 	public static final int minQuestionLength = 4;
-	
+
 	//
 	public static final int SUCCESS = 1;
 	public static final int FAIL = 0;
@@ -122,7 +119,6 @@ public class GlobalUI {
 	public static final int BUTTONHEIGHT = 40;
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
 
-
 	public static String[] getListMajors() {
 		String[] majorList = { "Aerospace Engineering",
 				"Agricultural Engineering", "Architectural Engineering",
@@ -137,10 +133,6 @@ public class GlobalUI {
 				"Materials Engineering", "Mathematics", "Mathematics Teaching",
 				"Mechanical Engineering", "Pharmacy", "Physics", "PreDental",
 				"PreMed", "Veterinary", "Zoology", "Other" };
-		// "Mechanical Engineer", "Electrical Engineer",
-		// "Computer Engineer", "Computer Science", "Civil Engineer",
-		// "Chemical Engineer", "Information Technology", "Chemistry",
-		// "Biology", "Physics","Other" };
 
 		return majorList;
 	}
