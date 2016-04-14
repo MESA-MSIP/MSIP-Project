@@ -18,6 +18,8 @@ public class GlobalUI {
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	public static final String TimePanel = "Time/Date";
+	
+	
 
 	// Strings for the QuestionnairePanel
 	public static final String submitButtonText = "Submit Question";
@@ -86,6 +88,7 @@ public class GlobalUI {
 
 	// Path File for MESA Logo
 	public static final String MESAURL = "MESA.png";
+	public static final String YELLOWSTARURL = "yellowStar.png";
 
 	// Integers for Student Admin Decision
 	public static final int STUDENT = 0;
