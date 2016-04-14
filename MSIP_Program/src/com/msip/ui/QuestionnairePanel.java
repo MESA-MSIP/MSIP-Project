@@ -216,7 +216,8 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 					if(checkForCompleteFields() == false){
 						popUp = new popUpResponse();
 						//TODO: Fix this logic
-						if(textQuestion.getText().length() < 3){
+						int textQuestionLength = textQuestion.getText().length();
+						if(textQuestionLength < GlobalUI.minQuestionLength){
 							popUp.questionnairePopUp(GlobalUI.questionLength);
 						}
 						else{
@@ -224,7 +225,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 						}
 						
 						
-						//TODO If All the Fields are not Filled, Send up a PopUp.
 					}
 					else{
 						addQuestion();
@@ -266,7 +266,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	}
 	
 	public boolean checkForCompleteFields(){
-		if (textQuestion.getText().length() <=  4){
+		if (textQuestion.getText().length() < GlobalUI.minQuestionLength){
 			return false;
 		}
 		int a = textValue1.getText().length();
