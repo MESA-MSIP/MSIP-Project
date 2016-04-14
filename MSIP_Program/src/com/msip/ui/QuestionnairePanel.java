@@ -223,7 +223,8 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 						addLabelsToTable();
 						setLabelsToSurvey();
 						setEditableValueChoices(false);
-						toggleButton();						
+						toggleButton();
+						updateGraph();
 					}
 
 				}
