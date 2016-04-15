@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -354,6 +355,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		newTable.setFont(GlobalUI.GlobalFont);
 		newTable.setRowSelectionAllowed(true);
 		newTable.setRowHeight(35);
+		newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		newTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				// returns the index of a selected notification.
