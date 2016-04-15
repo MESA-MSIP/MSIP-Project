@@ -8,8 +8,11 @@ import java.awt.Color;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -18,11 +21,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import com.msip.db.SurveyTable;
 import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -33,10 +36,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JButton skipButton;
 	private JButton submitButton;
 	private JRadioButton rbutton1, rbutton2, rbutton3, rbutton4, rbutton5;
-	private JTextPane surveyQ;
+	private JTextArea surveyQ;
 	private MISPCore manager;
 	private ButtonGroup groupChoices;
-	private SurveyTable surveyTable;
 	private JLabel labelValue2;
 	private JLabel labelValue3;
 	private JLabel labelValue4;
@@ -45,15 +47,17 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private ImageIcon yellowStarIcon;
 	private ImageIcon clearStarIcon;
 	private SurveyTableLables surveyTableLables;
+	private Insets m;
 	
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
 		setForeground(Color.BLACK);
 		setBackground(Color.WHITE);
 		setLayout(null);
+		m = new Insets(0, 30, 0, 30);
+		
 		
 		this.manager = manager;
-		surveyTable = this.manager.getSurveyTable();
 		surveyTableLables = this.manager.getSurveyTableLables();
 		
 		skipButton = new JButton("Skip Survey\r\n");
@@ -118,17 +122,13 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		rbutton5.addActionListener(this);
 		add(rbutton5);
 
-		surveyQ = new JTextPane();
+		surveyQ = new JTextArea();
+		surveyQ.setLineWrap(true);
 		surveyQ.setBackground(new Color(255, 255, 255));
-		surveyQ.setContentType("text/plain/");
-	
-		StyledDocument doc = surveyQ.getStyledDocument();
-		SimpleAttributeSet center = new SimpleAttributeSet();
-		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 34));
+		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 26));
 		surveyQ.setEditable(false);
 		surveyQ.setBounds(10, 0, 780, 150);
+		surveyQ.setMargin(m );
 		add(surveyQ);
 	
 		//Create a Button Group
@@ -142,31 +142,31 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		labelValue1 = new JLabel("Value1");
 		labelValue1.setLabelFor(rbutton1);
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue1.setBounds(40, 170, 56, 16);
+		labelValue1.setBounds(10, 170, 115, 16);
 		add(labelValue1);
 		
 		labelValue2 = new JLabel("Value2");
 		labelValue2.setLabelFor(rbutton2);
 		labelValue2.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue2.setBounds(200, 170, 56, 16);
+		labelValue2.setBounds(170, 170, 115, 16);
 		add(labelValue2);
 		
 		labelValue3 = new JLabel("Value3");
 		labelValue3.setLabelFor(rbutton3);
 		labelValue3.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue3.setBounds(360, 170, 56, 16);
+		labelValue3.setBounds(330, 170, 115, 16);
 		add(labelValue3);
 		
 		labelValue4 = new JLabel("Value4");
 		labelValue4.setLabelFor(rbutton4);
 		labelValue4.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue4.setBounds(520, 170, 56, 16);
+		labelValue4.setBounds(490, 170, 115, 16);
 		add(labelValue4);
 		
 		labelValue5 = new JLabel("Value5");
 		labelValue5.setLabelFor(rbutton5);
 		labelValue5.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue5.setBounds(680, 170, 56, 16);
+		labelValue5.setBounds(650, 170, 115, 16);
 		add(labelValue5);
 		//
 		if(surveyTableLables.getValueLables().size() != 0){
@@ -269,6 +269,12 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	}
 	public void clearRButtons(){
 		groupChoices.clearSelection();
+		rbutton1.setIcon(clearStarIcon);
+		rbutton2.setIcon(clearStarIcon);
+		rbutton3.setIcon(clearStarIcon);
+		rbutton4.setIcon(clearStarIcon);
+		rbutton5.setIcon(clearStarIcon);
+
 	}
 	public void setQuestion(String question){
 		surveyQ.setText(question);
@@ -283,31 +289,31 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 			setClearIcon(rbutton5);
 		}
 		if(rbutton2 == e.getSource()){
-			setSelectedIcon(rbutton1);
+			setClearIcon(rbutton1);
 			setSelectedIcon(rbutton2);
 			setClearIcon(rbutton3);
 			setClearIcon(rbutton4);
 			setClearIcon(rbutton5);
 		}
 		if(rbutton3 == e.getSource()){
-			setSelectedIcon(rbutton1);
-			setSelectedIcon(rbutton2);
+			setClearIcon(rbutton1);
+			setClearIcon(rbutton2);
 			setSelectedIcon(rbutton3);
 			setClearIcon(rbutton4);
 			setClearIcon(rbutton5);
 		}
 		if(rbutton4 == e.getSource()){
-			setSelectedIcon(rbutton1);
-			setSelectedIcon(rbutton2);
-			setSelectedIcon(rbutton3);
+			setClearIcon(rbutton1);
+			setClearIcon(rbutton2);
+			setClearIcon(rbutton3);
 			setSelectedIcon(rbutton4);
 			setClearIcon(rbutton5);
 		}
 		if(rbutton5 == e.getSource()){
-			setSelectedIcon(rbutton1);
-			setSelectedIcon(rbutton2);
-			setSelectedIcon(rbutton3);
-			setSelectedIcon(rbutton4);
+			setClearIcon(rbutton1);
+			setClearIcon(rbutton2);
+			setClearIcon(rbutton3);
+			setClearIcon(rbutton4);
 			setSelectedIcon(rbutton5);
 		}
 		

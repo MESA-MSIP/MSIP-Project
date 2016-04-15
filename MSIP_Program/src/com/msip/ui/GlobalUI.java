@@ -91,6 +91,10 @@ public class GlobalUI {
 	public static final int STUDENT = 0;
 	public static final int ADMIN = 1;
 	public static final int NEITHER = 2;
+	
+	//Magic Number for not truncating the StudentSurveyPanel Labels
+	public static final int truncateLimit = 16;
+	public static final int textQuestionLimit = 200;
 
 	// Button properties
 	public static final Dimension ButtonDimenesions = new Dimension(100, 30);

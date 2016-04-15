@@ -26,13 +26,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.Dimension;
 
 /**
  * @author juanz
  *
  */
-public class QuestionnairePanel extends JPanel implements ActionListener {
+public class QuestionnairePanel extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textQuestion;
@@ -80,6 +82,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		textQuestion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textQuestion.setHorizontalAlignment(SwingConstants.CENTER);
 		textQuestion.addActionListener(this);
+		textQuestion.addKeyListener(this);
 		questionPanel.add(textQuestion);
 		textQuestion.setColumns(30);
 
@@ -107,6 +110,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue1);
 		textValue1.setColumns(15);
 		textValue1.addActionListener(this);
+		textValue1.addKeyListener(this);
 
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		verticalStrut_1.setPreferredSize(new Dimension(0, 20));
@@ -121,6 +125,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue2);
 		textValue2.setColumns(15);
 		textValue2.addActionListener(this);
+		textValue2.addKeyListener(this);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setPreferredSize(new Dimension(0, 20));
@@ -132,10 +137,10 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 
 		textValue3 = new JTextField();
 		textValue3.setToolTipText("Example: Available");
-
+		textValue3.addActionListener(this);
 		valuePanel.add(textValue3);
 		textValue3.setColumns(15);
-		textValue3.addActionListener(this);
+		textValue3.addKeyListener(this);
 
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		verticalStrut_2.setPreferredSize(new Dimension(0, 20));
@@ -150,6 +155,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue4);
 		textValue4.setColumns(15);
 		textValue4.addActionListener(this);
+		textValue4.addKeyListener(this);
 
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		verticalStrut_3.setPreferredSize(new Dimension(0, 20));
@@ -164,6 +170,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 		valuePanel.add(textValue5);
 		textValue5.setColumns(15);
 		textValue5.addActionListener(this);
+		textValue5.addKeyListener(this);
 
 		startDate = new Date();
 		graphPanel = new JPanel();
@@ -215,7 +222,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 				if (editQButton.getText() == GlobalUI.submitButtonText) {
 					if(checkForCompleteFields() == false){
 						popUp = new popUpResponse();
-						//TODO: Fix this logic
 						int textQuestionLength = textQuestion.getText().length();
 						if(textQuestionLength < GlobalUI.minQuestionLength){
 							popUp.questionnairePopUp(GlobalUI.questionLength);
@@ -419,4 +425,46 @@ public class QuestionnairePanel extends JPanel implements ActionListener {
 	
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if((textValue1 == e.getSource()) || (textValue2 == e.getSource()) || (textValue3 == e.getSource())
+				|| (textValue4 == e.getSource()) || (textValue5 == e.getSource())){
+			int strlen1 = textValue1.getText().length();
+			int strlen2 = textValue2.getText().length();
+			int strlen3 = textValue3.getText().length();
+			int strlen4 = textValue4.getText().length();
+			int strlen5 = textValue5.getText().length();
+			if(strlen1 >= GlobalUI.truncateLimit){
+				e.consume();
+			}
+			if(strlen2 >= GlobalUI.truncateLimit){
+				e.consume();
+			}
+			if(strlen3 >= GlobalUI.truncateLimit){
+				e.consume();
+			}
+			if(strlen4 >= GlobalUI.truncateLimit){
+				e.consume();
+			}
+			if(strlen5 >= GlobalUI.truncateLimit){
+				e.consume();
+			}
+		}
+		if(textQuestion == e.getSource()){
+			if(textQuestion.getText().length() >= GlobalUI.textQuestionLimit){
+				e.consume();
+			}
+		}
+		
+	}
 }

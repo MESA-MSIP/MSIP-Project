@@ -208,6 +208,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Exit from the ToastPanel
 		if (exitButton == e.getSource()) {
+			StudentSurveyPanel.clearRButtons();
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
 			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
 		}
