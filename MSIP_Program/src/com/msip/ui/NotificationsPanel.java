@@ -290,6 +290,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	private void deleteNotification() {
 
+		if(tableNotifications.isRowSelected(tableNotifications.getSelectedRow())){
 		// removes the specific notification from the DB table.
 		manager.removeNotification(notiArray.get(rowIndex));
 		// removes the specific notification from the arraylist to match the
@@ -302,7 +303,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			// remove selected row from the model
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
-
+		}
 	}
 
 	@Override
