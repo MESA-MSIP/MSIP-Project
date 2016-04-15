@@ -118,15 +118,15 @@ public class NotificationTable {
 	public void removeExpiredNotification() {
 
 		Date expiredDate = null;
-		 tomorrowsDate = null;
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = ZonedDateTime.now().plusDays(1).format(
-				DateTimeFormatter.ISO_LOCAL_DATE);
-		try {
-			tomorrowsDate = formatter.parse(date);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
+		 tomorrowsDate = new Date();
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		String date = ZonedDateTime.now().plusDays(1).format(
+//				DateTimeFormatter.ISO_LOCAL_DATE);
+//		try {
+//			tomorrowsDate = formatter.parse(date);
+//		} catch (ParseException e1) {
+//			e1.printStackTrace();
+//		}
 		try {
 			PreparedStatement getExpiredDate = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("SELECT ExpirationDate FROM Notification;");
@@ -134,9 +134,10 @@ public class NotificationTable {
 			ResultSet rs = getExpiredDate.executeQuery();
 			while (rs.next()) {
 				expiredDate = rs.getDate("ExpirationDate");
-
-				if (expiredDate.compareTo(tomorrowsDate) > 0) {
+System.out.println("Experation Date: " + expiredDate + " Tomorrows date: " + tomorrowsDate + " Compares: " + (tomorrowsDate.compareTo(expiredDate)));
+				if ((expiredDate.compareTo(tomorrowsDate) < 0)) {
 					System.out.println("Successfully removed: " + new Date());
+					System.out.println(tomorrowsDate);
 					removeFromNotificationTable(expiredDate);
 				}
 			}
