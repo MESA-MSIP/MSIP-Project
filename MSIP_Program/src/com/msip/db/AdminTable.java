@@ -74,9 +74,9 @@ public class AdminTable {
 	 * @return admin
 	 * @throws SQLException
 	 */
-	public Admin modify(int Knumber, String pHash) throws SQLException {
+	public Admin modify(int Knumber, String firstName, String lastName, String pHash) throws SQLException {
 		PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
-				.prepareStatement("UPDATE Admin SET pHash='" + pHash + "' WHERE Knumber='" + Knumber + "';");
+				.prepareStatement("UPDATE Admin SET FirstName='"+ firstName+"', LastName='"+lastName+"', pHash='" + pHash + "' WHERE Knumber='" + Knumber + "';");
 		updateTable.executeUpdate();
 		return getInfo(Knumber);
 	}
