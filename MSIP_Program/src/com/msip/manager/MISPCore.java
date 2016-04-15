@@ -219,7 +219,7 @@ public class MISPCore {
 
 		if (isStudent(student.getkNumber()) == STUDENT_EXISTS) {
 			// TODO update there name?
-			studentTable.modify(student.getkNumber(), student.getMajor());
+			studentTable.modify(student.getkNumber(),student.getFirstName(),student.getLastName(), student.getMajor());
 		} else {
 			studentTable.add(student.getkNumber(), student.getFirstName(),
 					student.getLastName(), student.getMajor());
@@ -233,7 +233,7 @@ public class MISPCore {
 	 * @throws SQLException
 	 */
 	public void modifyStudent(Student student) throws SQLException {
-		studentTable.modify(student.getkNumber(), student.getMajor());
+		studentTable.modify(student.getkNumber(),student.getFirstName(),student.getLastName(), student.getMajor());
 		// TODO can modify Name of student too
 	}
 
