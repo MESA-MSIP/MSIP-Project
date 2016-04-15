@@ -1,13 +1,12 @@
 package com.msip.db;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
-
 import com.msip.external.Utility;
 
 public class DBConnector {
@@ -35,7 +34,7 @@ public class DBConnector {
 	}
 
 	public static void main(String[] args) throws SQLException, ParseException,
-			NoSuchAlgorithmException {
+			NoSuchAlgorithmException, IOException {
 		new DBConnector();
 		AdminTable admin = new AdminTable();
 		admin.deleteAll();
@@ -55,8 +54,10 @@ public class DBConnector {
 		
 
 		LoginTable login = new LoginTable();
+		login.deleteAll();
+		//Utility.importLoginsFromCSVFile("F:\\Downloads\\Spring 2016.txt", login);
 		//login.getParticipation(33333333);
-	login.deleteAll();
+	
 
 //		 for (int i = 0; i < 500; i++) {
 //		 login.addUsingDates(33333333, getRandomDate());
