@@ -47,6 +47,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 	private NotificationCard NotificationCard;
 	private ToastPanel toastPanel;
 	private SurveyTable surveyTable;
+	private NotificationCard notificationCard;
 
 	private JPanel layoutPanel;
 
@@ -55,6 +56,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		this.manager = manager;
 		this.toastPanel = this;
 		surveyTable = this.manager.getSurveyTable();
+		notificationCard = new NotificationCard(manager);
 
 		setBounds(new Rectangle(0, 0, 800, 480));
 		// Construct ConditionCards
@@ -118,10 +120,12 @@ public class ToastPanel extends JPanel implements ActionListener {
 				Random randGen = new Random();
 				double randChance = randGen.nextDouble();
 				checkForNotifications();
+				notificationCard.updateNotification();
 				generateRandomPanel(randChance);
 				// If there is no Question, Show the Notification Card
 				if (surveyTable.getID() == -2) {
 					checkForNotifications();
+					notificationCard.updateNotification();
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
 				} else {
@@ -129,6 +133,8 @@ public class ToastPanel extends JPanel implements ActionListener {
 					// show NotificationCard.
 					if (surveyTable.getQuestion().length() < GlobalUI.minQuestionLength) {
 						checkForNotifications();
+						notificationCard.updateNotification();
+
 						CardLayout cl = (CardLayout) welcomeCards.getLayout();
 						cl.show(toastPanel.getCards(),
 								GlobalUI.NotificationCard);
@@ -187,6 +193,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 			cl.show(this.getCards(), GlobalUI.StudentSurveyPanel);
 		} else {
 			checkForNotifications();
+			notificationCard.updateNotification();
 			CardLayout cl = (CardLayout) welcomeCards.getLayout();
 			cl.show(this.getCards(), GlobalUI.NotificationCard);
 		}
