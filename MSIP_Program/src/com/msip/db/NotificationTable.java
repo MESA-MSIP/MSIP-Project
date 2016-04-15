@@ -119,6 +119,7 @@ public class NotificationTable {
 
 		Date expiredDate = null;
 		 tomorrowsDate = new Date();
+		 //
 //		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //		String date = ZonedDateTime.now().plusDays(1).format(
 //				DateTimeFormatter.ISO_LOCAL_DATE);
