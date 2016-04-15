@@ -123,12 +123,13 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		add(rbutton5);
 
 		surveyQ = new JTextArea();
+		surveyQ.setWrapStyleWord(true);
 		surveyQ.setLineWrap(true);
 		surveyQ.setBackground(new Color(255, 255, 255));
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 26));
 		surveyQ.setEditable(false);
 		surveyQ.setBounds(10, 0, 780, 150);
-		surveyQ.setMargin(m );
+		surveyQ.setMargin(m);
 		add(surveyQ);
 	
 		//Create a Button Group
