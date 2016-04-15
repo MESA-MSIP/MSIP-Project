@@ -16,8 +16,8 @@ public class SurveyTableLables {
 	public SurveyTableLables() {
 		try {
 			PreparedStatement createTable = (PreparedStatement) DBConnector.myConnection
-					.prepareStatement("CREATE TABLE IF NOT EXISTS SurveyLabels(ID INT AUTO_INCREMENT, Value1 VARCHAR(20), Value2 VARCHAR(20),"
-							+ "Value3 VARCHAR(20), Value4 VARCHAR(20), Value5 VARCHAR(20), PRIMARY KEY(ID))");
+					.prepareStatement("CREATE TABLE IF NOT EXISTS SurveyLabels(ID INT AUTO_INCREMENT, Value1 VARCHAR(100), Value2 VARCHAR(100),"
+							+ "Value3 VARCHAR(100), Value4 VARCHAR(100), Value5 VARCHAR(100), PRIMARY KEY(ID))");
 			createTable.executeUpdate();
 			System.out.println("Successfully created the Survey table labels");
 		} catch (SQLException e) {

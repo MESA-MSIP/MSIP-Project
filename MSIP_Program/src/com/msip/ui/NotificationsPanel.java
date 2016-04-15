@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -290,6 +291,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	private void deleteNotification() {
 
+		if(tableNotifications.isRowSelected(tableNotifications.getSelectedRow())){
 		// removes the specific notification from the DB table.
 		manager.removeNotification(notiArray.get(rowIndex));
 		// removes the specific notification from the arraylist to match the
@@ -302,7 +304,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			// remove selected row from the model
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
-
+		}
 	}
 
 	@Override
@@ -353,6 +355,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		newTable.setFont(GlobalUI.GlobalFont);
 		newTable.setRowSelectionAllowed(true);
 		newTable.setRowHeight(35);
+		newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		newTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				// returns the index of a selected notification.

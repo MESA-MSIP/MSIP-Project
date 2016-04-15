@@ -2,7 +2,10 @@ package com.msip.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +13,9 @@ import com.msip.model.Notification;
 import com.mysql.jdbc.PreparedStatement;
 
 public class NotificationTable {
+
+	private SimpleDateFormat formatter;
+	private Date tomorrowsDate;
 
 	/**
 	 * Creates Notification Table if it doesn't exist.
@@ -37,7 +43,7 @@ public class NotificationTable {
 	 */
 	public void addToNotificationTable(String notification, Date startDate,
 			Date expirationDate) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		 formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String startDateString = formatter.format(startDate);
 		String expirationDateString = formatter.format(expirationDate);
 
@@ -110,8 +116,17 @@ public class NotificationTable {
 	 * Removes all expired notifications.
 	 */
 	public void removeExpiredNotification() {
+
 		Date expiredDate = null;
-		Date todayDate = new Date();
+		 tomorrowsDate = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = ZonedDateTime.now().plusDays(1).format(
+				DateTimeFormatter.ISO_LOCAL_DATE);
+		try {
+			tomorrowsDate = formatter.parse(date);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			PreparedStatement getExpiredDate = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("SELECT ExpirationDate FROM Notification;");
@@ -120,8 +135,8 @@ public class NotificationTable {
 			while (rs.next()) {
 				expiredDate = rs.getDate("ExpirationDate");
 
-				if (expiredDate.before(todayDate)) {
-					System.out.println(expiredDate);
+				if (expiredDate.compareTo(tomorrowsDate) > 0) {
+					System.out.println("Successfully removed: " + new Date());
 					removeFromNotificationTable(expiredDate);
 				}
 			}

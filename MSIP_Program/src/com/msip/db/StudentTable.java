@@ -74,9 +74,9 @@ public class StudentTable {
 	 * @return student
 	 * @throws SQLException
 	 */
-	public Student modify(int Knumber, String Major) throws SQLException {
+	public Student modify(int Knumber, String firstName, String lastName, String Major) throws SQLException {
 		PreparedStatement updateTable = (PreparedStatement) DBConnector.myConnection
-				.prepareStatement("UPDATE Student SET Major='" + Major + "' WHERE Knumber='" + Knumber + "';");
+				.prepareStatement("UPDATE Student SET FirstName='"+ firstName+"', LastName='"+lastName+"', Major='" + Major + "' WHERE Knumber='" + Knumber + "';");
 		updateTable.executeUpdate();
 		return getInfo(Knumber);
 	}

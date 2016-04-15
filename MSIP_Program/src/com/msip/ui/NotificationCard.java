@@ -3,6 +3,10 @@ package com.msip.ui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -19,6 +23,8 @@ import com.msip.manager.MISPCore;
 public class NotificationCard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextPane txtpnNotification;
+	private MISPCore manager;
+	private DefaultStyledDocument document;
 
 	/**
 	 * Create the panel.
@@ -30,6 +36,7 @@ public class NotificationCard extends JPanel {
 		 * Create the panel.
 		 */
 
+		this.setManager(manager);
 		setLayout(new BorderLayout(0, 0));
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -44,24 +51,50 @@ public class NotificationCard extends JPanel {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		add(horizontalStrut_1, BorderLayout.EAST);
 
-		 txtpnNotification = new JTextPane();
+		txtpnNotification = new JTextPane();
 		txtpnNotification.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtpnNotification.setEditable(false);
 		txtpnNotification.setText("Notification");
 		add(txtpnNotification, BorderLayout.CENTER);
-		DefaultStyledDocument document = (DefaultStyledDocument) txtpnNotification
-				.getDocument();
+		document = (DefaultStyledDocument) txtpnNotification.getDocument();
 		StyledDocument doc = txtpnNotification.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+		JScrollPane notificationScrollPane = new JScrollPane(txtpnNotification);
+		add(notificationScrollPane, BorderLayout.CENTER);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				updateNotification();
+			}
+		});
+	}
+
+	public void setNoNotifications() {
+		txtpnNotification.setText("No Notifications.");
+	}
+
+	public void setManager(MISPCore manager) {
+		this.manager = manager;
+	}
+
+	public MISPCore getManager() {
+		return manager;
+	}
+
+	public void updateNotification() {
 		try {
 			if (manager.getAllNotifications().size() > 0) {
+
 				for (int i = 0; i < manager.getAllNotifications().size(); i++) {
-					document.insertString(
-							document.getEndPosition().getOffset(), manager
-									.getAllNotifications().get(i) + "\n\n",
-							null);
+					if (!isInDocumnet(manager.getAllNotifications().get(i).getNotification())) {
+						document.insertString(document.getEndPosition()
+								.getOffset(), manager.getAllNotifications()
+								.get(i).getNotification()
+								+ "\n\n", null);
+					}
 				}
 			}
 		} catch (BadLocationException e) {
@@ -69,10 +102,23 @@ public class NotificationCard extends JPanel {
 			e.printStackTrace();
 		}
 
-		JScrollPane notificationScrollPane = new JScrollPane(txtpnNotification);
-		add(notificationScrollPane, BorderLayout.CENTER);
 	}
-	public void setNoNotifications(){
-		txtpnNotification.setText("No Notifications.");
+
+	/**
+	 * returns true if the word all ready exist in document.
+	 * @param word
+	 * @return
+	 */
+	public boolean isInDocumnet(String word) {
+		String txt = txtpnNotification.getText();
+		String[] textArray = txt.split("\n");
+		for (int i = 0; i < textArray.length; i++) {
+			if (word.equals(textArray[i])) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 }

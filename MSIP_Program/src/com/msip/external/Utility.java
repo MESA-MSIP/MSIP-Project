@@ -9,7 +9,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -199,23 +203,41 @@ public class Utility {
 	}
 	
 	public static void importLoginsFromCSVFile(String absolutePath, LoginTable table)
-			throws IOException, SQLException {
+			throws IOException, SQLException, ParseException {
 		
 		BufferedReader br = new BufferedReader(new FileReader(absolutePath));
 		String line = "";
 		try {
 
 			// Read Header of File, first line
+			//LastName, First name, Week, ID, Date, Semester, Month, Knumber
 			br.readLine();
 
 			while ((line = br.readLine()) != null) {
-
 				// use comma as separator
 				String[] data = line.split(",");
-				int Knumber = Integer.parseInt(data[0]);
-				//Timestamp date = data[1]; //TODO get date and convert to timestamp
+				if(data.length == 0){
+					break;
+				}
 				
-				//table.addUsingDates(Knumber, date);
+				String lastName = (data[0]); // Last Name
+				String fistName = (data[1]); // First Name
+				int week = Integer.parseInt(data[2]); // Week
+				int id = Integer.parseInt(data[3]); // ID
+				String date = (data[4]); // Date //
+				//http://www.mkyong.com/java/how-to-convert-string-to-date-java/
+				SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+				Date formatedDate = formatter.parse(date);
+				
+				
+				String semster = (data[5]); // Semester
+				String month = (data[6]); // Month
+				int Knumber = removeKNumber(data[7]); // Knumber
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(formatedDate);
+				cal.set(Calendar.MILLISECOND, 0);
+				table.addUsingDates(Knumber, new Timestamp(cal.getTimeInMillis()));
 
 			}
 		} finally {
