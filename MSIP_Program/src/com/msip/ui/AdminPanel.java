@@ -119,6 +119,12 @@ public class AdminPanel extends JPanel implements ActionListener {
 		}
 
 		if (e.getSource() == btnRemove) {
+			
+			if(getManager().getAdmins().size() <= 1 ){
+				getAdminToolsPanel().setStatusMsg("Cannot delete all admins!");
+				return;
+			};
+			
 			int rowIndex = adminTable.getSelectedRow();
 			
 
