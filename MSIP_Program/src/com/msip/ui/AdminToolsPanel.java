@@ -84,18 +84,13 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		panel.setLayout(null);
 		panel.add(btnLogOut);
 
-		// Component horizontalStrut = Box.createHorizontalStrut(20);
-		// horizontalStrut.setBounds(440, 36, 5, 12);
-		// horizontalStrut.setPreferredSize(new Dimension(5, 0));
-		// panel.add(horizontalStrut);
-
 		// added a shut down button.
 		shutDownButton = new JButton();
 		ImageIcon shutDown = CreateIcon("power.PNG", 42, 42);
 		shutDownButton.setIcon(shutDown);
 		shutDownButton.setBounds(15, 5, 60, 60);
 		shutDownButton.setBorder(GlobalUI.blackBorder);
-		// shutDownButton.setBorder(GlobalUI.blackBorder);.
+
 		shutDownButton.addActionListener(this);
 		panel.add(shutDownButton);
 
