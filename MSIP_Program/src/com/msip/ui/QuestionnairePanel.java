@@ -68,8 +68,6 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		studentSurveyPanel = this.manager.getToastPanel().getStudentSurveyPanel();
 		surveyTableLables = this.manager.getSurveyTableLables();
 
-
-
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
@@ -185,15 +183,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 				if (surveyTable.getID() != -2) {
 					updateGraph();
 				}
-				
-				//setText of the Labels
+
+				// setText of the Labels
 				setResponseLabels();
 				checkForText();
 			}
 
 			public void componentHidden(ComponentEvent e) {
-				//setText of the labels
-		
+				// setText of the labels
+
 				String question = surveyTable.getQuestion();
 				textQuestion.setText(question);
 
@@ -202,8 +200,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 				}
 				setResponseLabels();
 				checkForText();
-				
-				
+
 			}
 
 		});
@@ -220,19 +217,16 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 				toggleButton();
 			} else {
 				if (editQButton.getText() == GlobalUI.submitButtonText) {
-					if(checkForCompleteFields() == false){
+					if (checkForCompleteFields() == false) {
 						popUp = new popUpResponse();
 						int textQuestionLength = textQuestion.getText().length();
-						if(textQuestionLength < GlobalUI.minQuestionLength){
+						if (textQuestionLength < GlobalUI.minQuestionLength) {
 							popUp.questionnairePopUp(GlobalUI.questionLength);
-						}
-						else{
+						} else {
 							popUp.questionnairePopUp(GlobalUI.completeFields);
 						}
-						
-						
-					}
-					else{
+
+					} else {
 						addQuestion();
 						addLabelsToTable();
 						setLabelsToSurvey();
@@ -244,7 +238,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 				}
 			}
 		}
-	
+
 	}
 
 	/**
@@ -263,16 +257,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 	 * Toggles and switches the Text from Submit to Clear.
 	 */
 	public void toggleButton() {
-		if(checkTables() == true){
+		if (checkTables() == true) {
 			editQButton.setText(GlobalUI.clearButtonText);
-		}
-		else{
+		} else {
 			editQButton.setText(GlobalUI.submitButtonText);
 		}
 	}
-	
-	public boolean checkForCompleteFields(){
-		if (textQuestion.getText().length() < GlobalUI.minQuestionLength){
+
+	public boolean checkForCompleteFields() {
+		if (textQuestion.getText().length() < GlobalUI.minQuestionLength) {
 			return false;
 		}
 		int a = textValue1.getText().length();
@@ -280,43 +273,39 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		int c = textValue3.getText().length();
 		int d = textValue4.getText().length();
 		int e = textValue5.getText().length();
-		if((a == 0) || (b == 0) || (c == 0) || (d == 0) || (e == 0)){
+		if ((a == 0) || (b == 0) || (c == 0) || (d == 0) || (e == 0)) {
 			return false;
-		}
-		else{
+		} else {
 			return true;
 		}
-	
+
 	}
 
-	public void checkForText(){
-		if(checkTables() == false){
+	public void checkForText() {
+		if (checkTables() == false) {
 			setEditableValueChoices(true);
-		}
-		else{
+		} else {
 			setEditableValueChoices(false);
 		}
-		
+
 	}
 
 	/**
 	 * Checks if there is anything in both Tables.
+	 * 
 	 * @return
 	 */
-	public boolean checkTables(){
-		if(surveyTable.getQuestion() == null){
+	public boolean checkTables() {
+		if (surveyTable.getQuestion() == null) {
 			return false;
-		}
-		else{
-			if(surveyTableLables.getValueLables().size() == 0){
+		} else {
+			if (surveyTableLables.getValueLables().size() == 0) {
 				return false;
-			}
-			else{
+			} else {
 				return true;
 			}
 		}
 	}
-
 
 	/**
 	 * Clears all of the TextFields.
@@ -333,10 +322,10 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 	/**
 	 * Clears the Question and Labels from their respective Tables.
 	 */
-	public void clearQAndLabels(){
+	public void clearQAndLabels() {
 		surveyTable.removeAll();
 		surveyTableLables.clear();
-		
+
 	}
 
 	/**
@@ -348,15 +337,18 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		manager.addQuestion(question, startDate);
 		textQuestion.setText(question);
 	}
+
 	/**
 	 * Adds the Labels from the TextFields into the DB.
 	 */
-	public void addLabelsToTable(){
+	public void addLabelsToTable() {
 		surveyTableLables.clear();
 		surveyTableLables.addResults(getSurveyLabelsFromTextField());
 	}
+
 	/**
 	 * Sets the TextFields to be either noneditable or editable.
+	 * 
 	 * @param flag
 	 */
 	public void setEditableValueChoices(boolean flag) {
@@ -369,10 +361,10 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 	}
 
 	/**
-	 * Sets the Labels from the QuestionnairePanel's TextField to the RadioButtons
-	 * in the StudentSurveyPanel.
+	 * Sets the Labels from the QuestionnairePanel's TextField to the
+	 * RadioButtons in the StudentSurveyPanel.
 	 */
-	public void setLabelsToSurvey(){
+	public void setLabelsToSurvey() {
 		ArrayList<String> Labels = getSurveyLabelsFromTextField();
 		studentSurveyPanel.setButtonValue(GlobalUI.responseOne, Labels.get(0));
 		studentSurveyPanel.setButtonValue(GlobalUI.responseTwo, Labels.get(1));
@@ -382,15 +374,14 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 	}
 
 	/**
-	 * Gets the Response Labels stored in the surveyTableLabels and sets them
-	 * to their respective TextField.
+	 * Gets the Response Labels stored in the surveyTableLabels and sets them to
+	 * their respective TextField.
 	 */
-	public void setResponseLabels(){
-		//if there is nothing stored, dont do anything
-		if((surveyTableLables.getValueLables().size() == 0) || (surveyTableLables.getValueLables() == null)){
-			
-		}
-		else{
+	public void setResponseLabels() {
+		// if there is nothing stored, dont do anything
+		if ((surveyTableLables.getValueLables().size() == 0) || (surveyTableLables.getValueLables() == null)) {
+
+		} else {
 			ArrayList<String> surveyLabels = surveyTableLables.getValueLables();
 			textValue1.setText(surveyLabels.get(0));
 			textValue2.setText(surveyLabels.get(1));
@@ -398,10 +389,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 			textValue4.setText(surveyLabels.get(3));
 			textValue5.setText(surveyLabels.get(4));
 		}
-	
+
 	}
+
 	/**
 	 * Gets the Survey Response Labels from their respective TextFields.
+	 * 
 	 * @return
 	 */
 	public ArrayList<String> getSurveyLabelsFromTextField() {
@@ -414,57 +407,67 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		return labels;
 
 	}
+
 	/**
 	 * Gets the Results from the DB.
+	 * 
 	 * @return
 	 */
 	public ArrayList<Integer> getResult() {
 		ArrayList<Integer> results = new ArrayList<Integer>();
 		results = this.manager.getResults();
 		return results;
-	
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if((textValue1 == e.getSource()) || (textValue2 == e.getSource()) || (textValue3 == e.getSource())
-				|| (textValue4 == e.getSource()) || (textValue5 == e.getSource())){
+		if (textValue1 == e.getSource()) {
 			int strlen1 = textValue1.getText().length();
+			if (strlen1 >= GlobalUI.truncateLimit) {
+				e.consume();
+			}
+		}
+		if (textValue2 == e.getSource()) {
 			int strlen2 = textValue2.getText().length();
+			if (strlen2 >= GlobalUI.truncateLimit) {
+				e.consume();
+			}
+		}
+		if (textValue3 == e.getSource()) {
 			int strlen3 = textValue3.getText().length();
+			if (strlen3 >= GlobalUI.truncateLimit) {
+				e.consume();
+			}
+		}
+		if (textValue4 == e.getSource()) {
 			int strlen4 = textValue4.getText().length();
+			if (strlen4 >= GlobalUI.truncateLimit) {
+				e.consume();
+			}
+		}
+		if (textValue5 == e.getSource()) {
 			int strlen5 = textValue5.getText().length();
-			if(strlen1 >= GlobalUI.truncateLimit){
+			if (strlen5 >= GlobalUI.truncateLimit) {
 				e.consume();
 			}
-			if(strlen2 >= GlobalUI.truncateLimit){
-				e.consume();
-			}
-			if(strlen3 >= GlobalUI.truncateLimit){
-				e.consume();
-			}
-			if(strlen4 >= GlobalUI.truncateLimit){
-				e.consume();
-			}
-			if(strlen5 >= GlobalUI.truncateLimit){
+
+		}
+		if (textQuestion == e.getSource()) {
+			if (textQuestion.getText().length() >= GlobalUI.textQuestionLimit) {
 				e.consume();
 			}
 		}
-		if(textQuestion == e.getSource()){
-			if(textQuestion.getText().length() >= GlobalUI.textQuestionLimit){
-				e.consume();
-			}
-		}
-		
+
 	}
 }

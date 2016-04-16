@@ -11,22 +11,16 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.swing.SwingConstants;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
@@ -143,31 +137,31 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		labelValue1 = new JLabel("Value1");
 		labelValue1.setLabelFor(rbutton1);
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue1.setBounds(10, 170, 115, 16);
+		labelValue1.setBounds(7, 170, 120, 16);
 		add(labelValue1);
 		
 		labelValue2 = new JLabel("Value2");
 		labelValue2.setLabelFor(rbutton2);
 		labelValue2.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue2.setBounds(170, 170, 115, 16);
+		labelValue2.setBounds(167, 170, 120, 16);
 		add(labelValue2);
 		
 		labelValue3 = new JLabel("Value3");
 		labelValue3.setLabelFor(rbutton3);
 		labelValue3.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue3.setBounds(330, 170, 115, 16);
+		labelValue3.setBounds(327, 170, 120, 16);
 		add(labelValue3);
 		
 		labelValue4 = new JLabel("Value4");
 		labelValue4.setLabelFor(rbutton4);
 		labelValue4.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue4.setBounds(490, 170, 115, 16);
+		labelValue4.setBounds(487, 170, 120, 16);
 		add(labelValue4);
 		
 		labelValue5 = new JLabel("Value5");
 		labelValue5.setLabelFor(rbutton5);
 		labelValue5.setHorizontalAlignment(SwingConstants.CENTER);
-		labelValue5.setBounds(650, 170, 115, 16);
+		labelValue5.setBounds(647, 170, 120, 16);
 		add(labelValue5);
 		//
 		if(surveyTableLables.getValueLables().size() != 0){

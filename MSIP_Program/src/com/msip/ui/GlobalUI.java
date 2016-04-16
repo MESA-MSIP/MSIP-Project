@@ -93,7 +93,7 @@ public class GlobalUI {
 	public static final int NEITHER = 2;
 	
 	//Magic Number for not truncating the StudentSurveyPanel Labels
-	public static final int truncateLimit = 16;
+	public static final int truncateLimit = 15;
 	public static final int textQuestionLimit = 200;
 
 	// Button properties
