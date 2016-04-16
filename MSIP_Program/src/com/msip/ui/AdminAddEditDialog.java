@@ -161,6 +161,10 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 				}
 			}
 		});
+		
+		if(title.compareTo(GlobalUI.MODIFY_ADMIN) == 0){
+			textFieldKNumber.setEnabled(false);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {

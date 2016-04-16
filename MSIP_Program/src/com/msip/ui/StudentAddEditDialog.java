@@ -136,6 +136,11 @@ public class StudentAddEditDialog extends JDialog implements ActionListener, Key
 				}
 			}
 		});
+		
+		//May not edit Knumber
+		if(title.compareTo(GlobalUI.MODIFYSTUDENT) == 0){
+			textFieldKNumber.setEnabled(false);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
