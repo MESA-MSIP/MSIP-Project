@@ -5,20 +5,6 @@ package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.msip.external.Utility;
-import com.msip.manager.MISPCore;
-import com.msip.model.Student;
-import com.msip.model.StudentTableModel;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -28,6 +14,17 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.msip.external.Utility;
+import com.msip.manager.MISPCore;
+import com.msip.model.Student;
+import com.msip.model.StudentTableModel;
 
 public class StudentPanel extends JPanel implements ActionListener {
 
@@ -42,14 +39,15 @@ public class StudentPanel extends JPanel implements ActionListener {
 	private Component horizontalStrut_1;
 	private AdminToolsPanel adminToolsPanel;
 	private JButton btnImport;
+	private popUpResponse warning;
 
 	public StudentPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
-		
+
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
-		
+
 		studentModel = new StudentTableModel(msipCore.getStudents(), msipCore);
 		studentTable = new StudentTable(studentModel);
 		JScrollPane studentScrollPane = new JScrollPane(studentTable);
@@ -81,7 +79,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
 		panel.add(btnEdit);
-		
+
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_2);
 
@@ -97,13 +95,15 @@ public class StudentPanel extends JPanel implements ActionListener {
 
 		if (e.getSource() == btnAdd) {
 
-			StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.ADDSTUDENT);
+			StudentAddEditDialog dialog = new StudentAddEditDialog(
+					GlobalUI.ADDSTUDENT);
 			if (dialog.getResults() == JOptionPane.YES_OPTION) {
 				try {
 					getManager().addStudent(dialog.getStudent());
 					reloadStudentTable();
 				} catch (NumberFormatException e1) {
-					getAdminToolsPanel().setStatusMsg(GlobalUI.PLEASE_SEE_DEVELOPER);
+					getAdminToolsPanel().setStatusMsg(
+							GlobalUI.PLEASE_SEE_DEVELOPER);
 					e1.printStackTrace();
 				} catch (SQLException e1) {
 					getAdminToolsPanel().setStatusMsg("Could not add Student");
@@ -113,24 +113,27 @@ public class StudentPanel extends JPanel implements ActionListener {
 		}
 
 		if (e.getSource() == btnEdit) {
-			
+
 			int rowIndex = studentTable.getSelectedRow();
-			
-			
+
 			// Make sure they made a selection on the table
 			if (rowIndex >= 0) {
 				rowIndex = studentTable.convertRowIndexToModel(rowIndex);
 				// Get the student they selected
-				Student studentToEdit = studentModel.getStudents().get(rowIndex);
+				Student studentToEdit = studentModel.getStudents()
+						.get(rowIndex);
 
-				StudentAddEditDialog dialog = new StudentAddEditDialog(GlobalUI.MODIFYSTUDENT, studentToEdit);
+				StudentAddEditDialog dialog = new StudentAddEditDialog(
+						GlobalUI.MODIFYSTUDENT, studentToEdit);
 				if (dialog.getResults() == JOptionPane.YES_OPTION) {
 					try {
 						getManager().modifyStudent(dialog.getStudent());
 						reloadStudentTable();
-					} catch (Exception e1){
-						getAdminToolsPanel().setStatusMsg("Could not edit student");
-						System.out.println("StudentPanel.actionPerformed() " + e1.getMessage());
+					} catch (Exception e1) {
+						getAdminToolsPanel().setStatusMsg(
+								"Could not edit student");
+						System.out.println("StudentPanel.actionPerformed() "
+								+ e1.getMessage());
 					}
 				}
 			} else {
@@ -145,54 +148,66 @@ public class StudentPanel extends JPanel implements ActionListener {
 			if (rowIndex >= 0) {
 				rowIndex = studentTable.convertRowIndexToModel(rowIndex);
 				// Get the student they selected
-				Student studentToDelete = studentModel.getStudents().get(rowIndex);
+				Student studentToDelete = studentModel.getStudents().get(
+						rowIndex);
 				int selectedValue = JOptionPane.showConfirmDialog(this,
-						"Would you like to remove " + studentToDelete.getFullName() + "?",
-						"Remove Student from Database", JOptionPane.YES_NO_OPTION);
+						"All logins of this student will be deleted. Are you sure you want to delete "
+								+ studentToDelete.getFullName() + "?",
+						"Remove Student from Database",
+						JOptionPane.YES_NO_OPTION);
 
 				// If they say yes then delete them!
 				if (selectedValue == JOptionPane.YES_OPTION) {
 					try {
-						getManager().deleteStudent(studentToDelete.getkNumber());
+						getManager()
+								.deleteStudent(studentToDelete.getkNumber());
 						reloadStudentTable();
 					} catch (SQLException e1) {
-						getAdminToolsPanel().setStatusMsg("Could not delete student");
-						System.out.println("StudentPanel.actionPerformed() " + e1.getMessage());
+						getAdminToolsPanel().setStatusMsg(
+								"Could not delete student");
+						System.out.println("StudentPanel.actionPerformed() "
+								+ e1.getMessage());
 					}
 				}
 			} else {
 				getAdminToolsPanel().setStatusMsg(GlobalUI.SELECTASTUDENT);
 			}
 		}
-		
+
 		if (e.getSource() == btnImport) {
-			JOptionPane.showMessageDialog(this,
-				    "Make sure the CSV File being imported is in the following format.\n"
-					+ "Where the...\n"
-				    + "first column 	= Last Name\n"
-				    + "second column	= First Name\n"
-				    + "third column 	= Major\n"
-				    + "fourth column 	= K-Number\n\n"
-					+ "Example Format:\n"
-					+ "Last Name,First Name,Major,K-Number\n"
-					+ "Garcia,Miguel,Computer Science,99999999\n"
-					+ "Garcia,Miguel,Computer Science,99999999\n"
-					+ "...\n\n"
-					+ "Duplicate K-Numbers will update Students information");
-			
-			final JFileChooser fc = new JFileChooser(System.getProperty("file.separator")+ "MesaReports");
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Make sure the CSV File being imported is in the following format.\n"
+									+ "Where the...\n"
+									+ "first column 	= Last Name\n"
+									+ "second column	= First Name\n"
+									+ "third column 	= Major\n"
+									+ "fourth column 	= K-Number\n\n"
+									+ "Example Format:\n"
+									+ "Last Name,First Name,Major,K-Number\n"
+									+ "Garcia,Miguel,Computer Science,99999999\n"
+									+ "Garcia,Miguel,Computer Science,99999999\n"
+									+ "...\n\n"
+									+ "Duplicate K-Numbers will update Students information");
+
+			final JFileChooser fc = new JFileChooser(
+					System.getProperty("file.separator") + "MesaReports");
 			fc.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
 			int returnVal = fc.showOpenDialog(this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				try {
-					Utility.ImportStudentsFromCSVFile(getManager(), file.getAbsolutePath());
+					Utility.ImportStudentsFromCSVFile(getManager(),
+							file.getAbsolutePath());
 				} catch (IOException | SQLException e1) {
-					getAdminToolsPanel().setStatusMsg("There was an eror importing your file");
+					getAdminToolsPanel().setStatusMsg(
+							"There was an eror importing your file");
 					e1.printStackTrace();
 				}
-				getAdminToolsPanel().setStatusMsg("Importing Students into Database");
+				getAdminToolsPanel().setStatusMsg(
+						"Importing Students into Database");
 				reloadStudentTable();
 			}
 		}

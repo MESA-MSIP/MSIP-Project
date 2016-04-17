@@ -291,19 +291,20 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	private void deleteNotification() {
 
-		if(tableNotifications.isRowSelected(tableNotifications.getSelectedRow())){
-		// removes the specific notification from the DB table.
-		manager.removeNotification(notiArray.get(rowIndex));
-		// removes the specific notification from the arraylist to match the
-		// size of the table.
-		notiArray.remove(rowIndex);
+		if (tableNotifications.isRowSelected(tableNotifications
+				.getSelectedRow())) {
+			// removes the specific notification from the DB table.
+			manager.removeNotification(notiArray.get(rowIndex));
+			// removes the specific notification from the arraylist to match the
+			// size of the table.
+			notiArray.remove(rowIndex);
 
-		// clears expired notifications
-		model = (DefaultTableModel) tableNotifications.getModel();
-		if (tableNotifications.getSelectedRow() != -1) {
-			// remove selected row from the model
-			model.removeRow(tableNotifications.getSelectedRow());
-		}
+			// clears expired notifications
+			model = (DefaultTableModel) tableNotifications.getModel();
+			if (tableNotifications.getSelectedRow() != -1) {
+				// remove selected row from the model
+				model.removeRow(tableNotifications.getSelectedRow());
+			}
 		}
 	}
 
