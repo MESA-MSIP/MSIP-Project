@@ -151,7 +151,8 @@ public class StudentPanel extends JPanel implements ActionListener {
 				Student studentToDelete = studentModel.getStudents().get(
 						rowIndex);
 				int selectedValue = JOptionPane.showConfirmDialog(this,
-						"All logins of this student will be deleted. Are you sure you want to delete "
+						"All logins of this student will be deleted." + "\n"
+								+ "Are you sure you want to delete "
 								+ studentToDelete.getFullName() + "?",
 						"Remove Student from Database",
 						JOptionPane.YES_NO_OPTION);
