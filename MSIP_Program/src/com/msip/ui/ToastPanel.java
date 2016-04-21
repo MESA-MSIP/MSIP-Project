@@ -110,7 +110,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 			Timer timer = new Timer();
 
 			public void componentHidden(ComponentEvent e1) {
-
+				notificationCard.updateNotification();
 				timer.cancel();
 			}
 
@@ -119,12 +119,12 @@ public class ToastPanel extends JPanel implements ActionListener {
 				// Set up Random Generator
 				Random randGen = new Random();
 				double randChance = randGen.nextDouble();
-				checkForNotifications();
-				notificationCard.updateNotification();
+				//Check for notifications
 				generateRandomPanel(randChance);
+				NotificationCard.updateNotification();
 				// If there is no Question, Show the Notification Card
 				if (surveyTable.getID() == -2) {
-					checkForNotifications();
+					//checkForNotifications();
 					notificationCard.updateNotification();
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
 					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
@@ -132,7 +132,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 					// If The Question Length does not meet the questionLength,
 					// show NotificationCard.
 					if (surveyTable.getQuestion().length() < GlobalUI.minQuestionLength) {
-						checkForNotifications();
+						//checkForNotifications();
 						notificationCard.updateNotification();
 
 						CardLayout cl = (CardLayout) welcomeCards.getLayout();
@@ -223,7 +223,6 @@ public class ToastPanel extends JPanel implements ActionListener {
 		if (this.manager.getAllNotifications().size() == 0) {
 			NotificationCard.setNoNotifications();
 		}
-
 	}
 
 	public StudentSurveyPanel getSurveyPanel() {

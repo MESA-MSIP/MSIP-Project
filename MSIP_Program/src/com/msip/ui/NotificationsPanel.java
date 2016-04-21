@@ -268,8 +268,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		} else {
 			model = (DefaultTableModel) tableNotifications.getModel();
 
-			DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
+			DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
 			String reportDate = dateStart.format(selectedStartDate);
 			String reportEndDate = dateEnd.format(selectedExpirationDate);
 			String note = textAreaNotifications.getText().trim();
@@ -326,7 +326,6 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			// remove selected row from the model
 			model.removeRow(tableNotifications.getSelectedRow());
 		}
-
 	}
 
 	public void updateNotifications(String notficationText, Date startDate,
