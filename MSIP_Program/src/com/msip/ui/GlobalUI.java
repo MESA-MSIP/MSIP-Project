@@ -19,8 +19,8 @@ public class GlobalUI {
 	public static final String TimePanel = "Time/Date";
 
 	// Strings for the QuestionnairePanel
-	public static final String submitButtonText = "Submit Question";
-	public static final String clearButtonText = "Clear Question";
+	public static final String submitButtonText = "Submit";
+	public static final String clearButtonText = "Clear";
 	public static final String completeFields = "Please Complete all the Fields.";
 	public static final String questionLength = "The Question Has to be At Least 4 Characters or More.";
 
