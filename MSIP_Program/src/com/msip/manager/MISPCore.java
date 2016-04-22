@@ -5,8 +5,11 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +70,14 @@ public class MISPCore {
 		notificationTable = new NotificationTable();
 		surveyTable = new SurveyTable();
 		surveyTableLables = new SurveyTableLables();
+		//TODO remove this
+		File loginFile = new File("SignInDataSpring2016.csv");
+		try {
+			loginTable.deleteAll();
+			Utility.importLoginsFromCSVFile(loginFile.getAbsolutePath(), loginTable);
+		} catch (IOException | SQLException | ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

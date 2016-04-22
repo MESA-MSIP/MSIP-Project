@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Date;
+
 import com.msip.external.Utility;
 
 public class DBConnector {
@@ -46,11 +48,11 @@ public class DBConnector {
 
 		StudentTable student = new StudentTable();
 		student.deleteAll();
-		student.add(33333333, "Fernando", "Estevez", "Computer Engineering");
-		student.add(44444444, "Christian", "Martinez", "Computer Science");
-		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
-		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
-		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
+//		student.add(33333333, "Fernando", "Estevez", "Computer Engineering");
+//		student.add(44444444, "Christian", "Martinez", "Computer Science");
+//		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
+//		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
+//		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
 		
 
 		LoginTable login = new LoginTable();
@@ -79,6 +81,7 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
+		//no.removeFromNotificationTable(new Date());
 //		 no.addToNotificationTable("Exam on tuesday", new Date(),
 //				 getRandomDate()); 
 //		 no.addToNotificationTable("Exam on wed", new Date(),
@@ -92,6 +95,8 @@ public class DBConnector {
 
 		SurveyTable s = new SurveyTable();
 		//s.addQuestion("No new question", new Date());
+		
+		//s.removeFromSurveyTable(new Date());
 		
 //
 //		for(int i = 0; i < 7 ; i++){
