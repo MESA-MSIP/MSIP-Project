@@ -402,8 +402,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			if (!student.equals("All Student's")) {
 
 				pdf.addMettaData("Mesa Student Activity", "Report Subject",
-						"Virginia");
-				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,
+						"Admin");
+				pdf.addHeader("Mesa Student Activity", "Admin", reportType,
 						student);
 				pdf.addStudent(student, knumber, timesPresent, datesPresent);
 				File imageFile = new File("ReportGraph.jpg");
@@ -413,8 +413,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 			} else {
 				pdf.addMettaData("Mesa Student Activity", "Report Subject",
-						"Virginia");
-				pdf.addHeader("Mesa Student Activity", "Virginia", reportType,
+						"Admin");
+				pdf.addHeader("Mesa Student Activity", "Admin", reportType,
 						"All Student's");
 
 				for (int i = 0; i < studentList.size(); i++) {

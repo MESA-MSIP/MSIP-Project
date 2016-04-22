@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.msip.external.Utility;
@@ -48,11 +51,11 @@ public class DBConnector {
 
 		StudentTable student = new StudentTable();
 		student.deleteAll();
-//		student.add(33333333, "Fernando", "Estevez", "Computer Engineering");
-//		student.add(44444444, "Christian", "Martinez", "Computer Science");
-//		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
-//		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
-//		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
+		student.add(33333333, "Fernando", "Estevez", "Computer Engineering");
+		student.add(44444444, "Christian", "Martinez", "Computer Science");
+		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
+		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
+		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
 		
 
 		LoginTable login = new LoginTable();
@@ -81,9 +84,18 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
+		no.removeAll();
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
+		String tomorrowsDateString = ZonedDateTime.now().plusDays(2)
+				.format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
+		Date tomorrowsDate = null;
+		try {
+			tomorrowsDate = formatter.parse(tomorrowsDateString);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		//no.removeFromNotificationTable(new Date());
-//		 no.addToNotificationTable("Exam on tuesday", new Date(),
-//				 getRandomDate()); 
+	 no.addToNotificationTable("MESA Sign-In Kiosk 1.0 presentation today @ 1:00 PM", new Date(), tomorrowsDate); 
 //		 no.addToNotificationTable("Exam on wed", new Date(),
 //						 getRandomDate());
 //		 no.addToNotificationTable("Exam on thur", new Date(),
@@ -91,7 +103,6 @@ public class DBConnector {
 //		 no.addToNotificationTable("Exam on friday", new Date(),
 //				 getRandomDate());
 //		 System.out.println(no.getAllNotification());
-	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
 		//s.addQuestion("No new question", new Date());
