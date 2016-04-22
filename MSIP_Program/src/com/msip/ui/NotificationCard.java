@@ -54,7 +54,6 @@ public class NotificationCard extends JPanel {
 		txtpnNotification = new JTextPane();
 		txtpnNotification.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtpnNotification.setEditable(false);
-		txtpnNotification.setText("Notification");
 		add(txtpnNotification, BorderLayout.CENTER);
 		document = (DefaultStyledDocument) txtpnNotification.getDocument();
 		StyledDocument doc = txtpnNotification.getStyledDocument();
@@ -73,7 +72,13 @@ public class NotificationCard extends JPanel {
 	}
 
 	public void setNoNotifications() {
-		txtpnNotification.setText("No Notifications.");
+		if(manager.getAllNotifications().size() == 0){
+			txtpnNotification.setText("No Notifications.");
+		}
+		
+	}
+	public void clearNoNotification(){
+		txtpnNotification.setText(GlobalUI.CLEAR);
 	}
 
 	public void setManager(MISPCore manager) {
@@ -85,8 +90,14 @@ public class NotificationCard extends JPanel {
 	}
 
 	public void updateNotification() {
+		
 		try {
-			if (manager.getAllNotifications().size() > 0) {
+			if(manager.getAllNotifications().size() == 0){
+				setNoNotifications();
+			}
+			else{
+				
+			document.remove(0, document.getLength());
 
 				for (int i = 0; i < manager.getAllNotifications().size(); i++) {
 					if (!isInDocumnet(manager.getAllNotifications().get(i).getNotification())) {

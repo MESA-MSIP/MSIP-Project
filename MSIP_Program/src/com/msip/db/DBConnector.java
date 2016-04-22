@@ -7,6 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import com.msip.external.Utility;
 
 public class DBConnector {
@@ -79,8 +84,18 @@ public class DBConnector {
 //		 }
 
 		NotificationTable no = new NotificationTable();
-//		 no.addToNotificationTable("Exam on tuesday", new Date(),
-//				 getRandomDate()); 
+		no.removeAll();
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
+		String tomorrowsDateString = ZonedDateTime.now().plusDays(2)
+				.format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
+		Date tomorrowsDate = null;
+		try {
+			tomorrowsDate = formatter.parse(tomorrowsDateString);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		//no.removeFromNotificationTable(new Date());
+	 no.addToNotificationTable("MESA Sign-In Kiosk 1.0 presentation today @ 1:00 PM", new Date(), tomorrowsDate); 
 //		 no.addToNotificationTable("Exam on wed", new Date(),
 //						 getRandomDate());
 //		 no.addToNotificationTable("Exam on thur", new Date(),
@@ -88,10 +103,11 @@ public class DBConnector {
 //		 no.addToNotificationTable("Exam on friday", new Date(),
 //				 getRandomDate());
 //		 System.out.println(no.getAllNotification());
-	no.removeAll();
 
 		SurveyTable s = new SurveyTable();
 		//s.addQuestion("No new question", new Date());
+		
+		//s.removeFromSurveyTable(new Date());
 		
 //
 //		for(int i = 0; i < 7 ; i++){
