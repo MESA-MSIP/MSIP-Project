@@ -538,14 +538,23 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	public void updateStudentCBox() {
 		
+		List sortingList = new ArrayList<String>();
 		for (int i = 1; i < manager.getStudents().size(); i++) {
 			// Adds a student to a String Array
 			studentList.add(manager.getStudents().get(i).getFullName());
 			// Adds a student to a Student Array
 			listOfStudents.add(manager.getStudents().get(i));
 			// Adds a student to combo box.
-			jCBoxStudentSearch.addItem(studentList.get(i));
+			
+			sortingList.add(manager.getStudents().get(i).getLastNameFirstName());
+			//jCBoxStudentSearch.addItem(studentList.get(i));
 
+		}
+		
+		//Sort the ArrayList, add into the JComboBox
+		Collections.sort(sortingList);
+		for(int j = 0; j < sortingList.size(); j++){
+			jCBoxStudentSearch.addItem(sortingList.get(j));
 		}
 	}
 
