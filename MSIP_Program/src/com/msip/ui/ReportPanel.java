@@ -62,7 +62,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
 	private JLabel lblEndDate;
-	private ArrayList<String> studentList = new ArrayList<String>();
+	// private ArrayList<String> studentList = new ArrayList<String>();
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
 	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
 	private String student = "";
@@ -96,15 +96,16 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxStudentSearch.setBounds(15, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(jCBoxStudentSearch);
 		jCBoxStudentSearch.addItem("All Student's");
-		studentList.add("All Student's");
+
+		// studentList.add("All Student's");
 
 		// Your able to choose all students. This sets All Students as the
 		// default and is at index 0 of the combo box list
-		//jCBoxStudentSearch.addItem("All Student's");
+		// jCBoxStudentSearch.addItem("All Student's");
 
 		// Adds all students to combo box.
 		updateStudentCBox();
-		//Collections.sort(listOfStudents);
+		// Collections.sort(listOfStudents);
 		jCBoxStudentSearch.addItemListener(this);
 		// sets all students as default.
 		studentKnumber = 0;
@@ -334,7 +335,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			// creates a csv file for more than one students.
 			csv.addHeader("Name,times Present,Dates present");
 
-			for (int i = 0; i < studentList.size(); i++) {
+			for (int i = 0; i < listOfStudents.size(); i++) {
 				// new array with new login entries based on student knumber
 				datesInLoginTable = manager.getStudentDataRange(listOfStudents
 						.get(i).getkNumber(), selectedStartDate,
@@ -417,7 +418,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				pdf.addHeader("Mesa Student Activity", "Admin", reportType,
 						"All Student's");
 
-				for (int i = 0; i < studentList.size(); i++) {
+				for (int i = 0; i < listOfStudents.size(); i++) {
 					ArrayList<Date> loginDates = manager.getStudentDataRange(
 							listOfStudents.get(i).getkNumber(),
 							selectedStartDate, selectedEndDate);
@@ -468,7 +469,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				// returns the users choice as an index based on the combo box
 				// list.
 				int comboBoxIndex = jCBoxStudentSearch.getSelectedIndex();
-				int studentListIndex = 0;
+				// int studentListIndex = 0;
 				// When ever user chooses All students it prints out all of the
 				// students.
 				if (comboBoxIndex == 0) {
@@ -480,10 +481,12 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					// otherwise it gets the index of the combo box and
 					// subtracts it by one. To choose the same person from the
 					// student list.
-					studentListIndex = comboBoxIndex;
-					student = studentList.get(studentListIndex);
-					//subtracts 1 because the combobox has set all students as index 0.
-					studentKnumber = listOfStudents.get(studentListIndex - 1)
+					// studentListIndex = comboBoxIndex;
+					student = listOfStudents.get(comboBoxIndex - 1)
+							.getFullName();
+					// subtracts 1 because the combobox has set all students as
+					// index 0.
+					studentKnumber = listOfStudents.get(comboBoxIndex - 1)
 							.getkNumber();
 					updateGraph();
 				}
@@ -536,26 +539,71 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		revalidate();
 	}
 
-	public void updateStudentCBox() {
-		
-		List sortingList = new ArrayList<String>();
-		for (int i = 1; i < manager.getStudents().size(); i++) {
-			// Adds a student to a String Array
-			studentList.add(manager.getStudents().get(i).getFullName());
-			// Adds a student to a Student Array
-			listOfStudents.add(manager.getStudents().get(i));
-			// Adds a student to combo box.
-			
-			sortingList.add(manager.getStudents().get(i).getLastNameFirstName());
-			//jCBoxStudentSearch.addItem(studentList.get(i));
+	private void updateStudentCBox() {
+		// List sortingList = new ArrayList<String>();
+		if (listOfStudents.size() < manager.getStudents().size()) {
+			for (int i = 0; i < manager.getStudents().size(); i++) {
+				String newAddedStudent = manager.getStudents().get(i)
+						.getFullName();
+				String currentStudent = null;
+				boolean matchFound = false;
 
+				for (int j = 0; j < listOfStudents.size(); j++) {
+					currentStudent = listOfStudents.get(j).getFullName();
+					if (newAddedStudent.equals(currentStudent)) {
+						matchFound = true;
+						break;
+					}
+				}
+
+				if (matchFound == false) {
+					// Adds a student to a Student Array
+					listOfStudents.add(manager.getStudents().get(i));
+					// sortingList.add(manager.getStudents().get(i).getLastNameFirstName());
+					// Adds a student to combo box.
+					jCBoxStudentSearch.addItem(manager.getStudents().get(i)
+							.getFullName());
+
+				}
+			}
+		} else if (listOfStudents.size() > manager.getStudents().size()) {
+			removeStudentCBox();
 		}
-		
-		//Sort the ArrayList, add into the JComboBox
-		Collections.sort(sortingList);
-		for(int j = 0; j < sortingList.size(); j++){
-			jCBoxStudentSearch.addItem(sortingList.get(j));
+
+		// Sort the ArrayList, add into the JComboBox
+		// Collections.sort(sortingList);
+		// for(int j = 0; j < sortingList.size(); j++){
+		// jCBoxStudentSearch.addItem(sortingList.get(j));
+		// }
+
+	}
+
+	/**
+	 * removes every student that was deleted from the database from the student
+	 * combobox
+	 */
+	private void removeStudentCBox() {
+
+		for (int i = (listOfStudents.size() - 1); i >= 0; i--) {
+			String removedStudent = listOfStudents.get(i).getFullName();
+			String currentStudent = null;
+			boolean matchFound = false;
+
+			for (int j = (manager.getStudents().size() - 1); j >= 0; j--) {
+				currentStudent = manager.getStudents().get(j).getFullName();
+				if (removedStudent.equals(currentStudent)) {
+					matchFound = true;
+					break;
+				}
+			}
+
+			if (matchFound == false) {
+				jCBoxStudentSearch.removeItem(listOfStudents.get(i)
+						.getFullName());
+				listOfStudents.remove(i);
+			}
 		}
+
 	}
 
 }
