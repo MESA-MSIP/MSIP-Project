@@ -47,6 +47,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 
 import org.jfree.chart.ChartUtilities;
 
@@ -566,6 +567,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 				}
 			}
+			refreshComboBox();
 		} else if (listOfStudents.size() > manager.getStudents().size()) {
 			removeStudentCBox();
 		}
@@ -605,5 +607,16 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 
 	}
-
+	private void refreshComboBox(){
+		sortStudentList();
+		//clear the jcombobox
+		jCBoxStudentSearch.setModel(new DefaultComboBoxModel());
+		jCBoxStudentSearch.addItem(GlobalUI.allStudents);
+		for(int p = 0; p < listOfStudents.size(); p++){
+			jCBoxStudentSearch.addItem(listOfStudents.get(p).getLastNameFirstName());
+		}
+	}
+	private void sortStudentList(){
+		Collections.sort(listOfStudents);
+	}
 }

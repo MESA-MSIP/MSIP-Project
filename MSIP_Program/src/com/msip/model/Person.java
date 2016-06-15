@@ -1,6 +1,6 @@
 package com.msip.model;
 
-public class Person {
+public class Person implements Comparable<Person> {
 
 	private String firstName = null;
 	private String lastName = null;
@@ -62,5 +62,10 @@ public class Person {
 	 */
 	public void setkNumber(int kNumber) {
 		this.kNumber = kNumber;
+	}
+
+	@Override
+	public int compareTo(Person o) {
+		return getLastNameFirstName().compareTo(o.getLastNameFirstName());
 	}
 }
