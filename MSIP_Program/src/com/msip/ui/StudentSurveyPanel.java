@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.swing.SwingConstants;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
 
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
@@ -30,7 +33,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	private JButton skipButton;
 	private JButton submitButton;
 	private JRadioButton rbutton1, rbutton2, rbutton3, rbutton4, rbutton5;
-	private JTextArea surveyQ;
+	private JTextPane surveyQ;
 	private MISPCore manager;
 	private ButtonGroup groupChoices;
 	private JLabel labelValue2;
@@ -116,14 +119,19 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		rbutton5.addActionListener(this);
 		add(rbutton5);
 
-		surveyQ = new JTextArea();
-		surveyQ.setWrapStyleWord(true);
-		surveyQ.setLineWrap(true);
+
+		
+		surveyQ = new JTextPane();
 		surveyQ.setBackground(new Color(255, 255, 255));
-		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 26));
+		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 45));
 		surveyQ.setEditable(false);
 		surveyQ.setBounds(10, 0, 780, 150);
 		surveyQ.setMargin(m);
+		
+		StyledDocument doc = surveyQ.getStyledDocument();
+		SimpleAttributeSet center = new SimpleAttributeSet();
+		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		add(surveyQ);
 	
 		//Create a Button Group
