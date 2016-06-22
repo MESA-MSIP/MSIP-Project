@@ -541,35 +541,15 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	}
 
 	private void updateStudentCBox() {
-		// List sortingList = new ArrayList<String>();
-		if (listOfStudents.size() < manager.getStudents().size()) {
-			for (int i = 0; i < manager.getStudents().size(); i++) {
-				String newAddedStudent = manager.getStudents().get(i)
-						.getFullName();
-				String currentStudent = null;
-				boolean matchFound = false;
 
-				for (int j = 0; j < listOfStudents.size(); j++) {
-					currentStudent = listOfStudents.get(j).getFullName();
-					if (newAddedStudent.equals(currentStudent)) {
-						matchFound = true;
-						break;
-					}
-				}
-
-				if (matchFound == false) {
-					// Adds a student to a Student Array
-					listOfStudents.add(manager.getStudents().get(i));
-					// sortingList.add(manager.getStudents().get(i).getLastNameFirstName());
-					// Adds a student to combo box.
-					jCBoxStudentSearch.addItem(manager.getStudents().get(i)
-							.getFullName());
-
-				}
+		if (listOfStudents.size() > manager.getStudents().size()) {
+			removeStudentCBox();
+		} else {
+			listOfStudents = manager.getStudents();
+			for (int i = 0; i < manager.getStudents().size(); i++){
+				jCBoxStudentSearch.insertItemAt(listOfStudents.get(i), i);				
 			}
 			refreshComboBox();
-		} else if (listOfStudents.size() > manager.getStudents().size()) {
-			removeStudentCBox();
 		}
 
 		// Sort the ArrayList, add into the JComboBox
