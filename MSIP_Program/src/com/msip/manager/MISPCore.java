@@ -73,7 +73,7 @@ public class MISPCore {
 		//TODO remove this
 		File loginFile = new File("SignInDataSpring2016.csv");
 		try {
-			loginTable.deleteAll();
+			//loginTable.deleteAll();
 			Utility.importLoginsFromCSVFile(loginFile.getAbsolutePath(), loginTable);
 		} catch (IOException | SQLException | ParseException e) {
 			e.printStackTrace();
