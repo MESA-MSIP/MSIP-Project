@@ -43,7 +43,7 @@ public class NotificationTable {
 	 */
 	public void addToNotificationTable(String notification, Date startDate,
 			Date expirationDate) {
-		 formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String startDateString = formatter.format(startDate);
 		String expirationDateString = formatter.format(expirationDate);
 
@@ -75,7 +75,8 @@ public class NotificationTable {
 			ResultSet rs = notif.executeQuery();
 			while (rs.next()) {
 				removeExpiredNotification();
-				notifications = new Notification(rs.getString("Notification"), rs.getDate("StartDate"), rs.getDate("ExpirationDate"));
+				notifications = new Notification(rs.getString("Notification"),
+						rs.getDate("StartDate"), rs.getDate("ExpirationDate"));
 				myNotif.add(notifications);
 			}
 		} catch (SQLException e) {
@@ -118,16 +119,16 @@ public class NotificationTable {
 	public void removeExpiredNotification() {
 
 		Date expiredDate = null;
-		 tomorrowsDate = new Date();
-		 //
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//		String date = ZonedDateTime.now().plusDays(1).format(
-//				DateTimeFormatter.ISO_LOCAL_DATE);
-//		try {
-//			tomorrowsDate = formatter.parse(date);
-//		} catch (ParseException e1) {
-//			e1.printStackTrace();
-//		}
+		tomorrowsDate = new Date();
+		//
+		// SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		// String date = ZonedDateTime.now().plusDays(1).format(
+		// DateTimeFormatter.ISO_LOCAL_DATE);
+		// try {
+		// tomorrowsDate = formatter.parse(date);
+		// } catch (ParseException e1) {
+		// e1.printStackTrace();
+		// }
 		try {
 			PreparedStatement getExpiredDate = (PreparedStatement) DBConnector.myConnection
 					.prepareStatement("SELECT ExpirationDate FROM Notification;");
@@ -135,7 +136,9 @@ public class NotificationTable {
 			ResultSet rs = getExpiredDate.executeQuery();
 			while (rs.next()) {
 				expiredDate = rs.getDate("ExpirationDate");
-System.out.println("Experation Date: " + expiredDate + " Tomorrows date: " + tomorrowsDate + " Compares: " + (tomorrowsDate.compareTo(expiredDate)));
+//				System.out.println("Experation Date: " + expiredDate
+//						+ " Tomorrows date: " + tomorrowsDate + " Compares: "
+//						+ (tomorrowsDate.compareTo(expiredDate)));
 				if ((expiredDate.compareTo(tomorrowsDate) < 0)) {
 					System.out.println("Successfully removed: " + new Date());
 					System.out.println(tomorrowsDate);

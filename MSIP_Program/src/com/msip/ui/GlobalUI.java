@@ -17,6 +17,9 @@ public class GlobalUI {
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	public static final String TimePanel = "Time/Date";
+	
+	//Strings for ReportPanel
+	public static final String allStudents = "All Student's";
 
 	// Strings for the QuestionnairePanel
 	public static final String submitButtonText = "Submit";

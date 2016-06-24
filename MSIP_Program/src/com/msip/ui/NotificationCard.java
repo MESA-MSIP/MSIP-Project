@@ -5,8 +5,13 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -72,12 +77,13 @@ public class NotificationCard extends JPanel {
 	}
 
 	public void setNoNotifications() {
-		if(manager.getAllNotifications().size() == 0){
+		if (manager.getAllNotifications().size() == 0) {
 			txtpnNotification.setText("No Notifications.");
 		}
-		
+
 	}
-	public void clearNoNotification(){
+
+	public void clearNoNotification() {
 		txtpnNotification.setText(GlobalUI.CLEAR);
 	}
 
@@ -90,21 +96,34 @@ public class NotificationCard extends JPanel {
 	}
 
 	public void updateNotification() {
-		
+
 		try {
-			if(manager.getAllNotifications().size() == 0){
+			if (manager.getAllNotifications().size() == 0) {
 				setNoNotifications();
-			}
-			else{
-				
-			document.remove(0, document.getLength());
+			} else {
+
+				document.remove(0, document.getLength());
+
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String date = ZonedDateTime.now().format(
+						DateTimeFormatter.ISO_LOCAL_DATE);
+				Date todaysDate = null;
+				try {
+					todaysDate = formatter.parse(date);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 
 				for (int i = 0; i < manager.getAllNotifications().size(); i++) {
-					if (!isInDocumnet(manager.getAllNotifications().get(i).getNotification())) {
-						document.insertString(document.getEndPosition()
-								.getOffset(), manager.getAllNotifications()
-								.get(i).getNotification()
-								+ "\n\n", null);
+					if (!isInDocumnet(manager.getAllNotifications().get(i)
+							.getNotification())) {
+						if (manager.getAllNotifications().get(i).getStartDate().equals(todaysDate)
+								|| manager.getAllNotifications().get(i).getStartDate().before(todaysDate)) {
+							document.insertString(document.getEndPosition()
+									.getOffset(), manager.getAllNotifications()
+									.get(i).getNotification()
+									+ "\n\n", null);
+						}
 					}
 				}
 			}
@@ -117,6 +136,7 @@ public class NotificationCard extends JPanel {
 
 	/**
 	 * returns true if the word all ready exist in document.
+	 * 
 	 * @param word
 	 * @return
 	 */

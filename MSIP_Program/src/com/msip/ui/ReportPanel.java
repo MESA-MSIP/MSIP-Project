@@ -47,6 +47,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 
 import org.jfree.chart.ChartUtilities;
 
@@ -540,34 +541,15 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	}
 
 	private void updateStudentCBox() {
-		// List sortingList = new ArrayList<String>();
-		if (listOfStudents.size() < manager.getStudents().size()) {
-			for (int i = 0; i < manager.getStudents().size(); i++) {
-				String newAddedStudent = manager.getStudents().get(i)
-						.getFullName();
-				String currentStudent = null;
-				boolean matchFound = false;
 
-				for (int j = 0; j < listOfStudents.size(); j++) {
-					currentStudent = listOfStudents.get(j).getFullName();
-					if (newAddedStudent.equals(currentStudent)) {
-						matchFound = true;
-						break;
-					}
-				}
-
-				if (matchFound == false) {
-					// Adds a student to a Student Array
-					listOfStudents.add(manager.getStudents().get(i));
-					// sortingList.add(manager.getStudents().get(i).getLastNameFirstName());
-					// Adds a student to combo box.
-					jCBoxStudentSearch.addItem(manager.getStudents().get(i)
-							.getFullName());
-
-				}
-			}
-		} else if (listOfStudents.size() > manager.getStudents().size()) {
+		if (listOfStudents.size() > manager.getStudents().size()) {
 			removeStudentCBox();
+		} else {
+			listOfStudents = manager.getStudents();
+			for (int i = 0; i < manager.getStudents().size(); i++){
+				jCBoxStudentSearch.insertItemAt(listOfStudents.get(i), i);				
+			}
+			refreshComboBox();
 		}
 
 		// Sort the ArrayList, add into the JComboBox
@@ -605,5 +587,16 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 
 	}
-
+	private void refreshComboBox(){
+		sortStudentList();
+		//clear the jcombobox
+		jCBoxStudentSearch.setModel(new DefaultComboBoxModel());
+		jCBoxStudentSearch.addItem(GlobalUI.allStudents);
+		for(int p = 0; p < listOfStudents.size(); p++){
+			jCBoxStudentSearch.addItem(listOfStudents.get(p).getLastNameFirstName());
+		}
+	}
+	private void sortStudentList(){
+		Collections.sort(listOfStudents);
+	}
 }
