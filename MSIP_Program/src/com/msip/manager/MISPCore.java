@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JFrame;
@@ -32,6 +31,7 @@ import com.msip.model.Notification;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
+import com.msip.ui.DateTimeDialog;
 import com.msip.ui.GlobalUI;
 import com.msip.ui.LoginPanel;
 import com.msip.ui.ToastPanel;
@@ -54,7 +54,7 @@ public class MISPCore {
 	private LoginPanel loginPanel;
 	private ToastPanel welcomePanel;
 	private SurveyTable surveyTable;
-	private AdminToolsPanel adminToolsPanel;
+	private static AdminToolsPanel adminToolsPanel;
 	private SurveyTableLables surveyTableLables;
 
 	public MISPCore() {
@@ -70,11 +70,12 @@ public class MISPCore {
 		notificationTable = new NotificationTable();
 		surveyTable = new SurveyTable();
 		surveyTableLables = new SurveyTableLables();
-		//TODO remove this
+		// TODO remove this
 		File loginFile = new File("SignInDataSpring2016.csv");
 		try {
-			//loginTable.deleteAll();
-			Utility.importLoginsFromCSVFile(loginFile.getAbsolutePath(), loginTable);
+			// loginTable.deleteAll();
+			Utility.importLoginsFromCSVFile(loginFile.getAbsolutePath(),
+					loginTable);
 		} catch (IOException | SQLException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +99,8 @@ public class MISPCore {
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
-	public ToastPanel getToastPanel(){
+
+	public ToastPanel getToastPanel() {
 		return welcomePanel;
 	}
 
@@ -129,6 +131,8 @@ public class MISPCore {
 		// Display the window.
 		frame.pack();
 		frame.setVisible(true);
+		DateTimeDialog dateTimeDialog = new DateTimeDialog("Set Date and Time",
+				adminToolsPanel);
 
 	}
 
@@ -230,7 +234,8 @@ public class MISPCore {
 
 		if (isStudent(student.getkNumber()) == STUDENT_EXISTS) {
 			// TODO update there name?
-			studentTable.modify(student.getkNumber(),student.getFirstName(),student.getLastName(), student.getMajor());
+			studentTable.modify(student.getkNumber(), student.getFirstName(),
+					student.getLastName(), student.getMajor());
 		} else {
 			studentTable.add(student.getkNumber(), student.getFirstName(),
 					student.getLastName(), student.getMajor());
@@ -244,22 +249,23 @@ public class MISPCore {
 	 * @throws SQLException
 	 */
 	public void modifyStudent(Student student) throws SQLException {
-		studentTable.modify(student.getkNumber(),student.getFirstName(),student.getLastName(), student.getMajor());
+		studentTable.modify(student.getkNumber(), student.getFirstName(),
+				student.getLastName(), student.getMajor());
 		// TODO can modify Name of student too
 	}
 
 	public ParcipitationState isStudentActive(int Knumber) {
 		int participation = loginTable.getParticipation(Knumber).size();
-		
-			if ((0 <= participation) && (participation <= LOW_BOUNDARY)) {
-				return ParcipitationState.LOW_ACTIVE_STUDENT;
-			} else if ((LOW_BOUNDARY <= participation) && (participation <= MEDIAN_BOUNDARY)) {
-				return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
-			} else {
-				return ParcipitationState.HIGH_ACTIVE_STUDENT;
-			}
+
+		if ((0 <= participation) && (participation <= LOW_BOUNDARY)) {
+			return ParcipitationState.LOW_ACTIVE_STUDENT;
+		} else if ((LOW_BOUNDARY <= participation)
+				&& (participation <= MEDIAN_BOUNDARY)) {
+			return ParcipitationState.MEDIAN_ACTIVE_STUDENT;
+		} else {
+			return ParcipitationState.HIGH_ACTIVE_STUDENT;
 		}
-	
+	}
 
 	// **********************************************************//
 	// **********************************************************//
@@ -337,7 +343,8 @@ public class MISPCore {
 	 * @throws SQLException
 	 */
 	public void modifyAdmin(Admin admin) throws SQLException {
-		adminTable.modify(admin.getkNumber(),admin.getFirstName(),admin.getLastName(), admin.getpHash());
+		adminTable.modify(admin.getkNumber(), admin.getFirstName(),
+				admin.getLastName(), admin.getpHash());
 		// TODO can modify Names too..
 	}
 
@@ -372,45 +379,54 @@ public class MISPCore {
 		notificationTable.removeExpiredNotification();
 
 	}
-	public NotificationTable getNotificationTable(){
+
+	public NotificationTable getNotificationTable() {
 		return notificationTable;
 	}
-	
-	public ArrayList<Notification> getAllNotifications(){
+
+	public ArrayList<Notification> getAllNotifications() {
 		return notificationTable.getAllNotification();
-		
+
 	}
+
 	// **********************************************************//
 	// **********************************************************//
 	// *** Survey Table Functions ****//
 	// **********************************************************//
 	// **********************************************************//
 	/** Getting results from survey table **/
-	public SurveyTable getSurveyTable(){
+	public SurveyTable getSurveyTable() {
 		return surveyTable;
 	}
+
 	public ArrayList<Integer> getResults() {
 		return surveyTable.getResults();
 	}
-	
-	public void removeAll(){
+
+	public void removeAll() {
 		surveyTable.removeAll();
 	}
-	public void addQuestion(String question, Date StartDate){
+
+	public void addQuestion(String question, Date StartDate) {
 		surveyTable.addQuestion(question, StartDate);
 	}
-	public void addResults(int result){
+
+	public void addResults(int result) {
 		surveyTable.addResults(result);
 	}
-	public String getQuestion(){
+
+	public String getQuestion() {
 		return surveyTable.getQuestion();
 	}
-	public int getID(){
+
+	public int getID() {
 		return surveyTable.getID();
 	}
-	public SurveyTableLables getSurveyTableLables(){
+
+	public SurveyTableLables getSurveyTableLables() {
 		return surveyTableLables;
 	}
+
 	/**
 	 * @param args
 	 */
