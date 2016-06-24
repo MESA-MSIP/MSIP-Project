@@ -94,7 +94,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		labelWelcome.setBounds(0, 83, 800, 84);
 		labelWelcome.setHorizontalAlignment(0);
 		labelWelcome.setFont(GlobalUI.welcomeLabelFont);
-		Utility.iterateWelcome(labelWelcome, 3000L);
+		// TODO Animation speeds up over time
+		//Utility.iterateWelcome(labelWelcome, 3000L);
 		add(labelWelcome);
 
 		ImageIcon icon = CreateIcon("MESA.png", 315, 72);
