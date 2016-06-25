@@ -214,6 +214,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 				setEditableValueChoices(true);
 				clearValueChoices();
 				clearQAndLabels();
+				clearGraph();
 				toggleButton();
 			} else {
 				if (editQButton.getText() == GlobalUI.submitButtonText) {
@@ -240,6 +241,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		}
 
 	}
+	public void clearGraph(){
+		BorderLayout bl = (BorderLayout) panel.getLayout();
+		panel.remove(bl.getLayoutComponent(BorderLayout.CENTER));
+		panel.repaint();
+		revalidate();
+	}
 
 	/**
 	 * Updates the Graph with updated Values.
@@ -248,9 +255,15 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		GraphReport newGraph = new GraphReport(textQuestion.getText());
 		JPanel newGraphPanel = newGraph.createPiePanel();
 		BorderLayout bl = (BorderLayout) panel.getLayout();
-		panel.remove(bl.getLayoutComponent(BorderLayout.CENTER));
-		panel.add(newGraphPanel);
-		revalidate();
+		if(bl.getLayoutComponent(BorderLayout.CENTER) == null){
+			revalidate();
+		}
+		else{
+			panel.remove(bl.getLayoutComponent(BorderLayout.CENTER));
+			panel.add(newGraphPanel);
+			revalidate();
+		}
+
 	}
 
 	/**
