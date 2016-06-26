@@ -3,6 +3,7 @@ package com.msip.manager;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.File;
@@ -117,6 +118,8 @@ public class MISPCore {
 	 */
 	private static void createAndShowGUI() {
 
+
+		
 		// Create and set up the window.
 		JFrame frame = new JFrame("MSIP");
 		frame.setResizable(false);
@@ -131,8 +134,12 @@ public class MISPCore {
 		// Display the window.
 		frame.pack();
 		frame.setVisible(true);
-		DateTimeDialog dateTimeDialog = new DateTimeDialog("Set Date and Time",
-				adminToolsPanel);
+		
+		//Setup the StartUpItem DateTimeDialog
+		DateTimeDialog dateTimeDialog = new DateTimeDialog("Set Date and Time", adminToolsPanel, Dialog.DEFAULT_MODALITY_TYPE);
+		dateTimeDialog.isAlwaysOnTop();
+		dateTimeDialog.setVisible(true);
+		
 
 	}
 
