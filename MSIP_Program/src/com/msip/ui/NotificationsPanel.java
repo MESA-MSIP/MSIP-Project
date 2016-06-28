@@ -305,9 +305,8 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 			if (tableNotifications.getSelectedRow() != -1) {
 				// remove selected row from the model
 				model.removeRow(tableNotifications.getSelectedRow());
-				//removeUpdatedNotification(manager.getQuestion());
 			} else{
-				removeNotFromTable();
+				removeNotificationFromTable();
 			}
 		} 
 	}
@@ -322,7 +321,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		}
 	}
 
-	private void removeNotFromTable() {
+	private void removeNotificationFromTable() {
 		for(int i = 0; i < manager.getAllNotifications().size(); i++){
 			if(manager.getAllNotifications().get(i).getExpirationDate().after(new Date())){
 				model.removeRow(notiArray.indexOf(manager.getAllNotifications().get(i)));
@@ -332,7 +331,6 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 
 	public void updateNotifications(String notficationText, Date startDate,
 			Date endDate) {
-		//removeUpdatedNotification(notficationText);
 		model = (DefaultTableModel) tableNotifications.getModel();
 		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
 		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");

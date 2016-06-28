@@ -63,7 +63,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
 	private JLabel lblEndDate;
-	// private ArrayList<String> studentList = new ArrayList<String>();
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
 	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
 	private String student = "";
@@ -97,8 +96,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		jCBoxStudentSearch.setBounds(15, 40, 137, GlobalUI.TEXTBOXHEIGHT);
 		actionPanel.add(jCBoxStudentSearch);
 		jCBoxStudentSearch.addItem("All Student's");
-
-		// studentList.add("All Student's");
 
 		// Your able to choose all students. This sets All Students as the
 		// default and is at index 0 of the combo box list
@@ -436,14 +433,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 					String numOfTimesPressent = Integer.toString(sizeOfStuList);
 
 					if (date.length == 0) {
-						// SimpleDateFormat str1 = new
-						// SimpleDateFormat("yyyy/dd/MM");
-						//
-						// String nullDate = "0000/00/00";
-						// Date emptyDate = str1.parse(nullDate);
-						// Date[] noLogins = {emptyDate};
-						//
-
 						pdf.addStudent(listOfStudents.get(i).getFullName(),
 								studentKnumber, numOfTimesPressent, date);
 					} else {
@@ -470,7 +459,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				// returns the users choice as an index based on the combo box
 				// list.
 				int comboBoxIndex = jCBoxStudentSearch.getSelectedIndex();
-				// int studentListIndex = 0;
 				// When ever user chooses All students it prints out all of the
 				// students.
 				if (comboBoxIndex == 0) {
@@ -551,13 +539,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			}
 			refreshComboBox();
 		}
-
-		// Sort the ArrayList, add into the JComboBox
-		// Collections.sort(sortingList);
-		// for(int j = 0; j < sortingList.size(); j++){
-		// jCBoxStudentSearch.addItem(sortingList.get(j));
-		// }
-
 	}
 
 	/**
