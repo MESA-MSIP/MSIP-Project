@@ -4,7 +4,9 @@
 package com.msip.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.NoSuchAlgorithmException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,11 +25,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.msip.external.Utility;
 import com.msip.model.Admin;
-import java.awt.Font;
-import java.awt.Component;
-import javax.swing.Box;
 
-public class AdminAddEditDialog extends JDialog implements ActionListener, KeyListener {
+public class AdminAddEditDialog extends JDialog implements ActionListener,
+		KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -156,13 +157,14 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 					e.consume();
 				}
 				char keychar = e.getKeyChar();
-				if ((!Character.isDigit(keychar)) && (keychar != '\b') && (keychar != '')) {
+				if ((!Character.isDigit(keychar)) && (keychar != '\b')
+						&& (keychar != '')) {
 					e.consume();
 				}
 			}
 		});
-		
-		if(title.compareTo(GlobalUI.MODIFY_ADMIN) == 0){
+
+		if (title.compareTo(GlobalUI.MODIFY_ADMIN) == 0) {
 			textFieldKNumber.setEnabled(false);
 		}
 	}
@@ -171,12 +173,15 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 		if (okButton == e.getSource()) {
 
-			if (!Utility.isValidPasswordFieldsMatch(textFieldPassword, textFieldPassword2)) {
+			if (!Utility.isValidPasswordFieldsMatch(textFieldPassword,
+					textFieldPassword2)) {
 				JOptionPane.showMessageDialog(this, "Passwords do not match.");
 				return;
 			} else if (!Utility.isValidPasswordStrength(textFieldPassword)) {
-				JOptionPane.showMessageDialog(this,
-						"Password should contain a charcter, a digit and be at least 8 characters long.");
+				JOptionPane
+						.showMessageDialog(
+								this,
+								"Password should contain a charcter, a digit and be at least 9 characters long.");
 				return;
 			}
 
@@ -200,9 +205,12 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 		textFieldKNumber.setText(String.valueOf(admin.getkNumber()));
 	}
 
-	public Admin getAdmin() throws NumberFormatException, NoSuchAlgorithmException {
-		return new Admin(textFieldFirstName.getText(), textFieldLastName.getText(),
-				Integer.parseInt(textFieldKNumber.getText()), Utility.getHashedPassword(textFieldPassword.getText()));
+	public Admin getAdmin() throws NumberFormatException,
+			NoSuchAlgorithmException {
+		return new Admin(textFieldFirstName.getText(),
+				textFieldLastName.getText(), Integer.parseInt(textFieldKNumber
+						.getText()),
+				Utility.getHashedPassword(textFieldPassword.getText()));
 	}
 
 	/**
@@ -222,8 +230,10 @@ public class AdminAddEditDialog extends JDialog implements ActionListener, KeyLi
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty()
-				|| textFieldPassword.getText().isEmpty() || textFieldPassword2.getText().isEmpty()
+		if (textFieldFirstName.getText().isEmpty()
+				|| textFieldLastName.getText().isEmpty()
+				|| textFieldPassword.getText().isEmpty()
+				|| textFieldPassword2.getText().isEmpty()
 				|| (!Utility.isValidKNumberLength(textFieldKNumber))) {
 			okButton.setEnabled(false);
 		} else {
