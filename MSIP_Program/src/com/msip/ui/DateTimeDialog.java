@@ -25,8 +25,8 @@ public class DateTimeDialog extends JDialog{
 	public DateTimeDialog(String title, AdminToolsPanel adminToolsPanel, Dialog.ModalityType APPLICATION_MODAL) {
 		SettingsPanel settingsPanel = new SettingsPanel(adminToolsPanel);
 		setLayout(new BorderLayout(0, 0));
-		setPreferredSize(new Dimension(400, 240));
-		setMinimumSize(new Dimension(400,240));
+		setPreferredSize(new Dimension(600,360));
+		setMinimumSize(new Dimension(600,360));
 
 		add(settingsPanel, BorderLayout.CENTER);
 		setModal(true);
