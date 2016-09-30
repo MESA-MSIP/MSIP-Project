@@ -15,10 +15,13 @@ import javax.swing.JButton;
 import org.freixas.jcalendar.JCalendar;
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.Component;
+
 import javax.swing.Box;
 
 public class DateTimeDialog extends JDialog implements ActionListener {
@@ -78,15 +81,20 @@ public class DateTimeDialog extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnUpdate) {
-			Date date = calendar.getDate();
-			SimpleDateFormat formatedDate = new SimpleDateFormat(
-					"mmddhhmmyyyyy");
-			System.out.println(calendar.getDate());
+			SimpleDateFormat formatedDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:SSS ");
+			System.out.println(formatedDate.format(calendar.getDate()));
+			//"2022-12-07 01:20:15.962"
 			try {
-				Runtime.getRuntime().exec("date -s " + calendar.getDate());
-				adminToolsPanel.setStatusMsg("System time set to :"
-						+ calendar.getDate());
-			} catch (IOException e1) {
+				String[] date1 = {"sudo","date","--set",formatedDate.format(calendar.getDate())};
+//              System.out.println(date1);
+                Process p=Runtime.getRuntime().exec(date1);
+                p.waitFor();
+
+//				Runtime.getRuntime().exec("sudo date -s " + "'"+ formatedDate.format(calendar.getDate()) + "'");
+//				System.out.println("sudo date -s " + "'"+ formatedDate.format(calendar.getDate()) + "'");
+				adminToolsPanel.setStatusMsg("System time set to :" + calendar.getDate());
+
+			} catch (Exception e1) {
 				e1.printStackTrace();
 				adminToolsPanel.setStatusMsg("Could not set system time");
 			}

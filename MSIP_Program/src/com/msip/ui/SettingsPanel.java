@@ -27,6 +27,7 @@ import org.freixas.jcalendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JButton;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -67,13 +68,20 @@ public class SettingsPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnUpdate) {
-			Date date = calendar.getDate();
-			SimpleDateFormat formatedDate = new SimpleDateFormat("mmddhhmmyyyyy");
-			System.out.println(calendar.getDate());
+			SimpleDateFormat formatedDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS ");
+			System.out.println(formatedDate.format(calendar.getDate()));
+			//"2022-12-07 01:20:15.962"
 			try {
-				Runtime.getRuntime().exec("date -s " + calendar.getDate());
+				String[] date1 = {"sudo","date","--set",formatedDate.format(calendar.getDate())};
+//              System.out.println(date1);
+                Process p=Runtime.getRuntime().exec(date1);
+                p.waitFor();
+
+//				Runtime.getRuntime().exec("sudo date -s " + "'"+ formatedDate.format(calendar.getDate()) + "'");
+//				System.out.println("sudo date -s " + "'"+ formatedDate.format(calendar.getDate()) + "'");
+
 				adminToolsPanel.setStatusMsg("System time set to :" + calendar.getDate());
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 				adminToolsPanel.setStatusMsg("Could not set system time");
 			}
