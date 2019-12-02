@@ -1,10 +1,11 @@
 package com.msip.db;
 
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Driver;
 
 public class SurveyTableLables {
 	private static final int Value1_INDEX = 0;

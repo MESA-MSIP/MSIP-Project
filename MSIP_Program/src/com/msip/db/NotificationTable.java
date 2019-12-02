@@ -1,5 +1,6 @@
 package com.msip.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -10,9 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.msip.model.Notification;
-import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Driver;
 
 public class NotificationTable {
+	PreparedStatement createTable;
 
 	private SimpleDateFormat formatter;
 	private Date tomorrowsDate;
