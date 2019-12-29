@@ -135,6 +135,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			e1.printStackTrace();
 		}
 
+		//Set up the the DateChooser of the Report
 		startDateChooser.setDate(lastMonth);
 		selectedStartDate = startDateChooser.getDate();
 		startDateChooser.getDateEditor().addPropertyChangeListener(

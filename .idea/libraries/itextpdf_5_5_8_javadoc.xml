@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="itextpdf-5.5.8-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/itextpdf-5.5.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/jcalendar.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/jcommon-1.0.23.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/jdatepicker-1.3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/jfreechart-1.0.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/pi4j-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/mysql-connector-java-8.0.18.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/itextpdf-5.5.8-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MSIP_Program/pi4j-core-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

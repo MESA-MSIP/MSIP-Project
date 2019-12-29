@@ -1,12 +1,13 @@
 package com.msip.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Driver;
 
 public class SurveyTable {
 	private String dateString = null;
