@@ -62,19 +62,34 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 
 	public QuestionnairePanel(MISPCore manager) {
 
+		/*
+		Instantiating and receiving the MSIPCore.
+		Set the panel to our variable panel for later.
+		Store our student survey panel and labels into this class.
+		 */
 		this.manager = manager;
 		surveyTable = this.manager.getSurveyTable();
 		panel = this;
 		studentSurveyPanel = this.manager.getToastPanel().getStudentSurveyPanel();
 		surveyTableLables = this.manager.getSurveyTableLables();
 
+		//Set the Background to White
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
+		//Create a question panel, and set it to the "North" Region of BorderLayout
 		questionPanel = new JPanel();
 		questionPanel.setBackground(Color.WHITE);
 		add(questionPanel, BorderLayout.NORTH);
 
+		/*
+		Create a Textfield that will prompt users for the Question, with the following attributes:
+		SetHorizontalAlignment: Center the Text in TextField.
+		AddActionListener: Add an event listener that when something happens to this textfield, some function is called.
+		AddKeyListener: When a key is pressed, edited, or manipulated, then a function is performed.
+		We will then add this textfield to the Question Panel up above.
+		Set Columns: Question can only store up to 30 Characters.
+		 */
 		textQuestion = new JTextField();
 		textQuestion.setToolTipText("Example: Rate the MESA Tutors From 1 - 5, on Availability.");
 		textQuestion.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -84,20 +99,27 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		questionPanel.add(textQuestion);
 		textQuestion.setColumns(30);
 
+		// Constrain our QuestionPanel with a vertical strut of 20 pixels.
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		questionPanel.add(verticalStrut_4);
 
+		//Create a Button that will either allow editing of the text.
 		editQButton = new JButton();
 		toggleButton();
 		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		editQButton.addActionListener(this);
 		questionPanel.add(editQButton);
 
+		//Create a Panel that will store all the textfields of our responses.
+		//We will store these in the west region of borderlayout, as vertical layout, e.g. "Y_AXIS"
 		valuePanel = new JPanel();
 		valuePanel.setBackground(Color.WHITE);
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 
+		/*
+		Create all the Labels and the TextFields of Each Response.
+		 */
 		labelValue1 = new JLabel("Response 1:");
 		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -170,6 +192,12 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		textValue5.addActionListener(this);
 		textValue5.addKeyListener(this);
 
+
+
+
+		/*
+		Create a Graph, and Store into Center Region of our Borderlayout.
+		 */
 		startDate = new Date();
 		graphPanel = new JPanel();
 		add(graphPanel, BorderLayout.CENTER);
@@ -209,6 +237,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Edit Button is the source of the actionListener
 		if (editQButton == e.getSource()) {
 			if (editQButton.getText() == GlobalUI.clearButtonText) {
 				setEditableValueChoices(true);
@@ -241,6 +270,10 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		}
 
 	}
+
+	/*
+	Clears the graph of the Panel.
+	 */
 	public void clearGraph(){
 		BorderLayout bl = (BorderLayout) panel.getLayout();
 		panel.remove(bl.getLayoutComponent(BorderLayout.CENTER));
@@ -277,6 +310,9 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		}
 	}
 
+	/*
+	Checks for the length of all 5 textfields, check for booleans
+	 */
 	public boolean checkForCompleteFields() {
 		if (textQuestion.getText().length() < GlobalUI.minQuestionLength) {
 			return false;
@@ -443,6 +479,11 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 
 	}
 
+
+	/*
+	Check for keyType events.
+	Checks for the source of the EventListener.
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (textValue1 == e.getSource()) {
