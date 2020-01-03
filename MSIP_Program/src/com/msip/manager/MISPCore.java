@@ -6,11 +6,8 @@ import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,8 +31,8 @@ import com.msip.model.Student.ParcipitationState;
 import com.msip.ui.AdminToolsPanel;
 import com.msip.ui.DateTimeDialog;
 import com.msip.ui.GlobalUI;
-import com.msip.ui.LoginPanel;
-import com.msip.ui.ToastPanel;
+import com.msip.ui.WelcomePanel;
+import com.msip.ui.StudentLoginPanel;
 
 /**
  * @author Juan Zepeda, Christian Martinez, Fernando Estevez, Celina Lazaro
@@ -52,8 +49,8 @@ public class MISPCore {
 	private static final int LOW_BOUNDARY = 3;
 	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
-	private LoginPanel loginPanel;
-	private ToastPanel welcomePanel;
+	private WelcomePanel loginPanel;
+	private StudentLoginPanel welcomePanel;
 	private SurveyTable surveyTable;
 	private static AdminToolsPanel adminToolsPanel;
 	private SurveyTableLables surveyTableLables;
@@ -79,8 +76,8 @@ public class MISPCore {
 	private void addComponentToPane(Container contentPane) {
 
 		// Create the cards
-		welcomePanel = new ToastPanel(this);
-		loginPanel = new LoginPanel(this, welcomePanel);
+		welcomePanel = new StudentLoginPanel(this);
+		loginPanel = new WelcomePanel(this, welcomePanel);
 		adminToolsPanel = new AdminToolsPanel(this);
 
 		// Create the panel that contains the "cards".
@@ -92,7 +89,7 @@ public class MISPCore {
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
 
-	public ToastPanel getToastPanel() {
+	public StudentLoginPanel getToastPanel() {
 		return welcomePanel;
 	}
 
