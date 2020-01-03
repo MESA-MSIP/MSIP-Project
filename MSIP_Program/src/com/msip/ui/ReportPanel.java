@@ -55,14 +55,17 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	private static final long serialVersionUID = 1L;
 	private MISPCore manager;
+	// Drop down box. Studnet List.
 	private JComboBox<Object> jCBoxStudentSearch;
 	private JComboBox<Object> jCBoxReporTypeSearch;
 	private JButton saveReportButton;
 	private JPanel actionPanel;
+	// Text labels
 	private JLabel lblChooseAStudent;
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
 	private JLabel lblEndDate;
+	// List of all students.
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
 	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
 	private String student = "";
