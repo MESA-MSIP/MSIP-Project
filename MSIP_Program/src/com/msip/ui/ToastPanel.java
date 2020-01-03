@@ -156,7 +156,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 						cl.show(ToastPanel.this.manager.getCards(),
 								GlobalUI.LoginPanel);
 					}
-				}, 60000L);
+				}, 5000);
 			}
 		});
 	}
