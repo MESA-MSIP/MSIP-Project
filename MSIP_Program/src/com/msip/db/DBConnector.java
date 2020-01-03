@@ -15,6 +15,7 @@ import java.util.Date;
 import com.msip.external.Utility;
 
 public class DBConnector {
+	//TODO DBConnector the driver for all Table instantiation.
 	static Connection myConnection;
 
 	/**
