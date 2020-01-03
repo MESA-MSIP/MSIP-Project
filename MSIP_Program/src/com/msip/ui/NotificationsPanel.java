@@ -96,22 +96,19 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
 		btnAdd.setBounds(276, 85, 100, GlobalUI.BUTTONHEIGHT);
-		btnAdd.setFont(GlobalUI.GlobalFont);
-		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addNotification();
 				textAreaNotifications.setText(null);
-
+				btnAdd.setEnabled(false);
 			}
-
 		});
 		panelNotificationInput.setLayout(null);
 		panelNotificationInput.add(btnAdd);
 
 		btnRemove = new JButton("Remove");
-		btnRemove.setFont(GlobalUI.GlobalFont);
-		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnRemove, 100, GlobalUI.GlobalFont);
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deleteNotification();

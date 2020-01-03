@@ -191,8 +191,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				});
 
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(648, 40, 137, GlobalUI.BUTTONHEIGHT);
-		saveReportButton.setFont(GlobalUI.LableFont);
+		saveReportButton.setBounds(648, 40, 130, GlobalUI.BUTTONHEIGHT);
+		GlobalUI.formatButtonAdmin(saveReportButton, 130,  GlobalUI.GlobalFont);
 		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
 

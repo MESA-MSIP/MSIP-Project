@@ -5,10 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +41,8 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFont(GlobalUI.GlobalFont);
+		tabbedPane.setBorder(null);
+
 
 		StudentPanel studentPanel = new StudentPanel(msipCore, this);
 		AdminPanel adminPanel = new AdminPanel(msipCore, this);
@@ -69,24 +68,29 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		add(panel, BorderLayout.NORTH);
 		btnLogOut = new JButton();
 
-		btnLogOut.setBounds(720, 5, 63, 63);
+		btnLogOut.setBounds(650, 30, 105, 35);
 
-		ImageIcon icon = CreateIcon("Exit2.png", 60, 60);
-
-		btnLogOut.setBorder(GlobalUI.blackBorder);
-		btnLogOut.setIcon(icon);
-
+		ImageIcon iconoff = CreateIcon("adminexitoff.png", 105, 35);
+		ImageIcon iconon = CreateIcon("adminexiton.png", 105, 35);
+		btnLogOut.setIcon(iconoff);
+		btnLogOut.setBackground(Color.white);
+		btnLogOut.setBorder(null);
+		btnLogOut.setRolloverEnabled(true);
+		btnLogOut.setRolloverIcon(iconon);
 		btnLogOut.addActionListener(this);
 		panel.setLayout(null);
 		panel.add(btnLogOut);
 
 		// added a shut down button.
 		shutDownButton = new JButton();
-		ImageIcon shutDown = CreateIcon("shutDown.png", 42, 42);
-		shutDownButton.setIcon(shutDown);
-		shutDownButton.setBounds(15, 5, 60, 60);
-		shutDownButton.setBorder(GlobalUI.blackBorder);
-
+		ImageIcon shutDownoff = CreateIcon("shutDown.png", 45, 45);
+		ImageIcon shutDownon =  CreateIcon("shutDownRollOver.png", 45, 45);
+		shutDownButton.setIcon(shutDownoff);
+		shutDownButton.setBounds(15, 15, 45, 45);
+		shutDownButton.setBorder(null);
+		shutDownButton.setBackground(Color.white);
+		shutDownButton.setRolloverEnabled(true);
+		shutDownButton.setRolloverIcon(shutDownon);
 		shutDownButton.addActionListener(this);
 		panel.add(shutDownButton);
 

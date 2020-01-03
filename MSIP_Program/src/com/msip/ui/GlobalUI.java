@@ -3,8 +3,10 @@ package com.msip.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 public class GlobalUI {
@@ -30,11 +32,17 @@ public class GlobalUI {
 	// Colors and Borders
 	public static final Color whiteColor = new Color(255, 255, 255);
 	public static final Color redColor = new Color(244, 67, 54);
+	public static final Color blueColor = new Color(107, 143, 194);
+	public static final Color darkBlueColor = new Color(95, 124, 176);
+	public static final Color strongBlue = new Color(53, 65, 136);
+	public static final Color BARCHARTCOLOR = new Color(65, 91, 149);
 	public static final Border redBorder = BorderFactory.createMatteBorder(2,
 			2, 2, 2, redColor);
 	public static final Color blackColor = Color.BLACK;
 	public static final Border blackBorder = BorderFactory.createMatteBorder(1,
 			1, 1, 1, blackColor);
+	public static final Border dblueBorder = BorderFactory.createMatteBorder(1,
+			1, 1, 1, darkBlueColor);
 
 	// Minimum Value for the Question
 	public static final int minQuestionLength = 4;
@@ -46,7 +54,7 @@ public class GlobalUI {
 	// Messages for the WelcomePanel
 	public static final String adminPassError = "Password or K# is incorrect.";
 	public static final String help = "K# is Incorrect.  Try Again.";
-	public static final String loginSuccess = "You Have Logged In.";
+	public static final String loginSuccess = "You Have Logged In";
 	public static final String errorMessage = "KNumber is Incorrect." + '\n'
 			+ "See a MESA Advisor to Register.";
 	public static final String InsertAdminPassMessage = "Enter your Password.";
@@ -142,6 +150,25 @@ public class GlobalUI {
 				"PreMed", "Veterinary", "Zoology", "Other" };
 
 		return majorList;
+	}
+
+	/**
+	 * Methods used to format the buttons used in the Admin Tools Page
+	 * @param adminButton
+	 * @param width
+	 * @param fontused
+	 */
+	public static void formatButtonAdmin(JButton adminButton, int width, Font fontUsed){
+		adminButton.setFont(fontUsed);
+		adminButton.setForeground(Color.WHITE);
+		adminButton.setPreferredSize(new Dimension(width, GlobalUI.BUTTONHEIGHT));
+		adminButton.setBackground(GlobalUI.blueColor);
+		adminButton.setBorder(GlobalUI.dblueBorder);
+		adminButton.setRolloverEnabled(true);
+		adminButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) { adminButton.setBackground(GlobalUI.darkBlueColor); }
+			public void mouseExited(MouseEvent e) { adminButton.setBackground(GlobalUI.blueColor); }
+		});
 	}
 
 }

@@ -4,13 +4,13 @@
 package com.msip.ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.*;
 
+import com.msip.db.Global;
 import com.msip.manager.MISPCore;
 import com.msip.model.Admin;
 import com.msip.model.AdminTableModel;
@@ -46,8 +46,7 @@ public class AdminPanel extends JPanel implements ActionListener {
 		add(panel, BorderLayout.SOUTH);
 
 		btnAdd = new JButton("Add");
-		btnAdd.setFont(GlobalUI.GlobalFont);
-		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
 		btnAdd.addActionListener(this);
 		panel.add(btnAdd);
 
@@ -55,16 +54,13 @@ public class AdminPanel extends JPanel implements ActionListener {
 		panel.add(horizontalStrut);
 
 		btnRemove = new JButton("Remove");
+		GlobalUI.formatButtonAdmin(btnRemove, 100,  GlobalUI.GlobalFont);
 		btnRemove.addActionListener(this);
-		btnRemove.setFont(GlobalUI.GlobalFont);
-		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 		panel.add(btnRemove);
 
 		btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(this);
-		btnEdit.setFont(GlobalUI.GlobalFont);
-		btnEdit.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
-
+		GlobalUI.formatButtonAdmin(btnEdit, 100,  GlobalUI.GlobalFont);
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
 		panel.add(btnEdit);
@@ -214,4 +210,5 @@ public class AdminPanel extends JPanel implements ActionListener {
 	public JComponent $$$getRootComponent$$$() {
 		return panel1;
 	}
+
 }

@@ -49,7 +49,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		panelDateTime.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		btnUpdate = new JButton("Update");
-		btnUpdate.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnUpdate, 100, GlobalUI.GlobalFont);
 		panelDateTime.add(btnUpdate);
 		btnUpdate.addActionListener(this);
 

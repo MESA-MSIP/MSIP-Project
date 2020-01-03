@@ -1,5 +1,6 @@
 package com.msip.ui;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +12,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
@@ -79,6 +81,8 @@ public class GeneralGraph extends ApplicationFrame {
 
 		JFreeChart barChartHr = ChartFactory.createBarChart("", "TIME PERIOD: HOURS", "NUMBER OF VISITS",
 				hoursDataset(arrayHours), PlotOrientation.VERTICAL, true, true, false);
+		BarRenderer renderer = (BarRenderer) barChartHr.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
 		barChartHr.removeLegend();
 		ChartPanel chartPanelHr = new ChartPanel(barChartHr);
 		chartPanelHr.setPreferredSize(new java.awt.Dimension(700, 250));

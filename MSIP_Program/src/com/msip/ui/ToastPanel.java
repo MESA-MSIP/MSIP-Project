@@ -18,12 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
 import com.msip.db.SurveyTable;
@@ -71,7 +66,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		panel.setBorder(new MatteBorder(0, 0, 1, 0, GlobalUI.blackColor));
 		panel.setBackground(Color.WHITE);
 
-		horizontalStrut_1 = Box.createHorizontalStrut(50);
+		horizontalStrut_1 = Box.createHorizontalStrut(180);
 		panel.add(horizontalStrut_1);
 
 		messageToast = new JLabel("Message");
@@ -79,15 +74,18 @@ public class ToastPanel extends JPanel implements ActionListener {
 		messageToast.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(messageToast);
 
-		horizontalStrut = Box.createHorizontalStrut(50);
+		horizontalStrut = Box.createHorizontalStrut(110);
 		panel.add(horizontalStrut);
 
 		exitButton = new JButton();
 
-		ImageIcon icon = CreateIcon("Exit2.png", 60, 60);
-
-		exitButton.setBorder(GlobalUI.blackBorder);
-		exitButton.setIcon(icon);
+		ImageIcon iconoff = CreateIcon("exitoff.png", 75, 25);
+		ImageIcon iconon = CreateIcon("exiton.png", 75, 25);
+		exitButton.setIcon(iconoff);
+		exitButton.setBackground(Color.white);
+		exitButton.setBorder(null);
+		exitButton.setRolloverEnabled(true);
+		exitButton.setRolloverIcon(iconon);
 		exitButton.addActionListener(this);
 		panel.add(exitButton);
 
@@ -214,6 +212,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 		}
 
 	}
+
 
 	/**
 	 * Checks If there is any Notifications in the DB.
