@@ -125,6 +125,7 @@ public class GlobalUI {
 	public static final int LABELHEIGHT = 40;
 	public static final int BUTTONHEIGHT = 40;
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
+	public static final Font NotifictionFont = new Font("Tahoma", Font.PLAIN, 18);
 
 	public static String[] getListMajors() {
 		String[] majorList = { "Aerospace Engineering",

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -138,10 +139,18 @@ public class NotificationTable {
 			ResultSet rs = getExpiredDate.executeQuery();
 			while (rs.next()) {
 				expiredDate = rs.getDate("ExpirationDate");
+				//LocalDate expiredDate2 = expiredDate.toLocalDate();
 //				System.out.println("Experation Date: " + expiredDate
 //						+ " Tomorrows date: " + tomorrowsDate + " Compares: "
 //						+ (tomorrowsDate.compareTo(expiredDate)));
-				if ((expiredDate.compareTo(tomorrowsDate) < 0)) {
+				Date expiredDate2 = expiredDate;
+				expiredDate2.setTime(0);
+				Date tomorrowsDate2 = tomorrowsDate;
+				tomorrowsDate2.setTime(0);
+				if(expiredDate2.compareTo(tomorrowsDate2) == 0) {
+					continue;
+				}
+				else if((expiredDate.compareTo(tomorrowsDate) < 0)) {
 					System.out.println("Successfully removed: " + new Date());
 					System.out.println(tomorrowsDate);
 					removeFromNotificationTable(expiredDate);
@@ -165,4 +174,9 @@ public class NotificationTable {
 		}
 	}
 
+	public int notificationSize(){
+		ArrayList<Notification> notificationList = getAllNotification();
+		return notificationList.size();
+
+	}
 }
