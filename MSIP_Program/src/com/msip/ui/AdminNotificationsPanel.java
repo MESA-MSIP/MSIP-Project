@@ -43,7 +43,7 @@ import com.toedter.calendar.JDateChooser;
  * @author Celina
  *
  */
-public class NotificationsPanel extends JPanel implements KeyListener {
+public class AdminNotificationsPanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextArea textAreaNotifications;
@@ -61,14 +61,14 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private AdminToolsPanel adminToolsPanel;
 	private NotificationTable notificationTable;
 	private JScrollPane notificationScrollPane;
-	private NotificationsPanel notificationsPanel;
+	private AdminNotificationsPanel adminNotificationsPanel;
 
-	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+	public AdminNotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 
 		notificationTable = this.manager.getNotificationTable();
-		notificationsPanel = this;
+		adminNotificationsPanel = this;
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));

@@ -83,7 +83,7 @@ public class GlobalUI {
 	public static final String StudentTab = "Students";
 	public static final String AdminTab = "Administrators";
 	public static final String ReportTab = "Reports";
-	public static final String NotificationsPanel = "Notifications";
+	public static final String AdminNotificationsPanel = "Notifications";
 	public static final String QuestionnairePanel = "Questionnaire";
 
 	// Path File for MESA Logo
