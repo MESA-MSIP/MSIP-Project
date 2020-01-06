@@ -29,7 +29,7 @@ import javax.swing.border.MatteBorder;
 import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
-public class ToastPanel extends JPanel implements ActionListener {
+public class StudentLoginScreenPanel extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -45,16 +45,16 @@ public class ToastPanel extends JPanel implements ActionListener {
 	private Component horizontalStrut_1;
 	private Timer timer;
 	private NotificationCard NotificationCard;
-	private ToastPanel toastPanel;
+	private StudentLoginScreenPanel studentLoginScreenPanel;
 	private SurveyTable surveyTable;
 	private NotificationCard notificationCard;
 
 	private JPanel layoutPanel;
 
-	public ToastPanel(final MISPCore manager) {
+	public StudentLoginScreenPanel(final MISPCore manager) {
 		setBackground(Color.WHITE);
 		this.manager = manager;
-		this.toastPanel = this;
+		this.studentLoginScreenPanel = this;
 		surveyTable = this.manager.getSurveyTable();
 		notificationCard = new NotificationCard(manager);
 
@@ -127,7 +127,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 					//checkForNotifications();
 					notificationCard.updateNotification();
 					CardLayout cl = (CardLayout) welcomeCards.getLayout();
-					cl.show(toastPanel.getCards(), GlobalUI.NotificationCard);
+					cl.show(studentLoginScreenPanel.getCards(), GlobalUI.NotificationCard);
 				} else {
 					// If The Question Length does not meet the questionLength,
 					// show NotificationCard.
@@ -136,7 +136,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 						notificationCard.updateNotification();
 
 						CardLayout cl = (CardLayout) welcomeCards.getLayout();
-						cl.show(toastPanel.getCards(),
+						cl.show(studentLoginScreenPanel.getCards(),
 								GlobalUI.NotificationCard);
 					} else {
 						// Set the Text of the StudentSurveyPanel to the
@@ -151,9 +151,9 @@ public class ToastPanel extends JPanel implements ActionListener {
 
 					public void run() {
 						// Auto Exits after 60 Seconds.
-						CardLayout cl = (CardLayout) ToastPanel.this.manager
+						CardLayout cl = (CardLayout) StudentLoginScreenPanel.this.manager
 								.getCards().getLayout();
-						cl.show(ToastPanel.this.manager.getCards(),
+						cl.show(StudentLoginScreenPanel.this.manager.getCards(),
 								GlobalUI.LoginPanel);
 					}
 				}, 5000);
@@ -206,7 +206,7 @@ public class ToastPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Exit from the ToastPanel
+		// Exit from the StudentLoginScreenPanel
 		if (exitButton == e.getSource()) {
 			StudentSurveyPanel.clearRButtons();
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();

@@ -20,9 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
-import com.msip.external.Utility;
 import com.msip.manager.MISPCore;
 
 public class LoginPanel extends JPanel implements ActionListener {
@@ -34,10 +32,10 @@ public class LoginPanel extends JPanel implements ActionListener {
     private JLabel labeladminPass;
     private JLabel labelMESALOGO;
     private MISPCore manager;
-    private ToastPanel welcomePanel;
+    private StudentLoginScreenPanel welcomePanel;
     private JTextArea errorMessage;
 
-    public LoginPanel(final MISPCore manager, ToastPanel welcomePanel) {
+    public LoginPanel(final MISPCore manager, StudentLoginScreenPanel welcomePanel) {
         setBounds(new Rectangle(0, 0, 800, 480));
 
         this.manager = manager;
@@ -292,7 +290,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Shows the ToastPanel.
+     * Shows the StudentLoginScreenPanel.
      */
     public void showWelcomePanel() {
         CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
