@@ -28,11 +28,8 @@ import com.msip.model.Admin;
 import com.msip.model.Notification;
 import com.msip.model.Student;
 import com.msip.model.Student.ParcipitationState;
-import com.msip.ui.AdminToolsPanel;
-import com.msip.ui.DateTimeDialog;
-import com.msip.ui.GlobalUI;
-import com.msip.ui.LoginPanel;
-import com.msip.ui.StudentLoginScreenPanel;
+import com.msip.ui.*;
+import com.msip.ui.WelcomePanel;
 
 /**
  * @author Juan Zepeda, Christian Martinez, Fernando Estevez, Celina Lazaro
@@ -49,8 +46,8 @@ public class MISPCore {
 	private static final int LOW_BOUNDARY = 3;
 	private static final int MEDIAN_BOUNDARY = 6;
 	private NotificationTable notificationTable;
-	private LoginPanel loginPanel;
-	private StudentLoginScreenPanel welcomePanel;
+	private WelcomePanel welcomePanel;
+	private StudentLoginScreenPanel studentLoginScreenPanel;
 	private SurveyTable surveyTable;
 	private static AdminToolsPanel adminToolsPanel;
 	private SurveyTableLables surveyTableLables;
@@ -77,21 +74,21 @@ public class MISPCore {
 	private void addComponentToPane(Container contentPane) {
 
 		// Create the cards
-		welcomePanel = new StudentLoginScreenPanel(this);
-		loginPanel = new LoginPanel(this, welcomePanel);
+		studentLoginScreenPanel = new StudentLoginScreenPanel(this);
+		welcomePanel = new WelcomePanel(this, studentLoginScreenPanel);
 		adminToolsPanel = new AdminToolsPanel(this);
 
 		// Create the panel that contains the "cards".
 		cards = new JPanel(new CardLayout());
-		cards.add(loginPanel, GlobalUI.LoginPanel);
-		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
 		cards.add(welcomePanel, GlobalUI.WelcomePanel);
+		cards.add(adminToolsPanel, GlobalUI.AdminToolsPanel);
+		cards.add(studentLoginScreenPanel, GlobalUI.StudentLoginScreenPanel);
 
 		contentPane.add(cards, BorderLayout.CENTER);
 	}
 
 	public StudentLoginScreenPanel getToastPanel() {
-		return welcomePanel;
+		return studentLoginScreenPanel;
 	}
 
 	/**
@@ -176,7 +173,7 @@ public class MISPCore {
 	 * @param kNumber
 	 */
 	public void setScannedNumber(int kNumber) {
-		loginPanel.setScannedNumber(kNumber);
+		welcomePanel.setScannedNumber(kNumber);
 	}
 
 	// **********************************************************//
@@ -335,7 +332,7 @@ public class MISPCore {
 	/**
 	 * Modify Admin in Database
 	 * 
-	 * @param student
+	 * @param admin
 	 * @throws SQLException
 	 */
 	public void modifyAdmin(Admin admin) throws SQLException {

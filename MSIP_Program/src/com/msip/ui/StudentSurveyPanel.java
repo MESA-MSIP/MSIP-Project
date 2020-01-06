@@ -322,7 +322,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		
 		if (skipButton == e.getSource()) {
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
+			cl.show(this.manager.getCards(), GlobalUI.WelcomePanel);
 		} else if (submitButton == e.getSource()) {
 			if (rbutton1.isSelected()) {
 				this.manager.addResults(GlobalUI.responseOne);
@@ -357,9 +357,9 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 			}
 			//Revert choice back to default
 			clearRButtons();
-			//Show the LoginPanel
+			//Show the WelcomePanel
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-			cl.show(this.manager.getCards(),GlobalUI.LoginPanel);
+			cl.show(this.manager.getCards(),GlobalUI.WelcomePanel);
 				}
 		else
 		{

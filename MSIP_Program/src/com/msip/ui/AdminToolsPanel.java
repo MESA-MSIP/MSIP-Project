@@ -134,7 +134,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 
 		if (e.getSource() == btnLogOut) {
 			CardLayout cl = (CardLayout) manager.getCards().getLayout();
-			cl.show(manager.getCards(), GlobalUI.LoginPanel);
+			cl.show(manager.getCards(), GlobalUI.WelcomePanel);
 
 		} else if (e.getSource() == shutDownButton) {
 			popUpResponse popUp = new popUpResponse();

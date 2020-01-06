@@ -9,8 +9,8 @@ import javax.swing.border.Border;
 
 public class GlobalUI {
 	// Strings for Card layout
-	public static final String LoginPanel = "LoginPanel";
 	public static final String WelcomePanel = "WelcomePanel";
+	public static final String StudentLoginScreenPanel = "StudentWelcomeScreenPanel";
 	public static final String AdminToolsPanel = "AdminToolsPanel";
 	public static final String StudentSurveyPanel = "StudentSurveyPanel";
 	public static final String BlankPanel = "BlankPanel";

@@ -154,7 +154,7 @@ public class StudentLoginScreenPanel extends JPanel implements ActionListener {
 						CardLayout cl = (CardLayout) StudentLoginScreenPanel.this.manager
 								.getCards().getLayout();
 						cl.show(StudentLoginScreenPanel.this.manager.getCards(),
-								GlobalUI.LoginPanel);
+								GlobalUI.WelcomePanel);
 					}
 				}, 5000);
 			}
@@ -210,7 +210,7 @@ public class StudentLoginScreenPanel extends JPanel implements ActionListener {
 		if (exitButton == e.getSource()) {
 			StudentSurveyPanel.clearRButtons();
 			CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-			cl.show(this.manager.getCards(), GlobalUI.LoginPanel);
+			cl.show(this.manager.getCards(), GlobalUI.WelcomePanel);
 		}
 
 	}

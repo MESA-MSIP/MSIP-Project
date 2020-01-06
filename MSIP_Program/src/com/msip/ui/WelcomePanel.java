@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 
 import com.msip.manager.MISPCore;
 
-public class LoginPanel extends JPanel implements ActionListener {
+public class WelcomePanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JTextField txtKNumber;
@@ -35,7 +35,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     private StudentLoginScreenPanel welcomePanel;
     private JTextArea errorMessage;
 
-    public LoginPanel(final MISPCore manager, StudentLoginScreenPanel welcomePanel) {
+    public WelcomePanel(final MISPCore manager, StudentLoginScreenPanel welcomePanel) {
         setBounds(new Rectangle(0, 0, 800, 480));
 
         this.manager = manager;
@@ -135,17 +135,17 @@ public class LoginPanel extends JPanel implements ActionListener {
                  */
                 String strKNumber = txtKNumber.getText();
                 if (strKNumber.length() < 8) {
-                    LoginPanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
-                    LoginPanel.this.txtAdminPass.setVisible(false);
-                    LoginPanel.this.labeladminPass.setVisible(false);
+                    WelcomePanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
+                    WelcomePanel.this.txtAdminPass.setVisible(false);
+                    WelcomePanel.this.labeladminPass.setVisible(false);
                 } else {
                     // Checks if the kNumber is an Admin kNumber. Sets the admin
                     // password Visible if true.
                     int adminKNum = Integer.parseInt(strKNumber.trim());
                     int adminResponse = manager.isAdmin(adminKNum);
                     if (adminResponse == 1) {
-                        LoginPanel.this.labeladminPass.setVisible(true);
-                        LoginPanel.this.txtAdminPass.setVisible(true);
+                        WelcomePanel.this.labeladminPass.setVisible(true);
+                        WelcomePanel.this.txtAdminPass.setVisible(true);
                     }
                 }
             }
@@ -294,7 +294,7 @@ public class LoginPanel extends JPanel implements ActionListener {
      */
     public void showWelcomePanel() {
         CardLayout cl = (CardLayout) this.manager.getCards().getLayout();
-        cl.show(this.manager.getCards(), GlobalUI.WelcomePanel);
+        cl.show(this.manager.getCards(), GlobalUI.StudentLoginScreenPanel);
     }
 
     /**
