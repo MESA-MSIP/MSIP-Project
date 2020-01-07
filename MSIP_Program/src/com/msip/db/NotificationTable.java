@@ -1,5 +1,6 @@
 package com.msip.db;
 
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,15 +11,22 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JTextArea;
 
 import com.msip.model.Notification;
+import com.msip.ui.GlobalUI;
 import com.mysql.jdbc.Driver;
+
+import javax.swing.*;
 
 public class NotificationTable {
 	PreparedStatement createTable;
 
 	private SimpleDateFormat formatter;
 	private Date tomorrowsDate;
+
 
 	/**
 	 * Creates Notification Table if it doesn't exist.
@@ -57,7 +65,6 @@ public class NotificationTable {
 							+ expirationDateString + "');");
 			addNotification.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -179,4 +186,7 @@ public class NotificationTable {
 		return notificationList.size();
 
 	}
-}
+
+
+	}
+

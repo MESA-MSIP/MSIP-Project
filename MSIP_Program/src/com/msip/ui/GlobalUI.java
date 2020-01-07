@@ -105,6 +105,7 @@ public class GlobalUI {
 	// Label Properties
 	public static final Font LableFont = new Font("Segoe UI Light", 0, 16);
 	public static final Font welcomeLabelFont = new Font("Segoe UI", 1, 60);
+	public static final Font adminErrorFont = new Font("Segoe UI Bold", 0, 12);
 
 	// Label Text Field
 	public static final Font TextFieldFont = new Font("Segoe UI Light", 0, 16);
