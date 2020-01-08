@@ -135,6 +135,8 @@ public class GeneralGraph extends ApplicationFrame {
 		JFreeChart barChartDy = ChartFactory.createBarChart("", "TIME PERIOD: DAYS", "NUMBER OF VISITS",
 				dayDataset(arrayDays), PlotOrientation.VERTICAL, true, true, false);
 		barChartDy.removeLegend();
+		BarRenderer renderer = (BarRenderer) barChartDy.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
 		ChartPanel chartPanelDy = new ChartPanel(barChartDy);
 		chartPanelDy.setPreferredSize(new java.awt.Dimension(700, 250));
 		setContentPane(chartPanelDy);
@@ -180,6 +182,8 @@ public class GeneralGraph extends ApplicationFrame {
 		JFreeChart barChartWk = ChartFactory.createBarChart("", "TIME PERIOD: WEEKS", "NUMBER OF VISITS",
 				weekDataset(arrayWeeks), PlotOrientation.VERTICAL, true, true, false);
 		barChartWk.removeLegend();
+		BarRenderer renderer = (BarRenderer) barChartWk.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
 		ChartPanel chartPanelWk = new ChartPanel(barChartWk);
 		chartPanelWk.setPreferredSize(new java.awt.Dimension(700, 250));
 		setContentPane(chartPanelWk);
@@ -234,6 +238,8 @@ public class GeneralGraph extends ApplicationFrame {
 		JFreeChart barChartMt = ChartFactory.createBarChart("", "TIME PERIOD: MONTHS", "NUMBER OF VISITS",
 				MonthDataset(arrayMonths), PlotOrientation.VERTICAL, true, true, false);
 		barChartMt.removeLegend();
+		BarRenderer renderer = (BarRenderer) barChartMt.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
 		ChartPanel chartPanelMt = new ChartPanel(barChartMt);
 		chartPanelMt.setPreferredSize(new java.awt.Dimension(700, 250));
 		setContentPane(chartPanelMt);
