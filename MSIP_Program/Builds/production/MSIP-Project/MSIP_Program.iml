@@ -20,7 +20,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="jdk" jdkName="JavaSE-1.7" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library">
       <library name="mysql-connector-java-5.1.37-bin.jar">
         <CLASSES>
@@ -97,5 +97,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="itextpdf-5.5.8-javadoc" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.8" level="project" />
   </component>
 </module>

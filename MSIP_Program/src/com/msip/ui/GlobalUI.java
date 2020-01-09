@@ -1,8 +1,12 @@
 package com.msip.ui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -113,6 +117,7 @@ public class GlobalUI {
 	// Label Properties
 	public static final Font LableFont = new Font("Segoe UI Light", 0, 16);
 	public static final Font welcomeLabelFont = new Font("Segoe UI", 1, 60);
+	public static final float NOALIGNMENT = -777777;
 
 	// Label Text Field
 	public static final Font TextFieldFont = new Font("Segoe UI Light", 0, 16);
@@ -153,10 +158,10 @@ public class GlobalUI {
 	}
 
 	/**
-	 * Methods used to format the buttons used in the Admin Tools Page
+	 * Method used to format the buttons used in the Admin Tools Page
 	 * @param adminButton
 	 * @param width
-	 * @param fontused
+	 * @param fontUsed
 	 */
 	public static void formatButtonAdmin(JButton adminButton, int width, Font fontUsed){
 		adminButton.setFont(fontUsed);
@@ -169,6 +174,42 @@ public class GlobalUI {
 			public void mouseEntered(MouseEvent e) { adminButton.setBackground(GlobalUI.darkBlueColor); }
 			public void mouseExited(MouseEvent e) { adminButton.setBackground(GlobalUI.blueColor); }
 		});
+	}
+
+	/**
+	 * Method used to format the drop downs used in the Report Panel
+	 * @param text
+	 * @param alignment
+	 * @param xpos
+	 * @param ypos
+	 * @param width
+	 * @param height
+	 * @return JLabel
+	 */
+	public static JLabel reportPanelLabelFormat(String text, float alignment, int xpos, int ypos, int width, int height){
+		JLabel currLabel = new JLabel(text);
+		currLabel.setBounds(xpos, ypos, width, height);
+		currLabel.setFont(GlobalUI.LableFont);
+		if(alignment != NOALIGNMENT)
+			currLabel.setAlignmentX(alignment);
+		return currLabel;
+	}
+
+	/**
+	 * Method used to format the Bar Chart found in "Reports" tab
+	 * @param barChart
+	 * @return ChartPanel
+	 */
+	public static ChartPanel formatBarChart(JFreeChart barChart){
+		barChart.removeLegend();
+		BarRenderer renderer = (BarRenderer) barChart.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
+		barChart.getPlot().setBackgroundPaint(Color.WHITE);
+		barChart.getPlot().setOutlinePaint(null);
+		barChart.getCategoryPlot().setRangeGridlinePaint(Color.gray);
+		ChartPanel chartPan = new ChartPanel(barChart);
+		chartPan.setPreferredSize(new java.awt.Dimension(700, 250));
+		return chartPan;
 	}
 
 }
