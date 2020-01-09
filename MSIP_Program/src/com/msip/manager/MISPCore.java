@@ -60,6 +60,7 @@ public class MISPCore {
 		if (Global.ISPI) {
 			serialport = new SerialPort(this);
 		}
+		//TODO Should DBConnector instantiate all the other tables and MISP should only instantiate DBConnector?
 		System.out.println("Accessing MySQL DBConnector...");
 		dbConnector = new DBConnector();
 		adminTable = new AdminTable();
@@ -351,7 +352,6 @@ public class MISPCore {
 	 */
 	public void deleteAdmin(int kNumber) throws SQLException {
 		adminTable.remove(kNumber);
-
 	}
 
 	// **********************************************************//

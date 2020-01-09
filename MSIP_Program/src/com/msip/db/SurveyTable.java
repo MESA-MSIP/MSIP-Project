@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.mysql.jdbc.Driver;
 
 public class SurveyTable {
 	private String dateString = null;

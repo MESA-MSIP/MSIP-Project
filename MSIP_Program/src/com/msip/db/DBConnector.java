@@ -15,6 +15,7 @@ import java.util.Date;
 import com.msip.external.Utility;
 
 public class DBConnector {
+	//TODO DBConnector the driver for all Table instantiation.
 	static Connection myConnection;
 
 	/**
@@ -55,10 +56,11 @@ public class DBConnector {
 		student.add(44444444, "Christian", "Martinez", "Computer Science");
 		student.add(55555555, "Celina", "Lazaro", "Computer Engineering");
 		student.add(66666666, "Jorge", "Pantaleon", "Electrcal Engineering");
-		student.add(77777777, "Daryl", "Delgado", "Electrical Engineering");
-		
+		student.add(512840, "Daryl", "Delgado", "Electrical Engineering");
 
-		LoginTable login = new LoginTable();
+
+
+        LoginTable login = new LoginTable();
 		login.deleteAll();
 		//Utility.importLoginsFromCSVFile("F:\\Downloads\\Spring 2016.txt", login);
 		//login.getParticipation(33333333);
