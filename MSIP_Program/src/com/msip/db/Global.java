@@ -6,6 +6,6 @@ public class Global {
 	//your username and password.
 	//note your username is automatically set to root.
 	public static final String USERNAME="root";
-	public static final String PASSWORD="zuVu8efrucRUgAf";
+	public static final String PASSWORD="Big2thegame";
 	public static final boolean ISPI = false;
 }

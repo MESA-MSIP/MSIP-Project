@@ -8,19 +8,17 @@ import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.itextpdf.text.DocumentException;
 import com.msip.db.Global;
@@ -30,7 +28,6 @@ import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
 import com.toedter.calendar.JDateChooser;
 
-import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.FileChooserUI;
 
@@ -47,9 +44,12 @@ import java.awt.image.RenderedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.Box;
-import javax.swing.DefaultComboBoxModel;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.layout.TilePane;
 import org.jfree.chart.ChartUtilities;
 
 public class ReportPanel extends JPanel implements ActionListener, ItemListener {
@@ -60,7 +60,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JComboBox<Object> jCBoxStudentSearch;
 	private JComboBox<Object> jCBoxReporTypeSearch;
 	private JButton saveReportButton;
-	private JPanel actionPanel;
+	private JFXPanel actionPanel;
 	// Text labels
 	private JLabel lblChooseAStudent;
 	private JLabel lblReportType;
@@ -79,8 +79,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private int studentKnumber;
 	private GeneralGraph graph = new GeneralGraph("");;
 	private ReportPanel panel;
-	private JDateChooser startDateChooser;
-	private JDateChooser endDateChooser;
+	private DatePicker dBegin;
+	private DatePicker dEnd;
 	private JFileChooser fc;
 	private AdminToolsPanel adminToolsPanel;
 
@@ -91,7 +91,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Color.WHITE);
 
-		actionPanel = new JPanel();
+		actionPanel = new JFXPanel();
 		actionPanel.setPreferredSize(new Dimension(100, 80));
 		actionPanel.setBackground(Color.white);
 		add(actionPanel, BorderLayout.NORTH);
@@ -124,76 +124,71 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 		jCBoxReporTypeSearch.addItemListener(this);
 
-		// Creates the date picker
-		startDateChooser = new JDateChooser();
-		startDateChooser.setBounds(341, 40, 137, GlobalUI.TEXTBOXHEIGHT);
-		actionPanel.add(startDateChooser);
-		// Sets last months date in the format of Day of week, month, day and
-		// year without any time.
-		SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd yyyy");
+		//Tile pane for Date Pickers
+		TilePane t = new TilePane();
+		t.setLayoutX(341);
+		t.setLayoutY(40);
+		t.setHgap(18);
+
+		//Begin Date
+		dBegin = new DatePicker();
+		dBegin.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+		dBegin.setStyle("-fx-font-size: 0.65em;");
+		t.getChildren().add(dBegin);
 		String lastMonthString = ZonedDateTime.now().minusMonths(1)
-				.format(DateTimeFormatter.ofPattern("E MMM dd yyyy"));
-		Date lastMonth = null;
-		try {
-			lastMonth = formatter.parse(lastMonthString);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
+				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		dBegin.setValue(LocalDate.parse(lastMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		selectedStartDate = java.sql.Date.valueOf(dBegin.getValue());
+		//When Date is Changed
+		dBegin.valueProperty().addListener(new ChangeListener<LocalDate>() {
+			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+				if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).after(selectedEndDate)) {
+					getAdminToolsPanel().setStatusMsg(
+							"Please set a correct start date.");
+					dBegin.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
+					saveReportButton.setEnabled(false);
+					selectedStartDate = java.sql.Date.valueOf(oldValue);
+				} else {
+					dBegin.setStyle("-fx-font-size: 0.65em;");
+					dEnd.setStyle("-fx-font-size: 0.65em;");
+					saveReportButton.setEnabled(true);
+					selectedStartDate = java.sql.Date.valueOf(newValue);
+					updateGraph();
+				}
+			}
+		});
 
-		//Set up the the DateChooser of the Report
-		startDateChooser.setDate(lastMonth);
-		selectedStartDate = startDateChooser.getDate();
-		startDateChooser.getDateEditor().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent e) {
-						// When the user picks a date it sets it to the text box
-						// and retrieves that date not time included.
-						Date prevStartDate = selectedStartDate;
-						selectedStartDate = startDateChooser.getDate();
 
-						if (selectedStartDate == null) {
-							getAdminToolsPanel().setStatusMsg(
-									"Please set a correct start date.");
-							selectedStartDate = prevStartDate;
-						} else {
-							updateGraph();
-						}
-					}
-				});
+		//End Date
+		dEnd = new DatePicker();
+		dEnd.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+		dEnd.setStyle("-fx-font-size: 0.65em;");
+		t.getChildren().add(dEnd);
+		String thisMonthString = ZonedDateTime.now().plusMonths(1)
+				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		dEnd.setValue(LocalDate.parse(thisMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		selectedEndDate = java.sql.Date.valueOf(dEnd.getValue());
+		//When Date is Changed
+		dEnd.valueProperty().addListener(new ChangeListener<LocalDate>() {
+			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+				if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).before(selectedStartDate)) {
+					getAdminToolsPanel().setStatusMsg(
+							"Please set a correct start date.");
+					dEnd.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
+					saveReportButton.setEnabled(false);
+					selectedEndDate = java.sql.Date.valueOf(oldValue);
+				} else {
+					dBegin.setStyle("-fx-font-size: 0.65em;");
+					dEnd.setStyle("-fx-font-size: 0.65em;");
+					saveReportButton.setEnabled(true);
+					selectedEndDate = java.sql.Date.valueOf(newValue);
+					updateGraph();
+				}
+			}
+		});
 
-		// Creates a date picker
-		endDateChooser = new JDateChooser();
-		endDateChooser.setBounds(496, 40, 137, GlobalUI.TEXTBOXHEIGHT);
-		actionPanel.add(endDateChooser);
-		// sets current date in the format of Day of week, month, day and year
-		// without any time.
-		String todaysDateString = ZonedDateTime.now().format(
-				DateTimeFormatter.ofPattern("E MMM dd yyyy"));
-		Date todaysDate = null;
-		try {
-			todaysDate = formatter.parse(todaysDateString);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		endDateChooser.setDate(todaysDate);
-		selectedEndDate = endDateChooser.getDate();
-		endDateChooser.getDateEditor().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent e) {
-						// When the user picks a date it sets it to the text box
-						// and retrieves that date.
-						Date prevEndDate = selectedEndDate;
-						selectedEndDate = endDateChooser.getDate();
-
-						if (selectedEndDate == null) {
-							getAdminToolsPanel().setStatusMsg(
-									"Please set a correct end date.");
-							selectedEndDate = prevEndDate;
-						} else {
-							updateGraph();
-						}
-					}
-				});
+		Scene calendars = new Scene(t);
+		actionPanel.setScene(calendars);
 
 		saveReportButton = new JButton("Save Report");
 		saveReportButton.setBounds(648, 40, 130, GlobalUI.BUTTONHEIGHT);
