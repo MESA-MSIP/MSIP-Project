@@ -46,19 +46,22 @@ import java.beans.PropertyChangeListener;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.TilePane;
 import org.jfree.chart.ChartUtilities;
 
-public class ReportPanel extends JPanel implements ActionListener, ItemListener {
+public class ReportPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private MISPCore manager;
-	// Drop down box. Studnet List.
-	private JComboBox<Object> jCBoxStudentSearch;
-	private JComboBox<Object> jCBoxReporTypeSearch;
+	// Drop downs
+	private ComboBox<String> CBoxStudentSearch;
+	private ComboBox<String> CBoxReportTypeSearch;
+	// Action Buttons
 	private JButton saveReportButton;
 	private JFXPanel actionPanel;
 	// Text labels
@@ -66,9 +69,9 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
 	private JLabel lblEndDate;
-	// List of all students.
+	// List of all students
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
-	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
+	private String[] reportTypes = {"Hours", "Days", "Weeks", "Months"};
 	private String student = "";
 	private String reportType = "";
 	private Date selectedStartDate = null;
@@ -77,14 +80,25 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	private Component horizontalStrut_1;
 	private Component verticalStrut;
 	private int studentKnumber;
-	private GeneralGraph graph = new GeneralGraph("");;
+	private GeneralGraph graph = new GeneralGraph("");
 	private ReportPanel panel;
+	//Date Picker - Calendars
 	private DatePicker dBegin;
 	private DatePicker dEnd;
 	private JFileChooser fc;
 	private AdminToolsPanel adminToolsPanel;
+	//Used to place JavaFX objects
+	private TilePane t;
 
 	public ReportPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+
+		//Tile pane for Date Pickers
+		t = new TilePane();
+		t.setLayoutX(15);
+		t.setLayoutY(40);
+		t.setHgap(18);
+		t.setStyle("-fx-background-color: white");
+
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 		panel = this;
@@ -97,44 +111,66 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		add(actionPanel, BorderLayout.NORTH);
 		actionPanel.setLayout(null);
 
-		jCBoxStudentSearch = new JComboBox<Object>();
-		jCBoxStudentSearch.setBounds(15, 40, 137, GlobalUI.TEXTBOXHEIGHT);
-		actionPanel.add(jCBoxStudentSearch);
-		jCBoxStudentSearch.addItem("All Student's");
+		/////////////
+		//DROPDOWNS//
+		/////////////
 
-		// Your able to choose all students. This sets All Students as the
-		// default and is at index 0 of the combo box list
-		// jCBoxStudentSearch.addItem("All Student's");
+		//Instantiates and Adds Students to Dropdown
+		CBoxStudentSearch = new ComboBox<String>(FXCollections.observableArrayList(returnStudents(listOfStudents)));
+		CBoxStudentSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+		t.getChildren().add(CBoxStudentSearch);
 
-		// Adds all students to combo box.
-		updateStudentCBox();
-		// Collections.sort(listOfStudents);
-		jCBoxStudentSearch.addItemListener(this);
-		// sets all students as default.
+		// Adds "all students" to combo box, Sets it as default
+		CBoxStudentSearch.getItems().add(0, "All Students");
 		studentKnumber = 0;
-		student = "All Student's";
+		student = "All Students";
+		CBoxStudentSearch.getSelectionModel().select(0);
 
-		jCBoxReporTypeSearch = new JComboBox<Object>();
-		jCBoxReporTypeSearch.setBounds(179, 40, 137, GlobalUI.TEXTBOXHEIGHT);
-		actionPanel.add(jCBoxReporTypeSearch);
+		//Listener For When the User selects a different Student
+		CBoxStudentSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+					int comboBoxIndex = CBoxStudentSearch.getSelectionModel().getSelectedIndex();
+					if (comboBoxIndex == 0) { //ALL STUDENTS
+						student = "All Student's";
+						studentKnumber = 0;
+						updateGraph();
+						System.out.println("You chose all students");
+					} else { //SPECIFIC STUDENT
+						// Gets the index of the combo box and subtracts it by one
+						// to choose the same person from the student list
+						student = listOfStudents.get(comboBoxIndex - 1)
+								.getFullName();
+						studentKnumber = listOfStudents.get(comboBoxIndex - 1)
+								.getkNumber();
+						updateGraph();
+					}
+				}
+		);
 
-		// Adds different report types to combo box.
-		for (String date : reportTypes) {
-			jCBoxReporTypeSearch.addItem(date);
-		}
-		jCBoxReporTypeSearch.addItemListener(this);
+		//Instantiates and Adds Report Types to Dropdown
+		CBoxReportTypeSearch = new ComboBox<String>(FXCollections.observableArrayList(reportTypes));
+		CBoxReportTypeSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+		t.getChildren().add(CBoxReportTypeSearch);
+		reportType = "Hours";
+		CBoxReportTypeSearch.getSelectionModel().select(0);
 
-		//Tile pane for Date Pickers
-		TilePane t = new TilePane();
-		t.setLayoutX(341);
-		t.setLayoutY(40);
-		t.setHgap(18);
+		//Listener For When the User selects a different Report Type
+		CBoxReportTypeSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+					int reportTypeIndex = CBoxReportTypeSearch.getSelectionModel().getSelectedIndex();
+					reportType = reportTypes[reportTypeIndex];
+					updateGraph();
+				}
+		);
+
+		////////////////
+		//DATE PICKERS//
+		////////////////
 
 		//Begin Date
 		dBegin = new DatePicker();
 		dBegin.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
 		dBegin.setStyle("-fx-font-size: 0.65em;");
 		t.getChildren().add(dBegin);
+		//Sets dBegin Default Date to a month before today's date
 		String lastMonthString = ZonedDateTime.now().minusMonths(1)
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		dBegin.setValue(LocalDate.parse(lastMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -164,7 +200,8 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		dEnd.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
 		dEnd.setStyle("-fx-font-size: 0.65em;");
 		t.getChildren().add(dEnd);
-		String thisMonthString = ZonedDateTime.now().plusMonths(1)
+		//Sets dEnd Default Date to today's date
+		String thisMonthString = ZonedDateTime.now()
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		dEnd.setValue(LocalDate.parse(thisMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		selectedEndDate = java.sql.Date.valueOf(dEnd.getValue());
@@ -190,9 +227,10 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		Scene calendars = new Scene(t);
 		actionPanel.setScene(calendars);
 
+		//Save Report Button
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(648, 40, 130, GlobalUI.BUTTONHEIGHT);
-		GlobalUI.formatButtonAdmin(saveReportButton, 130,  GlobalUI.GlobalFont);
+		saveReportButton.setBounds(648, 38, 130, GlobalUI.BUTTONHEIGHT);
+		GlobalUI.formatButtonAdmin(saveReportButton, 130, GlobalUI.GlobalFont);
 		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
 
@@ -200,11 +238,11 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		lblChooseAStudent = GlobalUI.reportPanelLabelFormat("Choose a Student(s):", Component.CENTER_ALIGNMENT, 20, 5, 155, GlobalUI.LABELHEIGHT);
 		actionPanel.add(lblChooseAStudent);
 		lblReportType = GlobalUI.reportPanelLabelFormat("Report Type:", Component.CENTER_ALIGNMENT, 208, 5, 93, GlobalUI.LABELHEIGHT);
-        actionPanel.add(lblReportType);
+		actionPanel.add(lblReportType);
 		lblStartDate = GlobalUI.reportPanelLabelFormat("Start Date:", Component.CENTER_ALIGNMENT, 366, 5, 76, GlobalUI.LABELHEIGHT);
-        actionPanel.add(lblStartDate);
+		actionPanel.add(lblStartDate);
 		lblEndDate = GlobalUI.reportPanelLabelFormat("End Date:", GlobalUI.NOALIGNMENT, 520, 5, 76, GlobalUI.LABELHEIGHT);
-        actionPanel.add(lblEndDate);
+		actionPanel.add(lblEndDate);
 
 		add(new JPanel(), BorderLayout.CENTER);
 
@@ -237,16 +275,14 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	}
 
 	/**
-	 * @param manager
-	 *            the manager to set
+	 * @param manager the manager to set
 	 */
 	public void setManager(MISPCore manager) {
 		this.manager = manager;
 	}
 
 	/**
-	 * @param adminToolsPanel
-	 *            the adminToolsPanel to set
+	 * @param adminToolsPanel the adminToolsPanel to set
 	 */
 	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
 		this.adminToolsPanel = adminToolsPanel;
@@ -257,31 +293,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 	 */
 	public AdminToolsPanel getAdminToolsPanel() {
 		return adminToolsPanel;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		// saves data as a csv or pdf report.
-		if (e.getSource().equals(saveReportButton)) {
-
-			// Set to MesaReport directory
-			fc = new JFileChooser(System.getProperty("file.separator")
-					+ "MesaReports");
-			initalizeFileChooser(fc);
-			int returnVal = fc.showOpenDialog(null);
-
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				// When a user chooses to save to a csv file it will execute the
-				// saveToCSV method, otherwise it executes saveToPDF method.
-				if (fc.getFileFilter().getDescription().equals(".pdf")) {
-					saveToPDF(fc);
-				} else {
-					saveToCSV(fc);
-				}
-			}
-		}
-
 	}
 
 	private void saveToCSV(JFileChooser fc) {
@@ -324,7 +335,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 			for (int i = 0; i < listOfStudents.size(); i++) {
 				// new array with new login entries based on student knumber
 				datesInLoginTable = manager.getStudentDataRange(listOfStudents
-						.get(i).getkNumber(), selectedStartDate,
+								.get(i).getkNumber(), selectedStartDate,
 						selectedEndDate);
 
 				// If a student doesn't have login entries it skips them.
@@ -438,48 +449,6 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 		}
 	}
 
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-
-		switch (e.getStateChange()) {
-		case ItemEvent.DESELECTED:
-			if (e.getSource().equals(jCBoxStudentSearch)) {
-				// returns the users choice as an index based on the combo box
-				// list.
-				int comboBoxIndex = jCBoxStudentSearch.getSelectedIndex();
-				// When ever user chooses All students it prints out all of the
-				// students.
-				if (comboBoxIndex == 0) {
-					student = "All Student's";
-					studentKnumber = 0;
-					updateGraph();
-					System.out.println("You chose all students");
-				} else {
-					// otherwise it gets the index of the combo box and
-					// subtracts it by one. To choose the same person from the
-					// student list.
-					// studentListIndex = comboBoxIndex;
-					student = listOfStudents.get(comboBoxIndex - 1)
-							.getFullName();
-					// subtracts 1 because the combobox has set all students as
-					// index 0.
-					studentKnumber = listOfStudents.get(comboBoxIndex - 1)
-							.getkNumber();
-					updateGraph();
-				}
-
-			} else if (e.getSource().equals(jCBoxReporTypeSearch)) {
-				int reportTypeIndex = jCBoxReporTypeSearch.getSelectedIndex();
-				// prints out users choice of report.
-				reportType = reportTypes[reportTypeIndex];
-				updateGraph();
-			}
-			break;
-		case ItemEvent.SELECTED:
-			break;
-		}
-	}
-
 	private void initalizeFileChooser(JFileChooser fileChooser) {
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setApproveButtonText("Save");
@@ -506,66 +475,64 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	}
 
+	/**
+	 * Updates Graph
+	 */
 	public void updateGraph() {
 		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
 				selectedStartDate, selectedEndDate);
-		graph.createGraph(jCBoxReporTypeSearch.getSelectedIndex(), dates);
+		graph.createGraph(CBoxReportTypeSearch.getSelectionModel().getSelectedIndex(), dates);
 		BorderLayout layout = (BorderLayout) panel.getLayout();
 		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 		add(graph.getGraph(), BorderLayout.CENTER);
 		revalidate();
 	}
 
+	/**
+	 * Updates Student Drop Down Object
+	 */
 	private void updateStudentCBox() {
-
-		if (listOfStudents.size() > manager.getStudents().size()) {
-			removeStudentCBox();
-		} else {
+		if (listOfStudents.size() != manager.getStudents().size()) {
 			listOfStudents = manager.getStudents();
-			for (int i = 0; i < manager.getStudents().size(); i++){
-				jCBoxStudentSearch.insertItemAt(listOfStudents.get(i), i);				
-			}
-			refreshComboBox();
+			Collections.sort(listOfStudents);
+			CBoxStudentSearch.setItems(FXCollections.observableArrayList(returnStudents(listOfStudents)));
+			CBoxStudentSearch.getItems().add(0, "All Students");
 		}
 	}
 
 	/**
-	 * removes every student that was deleted from the database from the student
-	 * combobox
+	 * Converts Student Arraylist to a String ArrayList using their fullName
+	 * @param students
+	 * @return ArrayList of Students as Strings
 	 */
-	private void removeStudentCBox() {
+	public ArrayList<String> returnStudents(ArrayList<Student> students){
+		ArrayList<String> ret = new ArrayList<>();
+		for(Student stud: students)
+			ret.add(stud.getFullName());
+		return ret;
+	}
 
-		for (int i = (listOfStudents.size() - 1); i >= 0; i--) {
-			String removedStudent = listOfStudents.get(i).getFullName();
-			String currentStudent = null;
-			boolean matchFound = false;
 
-			for (int j = (manager.getStudents().size() - 1); j >= 0; j--) {
-				currentStudent = manager.getStudents().get(j).getFullName();
-				if (removedStudent.equals(currentStudent)) {
-					matchFound = true;
-					break;
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(saveReportButton)) {
+			// Set to MesaReport directory
+			fc = new JFileChooser(System.getProperty("file.separator")
+					+ "MesaReports");
+			initalizeFileChooser(fc);
+			int returnVal = fc.showOpenDialog(null);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				// When a user chooses to save to a csv file it will execute the
+				// saveToCSV method, otherwise it executes saveToPDF method.
+				if (fc.getFileFilter().getDescription().equals(".pdf")) {
+					saveToPDF(fc);
+				} else {
+					saveToCSV(fc);
 				}
 			}
-
-			if (matchFound == false) {
-				jCBoxStudentSearch.removeItem(listOfStudents.get(i)
-						.getFullName());
-				listOfStudents.remove(i);
-			}
 		}
 
-	}
-	private void refreshComboBox(){
-		sortStudentList();
-		//clear the jcombobox
-		jCBoxStudentSearch.setModel(new DefaultComboBoxModel());
-		jCBoxStudentSearch.addItem(GlobalUI.allStudents);
-		for(int p = 0; p < listOfStudents.size(); p++){
-			jCBoxStudentSearch.addItem(listOfStudents.get(p).getLastNameFirstName());
-		}
-	}
-	private void sortStudentList(){
-		Collections.sort(listOfStudents);
 	}
 }
+
