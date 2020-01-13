@@ -20,12 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
-import com.msip.external.Utility;
 import com.msip.manager.MISPCore;
 
-public class LoginPanel extends JPanel implements ActionListener {
+public class WelcomePanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JTextField txtKNumber;
@@ -34,10 +32,10 @@ public class LoginPanel extends JPanel implements ActionListener {
     private JLabel labeladminPass;
     private JLabel labelMESALOGO;
     private MISPCore manager;
-    private ToastPanel welcomePanel;
+    private StudentLoginPanel welcomePanel;
     private JTextArea errorMessage;
 
-    public LoginPanel(final MISPCore manager, ToastPanel welcomePanel) {
+    public WelcomePanel(final MISPCore manager, StudentLoginPanel welcomePanel) {
         setBounds(new Rectangle(0, 0, 800, 480));
 
         this.manager = manager;
@@ -137,17 +135,17 @@ public class LoginPanel extends JPanel implements ActionListener {
                  */
                 String strKNumber = txtKNumber.getText();
                 if (strKNumber.length() < 8) {
-                    LoginPanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
-                    LoginPanel.this.txtAdminPass.setVisible(false);
-                    LoginPanel.this.labeladminPass.setVisible(false);
+                    WelcomePanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
+                    WelcomePanel.this.txtAdminPass.setVisible(false);
+                    WelcomePanel.this.labeladminPass.setVisible(false);
                 } else {
                     // Checks if the kNumber is an Admin kNumber. Sets the admin
                     // password Visible if true.
                     int adminKNum = Integer.parseInt(strKNumber.trim());
                     int adminResponse = manager.isAdmin(adminKNum);
                     if (adminResponse == 1) {
-                        LoginPanel.this.labeladminPass.setVisible(true);
-                        LoginPanel.this.txtAdminPass.setVisible(true);
+                        WelcomePanel.this.labeladminPass.setVisible(true);
+                        WelcomePanel.this.txtAdminPass.setVisible(true);
                     }
                 }
             }
@@ -351,6 +349,6 @@ public class LoginPanel extends JPanel implements ActionListener {
      */
     private void $$$setupUI$$$() {
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        //panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
     }
 }

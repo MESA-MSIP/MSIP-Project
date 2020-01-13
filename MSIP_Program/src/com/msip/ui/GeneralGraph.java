@@ -1,16 +1,19 @@
 package com.msip.ui;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JPanel;
 
+import com.msip.db.Global;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
@@ -72,18 +75,15 @@ public class GeneralGraph extends ApplicationFrame {
 	}
 
 	/**
-	 * @param chartTitle
+	 * @param arrayHours
 	 * @return
 	 */
 	private ChartPanel hoursChart(int[] arrayHours) {
 
 		JFreeChart barChartHr = ChartFactory.createBarChart("", "TIME PERIOD: HOURS", "NUMBER OF VISITS",
 				hoursDataset(arrayHours), PlotOrientation.VERTICAL, true, true, false);
-		barChartHr.removeLegend();
-		ChartPanel chartPanelHr = new ChartPanel(barChartHr);
-		chartPanelHr.setPreferredSize(new java.awt.Dimension(700, 250));
+		ChartPanel chartPanelHr = GlobalUI.formatBarChart(barChartHr);
 		setContentPane(chartPanelHr);
-
 		CategoryAxis axis = barChartHr.getCategoryPlot().getDomainAxis();
 		axis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
@@ -123,16 +123,14 @@ public class GeneralGraph extends ApplicationFrame {
 	}
 
 	/**
-	 * @param chartTitle
+	 * @param arrayDays
 	 * @return
 	 */
 	private ChartPanel daysChart(int[] arrayDays) {
 
 		JFreeChart barChartDy = ChartFactory.createBarChart("", "TIME PERIOD: DAYS", "NUMBER OF VISITS",
 				dayDataset(arrayDays), PlotOrientation.VERTICAL, true, true, false);
-		barChartDy.removeLegend();
-		ChartPanel chartPanelDy = new ChartPanel(barChartDy);
-		chartPanelDy.setPreferredSize(new java.awt.Dimension(700, 250));
+		ChartPanel chartPanelDy = GlobalUI.formatBarChart(barChartDy);
 		setContentPane(chartPanelDy);
 
 		return chartPanelDy;
@@ -168,16 +166,13 @@ public class GeneralGraph extends ApplicationFrame {
 	}
 
 	/**
-	 * @param chartTitle
+	 * @param arrayWeeks
 	 * @return
 	 */
 	private ChartPanel weeksChart(int[] arrayWeeks) {
-
 		JFreeChart barChartWk = ChartFactory.createBarChart("", "TIME PERIOD: WEEKS", "NUMBER OF VISITS",
 				weekDataset(arrayWeeks), PlotOrientation.VERTICAL, true, true, false);
-		barChartWk.removeLegend();
-		ChartPanel chartPanelWk = new ChartPanel(barChartWk);
-		chartPanelWk.setPreferredSize(new java.awt.Dimension(700, 250));
+		ChartPanel chartPanelWk = GlobalUI.formatBarChart(barChartWk);
 		setContentPane(chartPanelWk);
 		CategoryAxis axis = barChartWk.getCategoryPlot().getDomainAxis();
 		axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
@@ -221,7 +216,6 @@ public class GeneralGraph extends ApplicationFrame {
 	}
 
 	/**
-	 * @param chartTitle
 	 * @param arrayMonths
 	 * @return
 	 */
@@ -229,9 +223,7 @@ public class GeneralGraph extends ApplicationFrame {
 
 		JFreeChart barChartMt = ChartFactory.createBarChart("", "TIME PERIOD: MONTHS", "NUMBER OF VISITS",
 				MonthDataset(arrayMonths), PlotOrientation.VERTICAL, true, true, false);
-		barChartMt.removeLegend();
-		ChartPanel chartPanelMt = new ChartPanel(barChartMt);
-		chartPanelMt.setPreferredSize(new java.awt.Dimension(700, 250));
+		ChartPanel chartPanelMt = GlobalUI.formatBarChart(barChartMt);
 		setContentPane(chartPanelMt);
 		CategoryAxis axis = barChartMt.getCategoryPlot().getDomainAxis();
 		axis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);

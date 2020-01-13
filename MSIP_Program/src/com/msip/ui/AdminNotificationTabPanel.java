@@ -44,7 +44,7 @@ import com.toedter.calendar.JDateChooser;
 /**
  * @author Celina
  */
-public class NotificationsPanel extends JPanel implements KeyListener {
+public class AdminNotificationTabPanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextArea textAreaNotifications;
@@ -62,10 +62,10 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 	private AdminToolsPanel adminToolsPanel;
 	private NotificationTable notificationTable;
 	private JScrollPane notificationScrollPane;
-	private NotificationsPanel notificationsPanel;
 	JTextArea errorMessage = new JTextArea("Exceeded maximum number of characters");
+	private AdminNotificationTabPanel adminNotificationTabPanel;
 
-	public NotificationsPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+	public AdminNotificationTabPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 
@@ -78,7 +78,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		add(errorMessage);
 
 		notificationTable = this.manager.getNotificationTable();
-		notificationsPanel = this;
+		adminNotificationTabPanel = this;
 
 		setPreferredSize(new Dimension(700, 380));
 		setLayout(new BorderLayout(0, 0));
@@ -106,22 +106,19 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
 		btnAdd.setBounds(276, 85, 100, GlobalUI.BUTTONHEIGHT);
-		btnAdd.setFont(GlobalUI.GlobalFont);
-		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addNotification();
 				textAreaNotifications.setText(null);
-
+				btnAdd.setEnabled(false);
 			}
-
 		});
 		panelNotificationInput.setLayout(null);
 		panelNotificationInput.add(btnAdd);
 
 		btnRemove = new JButton("Remove");
-		btnRemove.setFont(GlobalUI.GlobalFont);
-		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnRemove, 100, GlobalUI.GlobalFont);
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deleteNotification();

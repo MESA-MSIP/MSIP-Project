@@ -25,7 +25,7 @@ import javax.swing.text.StyledDocument;
 
 import com.msip.manager.MISPCore;
 
-public class NotificationCard extends JPanel {
+public class StudentNotificationCardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextPane txtpnNotification;
 	private MISPCore manager;
@@ -35,7 +35,7 @@ public class NotificationCard extends JPanel {
 	 * Create the panel.
 	 */
 
-	public NotificationCard(MISPCore manager) {
+	public StudentNotificationCardPanel(MISPCore manager) {
 
 		/**
 		 * Create the panel.

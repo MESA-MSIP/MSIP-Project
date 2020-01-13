@@ -57,8 +57,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		add(panel, BorderLayout.SOUTH);
 
 		btnAdd = new JButton("Add");
-		btnAdd.setFont(GlobalUI.GlobalFont);
-		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
 		btnAdd.addActionListener(this);
 		panel.add(btnAdd);
 
@@ -66,16 +65,13 @@ public class StudentPanel extends JPanel implements ActionListener {
 		panel.add(horizontalStrut);
 
 		btnRemove = new JButton("Remove");
+		GlobalUI.formatButtonAdmin(btnRemove, 100,  GlobalUI.GlobalFont);
 		btnRemove.addActionListener(this);
-		btnRemove.setFont(GlobalUI.GlobalFont);
-		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 		panel.add(btnRemove);
 
 		btnEdit = new JButton("Edit");
+		GlobalUI.formatButtonAdmin(btnEdit, 100,  GlobalUI.GlobalFont);
 		btnEdit.addActionListener(this);
-		btnEdit.setFont(GlobalUI.GlobalFont);
-		btnEdit.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
-
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
 		panel.add(btnEdit);
@@ -84,8 +80,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		panel.add(horizontalStrut_2);
 
 		btnImport = new JButton("Import");
-		btnImport.setFont(GlobalUI.GlobalFont);
-		btnImport.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnImport, 100, GlobalUI.GlobalFont);
 		btnImport.addActionListener(this);
 		panel.add(btnImport);
 	}

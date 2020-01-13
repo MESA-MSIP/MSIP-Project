@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.itextpdf.text.DocumentException;
+import com.msip.db.Global;
 import com.msip.manager.MISPCore;
 import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
@@ -55,14 +56,17 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 	private static final long serialVersionUID = 1L;
 	private MISPCore manager;
+	// Drop down box. Studnet List.
 	private JComboBox<Object> jCBoxStudentSearch;
 	private JComboBox<Object> jCBoxReporTypeSearch;
 	private JButton saveReportButton;
 	private JPanel actionPanel;
+	// Text labels
 	private JLabel lblChooseAStudent;
 	private JLabel lblReportType;
 	private JLabel lblStartDate;
 	private JLabel lblEndDate;
+	// List of all students.
 	private ArrayList<Student> listOfStudents = new ArrayList<Student>();
 	private String[] reportTypes = { "Hours", "Days", "Weeks", "Months" };
 	private String student = "";
@@ -89,6 +93,7 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 
 		actionPanel = new JPanel();
 		actionPanel.setPreferredSize(new Dimension(100, 80));
+		actionPanel.setBackground(Color.white);
 		add(actionPanel, BorderLayout.NORTH);
 		actionPanel.setLayout(null);
 
@@ -191,33 +196,20 @@ public class ReportPanel extends JPanel implements ActionListener, ItemListener 
 				});
 
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(648, 40, 137, GlobalUI.BUTTONHEIGHT);
-		saveReportButton.setFont(GlobalUI.LableFont);
+		saveReportButton.setBounds(648, 40, 130, GlobalUI.BUTTONHEIGHT);
+		GlobalUI.formatButtonAdmin(saveReportButton, 130,  GlobalUI.GlobalFont);
 		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
 
-		lblChooseAStudent = new JLabel("Choose a Student(s):");
-		lblChooseAStudent.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblChooseAStudent.setBounds(20, 5, 155, GlobalUI.LABELHEIGHT);
-		lblChooseAStudent.setFont(GlobalUI.LableFont);
+		//Labels Above Dropdowns
+		lblChooseAStudent = GlobalUI.reportPanelLabelFormat("Choose a Student(s):", Component.CENTER_ALIGNMENT, 20, 5, 155, GlobalUI.LABELHEIGHT);
 		actionPanel.add(lblChooseAStudent);
-
-		lblReportType = new JLabel("Report Type:");
-		lblReportType.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblReportType.setBounds(208, 5, 93, GlobalUI.LABELHEIGHT);
-		lblReportType.setFont(GlobalUI.LableFont);
-		actionPanel.add(lblReportType);
-
-		lblStartDate = new JLabel("Start Date:");
-		lblStartDate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblStartDate.setBounds(366, 5, 76, GlobalUI.LABELHEIGHT);
-		lblStartDate.setFont(GlobalUI.LableFont);
-		actionPanel.add(lblStartDate);
-
-		lblEndDate = new JLabel("End Date:");
-		lblEndDate.setBounds(520, 5, 76, GlobalUI.LABELHEIGHT);
-		lblEndDate.setFont(GlobalUI.LableFont);
-		actionPanel.add(lblEndDate);
+		lblReportType = GlobalUI.reportPanelLabelFormat("Report Type:", Component.CENTER_ALIGNMENT, 208, 5, 93, GlobalUI.LABELHEIGHT);
+        actionPanel.add(lblReportType);
+		lblStartDate = GlobalUI.reportPanelLabelFormat("Start Date:", Component.CENTER_ALIGNMENT, 366, 5, 76, GlobalUI.LABELHEIGHT);
+        actionPanel.add(lblStartDate);
+		lblEndDate = GlobalUI.reportPanelLabelFormat("End Date:", GlobalUI.NOALIGNMENT, 520, 5, 76, GlobalUI.LABELHEIGHT);
+        actionPanel.add(lblEndDate);
 
 		add(new JPanel(), BorderLayout.CENTER);
 

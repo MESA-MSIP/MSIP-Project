@@ -4,13 +4,13 @@
 package com.msip.ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.*;
 
+import com.msip.db.Global;
 import com.msip.manager.MISPCore;
 import com.msip.model.Admin;
 import com.msip.model.AdminTableModel;
@@ -46,8 +46,7 @@ public class AdminPanel extends JPanel implements ActionListener {
 		add(panel, BorderLayout.SOUTH);
 
 		btnAdd = new JButton("Add");
-		btnAdd.setFont(GlobalUI.GlobalFont);
-		btnAdd.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
+		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
 		btnAdd.addActionListener(this);
 		panel.add(btnAdd);
 
@@ -55,16 +54,13 @@ public class AdminPanel extends JPanel implements ActionListener {
 		panel.add(horizontalStrut);
 
 		btnRemove = new JButton("Remove");
+		GlobalUI.formatButtonAdmin(btnRemove, 100,  GlobalUI.GlobalFont);
 		btnRemove.addActionListener(this);
-		btnRemove.setFont(GlobalUI.GlobalFont);
-		btnRemove.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
 		panel.add(btnRemove);
 
 		btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(this);
-		btnEdit.setFont(GlobalUI.GlobalFont);
-		btnEdit.setPreferredSize(new Dimension(100, GlobalUI.BUTTONHEIGHT));
-
+		GlobalUI.formatButtonAdmin(btnEdit, 100,  GlobalUI.GlobalFont);
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
 		panel.add(btnEdit);
@@ -202,10 +198,10 @@ public class AdminPanel extends JPanel implements ActionListener {
 	 * @noinspection ALL
 	 */
 	private void $$$setupUI$$$() {
-		panel1 = new JPanel();
-		panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-		textArea1 = new JTextArea();
-		panel1.add(textArea1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+//		panel1 = new JPanel();
+//		panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+//		textArea1 = new JTextArea();
+//		panel1.add(textArea1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
 	}
 
 	/**
@@ -214,4 +210,5 @@ public class AdminPanel extends JPanel implements ActionListener {
 	public JComponent $$$getRootComponent$$$() {
 		return panel1;
 	}
+
 }
