@@ -69,7 +69,7 @@ public class NotificationsPanel extends JPanel implements KeyListener {
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 
-
+//Change color of background of the message
 		errorMessage.setFont(GlobalUI.adminErrorFont);
 		errorMessage.setBounds(20, 270, 250, 30);
 		errorMessage.setEditable(false);

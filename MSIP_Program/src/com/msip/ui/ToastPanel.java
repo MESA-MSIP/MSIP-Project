@@ -132,7 +132,7 @@ public class ToastPanel extends JPanel implements ActionListener {
                     }
                 }
                 int numOfNotifications = notificationTable.notificationSize();
-                int timeOutDelay = 5000 * numOfNotifications;
+                int timeOutDelay = 15000 * numOfNotifications;
 
                 timer.schedule(new TimerTask() {
                     public void run() {
@@ -166,7 +166,7 @@ public class ToastPanel extends JPanel implements ActionListener {
     public void setMessage(String message) {
         messageToast.setText(message);
     }
-
+    //why is this random... it should display both
     /**
      * Generates a Random Chance to see either the StudentSurveyPanel or
      * NotificationCard.
@@ -205,6 +205,7 @@ public class ToastPanel extends JPanel implements ActionListener {
     public void checkForNotifications() {
         // if the arrayList is empty
         if (this.manager.getAllNotifications().size() == 0) {
+
             NotificationCard.setNoNotifications();
         }
     }
