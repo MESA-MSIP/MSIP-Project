@@ -57,7 +57,7 @@ public class StudentNotificationCardPanel extends JPanel {
 		add(horizontalStrut_1, BorderLayout.EAST);
 
 		txtpnNotification = new JTextPane();
-		txtpnNotification.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtpnNotification.setFont(GlobalUI.NotifictionFont);
 		txtpnNotification.setEditable(false);
 		add(txtpnNotification, BorderLayout.CENTER);
 		document = (DefaultStyledDocument) txtpnNotification.getDocument();

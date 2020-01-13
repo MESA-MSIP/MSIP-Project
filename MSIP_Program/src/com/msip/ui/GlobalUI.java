@@ -117,6 +117,7 @@ public class GlobalUI {
 	// Label Properties
 	public static final Font LableFont = new Font("Segoe UI Light", 0, 16);
 	public static final Font welcomeLabelFont = new Font("Segoe UI", 1, 60);
+	public static final Font adminErrorFont = new Font("Segoe UI Bold", 0, 12);
 	public static final float NOALIGNMENT = -777777;
 
 	// Label Text Field
@@ -138,6 +139,7 @@ public class GlobalUI {
 	public static final int LABELHEIGHT = 40;
 	public static final int BUTTONHEIGHT = 40;
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
+	public static final Font NotifictionFont = new Font("Tahoma", Font.PLAIN, 22);
 
 	public static String[] getListMajors() {
 		String[] majorList = { "Aerospace Engineering",
