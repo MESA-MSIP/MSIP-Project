@@ -106,7 +106,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		//Create a Button that will either allow editing of the text.
 		editQButton = new JButton();
 		toggleButton();
-		editQButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GlobalUI.formatButtonAdmin(editQButton, 60, new Font("Tahoma", Font.PLAIN, 18));
 		editQButton.addActionListener(this);
 		questionPanel.add(editQButton);
 
