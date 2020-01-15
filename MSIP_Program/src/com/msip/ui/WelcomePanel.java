@@ -1,12 +1,7 @@
 package com.msip.ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +26,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
     private JLabel labelKNumber;
     private JLabel labeladminPass;
     private JLabel labelMESALOGO;
+    private JLabel labelSHPELOGO;
+    private JLabel labelSACNASLOGO;
     private MISPCore manager;
     private StudentLoginPanel welcomePanel;
     private JTextArea errorMessage;
@@ -43,24 +40,48 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 
         setBorder(GlobalUI.blackBorder);
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         setLayout(null);
 
 
-        txtKNumber = new JTextField();
+        txtKNumber = new JTextField("00123456");
+        txtKNumber.setForeground(Color.LIGHT_GRAY);
         txtKNumber.setBorder(GlobalUI.blackBorder);
         txtKNumber.setColumns(10);
-        txtKNumber.setBounds(297, 215, 211, GlobalUI.TEXTBOXHEIGHT);
+        txtKNumber.setBounds(297, 225, 211, GlobalUI.TEXTBOXHEIGHT);
         txtKNumber.addActionListener(this);
+        txtKNumber.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+                if (txtKNumber.getText().equals("00123456")) {
+                    txtKNumber.setText("");
+                    txtKNumber.setForeground(Color.black);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtKNumber.getText().isEmpty()) {
+                    txtKNumber.setForeground(Color.gray);
+                    txtKNumber.setText("00123456");
+
+                }
+
+            }
+        });
 
 
         txtKNumber.setHorizontalAlignment(0);
         txtKNumber.setFont(GlobalUI.TextFieldFont);
         txtKNumber.setColumns(10);
         txtKNumber.setVisible(true);
+
         add(txtKNumber);
 
-        this.txtAdminPass = new JPasswordField(10);
+        this.txtAdminPass = new
+
+                JPasswordField(10);
         this.txtAdminPass.setBorder(GlobalUI.blackBorder);
         this.txtAdminPass.setBounds(297, 297, 212, GlobalUI.TEXTBOXHEIGHT);
         this.txtAdminPass.addActionListener(this);
@@ -68,42 +89,70 @@ public class WelcomePanel extends JPanel implements ActionListener {
         this.txtAdminPass.setFont(GlobalUI.TextFieldFont);
         this.txtAdminPass.setColumns(10);
         this.txtAdminPass.setVisible(false);
+
         add(this.txtAdminPass);
 
-        this.labeladminPass = new JLabel("Password:");
+        this.labeladminPass = new
+
+                JLabel("Password:");
         this.labeladminPass.setBounds(318, 268, 166, 22);
         this.labeladminPass.setHorizontalAlignment(0);
         this.labeladminPass.setFont(GlobalUI.TextFieldLabelFont);
         this.labeladminPass.setLabelFor(this.txtAdminPass);
+
         add(this.labeladminPass);
         this.labeladminPass.setVisible(false);
 
-        this.labelKNumber = new JLabel("Enter K# Here:");
-        this.labelKNumber.setBounds(287, 180, 227, 22);
+        this.labelKNumber = new JLabel("Enter K#:");
+        this.labelKNumber.setBounds(133, 235, 227, 22);
         this.labelKNumber.setLabelFor(txtKNumber);
         this.labelKNumber.setHorizontalAlignment(0);
         this.labelKNumber.setFont(GlobalUI.TextFieldLabelFont);
         add(this.labelKNumber);
 
         JLabel labelWelcome = new JLabel("Welcome!");
-        labelWelcome.setBounds(0, 83, 800, 84);
+        labelWelcome.setBounds(0, 10, 800, 84);
         labelWelcome.setHorizontalAlignment(0);
         labelWelcome.setFont(GlobalUI.welcomeLabelFont);
         // TODO Animation speeds up over time
         //Utility.iterateWelcome(labelWelcome, 3000L);
+
         add(labelWelcome);
 
-        ImageIcon icon = CreateIcon("MESA.png", 315, 72);
-        this.labelMESALOGO = new JLabel(icon);
-        this.labelMESALOGO.setBounds(502, 11, 289, 77);
+        ImageIcon icon = CreateIcon("MESALOGO.png", 690, 210);
+        this.labelMESALOGO = new
+
+                JLabel(icon);
+        this.labelMESALOGO.setBounds(50, 10, 700, 230);
+
         add(this.labelMESALOGO);
 
-        errorMessage = new JTextArea("Insert Your Password.");
+        ImageIcon SHPEicon = CreateIcon("SHPE_logo.png", 190, 75);
+        this.labelSHPELOGO = new
+
+                JLabel(SHPEicon);
+        this.labelSHPELOGO.setBounds(10, 360, 190, 75);
+
+        add(this.labelSHPELOGO);
+
+        ImageIcon SACNASicon = CreateIcon("SACNASLOGO.png", 250, 135);
+        this.labelSACNASLOGO = new
+
+                JLabel(SACNASicon);
+        this.labelSACNASLOGO.setBounds(600, 325, 250, 135);
+
+        add(this.labelSACNASLOGO);
+
+        errorMessage = new
+
+                JTextArea("Insert Your Password.");
         errorMessage.setFont(GlobalUI.LableFont);
-        errorMessage.setBounds(525, 215, 266, 62);
+        errorMessage.setBounds(525, 225, 266, 62);
         errorMessage.setEditable(false);
         errorMessage.setVisible(false);
         errorMessage.setForeground(GlobalUI.redColor);
+        errorMessage.setBackground(Color.LIGHT_GRAY);
+
         add(errorMessage);
 
 
@@ -112,6 +161,46 @@ public class WelcomePanel extends JPanel implements ActionListener {
                 txtKNumber.requestFocusInWindow();
             }
         });
+        txtKNumber.addKeyListener(new
+
+                                          KeyAdapter() {
+                                              public void keyTyped(KeyEvent e) {
+                                                  /*
+                                                   * Restricts the textField to only 8 characters, and only
+                                                   * numbers.
+                                                   */
+                                                  if (txtKNumber.getText().length() >= 8) {
+                                                      e.consume();
+                                                  }
+                                                  char keychar = e.getKeyChar();
+                                                  if ((!Character.isDigit(keychar)) && (keychar != '\b')
+                                                          && (keychar != '')) {
+                                                      e.consume();
+                                                  }
+                                              }
+
+                                              public void keyReleased(KeyEvent e) {
+                                                  /*
+                                                   * Once the textField is less than 8 characters, hides the
+                                                   * password textField.
+                                                   */
+                                                  String strKNumber = txtKNumber.getText();
+                                                  if (strKNumber.length() < 8) {
+                                                      txtAdminPass.setText(GlobalUI.CLEAR);
+                                                      txtAdminPass.setVisible(false);
+                                                      labeladminPass.setVisible(false);
+                                                  } else {
+                                                      // Checks if the kNumber is an Admin kNumber. Sets the admin
+                                                      // password Visible if true.
+                                                      int adminKNum = Integer.parseInt(strKNumber.trim());
+                                                      int adminResponse = manager.isAdmin(adminKNum);
+                                                      if (adminResponse == 1) {
+                                                          labeladminPass.setVisible(true);
+                                                          txtAdminPass.setVisible(true);
+                                                      }
+                                                  }
+                                              }
+                                          });
         txtKNumber.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 /*
@@ -337,6 +426,25 @@ public class WelcomePanel extends JPanel implements ActionListener {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
         $$$setupUI$$$();
     }
 
@@ -349,6 +457,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
      */
     private void $$$setupUI$$$() {
         final JPanel panel1 = new JPanel();
-        //panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
     }
 }
+
+

@@ -135,7 +135,7 @@ public class GlobalUI {
 
 	// Magic Number
 	public static final int TWO_THOUSAND_MILLI_SECONDS = 2000;
-	public static final int TEXTBOXHEIGHT = 40;
+	public static final int TEXTBOXHEIGHT = 45;
 	public static final int LABELHEIGHT = 40;
 	public static final int BUTTONHEIGHT = 40;
 	public static final Font GlobalFont = new Font("Tahoma", Font.PLAIN, 15);
