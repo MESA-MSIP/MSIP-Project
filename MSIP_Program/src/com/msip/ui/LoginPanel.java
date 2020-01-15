@@ -46,7 +46,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         setLayout(null);
 
 
-        txtKNumber = new JTextField("K00123456");
+        txtKNumber = new JTextField("00123456");
         txtKNumber.setForeground(Color.LIGHT_GRAY);
         txtKNumber.setBorder(GlobalUI.blackBorder);
         txtKNumber.setColumns(10);
@@ -56,7 +56,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             @Override
             public void focusGained(FocusEvent e) {
 
-                if (txtKNumber.getText().equals("K00123456")) {
+                if (txtKNumber.getText().equals("00123456")) {
                     txtKNumber.setText("");
                     txtKNumber.setForeground(Color.black);
                 }
@@ -66,7 +66,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             public void focusLost(FocusEvent e) {
                 if (txtKNumber.getText().isEmpty()) {
                     txtKNumber.setForeground(Color.gray);
-                    txtKNumber.setText("K00123456");
+                    txtKNumber.setText("00123456");
 
                 }
 
@@ -105,12 +105,12 @@ public class LoginPanel extends JPanel implements ActionListener {
         add(this.labeladminPass);
         this.labeladminPass.setVisible(false);
 
-        //this.labelKNumber = new JLabel("Enter K# Here:");
-        //this.labelKNumber.setBounds(287, 180, 227, 22);
-        //this.labelKNumber.setLabelFor(txtKNumber);
-        //this.labelKNumber.setHorizontalAlignment(0);
-        //this.labelKNumber.setFont(GlobalUI.TextFieldLabelFont);
-        //add(this.labelKNumber);
+        this.labelKNumber = new JLabel("Enter K#:");
+        this.labelKNumber.setBounds(133, 235, 227, 22);
+        this.labelKNumber.setLabelFor(txtKNumber);
+        this.labelKNumber.setHorizontalAlignment(0);
+        this.labelKNumber.setFont(GlobalUI.TextFieldLabelFont);
+        add(this.labelKNumber);
 
         JLabel labelWelcome = new JLabel("Welcome!");
         labelWelcome.setBounds(0, 10, 800, 84);
