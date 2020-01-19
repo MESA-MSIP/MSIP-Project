@@ -1,8 +1,6 @@
 package com.msip.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -46,378 +44,425 @@ import com.toedter.calendar.JDateChooser;
  */
 public class AdminNotificationTabPanel extends JPanel implements KeyListener {
 
-	private static final long serialVersionUID = 1L;
-	private JTextArea textAreaNotifications;
-	private JTable tableNotifications;
-	private JDateChooser startDateChooser;
-	private Date selectedStartDate;
-	private JDateChooser expirationDateChooser;
-	private Date selectedExpirationDate;
-	private JButton btnRemove;
-	private JButton btnAdd;
-	private MISPCore manager;
-	private DefaultTableModel model;
-	private ArrayList<String> notiArray = new ArrayList<String>();
-	private int rowIndex;
-	private AdminToolsPanel adminToolsPanel;
-	private NotificationTable notificationTable;
-	private JScrollPane notificationScrollPane;
-	JTextArea errorMessage = new JTextArea("Exceeded maximum number of characters");
-	private AdminNotificationTabPanel adminNotificationTabPanel;
+    private static final long serialVersionUID = 1L;
+    private JTextArea textAreaNotifications;
+    private JTable tableNotifications;
+    private JDateChooser startDateChooser;
+    private Date selectedStartDate;
+    private JDateChooser expirationDateChooser;
+    private Date selectedExpirationDate;
+    private JButton btnRemove;
+    private JButton btnAdd;
+    private MISPCore manager;
+    private DefaultTableModel model;
+    private ArrayList<String> notiArray = new ArrayList<String>();
+    private int rowIndex;
+    private AdminToolsPanel adminToolsPanel;
+    private NotificationTable notificationTable;
+    private JScrollPane notificationScrollPane;
+    JTextArea errorMessage = new JTextArea("Exceeded maximum number of characters");
+    JTextArea characterCount = new JTextArea("Characters left: 400");
+    ;
+    private AdminNotificationTabPanel adminNotificationTabPanel;
 
-	public AdminNotificationTabPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
-		this.setManager(msipCore);
-		this.setAdminToolsPanel(adminToolsPanel);
+    public AdminNotificationTabPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+        this.setManager(msipCore);
+        this.setAdminToolsPanel(adminToolsPanel);
 
-//Change color of background of the message
-		errorMessage.setFont(GlobalUI.adminErrorFont);
-		errorMessage.setBounds(20, 270, 250, 30);
-		errorMessage.setEditable(false);
-		errorMessage.setVisible(false);
-		errorMessage.setForeground(GlobalUI.redColor);
-		add(errorMessage);
+        //Error message when add has been clicked but the notification is too long
+        errorMessage.setFont(GlobalUI.adminErrorFont);
+        errorMessage.setBounds(20, 290, 250, 20);
+        errorMessage.setEditable(false);
+        errorMessage.setVisible(false);
+        errorMessage.setForeground(GlobalUI.redColor);
+        errorMessage.setBackground(Color.lightGray);
+        add(errorMessage);
 
-		notificationTable = this.manager.getNotificationTable();
-		adminNotificationTabPanel = this;
+        //Character count
+        characterCount.setFont(GlobalUI.adminErrorFont);
+        characterCount.setBounds(20, 270, 130, 20);
+        characterCount.setEditable(false);
+        characterCount.setVisible(true);
+        characterCount.setForeground(GlobalUI.blueColor);
+        characterCount.setBackground(Color.lightGray);
+        add(characterCount);
 
-		setPreferredSize(new Dimension(700, 380));
-		setLayout(new BorderLayout(0, 0));
+        notificationTable = this.manager.getNotificationTable();
+        adminNotificationTabPanel = this;
 
-		tableNotifications = createJTable();
+        setPreferredSize(new Dimension(700, 380));
+        setLayout(new BorderLayout(0, 0));
 
-		tableNotifications.getTableHeader().setReorderingAllowed(false);
+        tableNotifications = createJTable();
 
-		notificationScrollPane = new JScrollPane(tableNotifications);
-		add(notificationScrollPane, BorderLayout.CENTER);
+        tableNotifications.getTableHeader().setReorderingAllowed(false);
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		add(horizontalStrut, BorderLayout.WEST);
+        notificationScrollPane = new JScrollPane(tableNotifications);
+        add(notificationScrollPane, BorderLayout.CENTER);
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		add(horizontalStrut_1, BorderLayout.EAST);
+        Component horizontalStrut = Box.createHorizontalStrut(20);
+        add(horizontalStrut, BorderLayout.WEST);
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		add(verticalStrut, BorderLayout.NORTH);
+        Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+        add(horizontalStrut_1, BorderLayout.EAST);
 
-		JPanel panelNotificationInput = new JPanel();
-		panelNotificationInput.setPreferredSize(new Dimension(10, 130));
-		add(panelNotificationInput, BorderLayout.SOUTH);
+        Component verticalStrut = Box.createVerticalStrut(20);
+        add(verticalStrut, BorderLayout.NORTH);
 
-		btnAdd = new JButton("Add");
-		btnAdd.setEnabled(false);
-		btnAdd.setBounds(276, 85, 100, GlobalUI.BUTTONHEIGHT);
-		GlobalUI.formatButtonAdmin(btnAdd, 100,  GlobalUI.GlobalFont);
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addNotification();
-				textAreaNotifications.setText(null);
-				btnAdd.setEnabled(false);
-			}
-		});
-		panelNotificationInput.setLayout(null);
-		panelNotificationInput.add(btnAdd);
+        JPanel panelNotificationInput = new JPanel();
+        panelNotificationInput.setPreferredSize(new Dimension(10, 130));
+        add(panelNotificationInput, BorderLayout.SOUTH);
 
-		btnRemove = new JButton("Remove");
-		GlobalUI.formatButtonAdmin(btnRemove, 100, GlobalUI.GlobalFont);
-		btnRemove.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deleteNotification();
-			}
-		});
-		btnRemove.setBounds(396, 85, 100, GlobalUI.BUTTONHEIGHT);
-		panelNotificationInput.add(btnRemove);
-		textAreaNotifications = new JTextArea();
-		textAreaNotifications.setPreferredSize(new Dimension(4, 40));
-		textAreaNotifications.setWrapStyleWord(true);
-		textAreaNotifications.setLineWrap(true);
-		textAreaNotifications.addKeyListener(this);
+        btnAdd = new JButton("Add");
+        btnAdd.setEnabled(false);
+        btnAdd.setBounds(276, 85, 100, GlobalUI.BUTTONHEIGHT);
+        GlobalUI.formatButtonAdmin(btnAdd, 100, GlobalUI.GlobalFont);
+        btnAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addNotification();
+                textAreaNotifications.setText(null);
+                btnAdd.setEnabled(false);
+            }
+        });
+        panelNotificationInput.setLayout(null);
+        panelNotificationInput.add(btnAdd);
 
-		textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
-		textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
+        btnRemove = new JButton("Remove");
+        GlobalUI.formatButtonAdmin(btnRemove, 100, GlobalUI.GlobalFont);
+        btnRemove.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteNotification();
+            }
+        });
+        btnRemove.setBounds(396, 85, 100, GlobalUI.BUTTONHEIGHT);
+        panelNotificationInput.add(btnRemove);
+        textAreaNotifications = new JTextArea();
+        textAreaNotifications.setPreferredSize(new Dimension(4, 40));
+        textAreaNotifications.setWrapStyleWord(true);
+        textAreaNotifications.setLineWrap(true);
+        textAreaNotifications.addKeyListener(this);
 
-		textAreaNotifications.addFocusListener(new FocusListener() {//
-			public void focusGained(FocusEvent e) {
+        textAreaNotifications.setAlignmentX(SwingConstants.LEFT);
+        textAreaNotifications.setAlignmentY(SwingConstants.NORTH);
 
-			}
+        textAreaNotifications.addFocusListener(new FocusListener() {//
+            public void focusGained(FocusEvent e) {
 
-			public void focusLost(FocusEvent e) {
+            }
 
-			}
+            public void focusLost(FocusEvent e) {
 
-		});
-		JScrollPane noteScrollPane = new JScrollPane(textAreaNotifications);
-		noteScrollPane.setBounds(21, 35, 355, 39);
-		panelNotificationInput.add(noteScrollPane);
+            }
 
-		// Start Date
-		startDateChooser = new JDateChooser();
-		startDateChooser.setBounds(386, 35, 137, 39);
-		panelNotificationInput.add(startDateChooser);
-		// Adds todays date.
-		Date date1 = new Date();
-		startDateChooser.setDate(date1);
-		selectedStartDate = startDateChooser.getDate();
-		startDateChooser.getDateEditor().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent e) {
-						// When the user picks a date it sets it to the text box
-						// and retrieves that date.
-						Date prevStartDate = selectedStartDate;
-						selectedStartDate = startDateChooser.getDate();
+        });
+        JScrollPane noteScrollPane = new JScrollPane(textAreaNotifications);
+        noteScrollPane.setBounds(21, 35, 355, 39);
+        panelNotificationInput.add(noteScrollPane);
 
-						if (selectedStartDate == null) {
-							getAdminToolsPanel().setStatusMsg(
-									"Please set a correct start date.");
-							selectedStartDate = prevStartDate;
-						}
-					}
-				});
+        // Start Date
+        startDateChooser = new JDateChooser();
+        startDateChooser.setBounds(386, 35, 137, 39);
+        panelNotificationInput.add(startDateChooser);
+        // Adds todays date.
+        Date date1 = new Date();
+        startDateChooser.setDate(date1);
+        selectedStartDate = startDateChooser.getDate();
+        startDateChooser.getDateEditor().addPropertyChangeListener(
+                new PropertyChangeListener() {
+                    public void propertyChange(PropertyChangeEvent e) {
+                        // When the user picks a date it sets it to the text box
+                        // and retrieves that date.
+                        Date prevStartDate = selectedStartDate;
+                        selectedStartDate = startDateChooser.getDate();
 
-		expirationDateChooser = new JDateChooser();
-		expirationDateChooser.setBounds(538, 35, 137, 39);
-		panelNotificationInput.add(expirationDateChooser);
-		// sets current date
-		Date date = new Date();
-		expirationDateChooser.setDate(date);
+                        if (selectedStartDate == null) {
+                            getAdminToolsPanel().setStatusMsg(
+                                    "Please set a correct start date.");
+                            selectedStartDate = prevStartDate;
+                        }
+                    }
+                });
 
-		JLabel lblEnterANew = new JLabel("Enter a new notification:");
-		lblEnterANew.setBounds(21, 0, 355, 39);
-		lblEnterANew.setFont(GlobalUI.LableFont);
-		panelNotificationInput.add(lblEnterANew);
+        expirationDateChooser = new JDateChooser();
+        expirationDateChooser.setBounds(538, 35, 137, 39);
+        panelNotificationInput.add(expirationDateChooser);
+        // sets current date
+        Date date = new Date();
+        expirationDateChooser.setDate(date);
 
-		JLabel lblStartDate = new JLabel("Start Date:");
-		lblStartDate.setBounds(386, 0, 137, 39);
-		lblStartDate.setFont(GlobalUI.LableFont);
-		panelNotificationInput.add(lblStartDate);
+        JLabel lblEnterANew = new JLabel("Enter a new notification:");
+        lblEnterANew.setBounds(21, 0, 355, 39);
+        lblEnterANew.setFont(GlobalUI.LableFont);
+        panelNotificationInput.add(lblEnterANew);
 
-		JLabel lblEndDate = new JLabel("End Date:");
-		lblEndDate.setBounds(538, 0, 137, 39);
-		lblEndDate.setFont(GlobalUI.LableFont);
-		panelNotificationInput.add(lblEndDate);
+        JLabel lblStartDate = new JLabel("Start Date:");
+        lblStartDate.setBounds(386, 0, 137, 39);
+        lblStartDate.setFont(GlobalUI.LableFont);
+        panelNotificationInput.add(lblStartDate);
 
-		selectedExpirationDate = expirationDateChooser.getDate();
-		addComponentListener(new ComponentAdapter() {
-			public void componentShown(ComponentEvent e) {
-				updateTable();
-			}
+        JLabel lblEndDate = new JLabel("End Date:");
+        lblEndDate.setBounds(538, 0, 137, 39);
+        lblEndDate.setFont(GlobalUI.LableFont);
+        panelNotificationInput.add(lblEndDate);
 
-			public void componentHidden(ComponentEvent e) {
-				updateTable();
-			}
-		});
+        selectedExpirationDate = expirationDateChooser.getDate();
+        addComponentListener(new ComponentAdapter() {
+            public void componentShown(ComponentEvent e) {
+                updateTable();
+            }
 
-		SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
-		String tomorrowsDateString = ZonedDateTime.now().plusDays(1)
-				.format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
-		Date tomorrowsDate = null;
-		try {
-			tomorrowsDate = formatter.parse(tomorrowsDateString);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		expirationDateChooser.setDate(tomorrowsDate);
-		expirationDateChooser.getDateEditor().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent e) {
-						// When the user picks a date it sets it to the text box
-						// and retrieves that date.
-						Date prevExpirationDate = selectedExpirationDate;
-						selectedExpirationDate = expirationDateChooser
-								.getDate();
+            public void componentHidden(ComponentEvent e) {
+                updateTable();
+            }
+        });
 
-						if (selectedExpirationDate == null) {
-							getAdminToolsPanel().setStatusMsg(
-									"Please set a correct expiration date.");
-							selectedExpirationDate = prevExpirationDate;
-						}
-					}
-				});
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM/dd/yyyy");
+        String tomorrowsDateString = ZonedDateTime.now().plusDays(1)
+                .format(DateTimeFormatter.ofPattern("MMM/dd/yyyy"));
+        Date tomorrowsDate = null;
+        try {
+            tomorrowsDate = formatter.parse(tomorrowsDateString);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+        expirationDateChooser.setDate(tomorrowsDate);
+        expirationDateChooser.getDateEditor().addPropertyChangeListener(
+                new PropertyChangeListener() {
+                    public void propertyChange(PropertyChangeEvent e) {
+                        // When the user picks a date it sets it to the text box
+                        // and retrieves that date.
+                        Date prevExpirationDate = selectedExpirationDate;
+                        selectedExpirationDate = expirationDateChooser
+                                .getDate();
 
-	}
+                        if (selectedExpirationDate == null) {
+                            getAdminToolsPanel().setStatusMsg(
+                                    "Please set a correct expiration date.");
+                            selectedExpirationDate = prevExpirationDate;
+                        }
+                    }
+                });
 
-	/**
-	 * @return the manager
-	 */
-	public MISPCore getManager() {
-		return manager;
-	}
+    }
 
-	/**
-	 * @param manager the manager to set
-	 */
-	public void setManager(MISPCore manager) {
-		this.manager = manager;
-	}
+    /**
+     * @return the manager
+     */
+    public MISPCore getManager() {
+        return manager;
+    }
 
-	/**
-	 * @param adminToolsPanel the adminToolsPanel to set
-	 */
-	public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
-		this.adminToolsPanel = adminToolsPanel;
-	}
+    /**
+     * @param manager the manager to set
+     */
+    public void setManager(MISPCore manager) {
+        this.manager = manager;
+    }
 
-	/**
-	 * @return the adminToolsPanel
-	 */
-	public AdminToolsPanel getAdminToolsPanel() {
-		return adminToolsPanel;
-	}
+    /**
+     * @param adminToolsPanel the adminToolsPanel to set
+     */
+    public void setAdminToolsPanel(AdminToolsPanel adminToolsPanel) {
+        this.adminToolsPanel = adminToolsPanel;
+    }
 
-	// **********************************************************//
-	// **********************************************************//
-	// *** Add Notification Functions ****//
-	// **********************************************************//
-	// **********************************************************//
-	private void addNotification() {
-		if (textAreaNotifications.getText().length() > 400) {
-			errorMessage.setVisible(true);
-			turnOffMessage(errorMessage);
-		}
-		if (textAreaNotifications.getText().length() != 0 && textAreaNotifications.getText().length() < 400) {
+    /**
+     * @return the adminToolsPanel
+     */
+    public AdminToolsPanel getAdminToolsPanel() {
+        return adminToolsPanel;
+    }
 
-			model = (DefaultTableModel) tableNotifications.getModel();
+    // **********************************************************//
+    // **********************************************************//
+    // *** Add Notification Functions ****//
+    // **********************************************************//
+    // **********************************************************//
+    private void addNotification() {
 
-			DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
-			DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
-			String reportDate = dateStart.format(selectedStartDate);
-			String reportEndDate = dateEnd.format(selectedExpirationDate);
-			String note = textAreaNotifications.getText().trim();
-			String st[] = {note, reportDate, reportEndDate};
-			model.addRow(st);
+        if (textAreaNotifications.getText().length() > 400) {
+			characterCount.setVisible(false);
+            errorMessage.setVisible(true);
+            turnOnMessage(characterCount);
+            turnOffMessage(errorMessage);
+            characterCount.setText("Characters left: 400");
+            characterCount.setForeground(GlobalUI.blueColor);
+            textAreaNotifications.setForeground(GlobalUI.blackColor);
+        }
+        if (textAreaNotifications.getText().length() != 0 && textAreaNotifications.getText().length() < 400) {
 
-			manager.addNotification(note, selectedStartDate,
-					selectedExpirationDate);
-			// adds the notification to an array list.
-			notiArray.add(note);
-		}
+            model = (DefaultTableModel) tableNotifications.getModel();
 
-	}
+            DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
+            String reportDate = dateStart.format(selectedStartDate);
+            String reportEndDate = dateEnd.format(selectedExpirationDate);
+            String note = textAreaNotifications.getText().trim();
+            String st[] = {note, reportDate, reportEndDate};
+            model.addRow(st);
 
-	// **********************************************************//
-	// **********************************************************//
-	// *** Delete Notification Functions ****//
-	// **********************************************************//
-	// **********************************************************//
+            manager.addNotification(note, selectedStartDate,
+                    selectedExpirationDate);
+            // adds the notification to an array list.
+            notiArray.add(note);
+        }
 
-	private void deleteNotification() {
+    }
 
-		if (tableNotifications.isRowSelected(tableNotifications
-				.getSelectedRow())) {
-			// removes the specific notification from the DB table.
-			manager.removeNotification(notiArray.get(rowIndex));
-			// removes the specific notification from the arraylist to match the
-			// size of the table.
-			notiArray.remove(rowIndex);
+    // **********************************************************//
+    // **********************************************************//
+    // *** Delete Notification Functions ****//
+    // **********************************************************//
+    // **********************************************************//
 
-			// clears expired notifications
-			model = (DefaultTableModel) tableNotifications.getModel();
-			if (tableNotifications.getSelectedRow() != -1) {
-				// remove selected row from the model
-				model.removeRow(tableNotifications.getSelectedRow());
-			} else {
-				removeNotificationFromTable();
-			}
-		}
-	}
+    private void deleteNotification() {
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		String data = textAreaNotifications.getText();
-		if (data.isEmpty()) {
-			btnAdd.setEnabled(false);
-		} else {
-			btnAdd.setEnabled(true);
-		}
-	}
+        if (tableNotifications.isRowSelected(tableNotifications
+                .getSelectedRow())) {
+            // removes the specific notification from the DB table.
+            manager.removeNotification(notiArray.get(rowIndex));
+            // removes the specific notification from the arraylist to match the
+            // size of the table.
+            notiArray.remove(rowIndex);
 
-	private void removeNotificationFromTable() {
-		for (int i = 0; i < manager.getAllNotifications().size(); i++) {
-			if (manager.getAllNotifications().get(i).getExpirationDate().after(new Date())) {
-				model.removeRow(notiArray.indexOf(manager.getAllNotifications().get(i)));
-			}
-		}
-	}
+            // clears expired notifications
+            model = (DefaultTableModel) tableNotifications.getModel();
+            if (tableNotifications.getSelectedRow() != -1) {
+                // remove selected row from the model
+                model.removeRow(tableNotifications.getSelectedRow());
+            } else {
+                removeNotificationFromTable();
+            }
+        }
+    }
 
-	public void updateNotifications(String notficationText, Date startDate,
-									Date endDate) {
-		model = (DefaultTableModel) tableNotifications.getModel();
-		DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
-		DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
-		String reportDate = dateStart.format(startDate);
-		String reportEndDate = dateEnd.format(endDate);
-		String st[] = {notficationText, reportDate, reportEndDate};
-		model.addRow(st);
+    @Override
+    public void keyReleased(KeyEvent e) {
+        ////////////////////////////////////////
+        //////////Character Count///////////////
+        ////////////////////////////////////////
+        String notificationText = textAreaNotifications.getText();
+        int characterNum = notificationText.length();
+        int displayNum = 400 - characterNum;
+        String count = String.valueOf(displayNum);
+        characterCount.setText("Characters left: " + count);
+        if (characterNum > 400) {
+            characterCount.setForeground(GlobalUI.redColor);
+            textAreaNotifications.setForeground(GlobalUI.redColor);
+        }
+        if (characterNum < 400) {
+            characterCount.setForeground(GlobalUI.blueColor);
+            textAreaNotifications.setForeground(GlobalUI.blackColor);
+        }
 
-	}
+        String data = textAreaNotifications.getText();
+        if (data.isEmpty()) {
+            btnAdd.setEnabled(false);
+        } else {
+            btnAdd.setEnabled(true);
+        }
+    }
 
-	public JTable createJTable() {
-		final JTable newTable = new JTable(new DefaultTableModel(
-				new Object[][]{}, new String[]{"Notifications:",
-				"Start Date:", "Expiration Date:"}) {
-			@Override
-			public boolean isCellEditable(int r, int c) {
-				return false;
-			}
+    private void removeNotificationFromTable() {
+        for (int i = 0; i < manager.getAllNotifications().size(); i++) {
+            if (manager.getAllNotifications().get(i).getExpirationDate().after(new Date())) {
+                model.removeRow(notiArray.indexOf(manager.getAllNotifications().get(i)));
+            }
+        }
+    }
 
-		});
-		newTable.setColumnSelectionAllowed(false);
-		newTable.getTableHeader().setFont(GlobalUI.GlobalFont);
-		newTable.setFont(GlobalUI.GlobalFont);
-		newTable.setRowSelectionAllowed(true);
-		newTable.setRowHeight(35);
-		newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		newTable.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent arg0) {
-				// returns the index of a selected notification.
-				rowIndex = newTable.getSelectedRow();
+    public void updateNotifications(String notficationText, Date startDate,
+                                    Date endDate) {
+        model = (DefaultTableModel) tableNotifications.getModel();
+        DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat dateEnd = new SimpleDateFormat("MM/dd/yyyy");
+        String reportDate = dateStart.format(startDate);
+        String reportEndDate = dateEnd.format(endDate);
+        String st[] = {notficationText, reportDate, reportEndDate};
+        model.addRow(st);
 
-				System.out.println(rowIndex);
-			}
+    }
 
-		});
+    public JTable createJTable() {
+        final JTable newTable = new JTable(new DefaultTableModel(
+                new Object[][]{}, new String[]{"Notifications:",
+                "Start Date:", "Expiration Date:"}) {
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
 
-		return newTable;
+        });
+        newTable.setColumnSelectionAllowed(false);
+        newTable.getTableHeader().setFont(GlobalUI.GlobalFont);
+        newTable.setFont(GlobalUI.GlobalFont);
+        newTable.setRowSelectionAllowed(true);
+        newTable.setRowHeight(35);
+        newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        newTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent arg0) {
+                // returns the index of a selected notification.
+                rowIndex = newTable.getSelectedRow();
 
-	}
+                System.out.println(rowIndex);
+            }
 
-	/**
-	 * Updates the notification Table in the NotificationPanel.
-	 */
-	public void updateTable() {
-		ArrayList<Notification> notifications = notificationTable
-				.getAllNotification();
-		ArrayList<String> notificationText = new ArrayList<String>();
-		DefaultTableModel dm = (DefaultTableModel) tableNotifications
-				.getModel();
-		dm.getDataVector().removeAllElements();
-		for (int i = 0; i < notifications.size(); i++) {
-			Notification n = notifications.get(i);
-			updateNotifications(n.getNotification(), n.getStartDate(),
-					n.getExpirationDate());
-			notificationText.add(n.getNotification());
-		}
-		notiArray = notificationText;
-		tableNotifications.revalidate();
-	}
+        });
 
-	@Override
-	public void keyTyped(KeyEvent e) {
+        return newTable;
 
-	}
+    }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
+    /**
+     * Updates the notification Table in the NotificationPanel.
+     */
+    public void updateTable() {
+        ArrayList<Notification> notifications = notificationTable
+                .getAllNotification();
+        ArrayList<String> notificationText = new ArrayList<String>();
+        DefaultTableModel dm = (DefaultTableModel) tableNotifications
+                .getModel();
+        dm.getDataVector().removeAllElements();
+        for (int i = 0; i < notifications.size(); i++) {
+            Notification n = notifications.get(i);
+            updateNotifications(n.getNotification(), n.getStartDate(),
+                    n.getExpirationDate());
+            notificationText.add(n.getNotification());
+        }
+        notiArray = notificationText;
+        tableNotifications.revalidate();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
 
-	}
+    }
 
-	public void turnOffMessage(final JTextArea label) {
-		java.util.Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				label.setVisible(false);
-			}
 
-		}, 4000L);
-	}
+    public void turnOffMessage(final JTextArea label) {
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                label.setVisible(false);
+            }
+
+        }, 4000L);
+    }
+
+    public void turnOnMessage(final JTextArea label) {
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                label.setVisible(true);
+            }
+
+        }, 4000L);
+    }
 }
+

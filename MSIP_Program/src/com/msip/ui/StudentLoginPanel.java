@@ -30,8 +30,6 @@ import com.msip.db.NotificationTable;
 import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 
-=======
-package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
