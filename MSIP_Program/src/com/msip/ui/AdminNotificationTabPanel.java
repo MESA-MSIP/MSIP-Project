@@ -61,6 +61,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
     private NotificationTable notificationTable;
     private JScrollPane notificationScrollPane;
     JTextArea errorMessage = new JTextArea("Exceeded maximum number of characters");
+    JTextArea errorDateMessage = new JTextArea("Invalid date selection");
     JTextArea characterCount = new JTextArea("Characters left: 400");
     ;
     private AdminNotificationTabPanel adminNotificationTabPanel;
@@ -78,9 +79,27 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         errorMessage.setBackground(Color.lightGray);
         add(errorMessage);
 
+        //Date Error message when add has been clicked but the notification is too long
+        errorDateMessage.setFont(GlobalUI.adminErrorFont);
+        errorDateMessage.setBounds(20, 290, 250, 20);
+        errorDateMessage.setEditable(false);
+        errorDateMessage.setVisible(false);
+        errorDateMessage.setForeground(GlobalUI.redColor);
+        errorDateMessage.setBackground(Color.lightGray);
+        add(errorDateMessage);
+
+        //Error message when add has been clicked but the notification is too long
+        errorMessage.setFont(GlobalUI.adminErrorFont);
+        errorMessage.setBounds(20, 290, 250, 20);
+        errorMessage.setEditable(false);
+        errorMessage.setVisible(false);
+        errorMessage.setForeground(GlobalUI.redColor);
+        errorMessage.setBackground(Color.lightGray);
+        add(errorMessage);
+
         //Character count
-        characterCount.setFont(GlobalUI.adminErrorFont);
-        characterCount.setBounds(20, 270, 130, 20);
+        characterCount.setFont(GlobalUI.characterCountFont);
+        characterCount.setBounds(20, 270, 150, 20);
         characterCount.setEditable(false);
         characterCount.setVisible(true);
         characterCount.setForeground(GlobalUI.blueColor);
@@ -279,7 +298,17 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
     // **********************************************************//
     // **********************************************************//
     private void addNotification() {
-
+        /// to check to see if user inputs valid date inputs but we need something that checks to
+        // if the expired date hasn't passed
+//        int expiredDate = selectedExpirationDate;
+//        long currentDate = .getTime();
+//    if(expiredDate < currentDate){
+//        errorDateMessage.setVisible(true);
+//        turnOffMessage(errorDateMessage);
+//        characterCount.setText("Characters left: 400");
+//        characterCount.setForeground(GlobalUI.blueColor);
+//        textAreaNotifications.setForeground(GlobalUI.blackColor);
+//    }
         if (textAreaNotifications.getText().length() > 400) {
 			characterCount.setVisible(false);
             errorMessage.setVisible(true);
@@ -289,8 +318,8 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
             characterCount.setForeground(GlobalUI.blueColor);
             textAreaNotifications.setForeground(GlobalUI.blackColor);
         }
-        if (textAreaNotifications.getText().length() != 0 && textAreaNotifications.getText().length() < 400) {
-
+        if (textAreaNotifications.getText().length() != 0 && textAreaNotifications.getText().length() <= 400) {
+            turnOnMessage(characterCount);
             model = (DefaultTableModel) tableNotifications.getModel();
 
             DateFormat dateStart = new SimpleDateFormat("MM/dd/yyyy");
@@ -305,6 +334,9 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
                     selectedExpirationDate);
             // adds the notification to an array list.
             notiArray.add(note);
+            characterCount.setText("Characters left: 400");
+            characterCount.setForeground(GlobalUI.blueColor);
+            textAreaNotifications.setForeground(GlobalUI.blackColor);
         }
 
     }
@@ -350,7 +382,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
             characterCount.setForeground(GlobalUI.redColor);
             textAreaNotifications.setForeground(GlobalUI.redColor);
         }
-        if (characterNum < 400) {
+        if (characterNum <= 400) {
             characterCount.setForeground(GlobalUI.blueColor);
             textAreaNotifications.setForeground(GlobalUI.blackColor);
         }
