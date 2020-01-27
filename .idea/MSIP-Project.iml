@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/MSIP_Program/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MSIP_Program" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MSIP_Program/src/images" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

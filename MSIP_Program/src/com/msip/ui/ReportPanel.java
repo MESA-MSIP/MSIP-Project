@@ -1,49 +1,33 @@
 package com.msip.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Image;
 import java.io.File;
-import java.io.IOException;
-import java.nio.channels.SelectableChannel;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.itextpdf.text.DocumentException;
-import com.msip.db.Global;
 import com.msip.manager.MISPCore;
 import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
-import com.toedter.calendar.JDateChooser;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.FileChooserUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -52,7 +36,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.TilePane;
-import org.jfree.chart.ChartUtilities;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class ReportPanel extends JPanel implements ActionListener {
 
@@ -61,8 +46,9 @@ public class ReportPanel extends JPanel implements ActionListener {
 	// Drop downs
 	private ComboBox<String> CBoxStudentSearch;
 	private ComboBox<String> CBoxReportTypeSearch;
-	// Action Buttons
+	// Action Button
 	private JButton saveReportButton;
+	private JPanel centerPanel = new JPanel();
 	private JFXPanel actionPanel;
 	// Text labels
 	private JLabel lblChooseAStudent;
@@ -85,31 +71,34 @@ public class ReportPanel extends JPanel implements ActionListener {
 	//Date Picker - Calendars
 	private DatePicker dBegin;
 	private DatePicker dEnd;
-	private JFileChooser fc;
+	private DirectoryChooser dc;
 	private AdminToolsPanel adminToolsPanel;
 	//Used to place JavaFX objects
 	private TilePane t;
+	File selectedFolder;
 
 	public ReportPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
+
+		this.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
 		//Tile pane for Date Pickers
 		t = new TilePane();
 		t.setLayoutX(15);
 		t.setLayoutY(40);
 		t.setHgap(18);
-		t.setStyle("-fx-background-color: white");
+		t.setStyle("-fx-background-color: transparent");
 
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 		panel = this;
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		setLayout(new BorderLayout(0, 0));
-		setBackground(Color.WHITE);
 
 		actionPanel = new JFXPanel();
 		actionPanel.setPreferredSize(new Dimension(100, 80));
-		actionPanel.setBackground(Color.white);
 		add(actionPanel, BorderLayout.NORTH);
 		actionPanel.setLayout(null);
+		actionPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
 		/////////////
 		//DROPDOWNS//
@@ -244,7 +233,9 @@ public class ReportPanel extends JPanel implements ActionListener {
 		lblEndDate = GlobalUI.reportPanelLabelFormat("End Date:", GlobalUI.NOALIGNMENT, 520, 5, 76, GlobalUI.LABELHEIGHT);
 		actionPanel.add(lblEndDate);
 
-		add(new JPanel(), BorderLayout.CENTER);
+		//Panel behind 
+		centerPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
+		add(centerPanel, BorderLayout.CENTER);
 
 		horizontalStrut = Box.createHorizontalStrut(20);
 		horizontalStrut.setPreferredSize(new Dimension(3, 0));
@@ -368,7 +359,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 
 	}
 
-	private void saveToPDF(JFileChooser fc) {
+	private void saveToPDF(File selFolder) {
 
 		// formats a date object
 		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
@@ -376,9 +367,8 @@ public class ReportPanel extends JPanel implements ActionListener {
 		String fileName = "Report_" + reportType + "_" + student + "_"
 				+ str.format(selectedStartDate) + "_"
 				+ str.format(selectedEndDate) + ".pdf";
-		File yourFolder = fc.getSelectedFile();
 
-		File pathToPDF = new File(yourFolder.getAbsolutePath() + File.separator
+		File pathToPDF = new File(selFolder.getAbsolutePath() + File.separator
 				+ fileName);
 
 		ArrayList<Date> datesInLoginTable = manager.getStudentDataRange(
@@ -449,18 +439,18 @@ public class ReportPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	private void initalizeFileChooser(JFileChooser fileChooser) {
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setApproveButtonText("Save");
-		FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf",
-				"Report Type");
-		FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv",
-				"Report Type");
-		fileChooser.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
-		fileChooser.addChoosableFileFilter(pdfFilter);
-		fileChooser.addChoosableFileFilter(csvFilter);
-		fileChooser.setFileFilter(pdfFilter);
-	}
+//	private void initalizeFileChooser(JFileChooser fileChooser) {
+//		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//		fileChooser.setApproveButtonText("Save");
+//		FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf",
+//				"Report Type");
+//		FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv",
+//				"Report Type");
+//		fileChooser.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
+//		fileChooser.addChoosableFileFilter(pdfFilter);
+//		fileChooser.addChoosableFileFilter(csvFilter);
+//		fileChooser.setFileFilter(pdfFilter);
+//	}
 
 	private void saveImage(File imageFile) {
 		Dimension size = graph.getGraph().getSize();
@@ -516,21 +506,16 @@ public class ReportPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(saveReportButton)) {
-			// Set to MesaReport directory
-			fc = new JFileChooser(System.getProperty("file.separator")
-					+ "MesaReports");
-			initalizeFileChooser(fc);
-			int returnVal = fc.showOpenDialog(null);
-
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				// When a user chooses to save to a csv file it will execute the
-				// saveToCSV method, otherwise it executes saveToPDF method.
-				if (fc.getFileFilter().getDescription().equals(".pdf")) {
-					saveToPDF(fc);
-				} else {
-					saveToCSV(fc);
+			//Set to MesaReport directory
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					dc = new DirectoryChooser();
+					selectedFolder = dc.showDialog(new Stage());
+					//TODO: Re-Implement saveToCsv() method with if statement
+					saveToPDF(selectedFolder);
 				}
-			}
+			});
 		}
 
 	}
