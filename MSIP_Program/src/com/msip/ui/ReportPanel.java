@@ -35,7 +35,12 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -74,19 +79,22 @@ public class ReportPanel extends JPanel implements ActionListener {
 	private DirectoryChooser dc;
 	private AdminToolsPanel adminToolsPanel;
 	//Used to place JavaFX objects
-	private TilePane t;
+	private GridPane tPane;
 	File selectedFolder;
+	RadioButton rbPDF;
+	RadioButton rbCSV;
+	ToggleGroup tGroup;
 
 	public ReportPanel(MISPCore msipCore, AdminToolsPanel adminToolsPanel) {
 
 		this.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
-		//Tile pane for Date Pickers
-		t = new TilePane();
-		t.setLayoutX(15);
-		t.setLayoutY(40);
-		t.setHgap(18);
-		t.setStyle("-fx-background-color: transparent");
+		//Tile pane for Date Pickers & Dropdowns
+		tPane = new GridPane();
+		tPane.setLayoutX(22);
+		tPane.setLayoutY(19);
+		tPane.setHgap(18);
+		tPane.setStyle("-fx-background-color: transparent");
 
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
@@ -107,7 +115,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 		//Instantiates and Adds Students to Dropdown
 		CBoxStudentSearch = new ComboBox<String>(FXCollections.observableArrayList(returnStudents(listOfStudents)));
 		CBoxStudentSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		t.getChildren().add(CBoxStudentSearch);
+		tPane.add(CBoxStudentSearch, 0, 1);
 
 		// Adds "all students" to combo box, Sets it as default
 		CBoxStudentSearch.getItems().add(0, "All Students");
@@ -138,7 +146,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 		//Instantiates and Adds Report Types to Dropdown
 		CBoxReportTypeSearch = new ComboBox<String>(FXCollections.observableArrayList(reportTypes));
 		CBoxReportTypeSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		t.getChildren().add(CBoxReportTypeSearch);
+		tPane.add(CBoxReportTypeSearch, 1, 1);
 		reportType = "Hours";
 		CBoxReportTypeSearch.getSelectionModel().select(0);
 
@@ -158,7 +166,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 		dBegin = new DatePicker();
 		dBegin.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
 		dBegin.setStyle("-fx-font-size: 0.65em;");
-		t.getChildren().add(dBegin);
+		tPane.add(dBegin, 2, 1);
 		//Sets dBegin Default Date to a month before today's date
 		String lastMonthString = ZonedDateTime.now().minusMonths(1)
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -188,7 +196,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 		dEnd = new DatePicker();
 		dEnd.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
 		dEnd.setStyle("-fx-font-size: 0.65em;");
-		t.getChildren().add(dEnd);
+		tPane.add(dEnd, 3, 1);
 		//Sets dEnd Default Date to today's date
 		String thisMonthString = ZonedDateTime.now()
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -213,12 +221,28 @@ public class ReportPanel extends JPanel implements ActionListener {
 			}
 		});
 
-		Scene calendars = new Scene(t);
-		actionPanel.setScene(calendars);
+		//Save Report File Type TickMarks
+        //Extra Spaces Used for Formatting
+        rbPDF = new RadioButton("pdf       ");
+        rbCSV = new RadioButton("csv");
+        tGroup = new ToggleGroup();
+        rbPDF.setToggleGroup(tGroup);
+        rbCSV.setToggleGroup(tGroup);
+        rbPDF.setSelected(true);
+
+        HBox hb = new HBox();
+
+        hb.getChildren().add(rbPDF);
+        hb.getChildren().add(rbCSV);
+
+        //Placing JavaFX objects
+        tPane.add(hb, 4, 0);
+        Scene fxScene = new Scene(tPane);
+        actionPanel.setScene(fxScene);
 
 		//Save Report Button
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(648, 38, 130, GlobalUI.BUTTONHEIGHT);
+		saveReportButton.setBounds(635, 38, 130, GlobalUI.BUTTONHEIGHT);
 		GlobalUI.formatButtonAdmin(saveReportButton, 130, GlobalUI.GlobalFont);
 		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
@@ -286,13 +310,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 		return adminToolsPanel;
 	}
 
-	private void saveToCSV(JFileChooser fc) {
+	private void saveToCSV(File fc) {
 		// Formats a date to Year-month-day
 		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
 		String fileName = "Report_" + reportType + "_" + student + "_"
 				+ str.format(selectedStartDate) + "_"
 				+ str.format(selectedEndDate) + ".csv";
-		File yourFolder = fc.getSelectedFile();
+		File yourFolder = fc;
 		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator
 				+ fileName);
 
@@ -512,8 +536,11 @@ public class ReportPanel extends JPanel implements ActionListener {
 				public void run() {
 					dc = new DirectoryChooser();
 					selectedFolder = dc.showDialog(new Stage());
-					//TODO: Re-Implement saveToCsv() method with if statement
-					saveToPDF(selectedFolder);
+					//Checks to see which RadioButton is Selected
+					if(tGroup.getSelectedToggle() == rbPDF)
+                        saveToPDF(selectedFolder);
+					else
+					    saveToCSV(selectedFolder);
 				}
 			});
 		}
