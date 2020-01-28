@@ -1,5 +1,6 @@
 package com.msip.ui;
 
+import com.msip.db.Global;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -32,6 +33,7 @@ public class GlobalUI {
 	public static final String questionLength = "The Question Has to be At Least 4 Characters or More.";
 
 	// Colors and Borders
+	public static final javafx.scene.paint.Color FX_COLOR = new javafx.scene.paint.Color(228.0/255, 228.0/255, 228.0/255, 1);
 	public static final Color GLOBAL_BACKGROUND_COLOR = new Color(228, 228, 228);
 	public static final Color whiteColor = new Color(255, 255, 255);
 	public static final Color redColor = new Color(244, 67, 54);
@@ -206,8 +208,9 @@ public class GlobalUI {
 		BarRenderer renderer = (BarRenderer) barChart.getCategoryPlot().getRenderer();
 		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
 		barChart.getPlot().setBackgroundPaint(GlobalUI.GLOBAL_BACKGROUND_COLOR);
+		barChart.setBackgroundPaint(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		barChart.getPlot().setOutlinePaint(null);
-		barChart.getCategoryPlot().setRangeGridlinePaint(Color.gray);
+		barChart.getCategoryPlot().setRangeGridlinePaint(new Color(41, 41, 41));
 		ChartPanel chartPan = new ChartPanel(barChart);
 		chartPan.setPreferredSize(new java.awt.Dimension(700, 250));
 		return chartPan;

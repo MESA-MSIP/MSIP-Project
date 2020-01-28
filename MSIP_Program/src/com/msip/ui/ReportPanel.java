@@ -1,6 +1,6 @@
 package com.msip.ui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,8 +19,6 @@ import com.msip.model.Student;
 import com.msip.external.ReportMakerCSV;
 import com.msip.external.ReportMakerPDF;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -41,6 +39,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -237,7 +236,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 
         //Placing JavaFX objects
         tPane.add(hb, 4, 0);
-        Scene fxScene = new Scene(tPane);
+        Scene fxScene = new Scene(tPane, GlobalUI.FX_COLOR);
         actionPanel.setScene(fxScene);
 
 		//Save Report Button
