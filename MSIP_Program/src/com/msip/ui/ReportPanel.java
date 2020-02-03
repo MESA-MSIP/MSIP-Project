@@ -66,6 +66,8 @@ public class ReportPanel extends JPanel implements ActionListener {
 	private String reportType = "";
 	private Date selectedStartDate = null;
 	private Date selectedEndDate = null;
+	private Date tempStartDate = null;
+    private Date tempEndDate = null;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
 	private Component verticalStrut;
@@ -171,6 +173,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		dBegin.setValue(LocalDate.parse(lastMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		selectedStartDate = java.sql.Date.valueOf(dBegin.getValue());
+		tempStartDate = selectedStartDate;
 		//When Date is Changed
 		dBegin.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
@@ -180,11 +183,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 					dBegin.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
 					saveReportButton.setEnabled(false);
 					selectedStartDate = java.sql.Date.valueOf(oldValue);
+                    tempStartDate = java.sql.Date.valueOf(newValue);
 				} else {
 					dBegin.setStyle("-fx-font-size: 0.65em;");
 					dEnd.setStyle("-fx-font-size: 0.65em;");
 					saveReportButton.setEnabled(true);
 					selectedStartDate = java.sql.Date.valueOf(newValue);
+					selectedEndDate = tempEndDate;
 					updateGraph();
 				}
 			}
@@ -201,6 +206,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		dEnd.setValue(LocalDate.parse(thisMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 		selectedEndDate = java.sql.Date.valueOf(dEnd.getValue());
+		tempEndDate = selectedEndDate;
 		//When Date is Changed
 		dEnd.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
@@ -210,11 +216,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 					dEnd.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
 					saveReportButton.setEnabled(false);
 					selectedEndDate = java.sql.Date.valueOf(oldValue);
-				} else {
+                    tempEndDate = java.sql.Date.valueOf(newValue);
+                } else {
 					dBegin.setStyle("-fx-font-size: 0.65em;");
 					dEnd.setStyle("-fx-font-size: 0.65em;");
 					saveReportButton.setEnabled(true);
 					selectedEndDate = java.sql.Date.valueOf(newValue);
+					selectedStartDate = tempStartDate;
 					updateGraph();
 				}
 			}
