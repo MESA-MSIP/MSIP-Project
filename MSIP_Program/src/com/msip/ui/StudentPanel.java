@@ -4,9 +4,7 @@
 package com.msip.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -46,7 +44,7 @@ public class StudentPanel extends JPanel implements ActionListener {
 		this.setAdminToolsPanel(adminToolsPanel);
 
 		setLayout(new BorderLayout(0, 0));
-		setBackground(Color.WHITE);
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
 		studentModel = new StudentTableModel(msipCore.getStudents(), msipCore);
 		studentTable = new StudentTable(studentModel);

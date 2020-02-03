@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import com.msip.db.SurveyTable;
 import com.msip.db.SurveyTableLables;
 import com.msip.manager.MISPCore;
-import java.awt.Color;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JTextField;
@@ -47,6 +47,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 	private JPanel questionPanel;
 	private JButton editQButton;
 	private JPanel valuePanel;
+	private JLabel questionLabel;
 	private JLabel labelValue1;
 	private JLabel labelValue2;
 	private JLabel labelValue3;
@@ -73,14 +74,20 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		studentSurveyPanel = this.manager.getToastPanel().getStudentSurveyPanel();
 		surveyTableLables = this.manager.getSurveyTableLables();
 
-		//Set the Background to White
-		setBackground(Color.WHITE);
+		//Set the Background to Global Background Color
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		setLayout(new BorderLayout(0, 0));
 
 		//Create a question panel, and set it to the "North" Region of BorderLayout
 		questionPanel = new JPanel();
-		questionPanel.setBackground(Color.WHITE);
+		questionPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		add(questionPanel, BorderLayout.NORTH);
+
+		//Creates Label for Survey Question
+		questionLabel = new JLabel("Question:");
+		questionLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		questionLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		questionPanel.add(questionLabel);
 
 		/*
 		Create a Textfield that will prompt users for the Question, with the following attributes:
@@ -113,13 +120,14 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		//Create a Panel that will store all the textfields of our responses.
 		//We will store these in the west region of borderlayout, as vertical layout, e.g. "Y_AXIS"
 		valuePanel = new JPanel();
-		valuePanel.setBackground(Color.WHITE);
+		valuePanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		add(valuePanel, BorderLayout.WEST);
 		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
 
 		/*
 		Create all the Labels and the TextFields of Each Response.
 		 */
+
 		labelValue1 = new JLabel("Response 1:");
 		labelValue1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelValue1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,6 +208,7 @@ public class QuestionnairePanel extends JPanel implements ActionListener, KeyLis
 		 */
 		startDate = new Date();
 		graphPanel = new JPanel();
+		graphPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		add(graphPanel, BorderLayout.CENTER);
 		panel.add(graphPanel, BorderLayout.CENTER);
 

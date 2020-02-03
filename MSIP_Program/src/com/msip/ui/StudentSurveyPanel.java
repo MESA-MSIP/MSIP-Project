@@ -49,7 +49,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 	public StudentSurveyPanel(final MISPCore manager, Timer timer)
 	{
 		setForeground(Color.BLACK);
-		setBackground(Color.WHITE);
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		setLayout(null);
 		m = new Insets(0, 30, 0, 30);
 		
@@ -66,7 +66,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		submitButton.setBounds(412, 312, 145, 46);
 		submitButton.addActionListener(this);
 		add(submitButton);
-		
+
 		yellowStarIcon = new ImageIcon(StudentSurveyPanel.class.getResource("/images/yellowStar.png"));
 		clearStarIcon = new ImageIcon(StudentSurveyPanel.class.getResource("/images/starEmpty.png"));
 		
@@ -74,7 +74,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		
 
 		rbutton1 = new JRadioButton("");
-		rbutton1.setBackground(Color.WHITE);
+		rbutton1.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		rbutton1.setIcon(clearStarIcon);
 		rbutton1.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -84,7 +84,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 
 
 		rbutton2 = new JRadioButton("");
-		rbutton2.setBackground(Color.WHITE);
+		rbutton2.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		rbutton2.setIcon(clearStarIcon);
 		rbutton2.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton2.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -93,7 +93,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		add(rbutton2);
 
 		rbutton3 = new JRadioButton("");
-		rbutton3.setBackground(Color.WHITE);
+		rbutton3.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		rbutton3.setIcon(clearStarIcon);
 		rbutton3.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton3.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -102,7 +102,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		add(rbutton3);
 
 		rbutton4 = new JRadioButton("");
-		rbutton4.setBackground(Color.WHITE);
+		rbutton4.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		rbutton4.setIcon(clearStarIcon);
 		rbutton4.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton4.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -111,7 +111,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 		add(rbutton4);
 
 		rbutton5 = new JRadioButton("");
-		rbutton5.setBackground(Color.WHITE);
+		rbutton5.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		rbutton5.setIcon(clearStarIcon);
 		rbutton5.setHorizontalAlignment(SwingConstants.CENTER);
 		rbutton5.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -122,7 +122,7 @@ public class StudentSurveyPanel extends JPanel implements ActionListener{
 
 		
 		surveyQ = new JTextPane();
-		surveyQ.setBackground(new Color(255, 255, 255));
+		surveyQ.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		surveyQ.setFont(new Font("Segoe UI", Font.PLAIN, 45));
 		surveyQ.setEditable(false);
 		surveyQ.setBounds(10, 0, 780, 150);

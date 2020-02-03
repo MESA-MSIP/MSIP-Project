@@ -97,6 +97,7 @@ public class GraphReport extends ApplicationFrame {
 	 **/
 	public JPanel createPiePanel() {
 		JFreeChart chart = createChart(createDataset());
+		chart.setBackgroundPaint(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		return new ChartPanel(chart);
 	}
 
