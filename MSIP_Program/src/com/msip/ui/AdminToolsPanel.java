@@ -2,7 +2,6 @@ package com.msip.ui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
@@ -36,7 +35,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 	public AdminToolsPanel(MISPCore msipCore) {
 		this.setManager(msipCore);
 		this.manager = msipCore;
-		setBackground(Color.WHITE);
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		setLayout(new BorderLayout(0, 0));
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -64,7 +63,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		JPanel panel = new JPanel();
 
 		panel.setPreferredSize(new Dimension(100, 73));
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		add(panel, BorderLayout.NORTH);
 		btnLogOut = new JButton();
 
@@ -73,7 +72,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		ImageIcon iconoff = CreateIcon("adminexitoff.png", 105, 35);
 		ImageIcon iconon = CreateIcon("adminexiton.png", 105, 35);
 		btnLogOut.setIcon(iconoff);
-		btnLogOut.setBackground(Color.white);
+		btnLogOut.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		btnLogOut.setBorder(null);
 		btnLogOut.setRolloverEnabled(true);
 		btnLogOut.setRolloverIcon(iconon);
@@ -88,7 +87,7 @@ public class AdminToolsPanel extends JPanel implements ActionListener {
 		shutDownButton.setIcon(shutDownoff);
 		shutDownButton.setBounds(15, 15, 45, 45);
 		shutDownButton.setBorder(null);
-		shutDownButton.setBackground(Color.white);
+		shutDownButton.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		shutDownButton.setRolloverEnabled(true);
 		shutDownButton.setRolloverIcon(shutDownon);
 		shutDownButton.addActionListener(this);

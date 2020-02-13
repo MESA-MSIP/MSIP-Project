@@ -7,8 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import javax.swing.*;
@@ -37,6 +35,8 @@ public class StudentNotificationCardPanel extends JPanel {
 		 * Create the panel.
 		 */
 
+		//Color of hollow square surrounding notifications
+		setBackground(Color.LIGHT_GRAY);
 		this.setManager(manager);
 		setLayout(new BorderLayout(0, 0));
 
@@ -53,8 +53,8 @@ public class StudentNotificationCardPanel extends JPanel {
 		add(horizontalStrut_1, BorderLayout.EAST);
 
 		txtpnNotification = new JTextPane();
-		Border blackLine = BorderFactory.createLineBorder(Color.black);
-		txtpnNotification.setBorder(blackLine);
+
+		txtpnNotification.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
 		txtpnNotification.setFont(GlobalUI.NotifictionFont);
 		txtpnNotification.setEditable(false);
