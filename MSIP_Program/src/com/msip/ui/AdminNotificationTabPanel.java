@@ -23,17 +23,10 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.msip.db.Global;
 import com.msip.db.NotificationTable;
 import com.msip.manager.MISPCore;
 import com.msip.model.Notification;
@@ -63,6 +56,9 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
     JTextArea errorMessage = new JTextArea("Exceeded maximum number of characters");
     JTextArea errorDateMessage = new JTextArea("Invalid date selection");
     JTextArea characterCount = new JTextArea("Characters left: 400");
+
+    JFrame f = new JFrame("Make new notification");
+
     ;
     private AdminNotificationTabPanel adminNotificationTabPanel;
 
@@ -132,6 +128,50 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         panelNotificationInput.setPreferredSize(new Dimension(10, 130));
         add(panelNotificationInput, BorderLayout.SOUTH);
 
+        //NOTIFICATION POP UP///////////////////////////////////////////////////////////////////////
+        Popup p;
+        JTextArea notificationField = new JTextArea();
+        notificationField.setBounds(400, 500, 300, 100);
+        notificationField.setWrapStyleWord(true);
+        notificationField.setLineWrap(true);
+        notificationField.setBackground(GlobalUI.whiteColor);
+
+        JTextArea notificationText = new JTextArea("Enter Notification Title and Description");
+        JTextField title = new JTextField("Enter title:");
+        title.setFont(GlobalUI.LableFont);
+        title.setLocation(100, 100);
+        title.setEditable(false);
+        title.setVisible(true);
+
+        notificationText.setFont(GlobalUI.TextFieldFont);
+        notificationText.setVisible(true);
+        notificationText.setEditable(false);
+        // create a label
+        JLabel l = new JLabel("This is a popup");
+
+        f.setSize(400, 400);
+
+        PopupFactory pf = new PopupFactory();
+
+        // create a panel
+        JPanel p1 = new JPanel();
+
+        JScrollPane notificationScroll = new JScrollPane(notificationField);
+        notificationScroll.setBounds(21, 35, 355, 100);
+        panelNotificationInput.add(notificationScroll);
+
+        p1.setSize(1000, 1000);
+        p1.add(notificationText);
+        //p1.add(notificationField);
+        p1.add(title);
+        p1.add(notificationScroll);
+
+        notificationText.setSize(100, 100);
+        notificationText.setLocation(50, 100);
+        f.add(p1);
+        
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
         btnAdd = new JButton("Add");
         btnAdd.setEnabled(false);
         btnAdd.setBounds(276, 85, 100, GlobalUI.BUTTONHEIGHT);
@@ -298,19 +338,13 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
     // **********************************************************//
     // **********************************************************//
     private void addNotification() {
-        /// to check to see if user inputs valid date inputs but we need something that checks to
+        //f.show();
+        // to check to see if user inputs valid date in
+        // puts but we need something that checks to
         // if the expired date hasn't passed
-//        int expiredDate = selectedExpirationDate;
-//        long currentDate = .getTime();
-//    if(expiredDate < currentDate){
-//        errorDateMessage.setVisible(true);
-//        turnOffMessage(errorDateMessage);
-//        characterCount.setText("Characters left: 400");
-//        characterCount.setForeground(GlobalUI.blueColor);
-//        textAreaNotifications.setForeground(GlobalUI.blackColor);
-//    }
+
         if (textAreaNotifications.getText().length() > 400) {
-			characterCount.setVisible(false);
+            characterCount.setVisible(false);
             errorMessage.setVisible(true);
             turnOnMessage(characterCount);
             turnOffMessage(errorMessage);
