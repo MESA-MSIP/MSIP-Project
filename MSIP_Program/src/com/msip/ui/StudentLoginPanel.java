@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
+import com.msip.db.NotificationTable;
 import com.msip.db.SurveyTable;
 import com.msip.manager.MISPCore;
 //package com.msip.ui;
@@ -51,7 +52,7 @@ public class StudentLoginPanel extends JPanel implements ActionListener {
 	private StudentLoginPanel studentLoginPanel;
 	private SurveyTable surveyTable;
 	private StudentNotificationCardPanel studentNotificationCardPanel;
-
+	private NotificationTable notificationTable;
 	private JPanel layoutPanel;
 
 	public StudentLoginPanel(final MISPCore manager) {
@@ -60,7 +61,7 @@ public class StudentLoginPanel extends JPanel implements ActionListener {
 		this.studentLoginPanel = this;
 		surveyTable = this.manager.getSurveyTable();
 		studentNotificationCardPanel = new StudentNotificationCardPanel(manager);
-
+		this.notificationTable = manager.getNotificationTable();
 		setBounds(new Rectangle(0, 0, 800, 480));
 		// Construct ConditionCards
 		setLayout(new CardLayout(0, 0));
@@ -152,6 +153,8 @@ public class StudentLoginPanel extends JPanel implements ActionListener {
 					}
 
 				}
+				int numOfNotifications = notificationTable.notificationSize();
+				int timeOutDelay = 15000 * numOfNotifications;
 
 				timer.schedule(new TimerTask() {
 
@@ -162,7 +165,7 @@ public class StudentLoginPanel extends JPanel implements ActionListener {
 						cl.show(StudentLoginPanel.this.manager.getCards(),
 								GlobalUI.LoginPanel);
 					}
-				}, 60000L);
+				}, timeOutDelay);
 			}
 		});
 	}
