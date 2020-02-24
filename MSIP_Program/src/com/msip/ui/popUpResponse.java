@@ -1,7 +1,9 @@
 package com.msip.ui;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
 public class popUpResponse extends JFrame {
@@ -15,7 +17,9 @@ public class popUpResponse extends JFrame {
 				options[2]);
 		return n;
 	}
-	
+
+
+
 	public int shutDownPopUp(){
 		String message = "Are you sure you want to shutdown?" 
 	     + "\n" + "This action will shutdown your system so you can safely switch off power.";

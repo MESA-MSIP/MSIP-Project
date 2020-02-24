@@ -14,20 +14,21 @@ import com.msip.model.AdminTableModel;
 
 public class AdminPanel extends JPanel implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-	private MISPCore manager;
-	private JButton btnAdd;
-	private JButton btnRemove;
-	private JButton btnEdit;
-	private Component horizontalStrut_1;
+    private static final long serialVersionUID = 1L;
+    private MISPCore manager;
+    private JButton btnAdd;
+    private JButton btnRemove;
+    private JButton btnEdit;
+    private Component horizontalStrut_1;
 
-	private AdminTable adminTable;
-	private AdminTableModel adminModel;
-	private AdminToolsPanel adminToolsPanel;
+    private AdminTable adminTable;
+    private AdminTableModel adminModel;
+    private AdminToolsPanel adminToolsPanel;
     private JTextArea textArea1;
     private JPanel panel1;
 
     public AdminPanel(MISPCore mispCore, AdminToolsPanel adminToolsPanel) {
+
 		this.setManager(mispCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 
@@ -207,5 +208,6 @@ public class AdminPanel extends JPanel implements ActionListener {
 	public JComponent $$$getRootComponent$$$() {
 		return panel1;
 	}
+
 
 }

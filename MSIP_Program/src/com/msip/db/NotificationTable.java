@@ -152,7 +152,7 @@ public class NotificationTable {
 				if(expiredDate2.compareTo(tomorrowsDate2) == 0) {
 					continue;
 				}
-				else if((expiredDate.compareTo(tomorrowsDate) < 0)) {
+				if((expiredDate.compareTo(tomorrowsDate) < 0)) {
 					System.out.println("Successfully removed: " + new Date());
 					System.out.println(tomorrowsDate);
 					removeFromNotificationTable(expiredDate);
