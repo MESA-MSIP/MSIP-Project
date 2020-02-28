@@ -67,7 +67,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 	private Date selectedStartDate = null;
 	private Date selectedEndDate = null;
 	private Date tempStartDate = null;
-    private Date tempEndDate = null;
+	private Date tempEndDate = null;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
 	private Component verticalStrut;
@@ -90,12 +90,19 @@ public class ReportPanel extends JPanel implements ActionListener {
 
 		this.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
+		new JFXPanel();
+
 		//Tile pane for Date Pickers & Dropdowns
-		tPane = new GridPane();
-		tPane.setLayoutX(22);
-		tPane.setLayoutY(19);
-		tPane.setHgap(18);
-		tPane.setStyle("-fx-background-color: transparent");
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				tPane = new GridPane();
+				tPane.setLayoutX(22);
+				tPane.setLayoutY(19);
+				tPane.setHgap(18);
+				tPane.setStyle("-fx-background-color: transparent");
+			}
+		});
 
 		this.setManager(msipCore);
 		this.setAdminToolsPanel(adminToolsPanel);
@@ -103,168 +110,197 @@ public class ReportPanel extends JPanel implements ActionListener {
 		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		setLayout(new BorderLayout(0, 0));
 
-		actionPanel = new JFXPanel();
-		actionPanel.setPreferredSize(new Dimension(100, 80));
-		add(actionPanel, BorderLayout.NORTH);
-		actionPanel.setLayout(null);
-		actionPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				actionPanel = new JFXPanel();
+				actionPanel.setPreferredSize(new Dimension(100, 80));
+				add(actionPanel, BorderLayout.NORTH);
+				actionPanel.setLayout(null);
+				actionPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
+			}
+		});
 
 		/////////////
 		//DROPDOWNS//
 		/////////////
 
-		//Instantiates and Adds Students to Dropdown
-		CBoxStudentSearch = new ComboBox<String>(FXCollections.observableArrayList(returnStudents(listOfStudents)));
-		CBoxStudentSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		tPane.add(CBoxStudentSearch, 0, 1);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				//Instantiates and Adds Students to Dropdown
+				CBoxStudentSearch = new ComboBox<String>(FXCollections.observableArrayList(returnStudents(listOfStudents)));
+				CBoxStudentSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
 
-		// Adds "all students" to combo box, Sets it as default
-		CBoxStudentSearch.getItems().add(0, "All Students");
-		studentKnumber = 0;
-		student = "All Students";
-		CBoxStudentSearch.getSelectionModel().select(0);
+				// Adds "all students" to combo box, Sets it as default
+				CBoxStudentSearch.getItems().add(0, "All Students");
+				studentKnumber = 0;
+				student = "All Students";
+				CBoxStudentSearch.getSelectionModel().selectFirst();
 
-		//Listener For When the User selects a different Student
-		CBoxStudentSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-					int comboBoxIndex = CBoxStudentSearch.getSelectionModel().getSelectedIndex();
-					if (comboBoxIndex == 0) { //ALL STUDENTS
-						student = "All Student's";
-						studentKnumber = 0;
-						updateGraph();
-						System.out.println("You chose all students");
-					} else { //SPECIFIC STUDENT
-						// Gets the index of the combo box and subtracts it by one
-						// to choose the same person from the student list
-						student = listOfStudents.get(comboBoxIndex - 1)
-								.getFullName();
-						studentKnumber = listOfStudents.get(comboBoxIndex - 1)
-								.getkNumber();
-						updateGraph();
-					}
-				}
-		);
+				//Listener For When the User selects a different Student
+				CBoxStudentSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+							int comboBoxIndex = CBoxStudentSearch.getSelectionModel().getSelectedIndex();
+							if (comboBoxIndex == 0) { //ALL STUDENTS
+								student = "All Student's";
+								studentKnumber = 0;
+								updateGraph();
+								System.out.println("You chose all students");
+							} else { //SPECIFIC STUDENT
+								// Gets the index of the combo box and subtracts it by one
+								// to choose the same person from the student list
+								try{
+									student = listOfStudents.get(comboBoxIndex - 1)
+											.getFullName();
+									studentKnumber = listOfStudents.get(comboBoxIndex - 1)
+											.getkNumber();
+									updateGraph();}
+								catch(IndexOutOfBoundsException e){
+									System.out.print("");
+								}
+							}
+						}
+				);
 
-		//Instantiates and Adds Report Types to Dropdown
-		CBoxReportTypeSearch = new ComboBox<String>(FXCollections.observableArrayList(reportTypes));
-		CBoxReportTypeSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		tPane.add(CBoxReportTypeSearch, 1, 1);
-		reportType = "Hours";
-		CBoxReportTypeSearch.getSelectionModel().select(0);
+				//Instantiates and Adds Report Types to Dropdown
+				CBoxReportTypeSearch = new ComboBox<String>(FXCollections.observableArrayList(reportTypes));
+				CBoxReportTypeSearch.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+				reportType = "Hours";
+				CBoxReportTypeSearch.getSelectionModel().select(0);
+				//Listener For When the User selects a different Report Type
+				CBoxReportTypeSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+							int reportTypeIndex = CBoxReportTypeSearch.getSelectionModel().getSelectedIndex();
+							reportType = reportTypes[reportTypeIndex];
+							updateGraph();
+						}
+				);
+			}
+		});
 
-		//Listener For When the User selects a different Report Type
-		CBoxReportTypeSearch.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-					int reportTypeIndex = CBoxReportTypeSearch.getSelectionModel().getSelectedIndex();
-					reportType = reportTypes[reportTypeIndex];
-					updateGraph();
-				}
-		);
 
 		////////////////
 		//DATE PICKERS//
 		////////////////
 
-		//Begin Date
-		dBegin = new DatePicker();
-		dBegin.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		dBegin.setStyle("-fx-font-size: 0.65em;");
-		tPane.add(dBegin, 2, 1);
-		//Sets dBegin Default Date to a month before today's date
-		String lastMonthString = ZonedDateTime.now().minusMonths(1)
-				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		dBegin.setValue(LocalDate.parse(lastMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-		selectedStartDate = java.sql.Date.valueOf(dBegin.getValue());
-		tempStartDate = selectedStartDate;
-		//When Date is Changed
-		dBegin.valueProperty().addListener(new ChangeListener<LocalDate>() {
-			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
-				if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).after(selectedEndDate)) {
-					getAdminToolsPanel().setStatusMsg(
-							"Please set a correct start date.");
-					dBegin.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
-					saveReportButton.setEnabled(false);
-					selectedStartDate = java.sql.Date.valueOf(oldValue);
-                    tempStartDate = java.sql.Date.valueOf(newValue);
-				} else {
-					dBegin.setStyle("-fx-font-size: 0.65em;");
-					dEnd.setStyle("-fx-font-size: 0.65em;");
-					saveReportButton.setEnabled(true);
-					selectedStartDate = java.sql.Date.valueOf(newValue);
-					selectedEndDate = tempEndDate;
-					updateGraph();
-				}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				//Begin Date
+				dBegin = new DatePicker();
+				dBegin.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+				dBegin.setStyle("-fx-font-size: 0.65em;");
+
+				//Sets dBegin Default Date to a month before today's date
+				String lastMonthString = ZonedDateTime.now().minusMonths(1)
+						.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+				dBegin.setValue(LocalDate.parse(lastMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+				selectedStartDate = java.sql.Date.valueOf(dBegin.getValue());
+				tempStartDate = selectedStartDate;
+
+				//When Date is Changed
+				dBegin.valueProperty().addListener(new ChangeListener<LocalDate>() {
+					public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+						if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).after(selectedEndDate)) {
+							getAdminToolsPanel().setStatusMsg(
+									"Please set a correct start date.");
+							dBegin.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
+							saveReportButton.setEnabled(false);
+							selectedStartDate = java.sql.Date.valueOf(oldValue);
+							tempStartDate = java.sql.Date.valueOf(newValue);
+						} else {
+							dBegin.setStyle("-fx-font-size: 0.65em;");
+							dEnd.setStyle("-fx-font-size: 0.65em;");
+							saveReportButton.setEnabled(true);
+							selectedStartDate = java.sql.Date.valueOf(newValue);
+							selectedEndDate = tempEndDate;
+							updateGraph();
+						}
+					}
+				});
+
+
+				//End Date
+				dEnd = new DatePicker();
+				dEnd.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
+				dEnd.setStyle("-fx-font-size: 0.65em;");
+
+				//Sets dEnd Default Date to today's date
+				String thisMonthString = ZonedDateTime.now()
+						.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+				dEnd.setValue(LocalDate.parse(thisMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+				selectedEndDate = java.sql.Date.valueOf(dEnd.getValue());
+				tempEndDate = selectedEndDate;
+
+				//When Date is Changed
+				dEnd.valueProperty().addListener(new ChangeListener<LocalDate>() {
+					public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+						if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).before(selectedStartDate)) {
+							getAdminToolsPanel().setStatusMsg(
+									"Please set a correct start date.");
+							dEnd.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
+							saveReportButton.setEnabled(false);
+							selectedEndDate = java.sql.Date.valueOf(oldValue);
+							tempEndDate = java.sql.Date.valueOf(newValue);
+						} else {
+							dBegin.setStyle("-fx-font-size: 0.65em;");
+							dEnd.setStyle("-fx-font-size: 0.65em;");
+							saveReportButton.setEnabled(true);
+							selectedEndDate = java.sql.Date.valueOf(newValue);
+							selectedStartDate = tempStartDate;
+							updateGraph();
+						}
+					}
+				});
 			}
 		});
-
-
-		//End Date
-		dEnd = new DatePicker();
-		dEnd.setPrefSize(137, GlobalUI.TEXTBOXHEIGHT);
-		dEnd.setStyle("-fx-font-size: 0.65em;");
-		tPane.add(dEnd, 3, 1);
-		//Sets dEnd Default Date to today's date
-		String thisMonthString = ZonedDateTime.now()
-				.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		dEnd.setValue(LocalDate.parse(thisMonthString, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-		selectedEndDate = java.sql.Date.valueOf(dEnd.getValue());
-		tempEndDate = selectedEndDate;
-		//When Date is Changed
-		dEnd.valueProperty().addListener(new ChangeListener<LocalDate>() {
-			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
-				if (java.sql.Date.valueOf(newValue) == null || java.sql.Date.valueOf(newValue).before(selectedStartDate)) {
-					getAdminToolsPanel().setStatusMsg(
-							"Please set a correct start date.");
-					dEnd.setStyle("-fx-border-color: #ff0000;" + "-fx-font-size: 0.65em;" + "-fx-focus-color: #ff0000;");
-					saveReportButton.setEnabled(false);
-					selectedEndDate = java.sql.Date.valueOf(oldValue);
-                    tempEndDate = java.sql.Date.valueOf(newValue);
-                } else {
-					dBegin.setStyle("-fx-font-size: 0.65em;");
-					dEnd.setStyle("-fx-font-size: 0.65em;");
-					saveReportButton.setEnabled(true);
-					selectedEndDate = java.sql.Date.valueOf(newValue);
-					selectedStartDate = tempStartDate;
-					updateGraph();
-				}
-			}
-		});
-
-		//Save Report File Type TickMarks
-        //Extra Spaces Used for Formatting
-        rbPDF = new RadioButton("pdf       ");
-        rbCSV = new RadioButton("csv");
-        tGroup = new ToggleGroup();
-        rbPDF.setToggleGroup(tGroup);
-        rbCSV.setToggleGroup(tGroup);
-        rbPDF.setSelected(true);
-
-        HBox hb = new HBox();
-
-        hb.getChildren().add(rbPDF);
-        hb.getChildren().add(rbCSV);
-
-        //Placing JavaFX objects
-        tPane.add(hb, 4, 0);
-        Scene fxScene = new Scene(tPane, GlobalUI.FX_COLOR);
-        actionPanel.setScene(fxScene);
 
 		//Save Report Button
 		saveReportButton = new JButton("Save Report");
-		saveReportButton.setBounds(635, 38, 130, GlobalUI.BUTTONHEIGHT);
+		saveReportButton.setBounds(638, 40, 130, GlobalUI.BUTTONHEIGHT);
 		GlobalUI.formatButtonAdmin(saveReportButton, 130, GlobalUI.GlobalFont);
-		actionPanel.add(saveReportButton);
 		saveReportButton.addActionListener(this);
 
-		//Labels Above Dropdowns
-		lblChooseAStudent = GlobalUI.reportPanelLabelFormat("Choose a Student(s):", Component.CENTER_ALIGNMENT, 20, 5, 155, GlobalUI.LABELHEIGHT);
-		actionPanel.add(lblChooseAStudent);
-		lblReportType = GlobalUI.reportPanelLabelFormat("Report Type:", Component.CENTER_ALIGNMENT, 208, 5, 93, GlobalUI.LABELHEIGHT);
-		actionPanel.add(lblReportType);
-		lblStartDate = GlobalUI.reportPanelLabelFormat("Start Date:", Component.CENTER_ALIGNMENT, 366, 5, 76, GlobalUI.LABELHEIGHT);
-		actionPanel.add(lblStartDate);
-		lblEndDate = GlobalUI.reportPanelLabelFormat("End Date:", GlobalUI.NOALIGNMENT, 520, 5, 76, GlobalUI.LABELHEIGHT);
-		actionPanel.add(lblEndDate);
+		//Placing JavaFX objects
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				//Save Report File Type TickMarks
+				//Extra Spaces Used for Formatting
+				rbPDF = new RadioButton("pdf       ");
+				rbCSV = new RadioButton("csv");
+				tGroup = new ToggleGroup();
+				rbPDF.setToggleGroup(tGroup);
+				rbCSV.setToggleGroup(tGroup);
+				rbPDF.setSelected(true);
+				HBox hb = new HBox();
+				hb.getChildren().add(rbPDF);
+				hb.getChildren().add(rbCSV);
 
-		//Panel behind 
+				//Placing JavaFX objects
+				tPane.add(CBoxStudentSearch, 0, 1);
+				tPane.add(CBoxReportTypeSearch, 1, 1);
+				tPane.add(dBegin, 2, 1);
+				tPane.add(dEnd, 3, 1);
+				tPane.add(hb, 4, 0);
+
+				Scene fxScene = new Scene(tPane, GlobalUI.FX_COLOR);
+				actionPanel.setScene(fxScene);
+
+				//Labels Above Dropdowns
+				lblChooseAStudent = GlobalUI.reportPanelLabelFormat("Choose a Student(s):", Component.CENTER_ALIGNMENT, 20, 5, 155, GlobalUI.LABELHEIGHT);
+				actionPanel.add(lblChooseAStudent);
+				lblReportType = GlobalUI.reportPanelLabelFormat("Report Type:", Component.CENTER_ALIGNMENT, 208, 5, 93, GlobalUI.LABELHEIGHT);
+				actionPanel.add(lblReportType);
+				lblStartDate = GlobalUI.reportPanelLabelFormat("Start Date:", Component.CENTER_ALIGNMENT, 366, 5, 76, GlobalUI.LABELHEIGHT);
+				actionPanel.add(lblStartDate);
+				lblEndDate = GlobalUI.reportPanelLabelFormat("End Date:", GlobalUI.NOALIGNMENT, 520, 5, 76, GlobalUI.LABELHEIGHT);
+				actionPanel.add(lblEndDate);
+				actionPanel.add(saveReportButton);
+
+			}
+		});
+
+		//Panel behind
 		centerPanel.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		add(centerPanel, BorderLayout.CENTER);
 
@@ -283,8 +319,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e) {
-				updateGraph();
-				updateStudentCBox();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						updateGraph();
+						updateStudentCBox();
+					}
+				});
 			}
 		});
 	}
@@ -317,14 +358,18 @@ public class ReportPanel extends JPanel implements ActionListener {
 		return adminToolsPanel;
 	}
 
-	private void saveToCSV(File fc) {
+	private void saveToCSV(File selFolder) {
+		//Checks to see if the cancel button was clicked
+		if(selFolder == null)
+			return;
+
 		// Formats a date to Year-month-day
 		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
 		String fileName = "Report_" + reportType + "_" + student + "_"
 				+ str.format(selectedStartDate) + "_"
 				+ str.format(selectedEndDate) + ".csv";
-		File yourFolder = fc;
-		File pathToCSV = new File(yourFolder.getAbsolutePath() + File.separator
+
+		File pathToCSV = new File(selFolder.getAbsolutePath() + File.separator
 				+ fileName);
 
 		ReportMakerCSV csv = new ReportMakerCSV(pathToCSV);
@@ -391,6 +436,9 @@ public class ReportPanel extends JPanel implements ActionListener {
 	}
 
 	private void saveToPDF(File selFolder) {
+		//Checks to see if the cancel button was clicked
+		if(selFolder == null)
+			return;
 
 		// formats a date object
 		SimpleDateFormat str = new SimpleDateFormat("yyyy-MM-dd");
@@ -470,18 +518,6 @@ public class ReportPanel extends JPanel implements ActionListener {
 		}
 	}
 
-//	private void initalizeFileChooser(JFileChooser fileChooser) {
-//		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//		fileChooser.setApproveButtonText("Save");
-//		FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter(".pdf",
-//				"Report Type");
-//		FileNameExtensionFilter csvFilter = new FileNameExtensionFilter(".csv",
-//				"Report Type");
-//		fileChooser.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
-//		fileChooser.addChoosableFileFilter(pdfFilter);
-//		fileChooser.addChoosableFileFilter(csvFilter);
-//		fileChooser.setFileFilter(pdfFilter);
-//	}
 
 	private void saveImage(File imageFile) {
 		Dimension size = graph.getGraph().getSize();
@@ -500,25 +536,35 @@ public class ReportPanel extends JPanel implements ActionListener {
 	 * Updates Graph
 	 */
 	public void updateGraph() {
-		ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
-				selectedStartDate, selectedEndDate);
-		graph.createGraph(CBoxReportTypeSearch.getSelectionModel().getSelectedIndex(), dates);
-		BorderLayout layout = (BorderLayout) panel.getLayout();
-		panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
-		add(graph.getGraph(), BorderLayout.CENTER);
-		revalidate();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				ArrayList<Date> dates = manager.getStudentDataRange(studentKnumber,
+						selectedStartDate, selectedEndDate);
+				graph.createGraph(CBoxReportTypeSearch.getSelectionModel().getSelectedIndex(), dates);
+				BorderLayout layout = (BorderLayout) panel.getLayout();
+				panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+				add(graph.getGraph(), BorderLayout.CENTER);
+				revalidate();
+			}
+		});
 	}
 
 	/**
 	 * Updates Student Drop Down Object
 	 */
 	private void updateStudentCBox() {
-		if (listOfStudents.size() != manager.getStudents().size()) {
-			listOfStudents = manager.getStudents();
-			Collections.sort(listOfStudents);
-			CBoxStudentSearch.setItems(FXCollections.observableArrayList(returnStudents(listOfStudents)));
-			CBoxStudentSearch.getItems().add(0, "All Students");
-		}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (listOfStudents.size() != manager.getStudents().size()) {
+					listOfStudents = manager.getStudents();
+					Collections.sort(listOfStudents);
+					CBoxStudentSearch.setItems(FXCollections.observableArrayList(returnStudents(listOfStudents)));
+					CBoxStudentSearch.getItems().add(0, "All Students");
+				}
+			}
+		});
 	}
 
 	/**
@@ -536,18 +582,28 @@ public class ReportPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+	    //Used for when the Save Report Button is clicked
 		if (e.getSource().equals(saveReportButton)) {
-			//Set to MesaReport directory
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					int flag = 0;
+                    //Attempts to set Initial Location to MesaReports directory
+					File defaultLoc = defaultLoc = new File(System.getProperty("file.separator")
+                            , "MesaReports");
 					dc = new DirectoryChooser();
-					selectedFolder = dc.showDialog(new Stage());
+                    //Checks to see if it was a valid path
+                    if(defaultLoc.exists())
+                        dc.setInitialDirectory(defaultLoc);
+                    else
+                        System.out.println("COuld Not locate Default Path: MesaReports");
+                    //Displays pop-up window
+                    selectedFolder = dc.showDialog(new Stage());
 					//Checks to see which RadioButton is Selected
 					if(tGroup.getSelectedToggle() == rbPDF)
-                        saveToPDF(selectedFolder);
+						saveToPDF(selectedFolder);
 					else
-					    saveToCSV(selectedFolder);
+						saveToCSV(selectedFolder);
 				}
 			});
 		}
