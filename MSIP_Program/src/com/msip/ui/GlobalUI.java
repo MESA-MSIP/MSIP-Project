@@ -1,9 +1,8 @@
 package com.msip.ui;
 
-import org.jfree.chart.ChartFactory;
+import com.msip.db.Global;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 import java.awt.*;
@@ -23,7 +22,7 @@ public class GlobalUI {
 	public static final String NotificationCard = "NotificationCard";
 	public static final String newStudentMessagePanel = "newStudentMessagePanel";
 	public static final String TimePanel = "Time/Date";
-	
+
 	//Strings for ReportPanel
 	public static final String allStudents = "All Student's";
 
@@ -34,6 +33,8 @@ public class GlobalUI {
 	public static final String questionLength = "The Question Has to be At Least 4 Characters or More.";
 
 	// Colors and Borders
+	public static final javafx.scene.paint.Color FX_COLOR = new javafx.scene.paint.Color(228.0/255, 228.0/255, 228.0/255, 1);
+	public static final Color GLOBAL_BACKGROUND_COLOR = new Color(228, 228, 228);
 	public static final Color whiteColor = new Color(255, 255, 255);
 	public static final Color redColor = new Color(244, 67, 54);
 	public static final Color blueColor = new Color(107, 143, 194);
@@ -106,7 +107,7 @@ public class GlobalUI {
 	public static final int STUDENT = 0;
 	public static final int ADMIN = 1;
 	public static final int NEITHER = 2;
-	
+
 	//Magic Number for not truncating the StudentSurveyPanel Labels
 	public static final int truncateLimit = 15;
 	public static final int textQuestionLimit = 200;
@@ -118,6 +119,7 @@ public class GlobalUI {
 	public static final Font LableFont = new Font("Segoe UI Light", 0, 16);
 	public static final Font welcomeLabelFont = new Font("Segoe UI", 1, 60);
 	public static final Font adminErrorFont = new Font("Segoe UI Bold", 0, 12);
+	public static final Font characterCountFont = new Font("Segoe UI Bold", 0, 16);
 	public static final float NOALIGNMENT = -777777;
 
 	// Label Text Field
@@ -181,7 +183,7 @@ public class GlobalUI {
 	}
 
 	/**
-	 * Method used to format the drop downs used in the Report Panel
+	 * Method used to format the drop down labels used in the Report Panel
 	 * @param text
 	 * @param alignment
 	 * @param xpos
@@ -208,9 +210,10 @@ public class GlobalUI {
 		barChart.removeLegend();
 		BarRenderer renderer = (BarRenderer) barChart.getCategoryPlot().getRenderer();
 		renderer.setSeriesPaint(0, GlobalUI.BARCHARTCOLOR);
-		barChart.getPlot().setBackgroundPaint(Color.WHITE);
+		barChart.getPlot().setBackgroundPaint(GlobalUI.GLOBAL_BACKGROUND_COLOR);
+		barChart.setBackgroundPaint(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 		barChart.getPlot().setOutlinePaint(null);
-		barChart.getCategoryPlot().setRangeGridlinePaint(Color.gray);
+		barChart.getCategoryPlot().setRangeGridlinePaint(new Color(41, 41, 41));
 		ChartPanel chartPan = new ChartPanel(barChart);
 		chartPan.setPreferredSize(new java.awt.Dimension(700, 250));
 		return chartPan;

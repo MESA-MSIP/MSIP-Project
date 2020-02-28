@@ -8,32 +8,32 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import com.msip.db.Global;
 import com.msip.manager.MISPCore;
 import com.msip.model.Admin;
 import com.msip.model.AdminTableModel;
 
 public class AdminPanel extends JPanel implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-	private MISPCore manager;
-	private JButton btnAdd;
-	private JButton btnRemove;
-	private JButton btnEdit;
-	private Component horizontalStrut_1;
+    private static final long serialVersionUID = 1L;
+    private MISPCore manager;
+    private JButton btnAdd;
+    private JButton btnRemove;
+    private JButton btnEdit;
+    private Component horizontalStrut_1;
 
-	private AdminTable adminTable;
-	private AdminTableModel adminModel;
-	private AdminToolsPanel adminToolsPanel;
+    private AdminTable adminTable;
+    private AdminTableModel adminModel;
+    private AdminToolsPanel adminToolsPanel;
     private JTextArea textArea1;
     private JPanel panel1;
 
     public AdminPanel(MISPCore mispCore, AdminToolsPanel adminToolsPanel) {
+
 		this.setManager(mispCore);
 		this.setAdminToolsPanel(adminToolsPanel);
 
 		setLayout(new BorderLayout(0, 0));
-		setBackground(Color.WHITE);
+		setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
 		adminModel = new AdminTableModel(mispCore.getAdmins());
 		adminTable = new AdminTable(adminModel);
@@ -208,5 +208,6 @@ public class AdminPanel extends JPanel implements ActionListener {
 	public JComponent $$$getRootComponent$$$() {
 		return panel1;
 	}
+
 
 }

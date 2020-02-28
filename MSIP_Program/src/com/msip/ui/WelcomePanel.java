@@ -39,7 +39,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 
         setBorder(GlobalUI.blackBorder);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         setLayout(null);
 
         //txtKNumber.setFocusable(true);
@@ -158,7 +158,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
         errorMessage.setEditable(false);
         errorMessage.setVisible(false);
         errorMessage.setForeground(GlobalUI.redColor);
-        errorMessage.setBackground(Color.LIGHT_GRAY);
+        errorMessage.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
 
         add(errorMessage);
 
