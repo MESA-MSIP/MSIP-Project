@@ -169,7 +169,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         notificationText.setSize(100, 100);
         notificationText.setLocation(50, 100);
         f.add(p1);
-        
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         btnAdd = new JButton("Add");
