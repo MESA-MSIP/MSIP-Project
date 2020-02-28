@@ -72,7 +72,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         errorMessage.setEditable(false);
         errorMessage.setVisible(false);
         errorMessage.setForeground(GlobalUI.redColor);
-        errorMessage.setBackground(Color.lightGray);
+        errorMessage.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         add(errorMessage);
 
         //Date Error message when add has been clicked but the notification is too long
@@ -81,7 +81,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         errorDateMessage.setEditable(false);
         errorDateMessage.setVisible(false);
         errorDateMessage.setForeground(GlobalUI.redColor);
-        errorDateMessage.setBackground(Color.lightGray);
+        errorDateMessage.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         add(errorDateMessage);
 
         //Error message when add has been clicked but the notification is too long
@@ -90,7 +90,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         errorMessage.setEditable(false);
         errorMessage.setVisible(false);
         errorMessage.setForeground(GlobalUI.redColor);
-        errorMessage.setBackground(Color.lightGray);
+        errorMessage.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         add(errorMessage);
 
         //Character count
@@ -99,7 +99,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         characterCount.setEditable(false);
         characterCount.setVisible(true);
         characterCount.setForeground(GlobalUI.blueColor);
-        characterCount.setBackground(Color.lightGray);
+        characterCount.setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         add(characterCount);
 
         notificationTable = this.manager.getNotificationTable();
@@ -169,7 +169,7 @@ public class AdminNotificationTabPanel extends JPanel implements KeyListener {
         notificationText.setSize(100, 100);
         notificationText.setLocation(50, 100);
         f.add(p1);
-        
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         btnAdd = new JButton("Add");

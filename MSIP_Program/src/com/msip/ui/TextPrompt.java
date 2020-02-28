@@ -40,7 +40,7 @@ class TextPrompt extends JLabel
         document = component.getDocument();
         setText( text );
         setFont( GlobalUI.txtKNumberFont );
-        setForeground( component.getForeground() );
+        setForeground( new Color(164, 164, 164) );
         setBorder( new EmptyBorder(component.getInsets()) );
         setHorizontalAlignment(JLabel.LEADING);
         component.addFocusListener( this );
