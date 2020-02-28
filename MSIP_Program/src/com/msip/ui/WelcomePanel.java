@@ -5,18 +5,17 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.PublicKey;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.accessibility.AccessibleEditableText;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.text.StyledEditorKit;
 
 import com.msip.manager.MISPCore;
+import sun.awt.windows.WFontConfiguration;
 
 public class WelcomePanel extends JPanel implements ActionListener {
 
@@ -43,47 +42,52 @@ public class WelcomePanel extends JPanel implements ActionListener {
         setBackground(GlobalUI.GLOBAL_BACKGROUND_COLOR);
         setLayout(null);
 
+        //txtKNumber.setFocusable(true);
 
-        txtKNumber = new JTextField("00123456");
+        txtKNumber = new JTextField("    00123456");
+        TextPrompt prompt = new TextPrompt("    00123456", txtKNumber);
+        prompt.setBounds(298, 300, 300, 300);
         txtKNumber.setForeground(Color.LIGHT_GRAY);
         txtKNumber.setBorder(GlobalUI.blackBorder);
         txtKNumber.setColumns(10);
-        txtKNumber.setBounds(297, 225, 211, GlobalUI.TEXTBOXHEIGHT);
+        txtKNumber.setBounds(298, 225, 211, GlobalUI.TEXTBOXHEIGHT);
         txtKNumber.addActionListener(this);
+        txtKNumber.setFocusable(true);
         txtKNumber.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
 
-                if (txtKNumber.getText().equals("00123456")) {
+                if (txtKNumber.getText().equals("    00123456")) {
                     txtKNumber.setText("");
+                    txtKNumber.setFont(GlobalUI.txtKNumberFont);
                     txtKNumber.setForeground(Color.black);
+                    txtKNumber.setVisible(true);
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (txtKNumber.getText().isEmpty()) {
+                if (txtKNumber.getText().equals("")) {
+                    txtKNumber.setText("    00123456");
                     txtKNumber.setForeground(Color.gray);
-                    txtKNumber.setText("00123456");
 
                 }
 
             }
+
         });
 
-
         txtKNumber.setHorizontalAlignment(0);
-        txtKNumber.setFont(GlobalUI.TextFieldFont);
+        txtKNumber.setFont(GlobalUI.txtKNumberFont);
         txtKNumber.setColumns(10);
         txtKNumber.setVisible(true);
-
         add(txtKNumber);
 
         this.txtAdminPass = new
 
                 JPasswordField(10);
         this.txtAdminPass.setBorder(GlobalUI.blackBorder);
-        this.txtAdminPass.setBounds(297, 297, 212, GlobalUI.TEXTBOXHEIGHT);
+        this.txtAdminPass.setBounds(297, 309, 212, GlobalUI.TEXTBOXHEIGHT);
         this.txtAdminPass.addActionListener(this);
         this.txtAdminPass.setHorizontalAlignment(0);
         this.txtAdminPass.setFont(GlobalUI.TextFieldFont);
@@ -95,7 +99,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
         this.labeladminPass = new
 
                 JLabel("Password:");
-        this.labeladminPass.setBounds(318, 268, 166, 22);
+        this.labeladminPass.setBounds(318, 280, 166, 22);
         this.labeladminPass.setHorizontalAlignment(0);
         this.labeladminPass.setFont(GlobalUI.TextFieldLabelFont);
         this.labeladminPass.setLabelFor(this.txtAdminPass);
@@ -103,11 +107,14 @@ public class WelcomePanel extends JPanel implements ActionListener {
         add(this.labeladminPass);
         this.labeladminPass.setVisible(false);
 
-        this.labelKNumber = new JLabel("Enter K#:");
+        this.labelKNumber = new
+
+                JLabel("Enter K#:");
         this.labelKNumber.setBounds(133, 235, 227, 22);
         this.labelKNumber.setLabelFor(txtKNumber);
         this.labelKNumber.setHorizontalAlignment(0);
         this.labelKNumber.setFont(GlobalUI.TextFieldLabelFont);
+
         add(this.labelKNumber);
 
         JLabel labelWelcome = new JLabel("Welcome!");
@@ -147,7 +154,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
                 JTextArea("Insert Your Password.");
         errorMessage.setFont(GlobalUI.LableFont);
-        errorMessage.setBounds(525, 225, 266, 62);
+        errorMessage.setBounds(525, 237, 266, 62);
         errorMessage.setEditable(false);
         errorMessage.setVisible(false);
         errorMessage.setForeground(GlobalUI.redColor);
@@ -201,44 +208,46 @@ public class WelcomePanel extends JPanel implements ActionListener {
                                                   }
                                               }
                                           });
-        txtKNumber.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) {
-                /*
-                 * Restricts the textField to only 8 characters, and only
-                 * numbers.
-                 */
-                if (txtKNumber.getText().length() >= 8) {
-                    e.consume();
-                }
-                char keychar = e.getKeyChar();
-                if ((!Character.isDigit(keychar)) && (keychar != '\b')
-                        && (keychar != '')) {
-                    e.consume();
-                }
-            }
+        txtKNumber.addKeyListener(new
 
-            public void keyReleased(KeyEvent e) {
-                /*
-                 * Once the textField is less than 8 characters, hides the
-                 * password textField.
-                 */
-                String strKNumber = txtKNumber.getText();
-                if (strKNumber.length() < 8) {
-                    WelcomePanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
-                    WelcomePanel.this.txtAdminPass.setVisible(false);
-                    WelcomePanel.this.labeladminPass.setVisible(false);
-                } else {
-                    // Checks if the kNumber is an Admin kNumber. Sets the admin
-                    // password Visible if true.
-                    int adminKNum = Integer.parseInt(strKNumber.trim());
-                    int adminResponse = manager.isAdmin(adminKNum);
-                    if (adminResponse == 1) {
-                        WelcomePanel.this.labeladminPass.setVisible(true);
-                        WelcomePanel.this.txtAdminPass.setVisible(true);
-                    }
-                }
-            }
-        });
+                                          KeyAdapter() {
+                                              public void keyTyped(KeyEvent e) {
+                                                  /*
+                                                   * Restricts the textField to only 8 characters, and only
+                                                   * numbers.
+                                                   */
+                                                  if (txtKNumber.getText().length() >= 8) {
+                                                      e.consume();
+                                                  }
+                                                  char keychar = e.getKeyChar();
+                                                  if ((!Character.isDigit(keychar)) && (keychar != '\b')
+                                                          && (keychar != '')) {
+                                                      e.consume();
+                                                  }
+                                              }
+
+                                              public void keyReleased(KeyEvent e) {
+                                                  /*
+                                                   * Once the textField is less than 8 characters, hides the
+                                                   * password textField.
+                                                   */
+                                                  String strKNumber = txtKNumber.getText();
+                                                  if (strKNumber.length() < 8) {
+                                                      WelcomePanel.this.txtAdminPass.setText(GlobalUI.CLEAR);
+                                                      WelcomePanel.this.txtAdminPass.setVisible(false);
+                                                      WelcomePanel.this.labeladminPass.setVisible(false);
+                                                  } else {
+                                                      // Checks if the kNumber is an Admin kNumber. Sets the admin
+                                                      // password Visible if true.
+                                                      int adminKNum = Integer.parseInt(strKNumber.trim());
+                                                      int adminResponse = manager.isAdmin(adminKNum);
+                                                      if (adminResponse == 1) {
+                                                          WelcomePanel.this.labeladminPass.setVisible(true);
+                                                          WelcomePanel.this.txtAdminPass.setVisible(true);
+                                                      }
+                                                  }
+                                              }
+                                          });
     }
 
     /**
@@ -426,25 +435,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
-    }
-
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-    }
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-    }
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
         $$$setupUI$$$();
     }
 
@@ -459,6 +449,28 @@ public class WelcomePanel extends JPanel implements ActionListener {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
     }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+    }
+
 }
+
+
 
 
