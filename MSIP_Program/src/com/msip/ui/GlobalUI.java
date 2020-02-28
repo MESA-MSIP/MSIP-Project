@@ -126,7 +126,9 @@ public class GlobalUI {
 
 	// Label Text Field
 	public static final Font TextFieldFont = new Font("Segoe UI Light", 0, 16);
+	public static final Font txtKNumberFont = new Font("Segoe UI Light", 0, 32);
 	public static final Font TextFieldLabelFont = new Font("Segoe UI", 0, 24);
+
 
 	// General Strings
 	public static final String ADDSTUDENT = "Add Student to Database";
