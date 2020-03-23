@@ -8,7 +8,7 @@ public class Global {
 	public static final String USERNAME="root";
 	//Password for Personal MySQL Server
 	//public static final String PASSWORD="Big2thegame";
-	//Password for Personal MySQL Server
+	//Password for Rasp Pi MySQL Server
 	public static final String PASSWORD="zuVu8efrucRUgAf";
 	public static final boolean ISPI = false;
 }
