@@ -34,9 +34,6 @@ public class GlobalUI {
 
 	// Colors and Borders
 	public static final Color GLOBAL_BACKGROUND_COLOR = new Color(243, 243, 243);
-	public static final javafx.scene.paint.Color FX_COLOR = new javafx.scene.paint.Color(
-			GLOBAL_BACKGROUND_COLOR.getRed()/255.0, GLOBAL_BACKGROUND_COLOR.getGreen()/255.0,
-			GLOBAL_BACKGROUND_COLOR.getBlue()/255.0, 1);
 	public static final Color whiteColor = new Color(255, 255, 255);
 	public static final Color redColor = new Color(244, 67, 54);
 	public static final Color blueColor = new Color(107, 143, 194);
